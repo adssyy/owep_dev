@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.1.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.kclm</groupId>
+    <artifactId>owep</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>owep</name>
+    <packaging>pom</packaging>
+    <description>KCLM Online Wisdom Education Platform</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <!-- 多模块构建项目 -->
+    <modules>
+        <!-- 实体类，主要用于持久层与DB的数据交换 -->
+        <module>owep-admin-entity</module>
+        <!-- 控制层，采用spring boot构建,含视图和控制层 -->
+        <module>owep-admin-web-controller</module>
+        <!-- VO,值对象，做为控制层向视图层传递数据的载体 -->
+        <module>owep-admin-web-vo</module>
+        <!-- 持久层，主要用于操作底层的DB -->
+        <module>owep-admin-web-dao</module>
+        <!-- DTO,数据传输对象，做为业务层向控制层传递数据的载体 -->
+        <module>owep-admin-web-dto</module>
+        <!-- 业务层 -->
+        <module>owep-admin-service</module>
+        <!-- 工具层，意在提供各种工具类 -->
+        <module>owep-admin-utils</module>
+    </modules>
+
+    <dependencies>
+
+        <!-- 热部署 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- 测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
