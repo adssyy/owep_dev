@@ -16,9 +16,7 @@ class UserDaoTest {
 
     @Test
     void save() {
-        System.out.println("userDao = " + userDao);
-        final List<User> all = userDao.findAll();
-        all.forEach(System.out::println);
+
     }
 
     @Test
@@ -31,7 +29,9 @@ class UserDaoTest {
 
     @Test
     void findAll() {
-
+        System.out.println("userDao = " + userDao);
+        final List<User> all = userDao.findAll();
+        all.forEach(System.out::println);
     }
 
     @Test

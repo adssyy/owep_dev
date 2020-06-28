@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" th:href="@{favicon.ico}">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css(v=3.3.6)}"
+          rel="stylesheet">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.css(v=4.4.0)}"
+          rel="stylesheet">
+
+
+    <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
+    <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v=4.1.0)}" rel="stylesheet">
+    <!--dataPicker-->
+    <link href="../../static/css/plugins/datapicker/datepicker3.css"
+          th:href="@{/static/css/plugins/datapicker/datepicker3.css}" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="height: 60px">
+                    <!--标题 和 时间-->
+                    <div class="col-md-3 control-label text-right"><h5 style="padding-top: 8px">业绩情况汇总</h5></div>
+                    <div class="col-md-3 col-md-offset-6">
+                        <div class="input-group date" id="results-summary-dateTime">
+                            <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            <input type="text" class="form-control form_datetime_2 input-sm bg-white" id="input-results-summary"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="echarts" id="results-summary-chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="height: 60px">
+                    <div class="col-md-3 control-label text-right"><h5 style="padding-top: 8px">客户来源情况</h5></div>
+                    <div class="col-md-3 col-md-offset-6">
+                        <div class="input-group date" id="customer-source-dateTime">
+                            <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            <input type="text" class="form-control form_datetime_2 input-sm bg-white"
+                                   id='input-customer-source'/>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="echarts" id="customer-source-chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="height: 60px">
+                    <div class="col-md-3 control-label text-right"><h5 style="padding-top: 8px">客户量情况</h5></div>
+                    <div class="col-md-3 col-md-offset-6">
+                        <div class="input-group date" id="customer-volume-dateTime">
+                            <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            <input type="text" class="form-control form_datetime_2 input-sm bg-white" id="input-customer-volume"
+                                  />
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="echarts" id="customer-volume-chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="height: 60px">
+                    <div class="col-md-3 control-label text-right"><h5 style="padding-top: 8px">视频播放量</h5></div>
+                    <div class="col-md-3 col-md-offset-6">
+                        <div class="input-group date" id="student-rank-dateTime">
+                            <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            <input type="text" class="form-control form_datetime_2 input-sm bg-white" id="input-student-rank"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="echarts" id="student-rank-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js(v=2.1.4)}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js(v=3.3.6)}"></script>
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js(v=1.0.0)}"></script>
+<!-- ECharts -->
+<script src="../../static/js/plugins/echarts/echarts-all.js"
+        th:src="@{/js/plugins/echarts/echarts-all.js}"></script>
+<!-- Data picker -->
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.js"
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js" th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script>
+    $(function () {
+        /*业绩情况汇总--------------------------------------*/
+        let volumeChart = echarts.init(document.getElementById("results-summary-chart"));
+        //数据还未加载之前弹出正在加载提示框
+        /* volumeChart.showLoading({
+             text: '正在玩命加载中',
+             color: '#1890ff',
+             textColor: '#000',
+             maskColor: 'rgba(255, 255, 255, 0.8)',
+             zlevel: 0
+         });*/
+
+        let volumeOption = {
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow',      // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['订单总金额', '贷款总金额', '预付总金额'],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    // data: [0, 0.2, 0.4, 0.6, 0.8, 1],
+
+                }
+            ],
+            series: [
+                {
+                    name: '金额(元)',
+                    type: 'bar',
+                    data: [100, 200, 30]
+                    // data: [{}]
+                }
+            ]
+        };
+        volumeChart.setOption(volumeOption);
+        // 异步加载数据
+        /*$.get('../../static/js/demo/xxx.json').done(function (data) {
+            //数据加载成功取消加载提示框
+            volumeChart.hideLoading();
+            // 填入数据
+            volumeChart.setOption({
+                series: [{
+                    data: data
+                }]
+            });
+        });*/
+        $(window).resize(volumeChart.resize);
+
+        /*客户来源情况------------------------------------------------------*/
+        let customerChart = echarts.init(document.getElementById("customer-source-chart"));
+        //数据还未加载之前弹出正在加载提示框
+        /* volumeChart.showLoading({
+             text: '正在玩命加载中',
+             color: '#1890ff',
+             textColor: '#000',
+             maskColor: 'rgba(255, 255, 255, 0.8)',
+             zlevel: 0
+         });*/
+        let customerOption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'horizontal',
+                left: '100',
+                data: ['智联招聘', '前程无忧']
+            },
+            series: [
+                {
+                    name: '前程无忧',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: [
+                        {value: 335, name: '智联招聘'},
+                        {value: 310, name: '前程无忧'},
+                    ]
+                }
+            ]
+        };
+        customerChart.setOption(customerOption);
+        // 异步加载数据
+        /*$.get('../../static/js/demo/xxx.json').done(function (data) {
+            //数据加载成功取消加载提示框
+            volumeChart.hideLoading();
+            // 填入数据
+            volumeChart.setOption({
+                series: [{
+                    data: data
+                }]
+            });
+        });*/
+        $(window).resize(customerChart.resize);
+
+        /*客户量情况--------------------------------------*/
+        var pieChart = echarts.init(document.getElementById("customer-volume-chart"));
+        //数据还未加载之前弹出正在加载提示框
+        /*  pieChart.showLoading({
+              text: '正在玩命加载中',
+              color: '#1890ff',
+              textColor: '#000',
+              maskColor: 'rgba(255, 255, 255, 0.8)',
+              zlevel: 0
+          });*/
+
+        var pieoption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: '5%',
+                y: '10%',
+                data: ['潜在客户', '邀约一面客户', '邀约失败客户', '一面可跟进客户', '二面可跟进客户', '丢单', '签约成功']
+            },
+            calculable: true,
+            series: [
+                {
+                    name: '业绩汇总情况',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {value: 335, name: '潜在客户'},
+                        {value: 310, name: '邀约一面客户'},
+                        {value: 234, name: '邀约失败客户'},
+                        {value: 135, name: '一面可跟进客户'},
+                        {value: 1548, name: '二面可跟进客户'},
+                        {value: 1548, name: '丢单'},
+                        {value: 1548, name: '签约成功'}
+                    ]
+                    //data:[{}]
+
+                }
+            ]
+        };
+        pieChart.setOption(pieoption);
+
+        // 异步加载数据
+        /* $.get('../../static/js/demo/data.json').done(function (data) {
+             //数据加载成功取消加载提示框
+             pieChart.hideLoading();
+             // 填入数据
+             pieChart.setOption({
+                 series: [{
+                     data: data
+                 }]
+             });
+         });*/
+        $(window).resize(pieChart.resize);
+
+        /*排行榜-----------------------------------------------------------*/
+        let rankChart = echarts.init(document.getElementById("student-rank-chart"));
+        let rankOption = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['java基础', 'mysql数据库', 'javaWeb', 'Thymeleaf', 'redis']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: 'java基础',
+                    type: 'line',
+                    stack: '总量',
+                    data: [120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: 'mysql数据库',
+                    type: 'line',
+                    stack: '总量',
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name: 'javaWeb',
+                    type: 'line',
+                    stack: '总量',
+                    data: [150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    name: 'Thymeleaf',
+                    type: 'line',
+                    stack: '总量',
+                    data: [320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name: 'redis',
+                    type: 'line',
+                    stack: '总量',
+                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                }
+            ]
+        };
+        rankChart.setOption(rankOption);
+        $(window).resize(rankChart.resize);
+
+
+    })
+</script>
+<script>
+    $(function () {
+        $('.input-group.date').datepicker({
+            // 时间初始化
+            startView: 'years',  //起始选择范围
+            maxViewMode:'years', //最大选择范围
+            minViewMode:'months', //最小选择范围
+            todayHighlight : true,// 当前时间高亮显示
+            autoclose : 'true',// 选择时间后弹框自动消失
+            format : 'yyyy-mm',// 时间格式
+            language : 'zh-CN',// 汉化
+           // clearBtn : true,// 清除按钮，和今天 按钮只能显示一个
+        });
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧教育平台-方案列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" th:href="@{favicon.ico}">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css(v=3.3.6)}"
+          rel="stylesheet">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.css(v=4.4.0)}"
+          rel="stylesheet">
+    <!--BootStrap_Table样式-->
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+    <!--滑动checkbox-->
+    <link href="../../static/css/plugins/switchery/switchery.css"
+          th:href="@{/static/css/plugins/switchery/switchery.css}"
+          rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="../../static/css/plugins/sweetalert/sweetalert.css"
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+
+    <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
+    <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v=4.1.0)}" rel="stylesheet">
+    <style type="text/css">
+        .table > thead > tr > th {
+            color: #2a62bc;
+        }
+
+        .form-inline > .btn:not(.query) {
+            margin-left: 0.8%;
+            float: right;
+        }
+    </style>
+</head>
+
+<body class="white-bg">
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="row" style="margin-top: 25px;padding-left: 25px">
+        <div class="col-md-6">
+            <form class="form-inline" th:action="#" method="post">
+                <div class="form-group">
+                    <label for="schemeNumberSearch">方案编号:</label>
+                    <input type="text" class="form-control btn-sm" id="schemeNumberSearch">
+                </div>
+                <div class="form-group">
+                    <label for="schemeNameSearch">方案名称:</label>
+                    <input type="text" class="form-control btn-sm" id="schemeNameSearch">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary text-left">查询</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2 col-md-offset-4 text-right" style="padding-right:30px">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#add_schema_modal">添加</button>
+            <button type="button" class="btn btn-danger deleteMulti">删除</button>
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped" id="schemaTable">
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!--添加方案模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="add_schema_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增</h4>
+            </div>
+            <div class="modal-body">
+                <!--模态框内容-->
+                <form class="form-horizontal" th:action="#">
+                    <div class="form-group">
+                        <label for="schemeNumberAdd" class="col-sm-2 control-label">方案编号:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="schemeNumberAdd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="schemeNameAdd" class="col-sm-2 control-label">方案名称:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="schemeNameAdd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="schemeDescAdd" class="col-sm-2 control-label">方案描述:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="schemeDescAdd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否启用:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" class="js-switch-1 form-control"/>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="add_schema">新增</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--更新方案模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="update_schema_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">更新</h4>
+            </div>
+            <div class="modal-body">
+                <!--模态框内容-->
+                <form class="form-horizontal" th:action="#" id="schemeUpdateForm">
+                    <!--隐藏控件，需要被跟新记录的id-->
+                    <input class="hidden" type="text" id="schemeUpdateId">
+                    <div class="form-group">
+                        <label for="schemeNumberUpdate" class="col-sm-2 control-label">方案编号:</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control" id="schemeNumberUpdate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="schemeNameAdd" class="col-sm-2 control-label">方案名称:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="schemeNameUpdate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否启用:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" class="js-switch-1 form-control" id="schemeCheckUpdate"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="schemeDescUpdate" class="col-sm-2 control-label">方案描述:</label>
+                        <div class="col-sm-6">
+                            <textarea  class="form-control" id="schemeDescUpdate" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="update_schema">更新</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--设置方案模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="schema_Set_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">设置方案</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="#">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="schemaNameSet" class="col-sm-2 control-label">方案名称:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="schemaNameSet" readonly class="form-control"
+                                       id="schemaNameSet">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <button type="button" class="btn btn-primary allocation">已分配课程</button>
+                                <button type="button" class="btn btn-default choose_course">选择新课程</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <p class="text-danger">*提示：同一阶段内[ 排序 ]的序号值越大课程越往后排</p>
+                        </div>
+                    </div>
+                    <div class="row" id="allocation_content">
+                        <table class="table table-striped" id="allocation_table">
+                        </table>
+                    </div>
+                    <div class="row" id="choose_course_content" style="display: none">
+                        <table class="table table-striped" id="choose_course_table"></table>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="choose_course_stage_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">阶段选择</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">阶段选择</label>
+                    <div class="col-sm-10">
+                        <select class="form-control m-b" name="account">
+                            <option>第一阶段</option>
+                            <option>第二阶段</option>
+                            <option>第三阶段</option>
+                            <option>第四阶段</option>
+                            <option>第五阶段</option>
+                            <option>第六阶段</option>
+                            <option>第七阶段</option>
+                            <option>第八阶段</option>
+                            <option>第九阶段</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="save_stage_modal">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js(v=2.1.4)}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js(v=3.3.6)}"></script>
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js(v=1.0.0)}"></script>
+<!-- Bootstrap table -->
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<!-- Switchery -->
+<script src="../../static/js/plugins/switchery/switchery.js"
+        th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
+
+<!-- Sweet alert -->
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+
+<script>
+    /*schema页面中bootstrap-table 初始化*/
+    $(function () {
+        $("#schemaTable").bootstrapTable({
+            pagination: true,
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 8,                       //每页的记录行数（*）
+            pageList: [2, 5, 8, 10],        //可供选择的每页的行数（*）
+            uniqueId: "id",                 //不唯一的行
+            queryParams: function (params) {
+                var temp = {
+                    "a": 1,
+                    "b": 2,
+                    "limits": params.limit,
+                    "offset": params.offset
+                }
+                return temp;
+            },
+            url: "../../static/js/demo/training/schemaTable.json",
+            onLoadSuccess: checkbox_table,
+            onPageChange: checkbox_table,
+            columns: [{
+                checkbox: true  /* 是否添加复选框*/
+            },
+                {
+                    field: 'id',
+                    title: 'ID',
+                    visible: false
+                }, {
+                    field: 'schemaId',
+                    title: '方案编号',
+                    align: "center"
+                }, {
+                    field: 'schemaName',
+                    title: '方案名称',
+                    align: "center"
+                }, {
+                    field: 'schemaDesc',
+                    title: '方案描述',
+                    align: "center"
+                }, {
+                    field: 'status',
+                    title: '启用状态',
+                    align: "center",
+                    formatter: switchBox
+                }, {
+                    align: "center",
+                    title: "操作",
+                    width: '15%',
+                    events: {
+                        "click .updateBtn": function (e, value, row, index) {
+                            //把数据回显到模态框中
+                            $("#schemeUpdateId").attr("value", row.id);
+                            $("#schemeNumberUpdate").attr("value", row.schemaId);
+                            $("#schemeNameUpdate").attr("value", row.schemaName);
+                            $("#schemeDescUpdate").text(row.schemaDesc);
+                            if (row.status == '启用') {
+                                setSwitchery(switchery_update, true);
+                            } else {
+                                setSwitchery(switchery_update, false);
+                            }
+                            $('#update_schema_modal').modal('show');
+                        },
+                        "click .deleteBtn": function (e, value, row, index) {
+                            swal({
+                                title: "提示",
+                                text: "你确定要删除这记录嘛，请谨慎操作！",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "删除",
+                                closeOnConfirm: false
+                            }, function () {
+                                //被删除记录的row.id
+                                //异步请求
+                                /*$.ajax({
+                                    type: "GET",
+                                    url: "",
+                                    data: {},
+                                    dataType: "json",
+                                    success: function (data) {
+                                       // alert("添加成功");
+                                        swal("删除成功！", "您已经永久删除。", "success");
+                                    },
+                                    error: function (jqXHQ) {
+                                        swal("删除失败！", "请检查网络。", "error");
+                                    }
+                                });*/
+                                swal("删除成功！", "您已经永久删除。", "success");
+                            });
+                        },
+                        "click .setBtn": function (e, value, row, index) {
+                            //回显数据
+                            $("#schemaNameSet").attr("value", row.schemaName);
+                            $('#schema_Set_modal').modal('show');
+                        }
+                    },
+                    formatter: function (value, row, index) {
+                        return [
+                            "<button type='button' class='updateBtn btn btn-primary btn-xs' title='更新' style='margin-right: 15px;'><i class='fa fa-edit'></i> </button>",
+                            "<button type='button' class='deleteBtn btn btn-danger  btn-xs' title='删除' style='margin-right: 15px;'><i class='fa fa-trash' ></i> </button>",
+                            "<button type='button' class='setBtn btn btn-info btn-xs' title='设置方案' style='margin-right: 15px;'><i class='fa fa-gear'></button>"
+                        ].join("");
+                    }
+                }]
+        });
+    });
+    /*模态框中的已分配课程bootstrap-table 初始化*/
+    $(function () {
+        $("#allocation_table").bootstrapTable({
+            pagination: true,
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 6,                      //每页的记录行数（*）
+            server: "client",
+            uniqueId: "id",
+            sortOrder: "asc",
+            queryParams: function (params) {
+                var temp = {
+                    "a": 1,
+                    "b": 2,
+                    "limits": params.limit,
+                    "offset": params.offset
+                }
+                return temp;
+            },
+            url: "../../static/js/demo/training/allocation_table.json",
+            columns:
+                [{
+                    /*表中记录的id  主键------*/
+                    field: 'id',
+                    title: 'ID',
+                    visible: false
+                },
+                    {
+                        /*课程阶段 id   外键------*/
+                        field: 'stage_id',
+                        title: 'ID',
+                        visible: false
+                    }, {
+                    /*课程 id  外键------*/
+                    field: 'course_id',
+                    title: 'course_ID',
+                    visible: false
+                }, {
+
+                    field: 'courseStage',
+                    title: '课程阶段',
+                    align: "center"
+                }, {
+                    field: 'rank',
+                    title: '排序',
+                    align: "center",
+                    sortable: true
+                }, {
+                    field: 'courseName',
+                    title: '课程名称',
+                    align: "center"
+                }, {
+                    field: 'operate',
+                    align: "center",
+                    title: "操作",
+                    events: {
+
+                        "click .allocation_deleteBtn": function (e, value, row, index) {
+                            alert("删除");
+                            //todo
+                        },
+                        "click .allocation_upBtn": function (e, value, row, index) {
+                            alert("下移");
+                            //todo
+                        },
+                        "click .allocation_downBtn": function (e, value, row, index) {
+                            alert("上移");
+                            //todo
+                        }
+
+                    },
+                    formatter: function (value, row, index) {
+                        return [
+                            "<button type='button' class='allocation_deleteBtn btn btn-danger btn-xs' title='删除' style='margin-right: 15px;'><i class='fa fa-trash'></i></button>",
+                            "<button type='button' class='allocation_upBtn btn btn-primary btn-xs' title='上移' style='margin-right: 15px;'><i class='fa fa-long-arrow-up'></i> </button>",
+                            "<button type='button' class='allocation_downBtn btn btn-primary btn-xs' title='下移'><i class='fa fa-long-arrow-down'></i> </button>"
+                        ].join("");
+                    },
+                }], onLoadSuccess: function (data) {
+                //   merge("courseStage", $('#allocation_table'));
+                mergeCells($('#allocation_table').bootstrapTable("getData"), "courseStage", "courseStage", 1, $('#allocation_table'));
+                //    mergeCells($('#allocation_table').bootstrapTable("getData"), "courseStage", "rank", 1, $('#allocation_table'));
+            }
+        });
+
+        /* function merge(fieldName, target) {
+             //获取表单数据
+             let table_data = $(target).bootstrapTable("getData");
+             let length = table_data.length;
+             //冒泡排序
+             let i, j;
+             for (i = 0; i < length - 1; i++) {
+                 for (j = i + 1; j < length; j++) {
+                     if (table_data[i].courseStage == table_data[j].courseStage) {
+                         $(target).bootstrapTable('mergeCells', {
+                             index: i,
+                             field: fieldName,
+                             colspan: 1,
+                             rowspan: 2
+                         });
+                     }
+                 }
+             }
+         }*/
+
+        /*
+        index	从第几行开始合并
+        field	从那一列开始合并
+        colspan	要合并几列
+        rowspan	要合并几行
+        */
+        /**
+         * 合并单元格
+         * @param data  原始数据（在服务端完成排序）
+         * @param fieldName 合并属性名称
+         * @param colspan   合并列
+         * @param target    目标表格对象
+         */
+        function mergeCells(data, exhibitionName, fieldName, colspan, target) {
+            //声明一个map计算相同属性值在data对象出现的次数和
+            var sortMap = {};
+            for (var i = 0; i < data.length; i++) {
+                for (var prop in data[i]) {
+                    if (prop == exhibitionName) {
+                        var key = data[i][prop]
+                        if (sortMap.hasOwnProperty(key)) {
+                            sortMap[key] = sortMap[key] * 1 + 1;
+                        } else {
+                            sortMap[key] = 1;
+                        }
+                        break;
+                    }
+                }
+            }
+            for (var prop in sortMap) {
+                //   console.log(prop, sortMap[prop])
+            }
+            var index = 0;
+            for (var prop in sortMap) {
+                var count = sortMap[prop] * 1;
+                $(target).bootstrapTable('mergeCells', {
+                    index: index,
+                    field: fieldName,
+                    colspan: colspan,
+                    rowspan: count
+                });
+                index += count;
+            }
+        }
+    });
+
+    $(function () {
+        $("#choose_course_table").bootstrapTable({
+            pagination: true,
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 4,                       //每页的记录行数（*）
+            //  pageList: [2, 5, 8, 10],        //可供选择的每页的行数（*）
+            search: true,
+            //   toolbar: '#toolbar2',            //包含工具栏中的元素
+            //  showColumns: true,                  //是否显示所有的列
+            //  showRefresh: true,                  //是否显示刷新按钮
+            //   showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+            uniqueId: "id",
+            queryParams: function (params) {
+                var temp = {
+                    "a": 1,
+                    "b": 2,
+                    "limits": params.limit,
+                    "offset": params.offset
+                }
+                return temp;
+            },
+            url: "../../static/js/demo/training/choose_table.json",
+            columns: [
+                {
+                    field: 'id',
+                    title: 'ID',
+                    visible: false
+                }, {
+                    field: 'courseNumber',
+                    title: '课程编号'
+                }, {
+                    field: 'courseName',
+                    title: '课程名称',
+                    sortable: true
+                }, {
+                    align: "center",
+                    width: '30%',
+                    title: "操作",
+                    events: {
+                        "click .addCourseBtn": function (e, value, row, index) {
+                            $("#choose_course_stage_modal").modal();
+                        }
+
+                    },
+                    formatter: function (value, row, index) {
+                        return [
+                            "<button type='button' class='addCourseBtn btn btn-primary btn-xs' style='margin-right: 15px;'><i class='fa fa-plus'></i> </button>",
+                        ].join("");
+                    },
+                }]
+        });
+    });
+</script>
+<script>
+    /*滑动按钮*/
+    /*modal中的滑动checkbox*/
+    let elem = Array.prototype.slice.call($('.js-switch-1'));
+    let switchery_update;
+    elem.forEach(function (html) {
+        switchery_update = new Switchery(html, {size: 'normal'});
+    });
+
+    /*更新 滑动checkbox*/
+    function checkbox_table() {
+        let elems = Array.prototype.slice.call($('.js-switch'));
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, {size: 'normal'});
+        });
+    }
+
+    /*改变滑动按钮的状态*/
+    function setSwitchery(switchElement, checkedBool) {
+        if ((checkedBool && !switchElement.isChecked()) || (!checkedBool && switchElement.isChecked())) {
+            switchElement.setPosition(true);
+            switchElement.handleOnchange(true);
+        }
+    }
+
+    /*根据json数据给滑动按钮设置状态*/
+    function switchBox(value, row, index) {
+        if (value == "启用") {
+            return '<input type="checkbox" class="js-switch form-control" checked/>';
+        }
+        return '<input type="checkbox" class="js-switch form-control"/>';
+    }
+</script>
+<script>
+    /*面包屑 模态框中 删除按钮事件*/
+    $('.deleteMulti').click(function () {
+        let bootstrapTable = $("#schemaTable").bootstrapTable('getAllSelections');
+        if (bootstrapTable.length == 0 || bootstrapTable == "") {
+            swal({
+                title: "提示",
+                text: "至少选中一行",
+                type: "warning",
+                closeOnConfirm: true,
+            })
+            return false;
+        }
+        let ids = [];
+        for (let i = 0; i < bootstrapTable.length; i++) {
+            //获取选中的行的id
+            ids.push(bootstrapTable[i].id);
+        }
+        swal({
+            title: "提示",
+            text: "你确定要删除这" + ids.length + "记录嘛，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            closeOnConfirm: false
+        }, function () {
+            //被删除记录的id
+            //let s = JSON.stringify(ids);
+            //alert(s);
+            //异步请求
+            /*$.ajax({
+                type: "GET",
+                url: "",
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                   // alert("添加成功");
+                    swal("删除成功！", "您已经永久删除。", "success");
+                },
+                error: function (jqXHQ) {
+                    swal("删除失败！", "请检查网络。", "error");
+                }
+            });*/
+            swal("删除成功！", "您已经永久删除。", "success");
+        });
+    });
+    /*面包屑 模态框中 添加按钮事件*/
+
+    $('#add_schema.btn.btn-primary').click(function () {
+        $.ajax({
+            type: "GET",
+            url: "",
+            data: {
+                schemeNumberAdd: $("#schemeNumberAdd").val(),
+                schemeNameAdd: $("#schemeNameAdd").val(),
+                switchFlag: $('.js-switch.form-control').val()
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("添加成功");
+            },
+            error: function (jqXHQ) {
+                alert("添加失败");
+            }
+
+        });
+        //重新加载页面
+        window.location.reload();
+    });
+
+    /*表格 模态框中 更新按钮事件*/
+    $("#update_schema").click(function () {
+        //提交biaodan
+        $("#schemeUpdateForm").submit();
+        window.location.reload();
+        //或者直接发送异步请求
+        //将表单数据转换成json数据
+    });
+
+    /*表格 模态框 设置方案*/
+    $('.allocation').click(function () {
+        $("#allocation_content").css("display", "block");
+        $("#choose_course_content").css("display", "none");
+        $('.choose_course').removeClass("btn-primary").addClass("btn-default");
+        $('.allocation').removeClass("btn-default").addClass("btn-primary");
+    });
+    $(".choose_course").click(function () {
+        $("#allocation_content").css("display", "none");
+        $("#choose_course_content").css("display", "block");
+        $('.allocation').removeClass("btn-primary").addClass("btn-default");
+        $('.choose_course').removeClass("btn-default").addClass("btn-primary");
+    })
+
+    $("#save_stage_modal").click(function () {
+        //先获取课程信息
+        //在获取学习阶段
+        //发送ajax
+        alert("添加成功");
+
+        $("#choose_course_stage_modal").close();
+    })
+</script>
+</body>
+
+</html>

@@ -12,8 +12,12 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:application-dao.properties")
 public class OwepAdminWebDaoApplication {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SpringApplication.run(OwepAdminWebDaoApplication.class, args);
+    }*/
+
+    public OwepAdminWebDaoApplication() {
+        System.out.println("初始化OwepAdminWebDaoApplication...");
     }
 
 }

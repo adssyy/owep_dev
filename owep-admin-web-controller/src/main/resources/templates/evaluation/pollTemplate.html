@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>乐码在线智慧平台 - 考评模板</title>
+</head>
+
+<link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/static/favicon.ico}">
+<link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css(v='3.3.6')｝" rel="stylesheet">
+<link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.min.css(v='4.4.0')}" rel="stylesheet">
+<link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
+<link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v='4.1.0')}" rel="stylesheet">
+<link rel="stylesheet" href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+<!-- sweetalert -->
+<link href="../../static/css/plugins/sweetalert/sweetalert.css" th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+<!--datapicker-->
+<link href="../../static/css/plugins/datapicker/datepicker3.css" th:href="@{../../static/css/plugins/datapicker/datepicker3.css}" rel="stylesheet">
+<!--switchery-->
+<link href="../../static/css/plugins/switchery/switchery.css" th:href="@{../../static/css/plugins/switchery/switchery.css}" rel="stylesheet">
+<!-- multiselect -->
+<link href="../../static/css/plugins/multiselect/bootstrap-multiselect.css" th:href="@{/static/css/plugins/multiselect/bootstrap-multiselect.css}" rel="stylesheet">
+<!--  bootstrap-star-rating -->
+<link href="../../static/css/plugins/bootstrap-star-rating/star-rating.min.css" th:href="@{/static/css/plugins/bootstrap-star-rating/star-rating.min.css}" rel="stylesheet">
+
+<style type="text/css">
+    .table > thead > tr > th    {
+        color: #2a62bc;
+    }
+    .form-inline>.btn:not(.query){
+        margin-left: 0.8%;
+        float: right;
+    }
+    .multiselect-container{
+        width: 445px;
+    }
+ /*   .form-horizontal .control-label {
+        padding-top: 15px;
+        margin-bottom: 0;
+        text-align: right;
+        font-size: 15px;
+    }*/
+    .form-horizontal .form-group {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    .page-header {
+        padding: 0px 0 0px;
+        margin: 0 0 0px;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+</style>
+
+<body class="gray-bg">
+
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="ibox-title">
+        <div class="row row-lg">
+            <div class="col-sm-12">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="keyword">关键字:</label>
+                        <input type="text" name="keyword" class="form-control" id="keyword">
+                    </div>
+                    <button  class="btn btn-success query" type="button" id="select">查询</button>
+                    <button class="btn btn-danger deleteAll" id="remove" type="button">删除</button>
+                    <button class="btn btn-info" type="button" data-toggle='modal' data-target='#addModal'>添加</button>
+                </form>
+                <table id="table"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="middle-box text-center animated fadeInRightBig">
+                <div class="input-group">
+                    <!--多选框-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  添加模态框  -->
+<div class="modal fade" id="addModal"  role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">增加</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">模板名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="请输入模板名称" name="add_content">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!-- 多选框 -->
+                    <label class="col-sm-2 control-label">考评选项</label>
+                        <div class="col-sm-10">
+                            <select id="checkbox" class="mycheckbox" style="width:350px;" multiple="multiple" >
+                                <option value="">考评选项1</option>
+                                <option value="">考评选项2</option>
+                                <option value="">考评选项3</option>
+                                <option value="">考评选项4</option>
+                                <option value="">考评选项5</option>
+                                <option value="">考评选项6</option>
+                                <option value="">考评选项7</option>
+                                <option value="">考评选项8</option>
+                                <option value="">考评选项1</option>
+                                <option value="">考评选项2</option>
+                                <option value="">考评选项3</option>
+                                <option value="">考评选项4</option>
+                                <option value="">考评选项5</option>
+                                <option value="">考评选项6</option>
+                                <option value="">考评选项7</option>
+                                <option value="">考评选项8</option>
+                            </select>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否启用</label>
+                    <div class="col-sm-3">
+                        <input type="checkbox" class="js-switch form-control" checked/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- update Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="update">修改</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">模板名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="请输入模板名称" name="update_content">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">考评选项</label>
+                    <div class="col-sm-10">
+                        <select id="checkbox1" class="mycheckbox" style="width:350px;" multiple="multiple">
+                            <option value="">考评选项1</option>
+                            <option value="">考评选项2</option>
+                            <option value="">考评选项3</option>
+                            <option value="">考评选项4</option>
+                            <option value="">考评选项5</option>
+                            <option value="">考评选项6</option>
+                            <option value="">考评选项7</option>
+                            <option value="">考评选项8</option>
+                            <option value="">考评选项1</option>
+                            <option value="">考评选项2</option>
+                            <option value="">考评选项3</option>
+                            <option value="">考评选项4</option>
+                            <option value="">考评选项5</option>
+                            <option value="">考评选项6</option>
+                            <option value="">考评选项7</option>
+                            <option value="">考评选项8</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  查看考评内容模态框  -->
+<div class="modal fade" tabindex="-1" role="dialog" id="pollOptionModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="modal-title">考评内容</h1>
+            </div>
+            <div class="modal-body" style="margin-top: -15px!important;">
+                <form class="form-horizontal">
+                    <div class="form-group page-header">
+                        <label class="control-label col-sm-5" >教师是否按照大纲来授课，并且是否有缺课？</label>
+                        <div class="col-sm-5">
+                            <input id="content1" name="content1" class="rating myrating"  min="0" max="5" data-size="sm" value="1" >
+                        </div>
+                    </div>
+                    <div class="form-group page-header">
+                        <label class="control-label col-sm-5">教师是否按照大纲来授课，并且是否有缺课？</label>
+                        <div class="col-sm-5">
+                            <input id="content2" name="content2" class="rating myrating"  min="0" max="5" data-size="sm" value="1" >
+                        </div>
+                    </div>
+                    <div class="form-group page-header">
+                        <label class="control-label col-sm-5">教师是否按照大纲来授课，并且是否有缺课？</label>
+                        <div class="col-sm-5">
+                            <input id="content3" name="content3" class="rating myrating"  min="0" max="5" data-size="sm" value="1" >
+                        </div>
+                    </div>
+                    <div class="form-group page-header">
+                        <label class="control-label col-sm-5">教师是否按照大纲来授课，并且是否有缺课？</label>
+                        <div class="col-sm-5">
+                            <input id="content4" name="content4" class="rating myrating"  min="0" max="5" data-size="sm" value="1" >
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</body>
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:href="@{/static/js/jquery.min.js('v=2.1.4')}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:href="@{/static/js/bootstrap.min.js('v=3.3.6')}"></script>
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0" th:href="@{/static/js/content.js('v=1.0.0')}"></script>
+<!-- Bootstrap table -->
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:href:="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js" th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<!-- sweetalert -->
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js" th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<!-- datapicker -->
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.js" th:href="@{../../static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js" th:src="@{../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
+<!--switchery-->
+<script src="../../static/js/plugins/switchery/switchery.js" th:href="@{../../static/js/plugins/switchery/switchery.js}"></script>
+<!-- multiselect -->
+<script src="../../static/js/plugins/multiselect/bootstrap-multiselect.js" th:href="@{/static/js/plugins/multiselect/bootstrap-multiselect.js}"></script>
+<!--  bootstrap-star-rating  -->
+<script src="../../static/js/plugins/bootstrap-star-rating/star-rating.min.js" th:href="@{/static/js/plugins/bootstrap-star-rating/star-rating.min.js}"></script>
+
+<script>
+    /*bootstrap-multiselect配置*/
+    $(function () {
+        $('.mycheckbox').multiselect({
+            nonSelectedText:'请选择考评选项',
+            buttonClass:'btn btn-white',
+            buttonWidth:'445px',
+            maxHeight:300,
+            includeSelectAllOption: true, /*全选*/
+            selectAllText:'全选',
+            // enableClickableOptGroups: true  /*打开分类分组*/
+            // enableCollapsibleOptGroups: true    /*折叠使用*/
+            // maxHeight 设置最大高度         /*设置最大高度*/
+            enableFiltering:true,        /*打开输入搜索框*/
+            onChange:function (element,checked) {
+                //获取选中的值的集合
+                var selectList = $('mycheckbox option:selected');
+                //遍历得到value 和 label
+                for (var i = 0; i < selectList.length; i++) {
+                    value = siteList[i].value;
+                    label = siteList[i].label;
+                }
+            }  /*end of onChange*/
+        });
+    });
+</script>
+
+<!--查询-->
+<script>
+    $(function () {
+        $("#select").click(function () {
+            alert("开始查询！")
+        });
+    })
+</script>
+
+<!--表单数据控制-->
+<script>
+    $(function () {
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+    });
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#table').bootstrapTable({
+                url: '../../static/js/demo/evaluation/t_data.json',        // 表格数据来源
+                toolbar : '#toolbar', // 工具按钮用哪个容器
+                method:'get',
+                pagination : true,
+                cache:false,
+                sortable : true, //是否启用排序
+                sortOrder : "asc", // 排序方式
+                sidePagination : "client", // 分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,
+                pageSize:10,
+                pageList: [10, 25, 50, 100],
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                onLoadSuccess: checkbox_table,
+                onPageChange: checkbox_table,
+                columns: [{
+                    checkbox: true
+                },  {
+                    field: 't_id',
+                    title: '序号',
+                    align: 'center',
+                    width:'5%'
+                }, {
+                    field: 'name',
+                    title: '模板名称',
+                    align: 'center',
+                }, {
+                    field: 'status',
+                    title: '是否启用',
+                    align: 'center',
+                    width:'10%',
+                    formatter:switchBox,
+                },{
+                    field: 'operate',
+                    title: '操作',
+                    width: '15%',
+                    align: 'center',
+                    formatter: addFunctionAlty,//表格中增加按钮  
+                    events:{
+                        'click button[title=删除]':function () {
+                            swal({
+                                title: "您确定要删除该信息吗？",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#1E90FF",
+                                confirmButtonText: "删除",
+                                closeOnConfirm: false
+                            }, function () {
+                                swal("删除成功！", "您已经永久删除信息", "success");
+                            });
+                        },
+                    }
+                }]
+            });
+        };
+
+        function addFunctionAlty(value, row, index) {
+            return '<button id="+id+" class="btn btn-white" type="button" title="查看考评选项" data-toggle="modal" data-target="#pollOptionModal"><i class="glyphicon glyphicon-info-sign text-info"></i></button>' +
+                ''+'<button id = "+id+" type = "button" class = "btn btn-white" title="修改" ' +
+                'data-toggle="modal" data-target="#updateModal"> <i class="glyphicon glyphicon-edit"/> </button>' +
+                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>';
+        }
+
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit,   //页面大小
+                offset: params.offset,  //页码
+                departmentname: $("#txt_search_departmentname").val(),
+                statu: $("#txt_search_statu").val()
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+
+        return oInit;
+    };
+</script>
+
+
+<script>
+    /*滑动与后台交互*/
+    function checkbox_table() {
+        let elems = Array.prototype.slice.call($('.js-switch'));
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, {size: 'normal'});
+            html.onchange=function () {
+                //TODO
+                alert(html.checked);
+            }
+        });
+    }
+
+    /*根据json数据给滑动按钮设置状态*/
+    function switchBox(value, row, index) {
+        if (value == "启用") {
+            return '<input type="checkbox" class="js-switch form-control" checked/>';
+        }
+        return '<input type="checkbox" class="js-switch form-control"/>';
+    }
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        //删除所有按钮
+        $("#remove").click(function () {
+            var rows = $("#table").bootstrapTable('getSelections');
+            console.log(rows);
+            if (rows.length==0){
+                alert("请先选择要删除的记录！")
+                return;
+            }else {
+                var arrays = new Array();//声明一个数组
+                $(rows).each(function () {
+                    arrays.push(this.t_id);
+                });
+                var ids = arrays.join(",");//获得要删除的id
+                alert(ids);
+                //TODO
+            }
+        })
+    })
+</script>
+
+<script>
+    $(function () {
+        /*  初始化bootstrap-star-rating   */
+        $(".myrating").rating('refresh',{
+            step:1,
+            size:'sm',
+            showCaption:true,
+            showClear:true,
+            starCaptions: {1: '极差', 2: '差', 3: '一般', 4: '良好', 5: '优秀'},
+            starCaptionClasses: {1: 'text-danger', 2: 'text-warning', 3: 'text-info', 4: 'text-primary', 5: 'text-success'}
+        })
+    })
+</script>
+</html>

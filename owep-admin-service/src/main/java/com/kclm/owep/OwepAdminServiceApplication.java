@@ -10,7 +10,4 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OwepAdminServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(OwepAdminServiceApplication.class, args);
-    }
 }

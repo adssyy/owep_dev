@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>乐码在线智慧平台 - 学员观看记录</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css(v='3.3.6')｝" rel="stylesheet">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.min.css(v='4.4.0')}" rel="stylesheet">
+    <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
+    <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v='4.1.0')}" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/css/plugins/switchery/switchery.css" th:href="@{/static/css/plugins/switchery/switchery.css}">
+
+    <style type="text/css">
+
+        .box{
+            margin-top: 20px;
+            /*margin-bottom: -20px;
+            margin-left: 20px;*/
+        }
+        .table > thead > tr > th    {
+            color: #2a62bc;
+        }
+
+    </style>
+</head>
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+
+    <div class="box col-md-4">
+        <form class="form-inline">
+            <div class="form-group">
+                <label>用户名:</label>
+                <input type="text" class="form-control" id="username">
+            </div>
+            <button type="submit" class="btn btn-success" id="select">查询</button>
+        </form>
+    </div>
+
+    <div class="col-md-10 table">
+        <div class="col-md-2" style="margin-left: -15px">
+        </div>
+        <!--  bootstrap table  -->
+        <table id="table" class="table table-striped table-hover table-bordered"></table>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="middle-box text-center animated fadeInRightBig">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:href="@{/static/js/jquery.min.js('v=2.1.4')}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:href="@{/static/js/bootstrap.min.js('v=3.3.6')}"></script>
+
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0" th:href="@{/static/js/content.js('v=1.0.0')}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:href:="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js" th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script src="../../static/js/plugins/switchery/switchery.js" th:href="@{/static/js/plugins/switchery/switchery.js}"></script>
+
+
+
+<script>
+    //bootstrapTable
+    $('#table').bootstrapTable({
+        url: '../../static/js/demo/analysis/data1.json',        // 表格数据来源
+        toolbar : '#toolbar', // 工具按钮用哪个容器
+        method:'get',
+        pagination : true,
+        cache:false,
+        sortable : true, //是否启用排序
+        sortOrder : "asc", // 排序方式
+        sidePagination : "client", // 分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,
+        pageSize:10,
+        pageList: [10, 25, 50, 100],
+        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+        clickToSelect: true,                //是否启用点击选中行
+        columns: [{
+            field: 'stu_id',
+            title: '学号'
+        }, {
+            field: 'name',
+            title: '姓名'
+        }, {
+            field: 'course',
+            title: '课程'
+        },{
+            field: 'chapter',
+            title: '所属章'
+        }, {
+            field: 'section',
+            title: '所属节'
+        }, {
+            field: 'start_time',
+            title: '开始时间'
+        },{
+            field: 'start_location',
+            title: '开始位置'
+        },{
+            field: 'end_time',
+            title: '结束时间'
+        },{
+            field: 'end_location',
+            title: '结束位置'
+        },{
+            field: 'maximum_overshoot',
+            title: '最大进度'
+        },{
+            field: 'video_time',
+            title: '视频时长'
+        }],
+    });
+
+</script>
+<script>
+    $(function () {
+        $("#select").click(function () {
+            alert("点击了查询按钮")
+        })
+    })
+</script>
+
+</body>
+
+</html>

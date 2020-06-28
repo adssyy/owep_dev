@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H+ 后台主题UI框架 - Bootstrap Table</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="../../static/favicon.ico">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="../../static/css/animate.css" rel="stylesheet">
+    <link href="../../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <style type="text/css">
+        .input_margin {
+            margin-left: 20px;
+        }
+
+        .table > thead > tr > th {
+            color: #2a62bc;
+        }
+
+        /*表格内容居中*/
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .iPicker-container {
+            font-size: 12px;
+        }
+
+        .input-sm {
+            height: 32px;
+        }
+    </style>
+</head>
+<body class="white-bg">
+<div class="row animated fadeInRight" style="padding: 10px">
+    <div class="col-md-12">
+        <div style="font-weight:700">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" style="padding-left: 0;padding-bottom: 0;">
+                    <form class="form-inline" style="margin:15px 5px">
+                        <div class="form-group">
+                            <label>班级编号:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm" style="border-radius: 5px;width: 130px"
+                                       id="class_num">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>专业名称:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm" id="major_name"
+                                       style="border-radius: 5px;width: 130px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="picker">
+                                <div id="their"></div>
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-success input_margin"
+                               style="display: inline ;margin-top: 3px; border-radius: 5px;"
+                               value="查询"
+                               id="queryBtn"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 全局js -->
+        <script src="../../static/js/jquery.min.js?v=2.1.4"></script>
+        <script src="../../static/js/bootstrap.min.js?v=3.3.6"></script>
+        <!-- 自定义js -->
+        <script src="../../static/js/content.js?v=1.0.0"></script>
+        <!--suggest-->
+        <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"></script>
+        <!-- Bootstrap table -->
+        <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+        <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+        <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+        <!--iPicker-->
+        <script src="../../static/js/plugins/iPicker/iPicker.min.js"></script>
+        <script>
+            var $picker = $('.picker');
+            $.getJSON('../../static/js/demo/exam/teaching.json').done(function (res) {
+                $('#their').iPicker({
+                    data: res,
+                    width: 130,
+                    height: 30,
+                    placeholder: ["所属机构", "所属分支", "专业方向"],
+                    onSelect: function (v, t, set) {
+                        var text = "[" + t + "]";
+                        var value = "[" + v + "]";
+                        console.log(text + "---" + value);
+                    }
+                })
+            })
+        </script>
+        <table id="table" data-mobile-responsive="true">
+
+            <script>
+                function addFunctionAlty() {
+                    return ['<a id = "bind" href="enterClass.html" type = "button" class = "btn btn-xs btn-success" >进入班级</a>'];
+                }
+
+                // 表格初始化
+                $('#table').bootstrapTable({
+                    data: [
+                        {
+                            "id": 1,
+                            "classNumber": "KCLM_2020_Java",
+                            "groupName": "Java全栈开发",
+                            "major": "JavaEE企业级开发",
+                            "organ": "青英教育",
+                            "branch": "快程乐码",
+                            "startTime": "2020-03-03",
+                            "endTime": "2047-03-28"
+                        },
+                        {
+                            "id": 2,
+                            "classNumber": "Java2020",
+                            "groupName": "Java企业班级",
+                            "major": "JavaEE企业级开发",
+                            "organ": "青英教育",
+                            "branch": "快程乐码",
+                            "startTime": "2020-03-01",
+                            "endTime": "2023-03-23"
+                        },
+                        {
+                            "id": 3,
+                            "classNumber": "Java2020",
+                            "groupName": "Java企业班级",
+                            "major": "JavaEE企业级开发",
+                            "organ": "青英教育",
+                            "branch": "快程乐码",
+                            "startTime": "2020-03-01",
+                            "endTime": "2023-03-23"
+                        },
+                        {
+                            "id": 4,
+                            "classNumber": "Java2020",
+                            "groupName": "Java企业班级",
+                            "major": "JavaEE企业级开发",
+                            "organ": "青英教育",
+                            "branch": "快程乐码",
+                            "startTime": "2020-03-01",
+                            "endTime": "2023-03-23",
+                        },
+                        {
+                            "id": 5,
+                            "classNumber": "Java2020",
+                            "groupName": "Java企业班级",
+                            "major": "JavaEE企业级开发",
+                            "organ": "青英教育",
+                            "branch": "快程乐码",
+                            "startTime": "2020-03-01",
+                            "endTime": "2023-03-23"
+                        },
+                        {
+                            "id": 6,
+                            "classNumber": "Java2020",
+                            "groupName": "Java企业班级",
+                            "major": "JavaEE企业级开发",
+                            "organ": "青英教育",
+                            "branch": "快程乐码",
+                            "startTime": "2020-03-01",
+                            "endTime": "2023-03-23"
+                        }
+                    ],
+                    pagination: true, //分页
+                    pageSize: 5,    //每页初始数量
+                    striped: true, //条纹
+                    pageNumber: 1, //默认当前页
+                    pageList: [5, 10, 25, 50],
+                    columns: [{
+                        checkbox: true,
+                    }, {
+                        field: 'id',
+                        title: '班级编号',
+                    }, {
+                        field: 'classNumber',
+                        title: '班级名称',
+                    }, {
+                        field: 'groupName',
+                        title: '专业方向',
+                    }, {
+                        field: 'major',
+                        title: '手机号',
+                    }, {
+                        field: 'organ',
+                        title: '所属机构',
+                    }, {
+                        field: 'branch',
+                        title: '所属分支',
+                    }, {
+                        field: 'startTime',
+                        title: '开始时间',
+                    }, {
+                        field: 'endTime',
+                        title: '结束时间',
+                    }, {
+                        field: 'operate',
+                        title: '操作',
+                        width: 80,
+                        formatter: addFunctionAlty//表格中增加按钮
+                    }]
+                });
+            </script>
+        </table>
+    </div>
+</div>
+</body>
+</html>

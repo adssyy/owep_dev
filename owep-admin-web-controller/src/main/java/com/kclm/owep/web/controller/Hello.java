@@ -35,6 +35,17 @@ public class Hello {
     @RequestMapping("/page/index")
     public String helloThymeleaf() {
         System.out.println(" 进入 helloThymeleaf 方法");
-        return "demo/index";
+        return "index";
+    }
+
+    @RequestMapping("/page/toLogin")
+    public String toLogin() {
+        return "login";
+    }
+
+    @RequestMapping("/system/paramInfo")
+    public String paramInfo() {
+        System.out.println("进入paramInfo方法...");
+        return "system/paramInfo";
     }
 }
