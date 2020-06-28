@@ -31,8 +31,10 @@
         <module>owep-admin-web-dao</module>
         <!-- DTO,数据传输对象，做为业务层向控制层传递数据的载体 -->
         <module>owep-admin-web-dto</module>
+
         <!-- 业务层 -->
-        <module>owep-admin-service</module>
+        <module>owep-admin-web-service</module>
+
         <!-- 工具层，意在提供各种工具类 -->
         <module>owep-admin-utils</module>
     </modules>

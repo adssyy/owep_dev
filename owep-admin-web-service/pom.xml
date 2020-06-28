@@ -8,9 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.kclm</groupId>
-    <artifactId>owep-admin-service</artifactId>
+    <artifactId>owep-admin-web-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>owep-admin-service</name>
+    <name>owep-admin-web-service</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
