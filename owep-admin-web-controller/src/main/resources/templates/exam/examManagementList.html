@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>考试管理</title>
+    <link rel="shortcut icon" href="../../static/favicon.ico"
+          th:href="@{/static/favicon.ico}">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"
+          th:href="@{/static/css/bootstrap.min.css(v=3.3.6) }">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet"
+          th:href="@{/static/css/font-awesome.css(v=4.4.0) }">
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css }">
+    <link href="../../static/css/animate.css" rel="stylesheet"
+          th:href="@{/static/css/animate.css }">
+    <link href="../../static/css/style.css?v=4.1.0" rel="stylesheet"
+          th:href="@{/static/css/style.css(v=4.1.0) }">
+    <!--Bootstrap表格插件-->
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css }">
+    <!--滑动按钮-->
+    <link href="../../static/css/plugins/switchery/switchery.css"
+          th:href="@{/static/css/plugins/switchery/switchery.css}" rel="stylesheet">
+    <!--时间控件-->
+    <link href="../../static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
+          th:href="@{/static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+    <!-- 弹出框插件 -->
+    <link href="../../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css }">
+    <style type="text/css">
+        /* 表格样式 */
+        .table > thead > tr > th {
+            text-align: center;
+            color: #2a62bc;
+        }
+
+        .table > tbody > tr > td {
+            text-align: center;
+        }
+
+
+        #isTestRecords #testRecords_form .col-md-2,#examManagementForm .col-md-2,#examManagementForm .col-md-4{
+            padding-left: 0px;
+            padding-right: 8px;
+        }
+
+        #isTestRecords .col-md-5{
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-title">
+        <div class="row row-lg">
+            <!--**************************************非考试记录部分***************************************-->
+            <div class="col-sm-12" id="noIsTestRecords" style="display: block">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active" id="allStu"><a data-toggle="tab" href="#tab-1" aria-expanded="true">我的考试</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+                                <!--创建考试、考试管理按钮-->
+                                <p style="color: #aaa">考试用于将考试按规则安排给特定考生进行作答并查看批改结果，请在以下列表中管理您创建的考试</p>
+                                <div>
+                                    <button type="button" onclick="switchover('add')" class="btn btn-white"
+                                            title="创建考试">创建考试
+                                    </button>
+                                    <button type="button" class="btn btn-success" title="考试管理">考试管理</button>
+                                </div><!--END---创建考试、考试管理按钮-->
+                                <!--创建考试-->
+                                <div id="createTestPaper" class="panel panel-default"
+                                     style="margin-top: 10px;display: none">
+                                    <!--填写考试基本信息-->
+                                    <div class="panel-heading">
+                                        <h4> 基本信息&nbsp;&nbsp;&nbsp;
+                                            <small style="font-size: 13px;"> 填写考试基本信息</small></h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form method="get" class="form-horizontal col-md-9" id="createTestPaper_1">
+                                            <!--考试名称-->
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">
+                                                    考试名称</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" name="testPaperName" class="form-control">
+                                                </div>
+                                            </div> <!--END--考试名称-->
+                                            <!--考试分类、考试状态-->
+                                            <div class="form-group ">
+                                                <!--考试分类-->
+                                                <label class=" control-label col-md-2">
+                                                    考试分类</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="classification"
+                                                               class="form-control classification"
+                                                               placeholder="分类">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-success">
+                                                                <i class="glyphicon glyphicon-plus"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--考试状态-->
+                                                <label class="col-md-2 control-label">
+                                                    考试状态</label>
+                                                <div class="col-sm-4">
+                                                    <input type="checkbox" name="startUsing"
+                                                           class=" form-control js-switch-notable "/>
+                                                </div>
+                                            </div> <!--END--考试分类、考试状态-->
+                                            <!--设置考试、及格分数-->
+                                            <div class="form-group">
+                                                <!--设置考试-->
+                                                <label class=" control-label col-md-2">
+                                                    设置考试</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="setTestPaper"
+                                                               class="form-control"
+                                                               placeholder="请选择考试">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-success">
+                                                                <i class="glyphicon glyphicon-search"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--及格分数-->
+                                                <label class=" control-label col-md-2">
+                                                    及格分数</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="passMark" class="form-control"
+                                                               placeholder="60" aria-describedby="basic-addon2">
+                                                        <span class="input-group-addon"
+                                                              id="basic-addon2">考试总分 : <a>0</a></span>
+                                                    </div>
+                                                </div>
+                                            </div><!--END--设置考试、及格分数-->
+                                            <!--考试排序、考试展示-->
+                                            <div class="form-group">
+                                                <!--试题排序-->
+                                                <label class=" control-label col-md-2">
+                                                    试题排序</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="trySorting"
+                                                               class="form-control trySorting"
+                                                               placeholder="固定排序">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                                    data-toggle="dropdown">
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--考试排序-->
+                                                <label class=" control-label col-md-2">
+                                                    考试展示</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="tryShow"
+                                                               class="form-control tryShow"
+                                                               placeholder="整卷展示">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                                    data-toggle="dropdown">
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!--END--考试排序、考试展示-->
+                                            <!--选项随机、可考次数-->
+                                            <div class="form-group">
+                                                <!--选项随机-->
+                                                <label class=" control-label col-md-2">
+                                                    选项随机</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="optionRandom"
+                                                               class="form-control optionRandom"
+                                                               placeholder="固定排序">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                                    data-toggle="dropdown">
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--可考次数-->
+                                                <label class=" control-label col-md-2">
+                                                    可考次数</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" name="canTestTimes" class="form-control">
+                                                </div>
+                                            </div> <!--END--选项随机、可考次数-->
+                                            <!--考试须知-->
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">
+                                                    考试须知</label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control" name="testInstructions"
+                                                              rows="4"></textarea>
+                                                </div>
+                                            </div> <!--END--考试须知-->
+                                        </form>
+                                    </div><!--END--填写考试基本信息-->
+                                    <!--填写考试时间安排-->
+                                    <div class="panel-heading">
+                                        <h4> 时间设置&nbsp;&nbsp;&nbsp;
+                                            <small style="font-size: 13px;"> 填写考试时间安排</small></h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form method="get" class="form-horizontal col-md-9" id="createTestPaper_2">
+                                            <!--开考时间、结束时间-->
+                                            <div class="form-group ">
+                                                <!--开考时间-->
+                                                <label class=" control-label col-md-2">
+                                                    开考时间</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control datapicker"
+                                                           name="startTime"/>
+                                                </div>
+                                                <!--结束时间-->
+                                                <label class="col-sm-2 control-label">
+                                                    结束时间</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control datapicker" name="endTime"/>
+                                                </div>
+                                            </div> <!--END--开考时间、结束时间-->
+                                            <!--考试时长、公布成绩-->
+                                            <div class="form-group">
+                                                <!--考试时长-->
+                                                <label class=" control-label col-md-2">
+                                                    考试时长</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control"
+                                                               aria-describedby="testTime">
+                                                        <span class="input-group-addon" id="testTime">分钟</span>
+                                                    </div>
+                                                </div>
+                                                <!--公布成绩-->
+                                                <label class=" control-label col-md-2">
+                                                    公布成绩</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control datapicker"
+                                                           name="releaseTime"/>
+                                                </div>
+                                            </div><!--END--考试时长、公布成绩-->
+                                            <!--参加限制、交卷限制-->
+                                            <div class="form-group">
+                                                <!--参加限制-->
+                                                <label class=" control-label col-md-2">
+                                                    参加限制</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">考试开始</span>
+                                                        <input type="text" name="toLimit" class="form-control"
+                                                               placeholder="0">
+                                                        <span class="input-group-addon">分钟后禁止参加考试</span>
+                                                    </div>
+                                                </div>
+                                                <!--交卷限制-->
+                                                <label class=" control-label col-md-2">
+                                                    交卷限制</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">开始考试</span>
+                                                        <input type="text" name="submitLimit" class="form-control"
+                                                               placeholder="0">
+                                                        <span class="input-group-addon">分钟内不允许交卷</span>
+                                                    </div>
+                                                </div>
+                                            </div> <!--END--参加限制、交卷限制-->
+                                            <!--公布答案、查看详情-->
+                                            <div class="form-group">
+                                                <!--公布答案-->
+                                                <label class=" control-label col-md-2">
+                                                    公布答案</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="announcedAnswer"
+                                                               class="form-control announcedAnswer"
+                                                               placeholder="不公布答案(公布成绩后，不公布正确答案)">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                                    data-toggle="dropdown">
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--查看详情-->
+                                                <label class=" control-label col-md-2">
+                                                    查看详情</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" name="checkDetails"
+                                                               class="form-control checkDetails"
+                                                               placeholder="允许 考生查看历史答卷详情">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                                    data-toggle="dropdown">
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!--END--公布答案、查看详情-->
+                                        </form>
+                                        <!--参数列表：testPaperName|classification|setTestPaper|startUsing|passMark|
+                                        trySorting|tryShow|optionRandom|canTestTimes|testInstructions|
+                                        startTime|endTime|testTime|releaseTime|toLimit|
+                                        submitLimit|announcedAnswer|checkDetails-->
+                                    </div><!--END--填写考试时间安排-->
+                                    <!--提交和重新填写的两个按钮-->
+                                    <div class="col-md-offset-7" style="padding: 10px">
+                                        <button type="button" class="btn btn-success add">提交</button>
+                                        <button type="button" class="btn btn-danger reset">重新填写</button>
+                                    </div><!--END--提交和重新填写的两个按钮-->
+                                </div><!--END---创建考试-->
+                                <!--考试管理-->
+                                <div id="topicManagement">
+                                    <!--右上角form表单-->
+                                    <div id="toolbar">
+                                        <form class="form-inline" id="examManagementForm">
+                                            <!-- 考试名称-->
+                                            <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="input-group ">
+                                                    <input type="text" name="testPaperName"
+                                                           class="form-control testPaperName"
+                                                           placeholder="考试名称">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                                data-toggle="dropdown">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <!--状态--> <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="input-group ">
+                                                    <input type="text" name="state" class="form-control state"
+                                                           placeholder="状态">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                                data-toggle="dropdown">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div></div>
+                                            <!--分类--> <div class="col-md-2">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <input type="text" name="classification"
+                                                           class="form-control classification"
+                                                           placeholder="分类">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                                data-toggle="dropdown">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div></div>
+                                            <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control datapicker" name="startTime"
+                                                           placeholder="开始时间"/>
+                                                    <span class="input-group-addon">到</span>
+                                                    <input type="text" class="form-control datapicker" name="endTime"
+                                                           placeholder="结束时间"/>
+                                                </div>
+                                            </div></div>
+                                            <!--查询按钮-->
+                                            <button class="btn btn-success query" type="button"><i
+                                                    class="glyphicon glyphicon-search"></i></button>
+                                        </form>
+                                    </div><!--END--右上角form表单-->
+                                    <table class="tb_departments"></table>
+                                </div> <!--END---考试管理-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--**************************************考试记录部分***************************************-->
+            <div class="col-md-12" id="isTestRecords" style="display: none">
+                <div class="header">
+                    <div class="col-md-6">
+                        <h2><strong>考试记录</strong></h2>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-white" style="float: right;margin-left: 5px">刷新</button>
+                        <button class="btn btn-white getBack" style="float: right">返回</button>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 8px;color: #aaa"><p>从以下列表查看和管理考生的答卷记录</p></div>
+                    <div class="col-md-7">
+                        <table class="table table-bordered cephalosome" style="margin-top: 10px">
+                            <tr>
+                                <td style="background: #e6e6e6">考试名称</td>
+                                <td><a class="testPaperName_1">1</a></td>
+                            </tr>
+                            <tr>
+                                <td style="background: #e6e6e6">考试时间</td>
+                                <td><a class="startTime">2020-06-08 14:16:00</a>至<a class="endTime">2020-06-09
+                                    00:00:00</a> </a></td>
+                            </tr>
+                            <tr>
+                                <td style="background: #e6e6e6">考试时长</td>
+                                <td><a class="testTime">12 分钟</a></td>
+                            </tr>
+                            <tr>
+                                <td style="background: #e6e6e6">卷面总分</td>
+                                <td><a class="totalPoints">100.0</a>分 (及格分: <a class="passMark">60.0</a>)</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                            <div class="col-md-7" style="padding: 0">
+                                <form id="testRecords_form">
+                                <div class=" col-md-2">
+                                    <input type="text" name="keyword" class="form-control" placeholder="关键字">
+                                </div>
+                                <div class=" col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control examineeGroup" name="examineeGroup" placeholder="考生组">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            </ul>
+                                        </div>
+                                        <!-- /btn-group -->
+                                    </div>
+                                </div>
+                                <div class=" col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control duty" name="duty" placeholder="职务">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            </ul>
+                                        </div>
+                                        <!-- /btn-group -->
+                                    </div>
+                                </div>
+                                <div class=" col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control sortord" name="sortord" placeholder="交卷时间从早到晚">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            </ul>
+                                        </div>
+                                        <!-- /btn-group -->
+                                    </div>
+                                </div>
+                                <div class=" col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control show" name="show" placeholder="显示全部答案">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            </ul>
+                                        </div>
+                                        <!-- /btn-group -->
+                                    </div>
+                                </div>
+                                <div class=" col-md-2">
+                                    <button class="btn btn-success query" type="button">查询</button>
+                                </div>
+                                </form>
+                            </div>
+                        <div class="col-md-5">
+                            <div style="float: right">
+                                <button class="btn btn-success" title="将考生成绩导出为EXCEL">查</button>
+                                <button class="btn btn-danger" title="导出所有考生答卷">查</button>
+                                <button class="btn btn-info" title="查看缺考名单">查</button>
+                                <button class="btn btn-primary" title="重新批改所有考生答卷">查</button>
+                                <button class="btn btn-warning" title="快速批改主观题">查</button>
+                                <button class="btn btn-default" title="清空考生答卷">查</button>
+                            </div>
+                            <div class="col-md-4" style="float: right; padding: 6px;margin-right: 6px">
+                                <div title="点我刷新">
+                                    <div class="progress progress-striped active">
+                                        <div style="width: 100%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar">
+                                            <a >100.00%</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  style="float: right; padding: 6px">
+                               进度:
+                            </div>
+                        </div>
+                        <table id="tb_departments_1"></table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<!--预览考试的模态框-->
+<div class="modal  fade" id="modal_1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">考试预览</h4>
+            </div>
+            <div class="modal-body">
+                <form method="get" class="form-horizontal" id="form_toView">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ">
+                            考试名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="testPaperName" disabled="" class="form-control testPaperName_1"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            考试状态</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="state" disabled="" class="form-control state_1 " placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            管理权限</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="adminPermissions" disabled=""
+                                   class="form-control adminPermissions_1" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            考试总分</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="totalScore" disabled=""
+                                   class="form-control totalScore" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            章节设置</label>
+                        <div class="col-sm-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>章节名称：</strong><a class="nameSection"></a>
+                                </div>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>题库</td>
+                                        <td>题型</td>
+                                        <td>难度</td>
+                                        <td>题目数量</td>
+                                        <td>单题分值</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="questionBank"></a></td>
+                                        <td><a class="topic"></a></td>
+                                        <td><a class="difficulty"></a></td>
+                                        <td><a class="titleNumber"></a></td>
+                                        <td><a class="singleTopicScore"></a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--*********************************考试记录部分*************************************-->
+<!--查看缺考名单的模态框-->
+
+<!--快速批改主观题-->
+
+</body>
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4"
+        th:src="@{/static/js/jquery.min.js(v=2.1.4) }"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6"
+        th:src="@{/static/js/bootstrap.min.js(v=3.3.6) }"></script>
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0"
+        th:src="@{/static/js/content.js(v=1.0.0) }"></script>
+<!--Bootstrap表格插件 -->
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js }"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js }"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js }"></script>
+<!--滑动按钮-->
+<script src="../../static/js/plugins/switchery/switchery.js"
+        th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
+<!--动态搜索-->
+<script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+<script src="../../static/public/user/bsSuggest.js"
+        th:src="@{/static/public/user/bsSuggest.js }"></script>
+<!-- 时间控件 -->
+<script src="../../static/public/user/bootstrap-datetimepicker/bootstrap-datetimepicker.js"
+        th:src="@{/static/public/user/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+<script src="../../static/public/user/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"
+        th:src="@{/static/public/user/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script src="../../static/public/user/timeAllocation.js"
+        th:src="@{/static/public/user/timeAllocation.js }"></script>
+<!-- 弹出框插件 -->
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js }"></script>
+<!--自定义js---表格操作-->
+<script src="../../static/public/exam/tableOperation.js"
+        th:src="@{/static/public/exam/tableOperation.js}"></script>
+<!--***************************************非考试记录部分***************************************-->
+<!--滑动按钮初始化、创建考试按钮监听-->
+<script>
+    $(function () {
+        switchForNoTable();
+    });
+
+    let checked_notable = false;
+
+    /* 初始化非表单滑动按钮状态*/
+    function switchForNoTable() {
+        let elems = Array.prototype.slice.call($('.js-switch-notable'));
+        elems.forEach(function (html) {
+            /* size: 'normal' 控制大小*/
+            let switchery = new Switchery(html);
+            html.onchange = function () {
+                checked_notable = html.checked;
+            }
+        });
+    }
+
+    $('#tab-1 button[title="考试管理"]').click(function () {
+        $('#topicManagement').css('display', 'block');
+        $('#createTestPaper').css('display', 'none');
+        $('#tab-1 button[title="考试管理"]').attr('class', 'btn btn-success dropdown-toggle')
+        $('#tab-1 button[title="创建考试"]').attr('class', 'btn btn-white dropdown-toggle')
+    });
+</script>
+<!--表单、动态搜索初始化-->
+<script>
+    let url = '../../static/js/demo/exam/testQuestionsListTest2.json';
+    //名称
+    bsSuggest(".testPaperName", url, "testPaperName");
+    //状态
+    bsSuggest(".state", url, "state");
+    //分类
+    bsSuggest(".classification", url, "classification");
+    //考试排序
+    bsSuggest(".trySorting", url, "trySorting");
+    //考试展示
+    bsSuggest(".tryShow", url, "paperShow");
+    //选项随机
+    bsSuggest(".optionRandom", url, "trySorting");
+    //公布答案
+    bsSuggest(".announcedAnswer", url, "announcedAnswer");
+    //查看详情
+    bsSuggest(".checkDetails", url, "checkDetails");
+    //时间配置
+    timeAllocationForTime('.datapicker');
+
+    /**************************************************表单********************************************/
+    //我的考试--考试管理
+    //查询
+    $('#examManagementForm .query').click(function () {
+        let testPaperName = $('#examManagementForm input[name="testPaperName"]').val();
+        let state = $('#examManagementForm input[name="state"]').val();
+        let classification = $('#examManagementForm input[name="classification"]').val();
+        let startTime = $('#examManagementForm input[name="startTime"]').val();
+        let endTime = $('#examManagementForm input[name="endTime"]').val();
+        if (testPaperName == "" || state == "" || classification == "" || startTime == "" || endTime == "") {
+            swal("搜索失败！", "不允许有空数据", "error");
+            return false;
+        }
+        let obj = {
+            "testPaperName": testPaperName,
+            "state": state,
+            "classification": classification,
+            "startTime": startTime,
+            "endTime": endTime
+        }
+        let query_data = JSON.stringify(obj);
+        alert(query_data);
+        /* //发送ajax 查询
+            $.ajax({
+                url: appName+"/book/deleteSelect.do",
+                method: "post",
+                async: true,
+                data: query_data,
+                dataType: "text",   //期望服务端返回的数据类型
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data.toString());
+                    //重新加载页面
+                    $('#tb_departments').bootstrapTable('load', data);
+                },
+                error: function (jqXHR) {
+                    swal("搜索失败！", "未知错误", "error");
+                }
+            });*/
+        swal("搜索成功！", "已为你重新加载数据", "success");
+    });
+
+    //创建考试、修改考试
+    /*按钮切换*/
+    function testPaper(addOrUpdate) {
+        $('#createTestPaper').css('display', 'block');
+        $('#topicManagement').css('display', 'none');
+        $('#tab-1 button[title="创建考试"]').attr('class', 'btn btn-success dropdown-toggle')
+        $('#tab-1 button[title="考试管理"]').attr('class', 'btn btn-white dropdown-toggle')
+        //回显数据
+        if (judging) {
+            echoData(parameters);
+        } else {
+            $("#createTestPaper form")[0].reset();
+            $("#createTestPaper form")[1].reset();
+            $('#createTestPaper form .form-group').attr('class', 'form-group')
+        }
+        //如果是更新，则去掉按钮颜色
+        addOrUpdate == "update" ? $('#tab-1 button[title="创建考试"]').attr('class', 'btn btn-white dropdown-toggle') : "";
+        //重置属性状态
+        judging = false;
+        parameters.splice(0, parameters.length);
+    }
+
+    function switchover(addOrUpdate) {
+        judging = false;
+        testPaper(addOrUpdate);
+    }
+
+    //数据回显
+    function echoData(arrayForEvent) {
+        //准备数据
+        let arrayForValue = new Map();
+        let arrayIsNull = new Array();
+        if (arrayForEvent.length < 1) {
+            return false;
+        }
+        arrayForEvent.forEach(function (item, index) {
+            item.val() != "" ? arrayForValue.set(item, item.val()) : arrayIsNull.push(item);
+        })
+        //刷新页面
+        $("#createTestPaper form")[0].reset();
+        $("#createTestPaper form")[1].reset();
+        //回显数据
+        if (arrayForValue.size > 1) {
+            arrayForValue.forEach(function (value, key) {
+                key.parents('.form-group').attr('class') == "form-group has-error" ? key.parents('.form-group').attr('class', 'form-group') : "";
+                key.val(value);
+            });
+        }
+        if (arrayIsNull.length > 1) {
+            arrayIsNull.forEach(function (item, index) {
+                item.parents('.form-group').attr({'class': "form-group has-error"});
+            })
+        }
+        //清空集合
+        arrayForValue.clear();
+        arrayIsNull.splice(0, arrayIsNull.length);
+    }
+
+    let parameters = new Array()
+    let judging = false;
+
+    function testProcessing(addOrUpdate) {
+        let testPaperName = $('#createTestPaper_1 input[name="testPaperName"]');
+        let classification = $('#createTestPaper_1 input[name="classification"]');
+        let startUsing = checked_notable;
+        let setTestPaper = $('#createTestPaper_1 input[name="setTestPaper"]');
+        let passMark = $('#createTestPaper_1 input[name="passMark"]');
+
+        let trySorting = $('#createTestPaper_1 input[name="trySorting"]');
+        let tryShow = $('#createTestPaper_1 input[name="tryShow"]');
+        let optionRandom = $('#createTestPaper_1 input[name="optionRandom"]');
+        let canTestTimes = $('#createTestPaper_1 input[name="canTestTimes"]');
+        let testInstructions = $('#createTestPaper_1 textarea[name="testInstructions"]');
+
+        let startTime = $('#createTestPaper_2 input[name="startTime"]');
+        let endTime = $('#createTestPaper_2 input[name="endTime"]');
+        let testTime = $('#createTestPaper_2 input[name="testTime"]');
+        let releaseTime = $('#createTestPaper_2 input[name="releaseTime"]');
+        let submitLimit = $('#createTestPaper_2 input[name="submitLimit"]');
+
+        let toLimit = $('#createTestPaper_2 input[name="toLimit"]');
+        let announcedAnswer = $('#createTestPaper_2 input[name="announcedAnswer"]');
+        let checkDetails = $('#createTestPaper_2 input[name="checkDetails"]');
+        parameters.push(testPaperName, classification, setTestPaper, passMark, tryShow, trySorting, optionRandom, canTestTimes, testInstructions,
+            startTime, endTime, testTime, releaseTime, submitLimit, toLimit, announcedAnswer, checkDetails);
+        let query_data = "{";
+        parameters.forEach(function (item, index) {
+            if (item.val() == "") {
+                judging = true;
+            }
+            let record = (parameters.length - index) != 1 ? '"' + item.attr('name') + '":' + item.val() + ',' : '"' + item.attr('name') + '":' + item.val();
+            query_data = query_data + record;
+
+        });
+        query_data = query_data + '"+startUsing":' + startUsing;
+        query_data = query_data + "}";
+        console.log(query_data);
+        if (addOrUpdate == "add") {
+            //发送添加操作
+        } else {
+            //发送更新操作
+        }
+        /* //发送ajax 查询
+            $.ajax({
+                url: appName+"/book/deleteSelect.do",
+                method: "post",
+                async: true,
+                data: query_data,
+                dataType: "text",   //期望服务端返回的数据类型
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data.toString());
+                    //重新加载页面
+                    $('#tb_departments').bootstrapTable('load', data);
+                },
+                error: function (jqXHR) {
+                    swal("搜索失败！", "未知错误", "error");
+                }
+            });*/
+        if (judging) {
+            swal("操作失败！", "数据不允许为空", "error");
+        } else {
+            addOrUpdate == "add" ? swal("提交成功！", "已为你重新加载页面", "success") : swal("更新成功！", "已为你重新加载页面", "success");
+        }
+        pageJudgment(addOrUpdate);
+    }
+
+    //跳转页面判断
+    function pageJudgment(addOrUpdate) {
+        addOrUpdate == "add" ? testPaper("add") : testPaper("update");
+    }
+
+    $('#createTestPaper .add').click(function () {
+        if ($('#tab-1 button[title="创建考试"]').attr('class') != 'btn btn-white dropdown-toggle') {
+            testProcessing("add");
+        } else {
+            testProcessing("update");
+        }
+
+    });
+    $('#createTestPaper .reset').click(function () {
+        $("#createTestPaper form")[0].reset();
+        $("#createTestPaper form")[1].reset();
+        $('#createTestPaper form .form-group').attr('class', 'form-group')
+    });
+    /********************************************END---表单********************************************/
+</script>
+<!--表格-->
+<script>
+    /*考试管理表格*/
+    let testQuestionsListTestJson = '../../static/js/demo/exam/testQuestionsListTest.json';
+    $('.tb_departments').bootstrapTable({
+        url: '../../static/js/demo/exam/testQuestionsListTest.json',
+        // method: 'get',
+        toolbar: '#toolbar',
+        striped: true,
+        cache: false,
+        pagination: true,
+        pageNumber: 1,
+        pageSize: 5,
+        pageList: [10, 25, 50, 100],
+        uniqueId: "id",
+        onPostBody: switchForTable,
+        columns:
+            [{
+                checkbox: true
+            }, {
+                title: '考试|考试',
+                formatter: testPaperName,
+                events: {
+                    /*预览考试*/
+                    'click a[title="预览考试"]': detailedTestPaper /*END--预览考试*/
+                }
+            }, {
+                field: 'classification',
+                title: '分类'
+            }, {
+                title: '状态',
+                formatter: state
+            }, {
+                title: "考试时间",
+                formatter: testTime
+            }, {
+                title: '考试总分',
+                formatter: totalScore
+            }, {
+                title: '考试人次',
+                formatter: citations,
+                events: {
+                    'click a[title=点我查看详情]': testRecordsHeader
+                }
+            }, {
+                title: '最后修改',
+                formatter: lastModified
+            }, {
+                title: '操作',
+                formatter: operation,
+                events: {
+                    /*删除*/
+                    'click button[title=删除]':function (e,value,row,index) {
+                        deleteRecord(e,value,row,index,"",'.tb_departments');
+                    } ,  /*END--删除*/
+                    /*修改*/
+                    'click button[title=修改]': function (e, value, row, index) {
+                        testPaper("update");
+                        judging = false;
+                    },  /*END--修改*/
+                    /*考试记录*/
+                    'click button[title=考试记录]': testRecordsHeader
+                    /*END--考试记录*/
+                }
+            }]
+    });
+    /*考试记录表头信息回显*/
+    function testRecordsHeader(e, value, row, index) {
+        $('#noIsTestRecords').css('display','none');
+        $('#isTestRecords').css('display','block');
+        $('#isTestRecords .cephalosome .testPaperName_1').text(row.testPaperName);
+        $('#isTestRecords .cephalosome .startTime').text(row.startTime);
+        $('#isTestRecords .cephalosome .endTime').text(row.endTime);
+        $('#isTestRecords .cephalosome .testTime').text(row.testTime)
+        $('#isTestRecords .cephalosome .totalPoints').text(row.totalPoints)
+        $('#isTestRecords .cephalosome .passMark').text(row.passMark)
+    }
+    /***********************************************参数个性化********************************************/
+    //考试|考试
+    function testPaperName(value, row, index) {
+        return '<p>' + row.testSubjects + '</p>' +
+            '<a class="text-muted" title="预览考试"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;' + row.testPaperName + '</a>';
+    }
+
+    //状态
+    function state(value, row, index) {
+        return row.state == '正常' ? ' <input type="checkbox" class="js-switch-table-state form-control" checked/>' :
+            ' <input type="checkbox" class="js-switch-table-state form-control"/>'
+    }
+
+    //考试时间
+    function testTime(value, row, index) {
+        return '<strong><p>' + row.startTime + '</p></strong><p class="text-muted">' + row.endTime + '</p>';
+    }
+
+    //总分
+    function totalScore(value, row, index) {
+        return row.totalScore >= 80 ? '<strong><a href="#" class="text-success" style="font-size:20px;">' + row.totalScore + '</a></strong>' :
+            row.totalScore >= 60 ? '<strong><a href="#" class="text-warning" style="font-size:20px;">' + row.totalScore + '</a></strong>' :
+                '<strong><a href="#" class="text-danger" style="font-size:20px;">' + row.totalScore + '</a></strong>';
+    }
+
+    //考试人次
+    function citations(value, row, index) {
+        return '<strong><a class="text-success" style="font-size:20px;" title="点我查看详情">' + row.citations + '</a></strong>次';
+    }
+
+
+    //最后修改
+    function lastModified(value, row, index) {
+        return '<strong><p>' + row.modifier + '</p></strong><p>' + row.lastModifiedTime + '</P>';
+    }
+
+    //操作
+    function operation(value, row, index) {
+        return '<button id = "+id+" type = "button" class = "btn btn-white" title="考试记录"> <i class="glyphicon glyphicon-eye-open"/> </button>' +
+            '<button id = "+id+" type = "button" class = "btn btn-white" title="修改"> <i class="glyphicon glyphicon-edit text-success"/> </button>' +
+            '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>';
+    }
+
+    //初始化滑动按钮状态
+    function switchForTable() {
+        let elems = Array.prototype.slice.call($('.js-switch-table-state'));
+        elems.forEach(function (html) {
+            /* size: 'normal' 控制大小*/
+            let switchery = new Switchery(html);
+            html.onchange = function () {
+                alert(html.checked);
+            }
+        });
+    }
+
+    /*******************************************END---参数个性化********************************************/
+    /*END--考试管理表格*/
+</script>
+<!--************************************END-非考试记录部分***************************************-->
+<!--***************************************考试记录部分******************************************-->
+<!--表单-->
+<script>
+    let url_1 = '../../static/js/demo/exam/examManagementList2.json';
+    //考生组
+    bsSuggestNoShow(".examineeGroup", url_1, "examineeGroup");
+    //职务
+    bsSuggestNoShow(".duty", url_1, "duty");
+    //排序方式
+    bsSuggestNoShow(".sortord", url_1, "sortord");
+    //显示全部答案
+    bsSuggestNoShow(".show", url_1, "show");
+
+    //考试记录
+    $('#testRecords_form .query').click(function () {
+        let keyword = $('#testRecords_form input[name="keyword"]');
+        let examineeGroup = $('#testRecords_form input[name="examineeGroup"]');
+        let duty = $('#testRecords_form input[name="duty"]');
+        let sortord = $('#testRecords_form input[name="sortord"]');
+        let show = $('#testRecords_form input[name="show"]');
+        //判断是否为空
+        let judge = false;
+        let queryList = new Array(keyword,examineeGroup,duty,sortord,show);
+        let queryMap = new Map();
+        queryList.forEach(function (item,index) {
+            item.val()==""?judge=true:queryMap.set(item.attr('name'),item.val());
+        })
+        //封装json数据
+        let query_data = '{';
+        queryMap.forEach(function (value, key, map) {
+            query_data+='"'+key+'":"'+value+'",';
+        })
+        query_data=query_data.substr(0,query_data.length-1);
+        query_data=query_data+'}';
+        alert(query_data);
+        /* //发送ajax 查询
+             $.ajax({
+                 url: appName+"/book/deleteSelect.do",
+                 method: "post",
+                 async: true,
+                 data: query_data,
+                 dataType: "text",   //期望服务端返回的数据类型
+                 contentType: "application/json",
+                 success: function (data) {
+                     console.log(data.toString());
+                     //重新加载页面
+                     $('#tb_departments').bootstrapTable('load', data);
+                 },
+                 error: function (jqXHR) {
+                     swal("搜索失败！", "未知错误", "error");
+                 }
+             });*/
+        !judge? swal("搜索成功！", "已为你重新加载数据", "success"):
+        swal("搜索失败","搜索数据不允许为空","error");
+
+    });
+    //返回按钮
+    $('.getBack').click(function () {
+        $('#noIsTestRecords').css('display','block');
+        $('#isTestRecords').css('display','none');
+    });
+</script>
+<!--表格-->
+<script>
+    $('#tb_departments_1').bootstrapTable({
+        url: '../../static/js/demo/exam/examManagementList.json',
+        // method: 'get',
+        striped: true,
+        cache: false,
+        pagination: true,
+        pageNumber: 1,
+        pageSize: 5,
+        pageList: [10, 25, 50, 100],
+        uniqueId: "id",
+        onPostBody: switchForTable_1,
+        columns:
+            [{
+                checkbox: true
+            },{
+                title:"考生",
+                formatter:examinee
+            },{
+                title:"考生组",
+                field:"examineeGroup"
+            },{
+                title:"证件号",
+                field: "idNumber"
+            },{
+                title:"考试时间",
+                formatter:testTime
+            },{
+                title:"考试用时",
+                formatter:examTime
+            },{
+                title:"批改状态",
+                formatter:correctingState
+            },{
+                title:"得分",
+                formatter:score
+            },{
+                title:"来源",
+                formatter:source
+            },{
+                title:"操作",
+                formatter:operation_1
+            }]
+    });
+    /***********************************************参数个性化********************************************/
+    //考生
+    function examinee(value,row,index) {
+        return '<strong><p>' + row.examinee + '</p></strong><p>' + row.name + '</P>';
+    }
+    //考试用时
+    function examTime(value,row,index) {
+        return '<strong><a class="text-success" style="font-size:20px;">' + row.score + '</a></strong>分钟';
+    }
+    //批改状态
+    function correctingState(value, row, index) {
+        return row.state == 'true' ? ' <input type="checkbox" class="js-switch-table-state_1 form-control" checked/>' :
+            ' <input type="checkbox" class="js-switch-table-state_1 form-control"/>'
+    }
+    //得分
+    function score(value, row, index) {
+        return row.score >= 80 ? '<strong><a href="#" class="text-success" style="font-size:20px;">' + row.score + '</a></strong>' :
+            row.score >= 60 ? '<strong><a href="#" class="text-warning" style="font-size:20px;">' + row.score + '</a></strong>' :
+                '<strong><a href="#" class="text-danger" style="font-size:20px;">' + row.score + '</a></strong>';
+    }
+    //来源
+    function source(value,row,index) {
+        return '<a class="text-muted"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;' + row.source + '</a>';
+    }
+    //操作
+    //操作
+    function operation_1(value, row, index) {
+        return '<button id = "+id+" type = "button" class = "btn btn-white" title="批阅试卷"> <i class="glyphicon glyphicon-edit text-success"/> </button>' +
+            '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>';
+    }
+    //初始化滑动按钮状态
+    function switchForTable_1() {
+        let elems = Array.prototype.slice.call($('.js-switch-table-state_1'));
+        elems.forEach(function (html) {
+            /* size: 'normal' 控制大小*/
+            let switchery = new Switchery(html);
+            html.onchange = function () {
+                alert(html.checked);
+            }
+        });
+    }
+    /******************************************END---参数个性化********************************************/
+</script>
+<!--按钮组事件监听-->
+<script>
+    $('button[title=将考生成绩导出为EXCEL]').click(function () {
+        alert(1)
+        //获取考试信息
+        // let testPaperName =
+    });
+    $('button[title=导出所有考生答卷]').click(function () {
+        alert(2)
+    });
+    $('button[title=查看缺考名单]').click(function () {
+        alert(3)
+    });
+    $('button[title=重新批改所有考生答卷]').click(function () {
+        alert(4)
+    });
+    $('button[title=快速批改主观题]').click(function () {
+        alert(5)
+    });
+    $('button[title=清空考生答卷]').click(function () {
+        alert(6)
+    });
+</script>
+<!--**************************************END-考试记录部分***************************************-->
+</html>

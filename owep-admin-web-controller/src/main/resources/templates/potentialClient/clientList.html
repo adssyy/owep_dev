@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" th:href="@{favicon.ico}">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css(v=3.3.6)}"
+          rel="stylesheet">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.css(v=4.4.0)}"
+          rel="stylesheet">
+
+
+    <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
+    <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v=4.1.0)}" rel="stylesheet">
+    <!--BootStrap_Table样式-->
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+    <!--summernote文本编辑器-->
+    <link href="../../static/css/plugins/summernote/summernote.css"
+          th:href="@{/static/css/plugins/summernote/summernote.css}" rel="stylesheet">
+    <link href="../../static/css/plugins/summernote/summernote-bs3.css"
+          th:href="@{/static/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet">
+    <!--datapicker-->
+    <link href="../../static/css/plugins/datapicker/datepicker3.css"
+          th:href="@{/static/css/plugins/datapicker/datepicker3.css}" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="../../static/css/plugins/sweetalert/sweetalert.css"
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+    <style type="text/css">
+        .label_text {
+            font-size: medium;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        .table > thead > tr > th    {
+            color: #2a62bc;
+        }
+        .form-inline>.btn:not(.query){
+            margin-left: 0.8%;
+            float: right;
+        }
+    </style>
+</head>
+
+<body class="white-bg">
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight" >
+    <div class="row text-left" style="margin-top: 25px; padding-left: 25px">
+        <div class="col-md-9">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="clientType" class="label_text">客户类型</label>
+                    <div class="input-group input-s-sm" style="width: 130px">
+                        <input type="text" class="form-control input-sm" id="clientType">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-white input-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="clientBelong" class="label_text">客户归属</label>
+                    <div class="input-group input-s-sm" style="width: 120px">
+                        <input type="text" class="form-control input-sm" id="clientBelong">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-white input-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="date_case_1">
+                    <label class="label_text">面试时间</label>
+                    <div class="input-daterange input-group" id="datepicker">
+                        <input type="text" class="input-sm form-control" style="width: 100px;" name="start"
+                        />
+                        <span class="input-group-addon">到</span>
+                        <input type="text" class="input-sm form-control" style="width: 100px;" name="end"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber" class="label_text">电话</label>
+                    <input type="number" class="form-control input-s-sm" style="width: 110px;" id="phoneNumber">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                <button type="reset" class="btn btn-warning btn-sm">重置</button>
+            </form>
+        </div>
+        <div class="col-md-3 text-right" style="padding-right: 30px">
+            <button type="button " class="btn btn-primary btn-sm" style="width: 70px;" data-toggle="modal"
+                    data-target="#add_customer_modal">新增客户
+            </button>
+            <button type="button" class="btn btn-info btn-sm" style="width: 70px;" id="allotCustomer">分配客户</button>
+            <button type="button" class="btn btn-danger btn-sm" style="width: 50px;" id="deleteMulti">删除</button>
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Example Pagination -->
+            <div class="example-wrap">
+                <div class="example">
+                    <table id="clientList_table" data-mobile-responsive="true">
+                    </table>
+                </div>
+            </div>
+            <!-- End Example Pagination -->
+        </div>
+    </div>
+</div>
+
+<!--添加客户模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="add_customer_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="#" method="get" id="add_customer_form">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="add_customName" class="col-sm-2 control-label">客户姓名:</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="name" class="form-control" id="add_customName">
+                            </div>
+                            <label for="add_customerGender" class="col-sm-2 control-label">客户性别:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" readonly name="gender" style="width: 135px"
+                                           id="add_customerGender">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="add_customPhone" class="col-sm-2 control-label">联系电话:</label>
+                            <div class="col-sm-4">
+                                <input type="number" maxlength="11" placeholder="请输入电话号码" name="phone"
+                                       class="form-control" id="add_customPhone">
+                            </div>
+                            <label for="add_customerEmail" class="col-sm-2 control-label">个人邮箱:</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="email" placeholder="请输入邮箱" class="form-control"
+                                       id="add_customerEmail">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="add_channelType" class="col-sm-2 control-label">渠道类型:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="channelType" style="width: 135px"
+                                           id="add_channelType">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="add_customerChannel" class="col-sm-2 control-label">客户渠道:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="customerChannel" style="width: 135px"
+                                           id="add_customerChannel">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="add_customerType" class="col-sm-2 control-label">客户类型:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="channelType" style="width: 135px"
+                                           id="add_customerType">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="add_customerProfessional" class="col-sm-2 control-label">原本专业:</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="professional" class="form-control"
+                                       id="add_customerProfessional">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" id="interviewTime">
+                            <label class="col-sm-2 control-label">面试时间:</label>
+                            <div class="input-group col-sm-4 date">
+                                <input type="text" class="form-control" style="width: 170px;margin-left: 15px"
+                                       value="2020-06-11">
+                                <span class="input-group-addon hidden"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">添加</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--分配客户模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="allotCustomer_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">客户分配</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="allotCustomSuggest" class="col-sm-2 control-label">分配给:</label>
+                        <div class="col-sm-5">
+                            <div class="input-group input-s-sm">
+                                <input type="text" class="form-control" style="width: 135px"
+                                       id="allotCustomSuggest">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-white dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="confirmAllot">确定分配</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--签约模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="add_schema_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">是否签约</h4>
+            </div>
+            <div class="modal-body">
+                <!--模态框内容-->
+                <form class="form-horizontal" th:action="#" method="post" id="loans_form">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="customName" class="col-sm-2 control-label">客户姓名:</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="customName" readonly class="form-control" id="customName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="amountAdvanced" class="col-sm-2 control-label">预付金额:</label>
+                            <div class="col-sm-4">
+                                <input type="number" name="amountAdvanced" class="form-control" id="amountAdvanced">
+                            </div>
+                            <label for="totalMoney" class="col-sm-2 control-label">总金额:</label>
+                            <div class="col-sm-4">
+                                <input type="number" name="totalMoney" class="form-control" id="totalMoney">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="isLoans" class="col-sm-2 control-label">是否贷款:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="isLoans" style="width: 135px"
+                                           id="isLoans">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hidden" data_hidden>
+                                <label for="loansMoney" class="col-sm-2 control-label">贷款金额:</label>
+                                <div class="col-sm-4">
+                                    <input type="number" name="loansMoney" class="form-control" id="loansMoney">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hidden" data_hidden>
+                        <div class="form-group">
+                            <label for="repaymentPlan" class="col-sm-2 control-label">还款计划:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" style="width: 135px" id="repaymentPlan">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="monthRepayment" class="col-sm-2 control-label">每月还款:</label>
+                            <div class="col-sm-4">
+                                <input type="number" name="monthRepayment" class="form-control" id="monthRepayment">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="asm">新增</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--发送邮箱模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="send_email_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">编辑邮箱</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" id="emailContent">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="recipient">收件人</label>
+                            <input type="email" name="recipient" readonly class="form-control" id="recipient">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="sender">寄件人</label>
+                            <input type="email" name="sender" class="form-control" id="sender"
+                                   readonly value="huangfei1230@sina.com">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px">
+                        <div id="summernote">
+                            <p class="customerName">叶建雄</p>
+                            <p> 您好。</p>
+                            <p> 我司收到您的简历，约您于<span class="interview_Date">2020-06-11 01:05</span>面试，面试请携带简历。</p>
+                            <p> 面试地址：苏州工业园区星湖街328号创意产业园1栋B座701室</p>
+                            <p> ps:收到请回复!</p>
+                            <p> admin</p>
+                            <p> Phone:13151746899</p>
+                            <p> Email:huangfei1230@sina.com</p>
+                            <p> Adds：江苏苏州工业园区星湖街328号创意产业园1-B-701</p>
+                            <p> 江苏海鼎信息科技有限公司</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="confirmSend">确认发送</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--修改邮件内容模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="alter_email_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="#" method="get" id="alter_email_form">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="alter_email_customName" class="col-sm-2 control-label">客户姓名:</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="name" class="form-control" id="alter_email_customName">
+                            </div>
+                            <label for="alter_eamil_customerGender" class="col-sm-2 control-label">客户性别:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" readonly name="gender" style="width: 135px"
+                                           id="alter_eamil_customerGender">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="alter_email_customPhone" class="col-sm-2 control-label">联系电话:</label>
+                            <div class="col-sm-4">
+                                <input type="number" maxlength="11" placeholder="请输入电话号码" name="phone"
+                                       class="form-control" id="alter_email_customPhone">
+                            </div>
+                            <label for="alter_email_customerEmail" class="col-sm-2 control-label">个人邮箱:</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="email" placeholder="请输入邮箱" class="form-control"
+                                       id="alter_email_customerEmail">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="add_channelType" class="col-sm-2 control-label">渠道类型:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="channelType" style="width: 135px"
+                                           id="alter_email_channelType">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="add_customerChannel" class="col-sm-2 control-label">客户渠道:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="customerChannel" style="width: 135px"
+                                           id="alter_email_customerChannel">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="alter_email_customerType" class="col-sm-2 control-label">客户类型:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="channelType" style="width: 135px"
+                                           id="alter_email_customerType">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="alter_email_customerProfessional" class="col-sm-2 control-label">原本专业:</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="professional" class="form-control"
+                                       id="alter_email_customerProfessional">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" id="alter_email_interviewTime">
+                            <label for="alter_email_intentionProfessional" class="col-sm-2 control-label">意向专业:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" name="intentionProfessional" style="width: 135px"
+                                           id="alter_email_intentionProfessional">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">面试时间:</label>
+                            <div class="input-group col-sm-4 date">
+                                <input type="text" class="form-control" style="width: 170px;margin-left: 15px"
+                                       value="2020-06-16">
+                                <span class="input-group-addon hidden"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="alter_email_professional_evaluation" class="col-sm-2 control-label">专业评价:</label>
+                        <div class="col-sm-10">
+                            <textarea type="text" name="professional_evaluation" class="form-control"
+                                  style="width: 100%"   rows="4" id="alter_email_professional_evaluation"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="sender_email">发送邮件</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js(v=2.1.4)}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js(v=3.3.6)}"></script>
+<!-- Bootstrap table -->
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<!-- Data picker -->
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.js"
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js"
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
+<!--suggest-->
+<script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+<!-- Sweet alert -->
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<!-- SUMMERNOTE文本编辑器 -->
+<script src="../../static/js/plugins/summernote/summernote.min.js"
+        th:src="@{/static/js/plugins/summernote/summernote.min.js}"></script>
+<script src="../../static/js/plugins/summernote/summernote-zh-CN.js"
+        th:src="@{/static/js/plugins/summernote/summernote-zh-CN.js}"></script>
+
+<script>
+    $(function () {
+        /*面包屑 时间范围*/
+        $('#date_case_1 .input-daterange').datepicker({
+            keyboardNavigation: false,
+            forceParse: false,
+            autoClose: true,
+            format: "yyyy-mm-dd",
+            language: 'zh-CN',// 汉化
+        });
+        /*面试时间*/
+        $('#interviewTime .date,#alter_email_interviewTime .date').datepicker({
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            format: "yyyy-mm-dd",
+            language: 'zh-CN',// 汉化
+            autoclose: true
+        });
+
+        /*初始化bootstrap-table*/
+        $("#clientList_table").bootstrapTable({
+            pagination: true,
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 4,                       //每页的记录行数（*）
+            pageList: [2, 5, 8, 10],        //可供选择的每页的行数（*）
+            // clickToSelect: true,
+            uniqueId: "id",
+            queryParams: function (params) {
+                var temp = {
+                    "a": 1,
+                    "b": 2,
+                    "limits": params.limit,
+                    "offset": params.offset
+                }
+                return temp;
+            },
+            url: "../../static/js/demo/clientList/clientList.json",
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'uid',
+                title: '主键id',
+                visible: false,
+            },
+                {
+                    field: 'id',
+                    title: '序号',
+                    align: "center"
+                }, {
+                    field: 'name',
+                    title: '姓名',
+                    align: "center"
+                }, {
+                    field: 'gender',
+                    title: '性別',
+                    visible: false
+                }, {
+                    field: 'email',
+                    title: '邮箱',
+                    visible: false
+                }, {
+                    field: 'phone',
+                    title: '电话',
+                    width: '10%',
+                    align: "center"
+                }, {
+                    field: 'customType',
+                    title: '客户类型',
+                    align: "center"
+                },
+                {
+                    field: 'customAff',
+                    title: '客户归属',
+                    align: "center"
+                },
+                {
+                    field: 'professional',
+                    title: '原本专业',
+                    align: "center",
+                    visible: false
+                },
+                {
+                    field: 'customSource',
+                    title: '客户来源',
+                    align: "center"
+                },
+                {
+                    field: 'interviewTime',
+                    title: '面试时间',
+                    align: "center"
+                },
+                {
+                    field: 'operation',
+                    title: "操作",
+                    align: "center",
+                    width: '20%',
+                    formatter: function (value, row, index) {
+                        return [
+                            "<button type='button' class='signBtn btn btn-info btn-xs' title='签约' data-toggle='modal' data-target='#add_schema_modal' style='margin-right: 10px'><i class='fa fa-wrench'><!--签约--></i></button>",
+                            "<button type='button' class='descBtn btn btn-info btn-xs' title='详情' style='margin-right: 10px'><i class='fa fa-question-circle'><!--详情--></i></button>",
+                            "<button type='button' class='deleteBtn btn btn-danger btn-xs' title='删除' style='margin-right: 10px'><i class='fa fa-trash-o'><!--删除--></i></button>",
+                            "<button type='button' class='alterBtn btn btn-warning btn-xs' title='修改' style='margin-right: 10px'><i class='fa fa-edit'><!--修改--></i></button>",
+                            "<button type='button' class='recordBtn btn btn-primary btn-xs' title='跟进记录' style='margin-right: 10px'><i class='fa fa-sticky-note'><!--跟进记录--></i></button>",
+                            "<button type='button' class='emailBtn btn btn-info btn-xs' title='邮箱' style='margin-right: 10px'><i class='fa fa-envelope'><!--邮箱--></i></button>"
+                        ].join("");
+                    },
+                    events: {
+
+                        "click .signBtn": function (e, value, row, index) {
+                            //异步请求 回显数据 通过name来赋值 $.ajax({})
+                            $("#customName").val(row.name);
+                            //  alert("确定要更新 id=" + row.id + " 的记录吗？");
+                        },
+                        "click .descBtn": function (e, value, row, index) {
+                            //以后是请求后台，服务器在转发到这个页面
+                            window.location.href = "details.html";
+                        },
+                        "click .deleteBtn": function (e, value, row, index) {
+                            swal({
+                                title: "您确定要删除吗",
+                                text: "删除序号为" + row.id + "的客户嘛，请谨慎操作！",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "删除",
+                                closeOnConfirm: false
+                            }, function () {
+                                //异步请求
+                                /*$.ajax({
+                                    type: "GET",
+                                    url: "",
+                                    data: {},
+                                    dataType: "json",
+                                    success: function (data) {
+                                       // alert("添加成功");
+                                        swal("删除成功！", "您已经永久删除。", "success");
+                                    },
+                                    error: function (jqXHQ) {
+                                        swal("删除失败！", "请检查网络。", "error");
+                                    }
+
+                                });*/
+                                swal("删除成功！", "您已经永久删除。", "success");
+                            });
+                        },
+                        "click .alterBtn": function (e, value, row, index) {
+                            $("#alter_email_customName").val(row.name);
+                            $("#alter_eamil_customerGender").val(row.gender);
+                            $("#alter_email_customPhone").val(row.phone);
+                            $("#alter_email_customerEmail").val(row.email);
+                            $("#alter_email_customerChannel").val(row.customSource);
+                            $("#alter_email_customerProfessional").val(row.professional);
+                            $("#alter_email_customerType").val(row.customType);
+
+
+                            $("#alter_email_modal").modal();
+                        },
+                        "click .recordBtn": function (e, value, row, index) {
+                            //以后是请求后台，服务器在转发到这个页面
+                            window.location.href = "followUpRecords.html";
+                        },
+                        "click .emailBtn": function (e, value, row, index) {
+                            $("#recipient").val(row.email);
+                            //let jQuery = $('.summernote').find(".customerName");
+                            /* let jQuery = $('.summernote');
+                              console.log(row.name);
+                              let p = $("<p>").addClass("customerName").text(row.name);
+                              jQuery.val(p);
+                              $('.summernote').summernote('code', p);
+                              $('.summernote').summernote({lang: 'zh-CN'});*/
+
+
+                            //jQuery.text(row.name);
+                            //$('.summernote').find(".interview_Date").text(row.interviewTime);
+                            $("#send_email_modal").modal();
+                        }
+                    },
+
+                }]
+        });
+    });
+</script>
+<!--初始化suggest-->
+<script>
+    $("#clientType").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "所有客户"
+                }, {
+                    "keyName": "潜在客户"
+                },
+                {
+                    "keyName": "邀约一面客户"
+                }, {
+                    "keyName": "邀约失败客户"
+                },
+                {
+                    "keyName": "一面可跟进客户"
+                }, {
+                    "keyName": "二面可跟进客户"
+                }, {
+                    "keyName": "丢单"
+                }, {
+                    "keyName": "签约成功"
+                }
+            ]
+        }
+    });
+    $("#clientBelong").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "全部"
+                }, {
+                    "keyName": "潜在客户"
+                }]
+        }
+    });
+    $("#isLoans").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "贷款"
+                }, {
+                    "keyName": "未贷款"
+                }
+            ]
+        }
+    });
+    $("#repaymentPlan").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "3个月"
+                },
+                {
+                    "keyName": "6个月"
+                },
+                {
+                    "keyName": "12个月"
+                }, {
+                    "keyName": "24个月"
+                }
+            ]
+        }
+    });
+    $("#add_customerGender,#alter_eamil_customerGender").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "男"
+                },
+                {
+                    "keyName": "女"
+                }]
+        }
+    });
+    $("#add_customerChannel,#alter_email_customerChannel").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "智联招聘"
+                },
+                {
+                    "keyName": "前程无忧"
+                }]
+        }
+    });
+    $("#add_channelType,#alter_email_channelType").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "招聘网站"
+                },
+                {
+                    "keyName": "学校"
+                },
+                {
+                    "keyName": "企业"
+                },
+                {
+                    "keyName": "其他"
+                }]
+        }
+    });
+    $("#add_customerType,#alter_email_customerType").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "潜在客户"
+                },
+                {
+                    "keyName": "邀约一面客户"
+                },
+                {
+                    "keyName": "邀约失败客户"
+                },
+                {
+                    "keyName": "一面可跟进客户"
+                }, {
+                    "keyName": "二面可跟进客户"
+                },
+                {
+                    "keyName": "丢单"
+                },
+                {
+                    "keyName": "签约成功"
+                }
+            ]
+        }
+    });
+    $("#allotCustomSuggest").bsSuggest({
+        url: "../../static/js/demo/clientList/allotCustom.json",
+        idField: "userId",          //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+        keyField: "teacherName",     //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+        ignoreCase: true                 //前端搜索匹配时，是否忽略大小写
+    }).on('onDataRequestSuccess', function (e, result) {
+        //  console.log('onDataRequestSuccess: ', result);
+    }).on('onSetSelectValue', function (e, keyword) {
+        //   console.log('onSetSelectValue: ', keyword);
+    }).on('onUnsetSelectValue', function (e) {
+        //  console.log("onUnsetSelectValue");
+    });
+    $("#alter_email_intentionProfessional").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "java开发专业方向"
+                },
+                {
+                    "keyName": "javaEE企业级开发"
+                }
+            ]}
+    })
+</script>
+<!--发送请求-->
+<script>
+    /*贷款 失去焦点事件*/
+    $("#isLoans").blur(function () {
+        if ($("#isLoans").val() == "贷款") {
+            $("[data_hidden]").removeClass("hidden");
+        } else {
+            $("[data_hidden]").addClass("hidden");
+        }
+    });
+
+    $(function () {
+        /*提交签约模态框表单-------------------------------*/
+        $("#asm").click(function () {
+            $("#loans_form").submit();
+        });
+        /*分配客户模态框------------------------------------*/
+        $("#allotCustomer").click(function () {
+            let flag = false;
+            $("#clientList_table").find("[type='checkbox']").each(function () {
+                if ($(this).is(":checked")) {
+                    flag = true;
+                    /*退出循环*/
+                    return false;
+                }
+            });
+            if (flag) {
+                $("#allotCustomer_modal").modal();
+            } else {
+                swal({
+                    title: "提示",
+                    text: "至少选中一个！",
+                    type: "warning",
+                    autoClose: true
+                });
+            }
+        });
+        /*分配给某个老师---------------------------------*/
+        $("#confirmAllot").click(function () {
+            let checkedRowInfo = $("#clientList_table").bootstrapTable('getAllSelections');
+            //定义一个数组接收所有选中的id
+            let uids = [];
+            for (let i = 0; i < checkedRowInfo.length; i++) {
+                uids.push(checkedRowInfo[i].uid);
+            }
+            alert("选中隐藏字段中的id=" + uids);
+            //再获取模态框中的值
+            let value = $("#allotCustomSuggest").val();
+            if (value == "" || value.length <= 0) {
+                return;
+            }
+            //定义成json数据
+            //let s = JSON.stringify(uids);
+            let allot_json = [{"teacher": value, "uids": uids}]
+            alert(JSON.stringify(allot_json));
+            //发送异步请求
+            // $.ajax({})
+            //重新加载页面
+            window.location.reload();
+        });
+
+
+        /*删除多个客户-------------------------------*/
+        $('#deleteMulti').click(function () {
+            let checkedRowInfo = $("#clientList_table").bootstrapTable('getAllSelections');
+            if (checkedRowInfo.length == 0) {
+                swal({
+                    title: "提示",
+                    text: "至少选中一个！",
+                    type: "warning",
+                    autoClose: true
+                });
+                return;
+            }
+            //定义一个数组接收所有选中的id
+            let uids = [];
+            let ids = [];
+            for (let i = 0; i < checkedRowInfo.length; i++) {
+                uids.push(checkedRowInfo[i].uid);
+                ids.push(checkedRowInfo[i].id);
+            }
+            alert("选中隐藏字段中的id=" + uids);
+            swal({
+                title: "您确定要删除吗",
+                text: "删除序号为" + ids + "的客户嘛，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                //异步请求
+                /*$.ajax({
+                    type: "GET",
+                    url: "",
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                       // alert("添加成功");
+                        swal("删除成功！", "您已经永久删除。", "success");
+                    },
+                    error: function (jqXHQ) {
+                        swal("删除失败！", "请检查网络。", "error");
+                    }
+
+                });*/
+                swal("删除成功！", "您已经永久删除。", "success");
+            });
+        });
+    })
+</script>
+<script>
+    /*文本编辑器初始化*/
+    /* $(function () {
+         let summernote = $('.summernote').summernote({
+             lang: 'zh-CN'
+         });
+     });*/
+    $(function () {
+        $('#summernote').summernote({
+            placeholder: 'Hello stand alone ui',
+            focus: true
+        });
+    })
+    $("#confirmSend").click(function () {
+        $("#emailContent").submit();
+    })
+    $("#sender_email").click(function () {
+        //ajax提交表单
+        //表单id alter_email_form
+        $("#alter_email_modal").modal("hide");
+        //打开发送邮件模态框
+        $("#send_email_modal").modal();
+    })
+</script>
+</body>
+</html>

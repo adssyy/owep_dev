@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理</title>
+</head>
+
+<link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/static/favicon.ico}">
+<link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+<link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.css}" rel="stylesheet">
+<link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css"
+      th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+<link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
+<link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css}" rel="stylesheet">
+<link href="../../static/css/plugins/jsTree/style.min.css" th:href="@{/static/css/plugins/jsTree/style.min.css}"
+      rel="stylesheet">
+<!--ztree-->
+<!--<link rel="stylesheet" href="../../static/js/plugins/ztree/css/bootstrapStyle/bootstrapStyle.css" type="text/css">-->
+<link rel="stylesheet" href="../../static/js/plugins/ztree/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+    .lead {
+        font-size: 14px;
+    !important;
+    }
+
+    .btn.btn-xs.btn-success {
+        margin-right: 13px;
+    }
+
+    .ztree li {
+        margin: 10px 10px;
+    }
+
+    /* !*ztree文件夹图标大小*!
+     .ztree li span.button.switch {
+         width: 18px;
+         height: 18px;
+     }
+
+     .ztree li span.button.roots_open {
+         background-position: -110px 2px;
+     }
+
+     .ztree li span.button.roots_close {
+         background-position: -110px 0;
+     }
+
+     .ztree li span.button.bottom_close {
+         background-position: -110px 0;
+     }
+
+     .ztree li span.button.center_close {
+         background-position: -110px 2px;
+     }
+
+     .ztree li span.button.ico_close {
+         background-position: -142px 1px;
+     }
+
+     .ztree li span.button.ico_docu {
+         background-position: -107px -31px;
+     }
+
+     !*夫菜单加号图标*!
+     .ztree li span.button.ico_open {
+         background-position: -143px 2px
+     }
+
+     !*子菜单收缩图标*!
+     .ztree li span.button.center_docu {
+         background-position: -89px -1px;
+     }
+
+     .ztree li span.button.bottom_docu {
+         background-position: -89px -1px;
+     }
+
+     .ztree li span.button.center_open {
+         background-position: -110px 2px;
+     }
+
+     .ztree li span.button.bottom_open {
+         background-position: -110px 2px;
+     }
+
+     .ztree li span.button.add:hover {
+         background-position: -107px -47px;
+     }
+
+     .ztree li span.button.add {
+         background-position: -107px -47px;
+     }
+
+     .ztree li span.button.edit:hover {
+         background-position: -107px -47px;
+     }
+
+     .ztree li span.button {
+         width: 18px;
+         height: 18px;
+     }
+
+     .ztree li span.button.switch {
+         width: 18px;
+         height: 18px;
+     }*/
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-title">
+        <div class="row row-lg">
+            <div class="col-sm-12">
+                <div class="tab-pane">
+                    <div class="panel-body">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <h3>Java核心技术（一）</h3>
+                            </div>
+                            <div class="ibox-tools">
+                                <a href="teaching.html" class="btn btn-success" style="color: #FFFFFF">返回</a>
+                            </div>
+                            <hr style="margin-top: 4px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-container">
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <h4 class="heading lead" style="margin-top: 20px">
+                                课程介绍
+                                <div style="background-color:#1a7bb9;height: 4px;width: 90px"></div>
+                                <hr style="margin-top: 0;margin-bottom: 20px">
+                                <div class="ibox">
+                                    <h5 class="lead">
+                                        本视频教程采用由浅入深、与实际应用紧密结合的方式，利用大量经典实用的实例，
+                                        详细讲解Java面向对象的编程思想、编程语法和设计模式，介绍常见Java类库的用法，
+                                        总结优化Java编程的各种宝贵经验，深入阐述Java虚拟机执行Java程序的原理。本视
+                                        频教程的实例都基于*新的JDK8版本。本视频教程的*大特色是以6条主线贯穿视频教程：
+                                        面向对象编程思想、Java语言的语法、Java虚拟机执行Java程序的原理、在实际项目中的运用、
+                                        设计模式和性能优化技巧。另外，本视频教程还贯穿了Oracle公司的OCJP（Oracle Certified Java Programmer）
+                                        认证的考试要点。
+                                    </h5>
+                                </div>
+                            </h4>
+                            <h4 class="heading lead" style="margin-top: 100px">
+                                <span>课程章节</span>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-xs btn-success" style="color: #FFFFFF">添加章节</a>
+                                </div>
+                                <div style="background-color:#1a7bb9;height: 4px;width: 90px"></div>
+                                <hr style="margin-top: 0;margin-bottom: 20px">
+                                <!-- <div id="treeview12" class="test"></div>-->
+                                <!--TODO 树形列表-->
+                                <div class="col-sm-12">
+                                    <ul id="treeDemo" class="ztree "></ul>
+                                </div>
+                            </h4>
+
+                        </div>
+                        <div id="tab-2" class="tab-pane">
+                            <div class="panel-body">
+                                <h4 class="heading lead" style="margin-top: 20px">
+                                    班级介绍
+                                    <div style="background-color:#1a7bb9 ;height: 4px;width: 90px"></div>
+                                    <hr style="margin-top: 0;margin-bottom: 20px">
+                                </h4>
+                                <form class="form-inline" style="margin: 20px 0 20px 0">
+                                    <div class="form-group">
+                                        <label style="font-size: 16px" class="lead">资源名称:</label>
+                                        <input type="text" name="userName" class="form-control"
+                                               id="exampleInputUserName2">
+                                    </div>
+                                    <button type="submit" class="btn btn-success"
+                                            style="padding-bottom: 7px;margin-bottom: 13px;">查询
+                                    </button>
+                                    <div class="ibox-tools">
+                                        <button class="btn btn-success">删除</button>
+                                    </div>
+                                </form>
+                                <table id="tb_departments_2"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6"></script>
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0"></script>
+<!-- Bootstrap table -->
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<!--动态搜索-->
+<script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
+        th:href="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+<!-- jsTree plugin javascript -->
+<script src="../../static/js/plugins/jsTree/jstree.min.js"
+        th:href="@{/static/js/plugins/jsTree/jstree.min.js}"></script>
+<!-- Bootstrap-Treeview plugin javascript -->
+<script src="../../static/js/plugins/treeview/bootstrap-treeview.js"
+        th:href="@{/static/js/plugins/treeview/bootstrap-treeview.js}"></script>
+<!--ztree-->
+<script type="text/javascript" src="../../static/js/plugins/ztree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="../../static/js/plugins/ztree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="../../static/js/plugins/ztree/js/jquery.ztree.exedit.js"></script>
+<script>
+    $(function () {
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+    });
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#tb_departments_2').bootstrapTable({
+                // url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
+                data: [
+                    {
+                        "resource_name": "2020061101",
+                        "resource_type": "JAVA开发工程师",
+                        "resource_size": "开发部",
+                    },
+                    {
+                        "resource_name": "2020061101",
+                        "resource_type": "JAVA开发工程师",
+                        "resource_size": "开发部",
+                    }],
+                // method: 'get',                      //请求方式（*）
+                striped:
+                    true,                      //是否显示行间隔色
+                pagination:
+                    true,                   //是否显示分页（*）
+                queryParams:
+                oTableInit.queryParams,//传递参数（*）
+                pageNumber:
+                    1,                       //初始化加载第一页，默认第一页
+                pageSize:
+                    10,                       //每页的记录行数（*）
+                pageList:
+                    [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                height:
+                    500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId:
+                    "ID",                     //每一行的唯一标识，一般为主键列
+                columns:
+                    [{
+                        checkbox: true
+                    }, {
+                        field: 'resource_name',
+                        title: '资源名称'
+                    }, {
+                        field: 'resource_type',
+                        title: '资源类型'
+                    }, {
+                        field: 'resource_size',
+                        title: '资源大小(kb)'
+                    }, {
+                        field: 'operate',
+                        title: '操作',
+                        width: 150,
+                        formatter: addFunctionAlty//表格中增加按钮  
+                    }]
+            })
+            ;
+        };
+
+        function addFunctionAlty(value, row, index) {
+            return ['<button id = "" type = "button" class = "btn btn-white" > <i class="fa fa-cloud-download"/> </button>' +
+            '<button id = "" type = "button" class = "btn btn-white" > <i class="glyphicon glyphicon-trash text-danger"/> </button>'];
+        }
+
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit,   //页面大小
+                offset: params.offset,  //页码
+                departmentname: $("#txt_search_departmentname").val(),
+                statu: $("#txt_search_statu").val()
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+        oInit.Init = function () {
+        };
+
+        return oInit;
+    };
+</script>
+<script type="text/javascript">
+    var setting = {
+        view: {
+            addHoverDom: addHoverDom, //用于当鼠标移动到节点上时，显示用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮
+            removeHoverDom: removeHoverDom,//用于当鼠标移动到节点上时，显示用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮
+            selectedMulti: false,//设置是否允许同时选中多个节点。
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        edit: {
+            enable: true,//设置是否允许同时选中多个节点。
+            renameTitle: 'rename'
+        }
+    };
+
+    var zNodes = [
+        {
+            id: 1,
+            pId: 0,
+            name: "第一章：java语言概述",
+            open: true,
+            //icon: '../../static/js/plugins/ztree/css/bootstrapStyle/img/video.png'
+        },
+        {id: 101, pId: 1, name: "Java语言的发展——1-java简介.mp4"},
+        {id: 102, pId: 1, name: "Java的发展历史以及版本的特性——Java的发展历史以及版本的特性.mp4"},
+        {id: 103, pId: 1, name: "JDK下载、安装、配置——JDK下载、安装、配置.mp4"},
+        {id: 104, pId: 1, name: "命令、文件系统，案例——Windows命令、文件系统，Hello.java案例.mp4"},
+        {id: 105, pId: 1, name: "包、导入、标识符—— 包、导入、标识符.mp4"},
+
+        {id: 2, pId: 0, name: "第2章：JDK下载、安装、配置", open: false},
+        {id: 201, pId: 2, name: "Java语言的发展——1-java简介.mp4"},
+        {id: 202, pId: 2, name: "Java的发展历史以及版本的特性——Java的发展历史以及版本的特性.mp4"},
+        {id: 203, pId: 2, name: "JDK下载、安装、配置——JDK下载、安装、配置.mp4"},
+        {id: 204, pId: 2, name: "命令、文件系统，案例——Windows命令、文件系统，Hello.java案例.mp4"},
+        {id: 205, pId: 2, name: "包、导入、标识符—— 包、导入、标识符.mp4"},
+
+        {id: 3, pId: 0, name: "第 3 章：包、导入、标识符", open: false},
+        {id: 301, pId: 3, name: "Java语言的发展——1-java简介.mp4"},
+        {id: 302, pId: 3, name: "Java的发展历史以及版本的特性——Java的发展历史以及版本的特性.mp4"},
+        {id: 303, pId: 3, name: "JDK下载、安装、配置——JDK下载、安装、配置.mp4"},
+        {id: 304, pId: 3, name: "命令、文件系统，案例——Windows命令、文件系统，Hello.java案例.mp4"},
+        {id: 305, pId: 3, name: "包、导入、标识符—— 包、导入、标识符.mp4"},
+
+    ];
+
+    /*初始化列表*/
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    });
+
+    var newCount = 1;
+
+    function addHoverDom(treeId, treeNode) {
+        var sObj = $("#" + treeNode.tId + "_span");
+        if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+        var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+            + "' title='add node' onfocus='this.blur();'></span>";
+        sObj.after(addStr);
+        var btn = $("#addBtn_" + treeNode.tId);
+        if (btn) btn.bind("click", function () {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            zTree.addNodes(treeNode, {id: (100 + newCount), pId: treeNode.id, name: "new node" + (newCount++)});
+            return false;
+        });
+    }
+
+    function removeHoverDom(treeId, treeNode) {
+        $("#addBtn_" + treeNode.tId).unbind().remove();
+    }
+
+</script>
+<!--添加章节按钮点击事件-->
+<script>
+    var newCount = 10;
+    $('.btn.btn-xs.btn-success').click(function () {
+
+        var number = autoIncrement();
+        var newNode = {id: number, name: '新章节', pid: number};
+        zNodes.push(newNode);
+        console.log(number);
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        return number;
+    });
+
+    function autoIncrement() {
+        return ++newCount;
+    }
+</script>
+</html>

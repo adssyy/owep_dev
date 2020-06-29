@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 全局设置 -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--<typeHandlers>
+        <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+                                javaType="com.kclm.owep.entity.UserStatus"/>
+    </typeHandlers>-->
+
+    <typeAliases>
+        <package name="com.kclm.owep.entity"/>
+    </typeAliases>
+
+    <mappers>
+<!--        <mapper resource="mybatis/mappers/UserMapper.xml"/>-->
+    </mappers>
+</configuration>

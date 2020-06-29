@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>试卷管理</title>
+    <!--图标-->
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.css}" rel="stylesheet">
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+    <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
+    <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css}" rel="stylesheet">
+    <!--滑动checkbox-->
+    <link href="../../static/css/plugins/switchery/switchery.css"
+          th:href="@{/static/css/plugins/switchery/switchery.css}"
+          rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="../../static/css/plugins/sweetalert/sweetalert.css"
+          th:href="@{/static/css//plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="../../static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+          th:href="@{/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+          rel="stylesheet">
+    <!--代码编辑框-->
+    <link href="../../static/css/plugins/codemirror/codemirror.css"
+          th:href="@{/static/css/plugins/codemirror/codemirror.css" rel="stylesheet">
+    <link href="../../static/css/plugins/codemirror/ambiance.css" th:href="/static/css/plugins/codemirror/ambiance.css"
+          rel="stylesheet">
+    <!--simditor-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/plugins/simditor/simditor.css"
+          th:href="@{/static/css/plugins/simditor/simditor.css"/>
+
+    <style type="text/css">
+
+        .input_margin {
+            margin-left: 20px;
+        }
+
+        .table > thead > tr > th {
+            color: #2a62bc;
+        }
+
+        .tm-tab-body {
+            background: #FFF;
+            padding: 0 15px 15px 15px;
+        }
+
+        .tm-table-form-base-title {
+            font-size: 14px;
+            text-align: left;
+            color: #666;
+            font-weight: bold;
+            line-height: 20px;
+            padding: 10px 10px;
+            background: #f5f5f5;
+            margin: 0 0;
+        }
+
+        .tm_table_form_base_body {
+            border: solid 1px #f5f5f5;
+            padding: 10px 0 10px 0;
+            border-top: none;
+            margin: 0 0 20px 0;
+            height: 1000px;
+        }
+
+        .twm_desc {
+            font-size: 12px;
+            line-height: 20px;
+            margin: 0 0;
+        }
+
+        /*模态框字体*/
+        .tm_table_form_base_title {
+            font-size: 14px;
+            text-align: left;
+            color: #666;
+            font-weight: bold;
+            line-height: 20px;
+            padding: 10px 10px;
+            background: #f5f5f5;
+            margin: 0 0;
+        }
+
+        /*模态框批量导入*/
+        .tm_table_form_base_body {
+            border: solid 1px #f5f5f5;
+            padding: 10px 0 10px 0;
+            border-top: none;
+            margin: 0 0 20px 0;
+        }
+
+        .tm_table_form_base {
+            border-collapse: collapse; /*属性设置表格的边框是否被合并为一个单一的边框*/
+            border: none;
+        }
+
+        .form-inline .input-group > .form-control {
+            width: auto;
+        !important;
+        }
+
+        .sweet-alert h2 {
+            font-size: 18px;
+        }
+
+        .tm_table_form {
+            border-collapse: collapse; /*为表格设置合并边框模型*/
+            border: solid 1px #eee;
+        }
+
+        b, strong {
+            font-weight: 700;
+        }
+
+        .tm_table_form tbody tr th {
+            font-weight: normal;
+            text-align: right;
+            font-size: 12px;
+            border: solid 1px #eee;
+            background: #f5f5f5;
+            line-height: 25px;
+        }
+
+        .tm_table_form tbody tr td {
+            border: solid 1px #eee;
+        }
+
+        .tm_table_form tr th {
+            padding: 8px 8px !important;
+        }
+
+        .tm_table_form tr td {
+            padding: 8px 8px !important;
+        }
+
+        div, span, a, td, font {
+            font-size: 9pt;
+        }
+
+        tbody {
+            color: #000;
+        }
+
+        .portlet {
+            margin-bottom: 20px;
+            background: #FFFFFF;
+            -webkit-transition: all 0.4s;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .portlet .portlet-heading {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            padding: 5px 20px;
+            border-radius: 3px;
+            color: #fff;
+        }
+
+        .bg-gray {
+            height: 42px;
+            background-color: #efefef;
+        }
+
+        .portlet .portlet-heading .portlet-title {
+            float: left;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 0;
+            margin-top: 0;
+            line-height: 25px;
+        }
+
+        .text-dark {
+            color: #797979 !important;
+        }
+
+        .portlet .portlet-heading .portlet-widgets {
+            position: relative;
+            text-align: right;
+            float: right;
+            padding-left: 15px;
+            display: inline-block;
+            font-size: 15px;
+            line-height: 25px;
+        }
+
+        .simditor .simditor-body {
+            /*开启滚动条*/
+            overflow-y: scroll !important;
+
+        }
+
+        .simditor .simditor-body.changed {
+            /*设置高度*/
+            min-height: 80px !important;
+            max-height: 80px !important;
+        }
+
+        /*改变小编辑框的属性*/
+        .simditor-toolbar.changed > ul > li > .toolbar-item {
+            width: 15px;
+            height: 15px;
+            margin-left: 7px;
+        }
+
+        .panel-default > .panel-heading {
+            background-color: #FFFFFF;
+        !important;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-title">
+        <div class="row row-lg">
+            <div class="col-sm-12">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true" id="message">我的试卷</a>
+                        </li>
+                        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false"
+                                        id="class_resource">共享试题</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body" style="padding-bottom: 0">
+                                <p style="color: #aaa" id="regulate">试卷用于组织考试，由试题或试题生成规则组成，请在以下列表中管理您的试卷</p>
+                                <p style="color: #aaa" id="create" class="hidden">填写下面的表单，创建一个新的题库</p>
+                                <p style="color: #aaa" id="update" class="hidden">在下面的表单中修改题库信息</p>
+                                <p style="color: #aaa" id="import_test" class="hidden">在下列表单中批量导入试题</p>
+                                <div class="btn-group" style="margin-bottom: 15px">
+                                    <a class="btn btn-sm btn-white create_question">创建试题</a>
+                                    <a class="btn btn-sm  btn-success test_base_management"
+                                       style="margin-left: 3px;">试卷管理</a>
+                                    <a class="btn btn-sm btn-white import_test_questions"
+                                       style="margin-left: 20px">导入试题</a>
+                                </div>
+                                <!--试卷管理-->
+                                <form class="form-inline" style="margin-bottom:15px" id="create_question"
+                                      style="display:none;">
+                                    <div style="margin-bottom: 20px">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text" placeholder="试卷名称"
+                                                       maxlength="30">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select class="form-control">
+                                                    <option value="">所属题库</option>
+                                                    <option value="1">编程题库(共12题)</option>
+                                                    <option value="2">解答题库(共10题)</option>
+                                                    <option value="2">选择题库(共5题)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select class="form-control">
+                                                    <option value="">请选择题型</option>
+                                                    <option>单选题</option>
+                                                    <option>编程题</option>
+                                                    <option>问答题</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text" placeholder="标签">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select class="form-control">
+                                                    <option value="">难度</option>
+                                                    <option>简单</option>
+                                                    <option>一般</option>
+                                                    <option>困难</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select class="form-control">
+                                                    <option value="">状态</option>
+                                                    <option>正常</option>
+                                                    <option>禁用</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success fa fa-search"
+                                                value="查询" style="height: 34px"
+                                                id="queryBtn">
+                                        </button>
+                                    </div>
+                                    <table id="tb_departments_1"></table>
+                                </form>
+                                <!--创建试题-->
+                                <div id="test_base_management" style="display:none;">
+                                    <div class="tm-tab-body" style="padding-left: 0;">
+                                        <h1 class="tm-table-form-base-title">创建试题</h1>
+                                        <div class="tm_table_form_base_body">
+                                            <form method="get" class="form-horizontal">
+                                                <div style="width:1028px" class="append_panel">
+                                                    <div class="form-group" style="margin-left: 82px">
+                                                        <label class="col-sm-1 control-label">试题类型</label>
+                                                        <div class="col-sm-5">
+                                                            <select class="form-control">
+                                                                <option value="">请选择题型</option>
+                                                                <option>单选题</option>
+                                                                <option>编程题</option>
+                                                                <option>问答题</option>
+                                                            </select>
+                                                        </div>
+                                                        <label class="col-sm-1 control-label">试题难度</label>
+                                                        <div class="col-sm-5">
+                                                            <select class="form-control">
+                                                                <option value="">难度</option>
+                                                                <option>简单</option>
+                                                                <option>一般</option>
+                                                                <option>困难</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="margin-left: 82px">
+                                                        <label class="col-sm-1 control-label">所属题库</label>
+                                                        <div class="col-sm-5">
+                                                            <div class="input-group">
+                                                                <select class="form-control"
+                                                                        style="-webkit-appearance: none">
+                                                                    <option value="">所属题库</option>
+                                                                    <option value="1">编程题库(共12题)</option>
+                                                                    <option value="2">解答题库(共10题)</option>
+                                                                    <option value="2">选择题库(共5题)</option>
+                                                                </select>
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-success" type="button"
+                                                                            style="height:34px ">
+                                                                    <i class="fa fa-plus"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="col-sm-1 control-label">试题来源</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" value="原创">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">
+                                                            试题标签</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" placeholder="添加标签">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">题库状态</label>
+                                                        <div class="col-sm-10">
+                                                            <label class="control-label">
+                                                                <div class="radio radio-success radio-inline">
+                                                                    <input type="radio" id="inlineRadio1"
+                                                                           value="option1" name="radioInline"
+                                                                           checked>
+                                                                    <label for="inlineRadio1">正常</label>
+                                                                </div>
+                                                            </label>&nbsp;
+                                                            <label class="control-label">
+                                                                <div class="radio radio-danger radio-inline">
+                                                                    <input type="radio" id="inlineRadio2"
+                                                                           value="option2" name="radioInline">
+                                                                    <label for="inlineRadio2">禁用</label>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">
+                                                            试题题干</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea id="editor" autofocus
+                                                                      style="swidth: 0; top: 0;  left: 0;"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">
+                                                            选项设置</label>
+                                                        <div class="col-sm-10">
+                                                            <div style="margin: 0 0 10px 0">
+                                                                <button class="btn btn-success" id="add_section_btn"
+                                                                        type="button">
+                                                                    <i class="fa fa-plus"></i>增加选项
+                                                                </button>
+                                                                <span class="text-muted">
+                                                                    点击按钮增加新的选项，并选择其中1个做为答案</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-2 col-sm-5">
+                                                            <!--可关闭标签-->
+                                                            <div class="close_label">
+                                                                <div class="panel-group" id="accordion" role="tablist"
+                                                                     aria-multiselectable="true">
+                                                                    <!-- 在点击增加选项时，来clone此元素，并追加到 父元素中 -->
+                                                                    <div class="panel panel-default">
+                                                                        <div class="panel-heading" role="tab">
+                                                                            <h4 class="panel-title"
+                                                                                style="margin-bottom: -30px;margin-top: -8px;">
+                                                                                <label class="control-label "
+                                                                                       style="margin-left: 10px">
+                                                                                    <div class="radio radio-success radio-inline">
+                                                                                        <input type="radio" checked>
+                                                                                        <label>选项 A</label>
+                                                                                    </div>
+                                                                                </label>&nbsp;
+                                                                                <!-- 在右上角添加关闭小图标 -->
+                                                                                <button type="button" class="close"
+                                                                                        data-dismiss="close">
+                                                                                    <i class="glyphicon glyphicon-remove"
+                                                                                       style="margin-top: 10px;"></i>
+                                                                                </button>
+                                                                            </h4>
+                                                                        </div>
+                                                                        <!-- 要重写包一层 panel-heading -->
+                                                                        <!-- <div class=" panel-heading">
+                                                                             <h4 class="panel-title">
+                                                                             </h4>
+                                                                         </div>-->
+                                                                        <!-- 内容区 -->
+                                                                        <div id="collapseOne"
+                                                                             class="panel-collapse collapse in"
+                                                                             role="tabpanel">
+                                                                            <div class="panel-body"
+                                                                                 style="margin-top: 20px;">
+                                                                                  <textarea id="editor1"
+                                                                                            autofocus></textarea>
+                                                                            </div>
+                                                                        </div> <!-- end of 内容区 -->
+                                                                    </div><!-- end of panel -->
+                                                                </div> <!-- end of panel-group -->
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" placeholder="测试">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-1 col-sm-10">
+                                                            <div style="margin: 0 0 10px 0">
+                                                                <button type="button" class="btn btn-success"
+                                                                        style="margin-left: 82px;">提交
+                                                                </button>
+                                                                <button type="reset" class="btn btn-white"
+                                                                        style="margin-left: 3px;">重新填写
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--修改-->
+                                <div id="modification" style="display:none;">
+                                    <div class="tm-tab-body" style="padding-left: 0;">
+                                        <h1 class="tm-table-form-base-title">修改题库</h1>
+                                        <div class="tm_table_form_base_body">
+                                            <form method="get" class="form-horizontal">
+                                                <div style="width:950px">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">题库名称</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" value="开发">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">题库状态</label>
+                                                        <div class="col-sm-8">
+                                                            <label class="control-label">
+                                                                <div class="radio radio-success radio-inline">
+                                                                    <input type="radio"
+                                                                           value="option1" name="radioInline"
+                                                                           checked="">
+                                                                    <label for="inlineRadio1">正常</label>
+                                                                </div>
+                                                            </label>&nbsp;
+                                                            <label class="control-label">
+                                                                <div class="radio radio-danger radio-inline">
+                                                                    <input type="radio"
+                                                                           value="option2" name="radioInline">
+                                                                    <label for="inlineRadio2">禁用</label>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">
+                                                            题库说明</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea type="text" class="form-control">考试用</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">访问权限</label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control">
+                                                                <option>完全私有(只有您本人可以操作和使用题库)</option>
+                                                                <option>只读共享(其他管理员仅可引用您题库中的试题)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn-group ">
+                                                        <button type="button" class="btn btn-success"
+                                                                style="margin-left: 82px;">提交
+                                                        </button>
+                                                        <button type="reset" class="btn btn-white"
+                                                                style="margin-left: 3px;">重新填写
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--导入试题-->
+                                <div id="import_test_questions" style="display:none;">
+                                    <div class="tm-tab-body" style="padding-left: 0;">
+                                        <h1 class="tm-table-form-base-title">批量导入试题</h1>
+                                        <div class="modal-body" style="margin: 10px 20px 0 20px ">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-sm-11">
+                                                        <h4 style="font-size: 14px;font-weight: bold;margin: 15px 0 10px 0">
+                                                            操作说明</h4>
+                                                        <div style="margin: 0 0 20px 0">
+                                                            <p class="twm_desc">1、下载
+                                                                <a href="#" target="_blank">
+                                                                    <u>EXcel格式模板</u>
+                                                                </a>
+                                                                文件。
+                                                            </p>
+                                                            <p class="twm_desc">2、请注意格式要求，一个题型一个文件，多余的单元格可留空。</p>
+                                                            <p class="twm_desc">
+                                                                3、请确保EXCEL文件版本为97-2003，并请勿删除（或新增）模板文件中的列，确保文件能顺利解析。</p>
+                                                            <p class="twm_desc">4、请核对填写日期单元格，其属性为“文本”。</p>
+                                                            <p class="twm_desc">5、默认全局自动去重后导入，如有需要，可在表单中设置忽略重复。</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-11">
+                                                        <h1 class="tm_table_form_base_title">批量导入</h1>
+                                                        <div class="tm_table_form_base_body">
+                                                            <form method="post">
+                                                                <table class="tm_table_form_base" style="width: 90%">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th width="120"
+                                                                            style="padding-left: 40px;">
+                                                                            目标题库
+                                                                        </th>
+                                                                        <td>
+                                                                            <select class="form-control validate[required]"
+                                                                                    style="margin-bottom: 10px">
+                                                                                <option value="">请选择目标题库</option>
+                                                                                <option>开发题</option>
+                                                                                <option>编程题</option>
+                                                                                <option>选择题</option>
+                                                                            </select>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th style="padding-left: 40px;">数据文件</th>
+                                                                        <td>
+                                                                            <input class="form-control"
+                                                                                   style="margin-bottom: 10px"
+                                                                                   type="file">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th style="padding-left: 40px;">重复数据</th>
+                                                                        <td>
+                                                                            <select class="form-control validate[required]">
+                                                                                <option value="">自动去除重复试题</option>
+                                                                                <option>忽略重复试题，全部导入</option>
+                                                                            </select>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        <td>
+                                                                            <div style="margin-top: 20px">
+                                                                                <button type="button"
+                                                                                        class="btn btn-success">批量导入
+                                                                                </button>
+                                                                                <button type="reset"
+                                                                                        class="btn btn-white">重置
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tfoot>
+                                                                </table>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--共享题库-->
+                        <div id="tab-2" class="tab-pane">
+                            <div class="panel-body" style="padding-bottom: 0">
+                                <div id="share_question_bank_tips">
+                                    <p style="color: #aaa">共享试卷是由各管理员创建并<strong>&nbsp;共享&nbsp;</strong>给所有管理员使用的题库，您可以使用这些试卷组织考试
+                                    </p>
+                                    <p style="color: #aaa">具备<strong>&nbsp;超级管理员&nbsp;</strong>权限的管理员，可浏览并操作其他管理员的所有试卷
+                                    </p>
+                                </div>
+                                <p id="modify_the_prompt" class="hidden" style="color: red">注意：您正在修改其他管理员创建的题库，请谨慎操作</p>
+                                <form class="form-inline" id="question_bank" style="margin-bottom:15px; ">
+                                    <div style="margin-bottom: 20px">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text" placeholder="关键字"
+                                                       maxlength="30">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select class="form-control">
+                                                    <option value="">状态</option>
+                                                    <option value="1">正常</option>
+                                                    <option value="2">禁用</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text" placeholder="创建人">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success fa fa-search"
+                                                value="查询" style="height: 34px">
+                                        </button>
+                                    </div>
+                                    <table id="tb_departments_2"></table>
+                                </form>
+                                <!--共享修改-->
+                                <div id="share_modification" style="display:none;">
+                                    <div class="tm-tab-body" style="padding-left: 0;">
+                                        <h1 class="tm-table-form-base-title">修改题库</h1>
+                                        <div class="tm_table_form_base_body">
+                                            <form method="get" class="form-horizontal">
+                                                <div style="width:950px">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">题库名称</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" value="开发">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">题库状态</label>
+                                                        <div class="col-sm-8">
+                                                            <label class="control-label">
+                                                                <div class="radio radio-success radio-inline">
+                                                                    <input type="radio"
+                                                                           value="option1" name="radioInline"
+                                                                           checked="">
+                                                                    <label for="inlineRadio1">正常</label>
+                                                                </div>
+                                                            </label>&nbsp;
+                                                            <label class="control-label">
+                                                                <div class="radio radio-danger radio-inline">
+                                                                    <input type="radio"
+                                                                           value="option2" name="radioInline">
+                                                                    <label for="inlineRadio2">禁用</label>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">
+                                                            题库说明</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea type="text" class="form-control">考试用</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">访问权限</label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control">
+                                                                <option>完全私有(只有您本人可以操作和使用题库)</option>
+                                                                <option>只读共享(其他管理员仅可引用您题库中的试题)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button type="submit" class="btn btn-success"
+                                                                style="margin-left: 82px;">提交
+                                                        </button>
+                                                        <button type="button" class="btn btn-white" id="return_list"
+                                                                style="margin-left: 3px;">返回
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--导出模态框-->
+                        <div class="modal fade" id="import" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span class="close" data-dismiss="modal">&times;</span>
+                                        <h3 class="modal-title">试题预览</h3>
+                                    </div>
+                                    <div class="modal-body" style="margin: 10px 20px 0 20px ">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div style="margin: 15px 0"></div>
+                                                    <table class="tm_table_form" width="100%" cellpadding="5"
+                                                           border="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <th style="width: 100px"><b>试题类型</b></th>
+                                                            <td>编程题</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <b>试题难度</b>
+                                                            </th>
+                                                            <td>一般</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <b>所属题库</b>
+                                                            </th>
+                                                            <td>编程题库</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <b>试题标签</b>
+                                                            </th>
+                                                            <td><span class="label label label-success">
+                                                                经典编程题
+                                                            </span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <b>试题状态</b>
+                                                            </th>
+                                                            <td>正常</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <b>试题题干</b>
+                                                            </th>
+                                                            <td style="word-break: break-all">
+                                                                <p style="background: rgb(238,238,238);padding: 5px 10px;border:1px solid rgb(204,204,204);border-image: none;margin-bottom: 0">
+                                                                    实现九九乘法表
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <b>试题答案</b>
+                                                            </th>
+                                                            <td class="code" style="word-break: break-all">
+                                                                <textarea id="code"></textarea>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <b>答案解析</b>
+                                                            </th>
+                                                            <td>
+                                                                <p>在上述代码中，首先声明两个变量分别是 i 和 j，接着使用了两个 for 循环语句，其中外层 for
+                                                                    语句用来控制输出行数，而内层 for 语句用来控制输出列数并由其所在的行数控制。</p>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--导入模态框-->
+                        <div class="modal fade" id="export" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span class="close" data-dismiss="modal">&times;</span>
+                                        <h3 class="modal-title">提示</h3>
+                                    </div>
+                                    <div class="modal-body" style="margin: 10px 20px 0 20px ">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <h4 style="font-size: 14px;font-weight: bold;margin: 15px 0 10px 0">
+                                                        操作说明</h4>
+                                                    <div style="margin: 0 0 20px 0">
+                                                        <p class="twm_desc">1、选择题库和题型，导出试题为EXCEL文档。
+                                                        </p>
+                                                        <p class="twm_desc">2、由于题型模板不同，所以需要分开导出。</p>
+                                                        <p class="twm_desc">
+                                                            3、单次最大导出 <span style="color: red">50000</span> 题，超出的试题将被忽略。
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <h1 class="tm_table_form_base_title">题库导出</h1>
+                                                    <div class="tm_table_form_base_body">
+                                                        <form id="export_form" method="post">
+                                                            <table class="tm_table_form_base" style="width: 90%">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th width="120"
+                                                                        style="padding-left: 40px;">
+                                                                        导出题库
+                                                                    </th>
+                                                                    <td>
+                                                                        <select class="form-control validate[required]"
+                                                                                style="margin-bottom: 10px">
+                                                                            <option value="">请选择需要导出的题库</option>
+                                                                            <option>JAVA题</option>
+                                                                            <option>MySQL题</option>
+                                                                            <option>Mybatis题</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="padding-left: 40px;">选择题型</th>
+                                                                    <td>
+                                                                        <select class="form-control validate[required]">
+                                                                            <option value="">请选择题型</option>
+                                                                            <option>单选题</option>
+                                                                            <option>编程题</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <td>
+                                                                        <div style="margin-top: 20px">
+                                                                            <button class="btn btn-success"
+                                                                                    data-dismiss="modal">关闭
+                                                                            </button>
+                                                                            <button class="btn btn-success">确定</button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:href="@{/static/js/jquery.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:href="@{/static/js/bootstrap.min.js}"></script>
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0" th:href="@{/static/js/content.js}"></script>
+<!-- Bootstrap table -->
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
+        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
+        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
+        th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<!--动态搜索-->
+<script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
+        th:href="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+<!-- layerDate plugin javascript -->
+<script src="../../static/js/plugins/layer/laydate/laydate.js"
+        th:href="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+<!-- Sweet alert -->
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
+        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<!--滑动按钮-->
+<script src="../../static/js/plugins/switchery/switchery.js"
+        th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
+<!-- Peity -->
+<script src="../../static/js/plugins/peity/jquery.peity.min.js"
+        th:src="@{/static/js/plugins/peity/jquery.peity.min.js}"></script>
+<!-- CodeMirror -->
+<script src="../../static/js/plugins/codemirror/codemirror.js"
+        th:src="@{/static/js/plugins/codemirror/codemirror.js}"></script>
+<script src="../../static/js/plugins/codemirror/mode/javascript/javascript.js"
+        th:src="@{/static/js/plugins/codemirror/mode/javascript/javascript.js}"></script>
+<!-- simditor -->
+<script type="text/javascript" src="../../static/js/plugins/simditor/module.js"
+        th:href="@{/static/js/plugins/simditor/module.js}"></script>
+<script type="text/javascript" src="../../static/js/plugins/simditor/uploader.js"
+        th:href="@{/static/js/plugins/simditor/uploader.js}"></script>
+<script type="text/javascript" src="../../static/js/plugins/simditor/hotkeys.js"
+        th:href="@{/static/js/plugins/simditor/hotkeys.js}"></script>
+<script type="text/javascript" src="../../static/js/plugins/simditor/simditor.js"
+        th:href="@{/static/js/plugins/simditor/simditor.js}"></script>
+<!--collapse添加章节-->
+<script src="../../static/public/exam/js/jquery.collapse1.js"
+        th:href="@{/static/public/exam/js/jquery.collapse1.js}"></script>
+<script>
+    $(function () {
+        /*创建试题*/
+        $('.create_question').click(function () {
+            $('.create_question').attr("class", "btn btn-sm btn-success create_question");
+            $('#create_question').css("display", "none");
+            $('#import_test_questions').css("display", "none");
+            $('.test_base_management').attr("class", "btn btn-sm btn-white test_base_management");
+            $('.import_test_questions').attr("class", "btn btn-sm btn-white import_test_questions");
+            $('#test_base_management').css("display", "");
+            /*选中小的编辑框添加唯一属性*/
+            $('#collapseOne').find('div:eq(3)').attr("class", "simditor-toolbar changed");
+            /*找到同级其他兄弟元素*/
+            $('#collapseOne').find('div:eq(3)').siblings().attr("class", "simditor-body changed");
+            /*判断子元素下面的元素个数是否大于两个,是则删除多余元素*/
+            if ($('#collapseOne').find('div:eq(2)').children().length > 2) {
+                $('#collapseOne').find('div:eq(3)').next().remove();
+            }
+
+            $('#regulate').attr("class", "hidden");
+            $('#modification').css("display", "none");
+            $('#create').attr("class", "");
+            $('#update').attr("class", "hidden");
+            $('#import_test').attr("class", "hidden");
+        });
+        /*题库管理*/
+        $('.test_base_management').click(function () {
+            $('.test_base_management').attr("class", "btn btn-sm btn-success test_base_management");
+            $('#test_base_management').css("display", "none");
+            $('#import_test_questions').css("display", "none");
+            $('.create_question').attr("class", "btn btn-sm btn-white create_question");
+            $('.import_test_questions').attr("class", "btn btn-sm btn-white import_test_questions");
+            $('#create_question').css("display", "");
+            $('#modification').css("display", "none");
+            $('#regulate').attr("class", "");
+            $('#create').attr("class", "hidden");
+            $('#update').attr("class", "hidden");
+            $('#import_test').attr("class", "hidden");
+            /*选中小的编辑框添加唯一属性*/
+            $('#collapseOne').find('div:eq(3)').attr("class", "simditor-toolbar");
+            /*找到同级其他兄弟元素*/
+            $('#collapseOne').find('div:eq(3)').siblings().attr("class", "simditor-body");
+        });
+
+        /*共享题库修改里面的返回按钮*/
+        $('#return_list').click(function () {
+            $('#share_modification').css("display", "none");
+            $('#modify_the_prompt').css("display", "none");
+            $('#question_bank').css("display", "");
+            $('#share_question_bank_tips').css("display", "");
+        })
+    });
+
+    /*导入试题*/
+    $('.import_test_questions').click(function () {
+        //点击按钮改变颜色其他的变为白色
+        $('.import_test_questions').attr("class", "btn btn-sm btn-success import_test_questions");
+        $('.create_question').attr("class", "btn btn-sm btn-white create_question");
+        $('.test_base_management').attr("class", "btn btn-sm btn-white test_base_management");
+        //隐藏其他表单
+        $('#create_question').css("display", "none");
+        $('#modification').css("display", "none");
+        $('#test_base_management').css("display", "none");
+        $('#update').attr("class", "hidden");
+        $('#create').attr("class", "hidden");
+        $('#regulate').attr("class", "hidden");
+        $('#import_test').attr("class", "");
+        $('#import_test_questions').css("display", "");
+        /*选中小的编辑框添加唯一属性*/
+        $('#collapseOne').find('div:eq(3)').attr("class", "simditor-toolbar");
+        /*找到同级其他兄弟元素*/
+        $('#collapseOne').find('div:eq(3)').siblings().attr("class", "simditor-body");
+    });
+
+</script>
+<script>
+    $(function () {
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+    });
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+
+            //我的题库
+            $('#tb_departments_1').bootstrapTable({
+                url: '../../static/js/demo/exam/test_question_management.json',       //请求后台的URL（*）
+                /* data: [
+                     {
+                         "question_bank": "<div class='text-center'><p style='color:#000;margin-bottom: 0'>开发</p><p class='text-muted'>考试用</p></div>",
+                         "status": "正常",
+                         "question_size": "<a href='#' style='text-decoration: underline'>1</a>",
+                         "authority_management": "<span><i class='fa fa-user-secret'></i>&ensp;完全私有</span>",
+                         "last_modified": "最后修改",
+                     }],*/
+                // method: 'get',                      //请求方式（*）
+                striped: true,                      //是否显示行间隔色
+                pagination: true,                   //是否显示分页（*）
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 2,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                onPostBody: checkbox_table,
+                columns:
+                    [{
+                        checkbox: true
+                    }, {
+                        field: 'question_bank',
+                        title: '题库',
+                        align: 'center',
+                    }, {
+                        field: 'type',
+                        title: '类型',
+                        align: 'center',
+                    }, {
+                        field: 'status',
+                        title: '状态',
+                        align: 'center',
+                        formatter: switchBox,
+                    }, {
+                        field: 'difficulty',
+                        align: 'center',
+                        title: '难度',
+                    }, {
+                        field: 'question_stem',
+                        align: 'center',
+                        title: '题干',
+                    }, {
+                        field: 'last_modified',
+                        align: 'center',
+                        title: '最后修改',
+                    }, {
+                        field: 'operate',
+                        align: 'center',
+                        title: '操作',
+                        formatter: addFunctionAlty,//表格中增加按钮  
+                        events: {
+                            'click button[title=删除题库]': function (e, value, row, index) {
+                                // console.log(row.id);
+                                swal({
+                                    title: "您确定要删除这条信息吗",
+                                    text: "删除后将无法恢复，请谨慎操作！",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "删除",
+                                    closeOnConfirm: false
+                                }, function () {
+                                    //TODO 发送ajax请求
+                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                });
+                            },
+                            'click button[title=修改]': function (e, value, row, index) {
+                                /* $('.modification').attr("class", "btn btn-white modification");
+                                 $('#modification').css("display", "");
+                                 $('.test_base_management').attr("class", "btn btn-sm btn-white test_base_management");
+                                 $('#test_base_management').css("display", "none");
+                                 $('.create_question').attr("class", "btn btn-sm btn-white create_question");
+                                 $('#create_question').attr("class", "hidden");
+                                 $('#create').attr("class", "hidden");
+                                 $('#regulate').attr("class", "hidden");
+                                 $('#update').attr("class", "");*/
+                            }
+                        }
+                    }]
+            });
+
+            /*共享题库*/
+            $('#tb_departments_2').bootstrapTable({
+                url: '../../static/js/demo/exam/titleList.json',       //请求后台的URL（*）
+                /* data: [
+                     {
+                         "question_bank": "<div class='text-center'><p style='color:#000;margin-bottom: 0'>开发</p><p class='text-muted'>考试用</p></div>",
+                         "status": "正常",
+                         "question_size": "<a href='#' style='text-decoration: underline'>1</a>",
+                         "authority_management": "<span><i class='fa fa-user-secret'></i>&ensp;完全私有</span>",
+                         "last_modified": "最后修改",
+                     }],*/
+                // method: 'get',                      //请求方式（*）
+                striped: true,                      //是否显示行间隔色
+                pagination: true,                   //是否显示分页（*）
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 2,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                onPostBody: checkbox_table_1,
+                columns:
+                    [{
+                        checkbox: true
+                    }, {
+                        field: 'question_bank',
+                        title: '题库',
+                        align: 'center'
+                    }, {
+                        field: 'status',
+                        title: '状态',
+                        align: 'center',
+                        formatter: switchBox_1
+                    }, {
+                        field: 'question_size',
+                        align: 'center',
+                        title: '试题数量'
+                    }, {
+                        field: 'authority_management',
+                        align: 'center',
+                        title: '管理权限'
+                    }, {
+                        field: 'last_modified',
+                        align: 'center',
+                        title: '最后修改'
+                    }, {
+                        field: 'operate',
+                        align: 'center',
+                        title: '操作',
+                        width: 100,
+                        formatter: share,//表格中增加按钮  
+                        events: {
+                            'click button[title=删除图库]': function (e, value, row, index) {
+                                // console.log(row.id);
+                                swal({
+                                    title: "您确定要删除这条信息吗",
+                                    text: "删除后将无法恢复，请谨慎操作！",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "删除",
+                                    closeOnConfirm: false
+                                }, function () {
+                                    //TODO 发送ajax请求
+                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                });
+                            },
+                            'click button[title=修改]': function (e, value, row, index) {
+                                swal({
+                                    title: "您正在修改由其他管理员创建的题库",
+                                    text: "修改操作无法恢复，请谨慎操作！",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "知道了",
+                                    closeOnConfirm: true //关闭关闭窗口
+                                }, function () {
+                                    //TODO 发送ajax请求
+
+                                    /*点击修改按钮,隐藏共享题库表单:*/
+                                    $('#question_bank').css("display", "none");
+                                    $('#share_modification').css("display", "");
+                                    /*再共享题库的提示文字隐藏*/
+                                    $('#share_question_bank_tips').css("display", "none");
+                                    $('#modify_the_prompt').attr("class", "");
+                                    $('#modify_the_prompt').css("display", "");
+                                });
+                            }
+                        }
+                    }]
+            });
+        };
+
+        function checkbox_table() {
+            //let elems = Array.prototype.slice.call($('.js-switch'));
+            let elems = document.querySelectorAll(".js-switch");
+            elems.forEach(function (html) {
+                var switchery = new Switchery(html, {size: 'normal'});
+            });
+        };
+
+        function checkbox_table_1() {
+            //let elems = Array.prototype.slice.call($('.js-switch'));
+            let elems = document.querySelectorAll(".js-switch_1");
+            elems.forEach(function (html) {
+                var switchery = new Switchery(html, {size: 'normal'});
+            });
+        };
+
+
+        //班级资源
+        function addFunctionAlty(value, row, index) {
+            //下载
+            return ['<button  class = "btn btn-white btn-sm modification" type = "button" data-toggle="tooltip" data-placement="top"  title="修改"> <i class="fa fa-wrench"/></button>' +
+            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="modal" data-target="#import" title="预览"><i class="fa fa-eye"/></button>' +
+            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="tooltip" title="删除题库"><i class="fa fa-close"/></button>'];//删除
+        }
+
+        //共享题库
+        function share(value, row, index) {
+            return ['<button  class = "btn btn-white btn-sm share_modification" type = "button" data-toggle="tooltip" data-placement="top"  title="修改"> <i class="fa fa-wrench"/></button>' +
+            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="tooltip" title="删除题库"><i class="fa fa-close"/></button>'];//删除
+        }
+
+        //提示
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit,   //页面大小
+                offset: params.offset,  //页码
+                departmentname: $("#txt_search_departmentname").val(),
+                statu: $("#txt_search_statu").val()
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+        oInit.Init = function () {
+        };
+        return oInit;
+    };
+</script>
+<!--滑动按钮大小控制-->
+<script>
+    /*滑动按钮*/
+    /*modal中的滑动checkbox*/
+    let elem = Array.prototype.slice.call($('.js-switch-1'));
+    let switchery_update;
+    elem.forEach(function (html) {
+        switchery_update = new Switchery(html, {size: 'normal'});
+    });
+
+    /*更新 滑动checkbox*/
+    function checkbox_table() {
+        let elems = Array.prototype.slice.call($('.js-switch'));
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, {size: 'normal'});
+        });
+    }
+
+    /*改变滑动按钮的状态*/
+    function setSwitchery(switchElement, checkedBool) {
+        if ((checkedBool && !switchElement.isChecked()) || (!checkedBool && switchElement.isChecked())) {
+            switchElement.setPosition(true);
+            switchElement.handleOnchange(true);
+        }
+    }
+
+    /*根据json数据给滑动按钮设置状态*/
+    function switchBox(value, row, index) {
+        if (value === "正常") {
+            return '<input type="checkbox" class="js-switch form-control" checked/>';
+        }
+        return '<input type="checkbox" class="js-switch form-control"/>';
+    }
+
+    function switchBox_1(value, row, index) {
+        if (value === "正常") {
+            return '<input type="checkbox" class="js-switch_1 form-control" checked/>';
+        }
+        return '<input type="checkbox" class="js-switch_1 form-control"/>';
+    }
+
+    //清除bootstrap table边距
+    $(".simditor-toolbar").removeAttr("style");
+</script>
+<script>
+    $(function () {
+        let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineWrapping: true,	//代码折叠
+            lineNumbers: true,//显示行号
+            matchBrackets: true,//括号匹配
+            styleActiveLine: true,
+            readOnly: true, //只读
+            autofocus: true,
+
+        });
+        editor.setSize('379px', '230px');
+        editor.setValue('public class ForDemo{\n' +
+            '   public static void main(String[] args)\n' +
+            '    {\n' +
+            '     System.out.println("乘法口诀表：");\n' +
+            '       for(int i=1;i<=9;i++)\n' +
+            '      {\n' +
+            '       for(int j=1;j<=i;j++)\n' +
+            '             System.out.print(j+"*"+i+"="+j*i+"\\t");\n' +
+            '         }\n' +
+            '             System.out.println();\n' +
+            '            }\n' +
+            '        }\n' +
+            '    }');
+        setTimeout(function () {
+            editor.refresh();
+        }, 2000);
+    });
+</script>
+<!--富文本框-->
+<script>
+    var editor = new Simditor({
+        textarea: $('#editor'),
+    });
+    $(".simditor-toolbar").removeAttr("style"); //ie,ff均支持
+    var editor1 = new Simditor({
+        textarea: $('#editor1')
+    });
+    /*清除样式*/
+    $(".simditor-toolbar").removeAttr("style"); //ie,ff均支持
+</script>
+<!-- 增加选项-->
+<script>
+    $(function () {
+        $("#add_section_btn").collapsePanel();
+    });
+</script>
+</html>
