@@ -1,6 +1,5 @@
 package com.kclm.owep.dao;
 
-import com.kclm.owep.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;

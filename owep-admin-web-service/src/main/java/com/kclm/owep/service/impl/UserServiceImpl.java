@@ -2,7 +2,6 @@ package com.kclm.owep.service.impl;
 
 import com.kclm.owep.dao.UserDao;
 import com.kclm.owep.dto.UserDto;
-import com.kclm.owep.entity.User;
 import com.kclm.owep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

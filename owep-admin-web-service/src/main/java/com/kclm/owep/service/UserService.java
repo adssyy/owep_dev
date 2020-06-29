@@ -1,7 +1,6 @@
 package com.kclm.owep.service;
 
 import com.kclm.owep.dto.UserDto;
-import com.kclm.owep.entity.User;
 
 import java.io.Serializable;
 import java.util.List;
