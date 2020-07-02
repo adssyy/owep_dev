@@ -8,16 +8,16 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
-    <typeHandlers>
+    <!--<typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
                                 javaType="com.kclm.owep.entity.UserStatus"/>
-    </typeHandlers>
+    </typeHandlers>-->
 
-    <!--<typeAliases>
+    <typeAliases>
         <package name="com.kclm.owep.entity"/>
-    </typeAliases>-->
+    </typeAliases>
 
     <mappers>
-        <mapper resource="mybatis/mappers/UserMapper.xml"/>
+<!--        <mapper resource="mybatis/mappers/UserMapper.xml"/>-->
     </mappers>
 </configuration>
