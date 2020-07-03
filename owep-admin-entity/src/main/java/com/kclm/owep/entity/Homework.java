@@ -6,7 +6,7 @@ import java.util.Objects;
 /*********************
  * @Author: tanj
  * @Version : v1.0
- * @Create: 2020年6月29日 上午10:10:40
+ * @Create: 2020年7月03日 上午10:10:40
  * @Description 班级作业
  */
 public class Homework {
@@ -15,6 +15,8 @@ public class Homework {
     private String workTitle;   //作业标题
 
     private String workContent;  //作业描述
+
+    private Chapter chapter;    //章
 
     private Section section; //课程列表中的节表
 
@@ -56,6 +58,14 @@ public class Homework {
 
     public void setWorkContent(String workContent) {
         this.workContent = workContent;
+    }
+
+    public Chapter getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
     }
 
     public Section getSection() {
@@ -130,12 +140,13 @@ public class Homework {
         return Objects.equals(id, homework.id) &&
                 Objects.equals(workTitle, homework.workTitle) &&
                 Objects.equals(workContent, homework.workContent) &&
-                Objects.equals(courseName, homework.courseName);
+                Objects.equals(chapter, homework.chapter) &&
+                Objects.equals(section, homework.section);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, workTitle, workContent, courseName);
+        return Objects.hash(id, workTitle, workContent, chapter, section);
     }
 
     @Override
@@ -144,8 +155,6 @@ public class Homework {
         sb.append("id=").append(id);
         sb.append(", workTitle='").append(workTitle).append('\'');
         sb.append(", workContent='").append(workContent).append('\'');
-        sb.append(", section=").append(section);
-        sb.append(", clazz=").append(clazz);
         sb.append(", workFileName='").append(workFileName).append('\'');
         sb.append(", workStatus=").append(workStatus);
         sb.append(", courseName='").append(courseName).append('\'');

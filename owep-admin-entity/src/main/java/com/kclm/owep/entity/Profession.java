@@ -165,7 +165,6 @@ public class Profession {
         sb.append(", version=").append(version);
         sb.append(", createTime=").append(createTime);
         sb.append(", lastAccessTime=").append(lastAccessTime);
-        sb.append(", branchInstituteList=").append(branchInstituteList);
         sb.append('}');
         return sb.toString();
     }

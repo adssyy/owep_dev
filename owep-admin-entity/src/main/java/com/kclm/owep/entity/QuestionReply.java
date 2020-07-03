@@ -105,7 +105,6 @@ public class QuestionReply {
         sb.append(", createTime=").append(createTime);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append(", version=").append(version);
-        sb.append(", classQuestion=").append(classQuestion);
         sb.append('}');
         return sb.toString();
     }
