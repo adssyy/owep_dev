@@ -4,6 +4,8 @@
 
 package com.kclm.owep.entity;
 
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -38,4 +40,5 @@ public class Clazz implements java.io.Serializable {
 	private Set<UserClass> userClasses = new HashSet<UserClass>(0);// 用户班级中间表
 	private Set<TeacherCourse> teacherCourses=new HashSet<TeacherCourse>(0);//课程教师
 	private Set<Homework> homework=new HashSet<Homework>(0);//作业
+
 }
