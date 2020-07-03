@@ -8,7 +8,7 @@ import java.util.Objects;
 /*********************
  * @Author: tanj
  * @Version : v1.0
- * @Create: 2020年6月29日 上午10:10:40
+ * @Create: 2020年7月03日 上午10:10:40
  * @Description 班级
  */
 public class Clazz {
@@ -252,16 +252,12 @@ public class Clazz {
         sb.append(", branchName='").append(branchName).append('\'');
         sb.append(", classDesc='").append(classDesc).append('\'');
         sb.append(", teacherName='").append(teacherName).append('\'');
-        sb.append(", profession=").append(profession);
         sb.append(", delete=").append(delete);
         sb.append(", version=").append(version);
         sb.append(", createTime=").append(createTime);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append(", oldClassName='").append(oldClassName).append('\'');
         sb.append(", oldClassNum='").append(oldClassNum).append('\'');
-        sb.append(", resourceList=").append(resourceList);
-        sb.append(", courseList=").append(courseList);
-        sb.append(", planManagerList=").append(planManagerList);
         sb.append('}');
         return sb.toString();
     }

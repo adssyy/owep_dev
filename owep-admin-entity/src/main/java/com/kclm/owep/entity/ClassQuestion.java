@@ -141,12 +141,13 @@ public class ClassQuestion {
         return Objects.equals(id, that.id) &&
                 Objects.equals(questionTitle, that.questionTitle) &&
                 Objects.equals(questionDesc, that.questionDesc) &&
-                Objects.equals(courseNumber, that.courseNumber);
+                Objects.equals(student, that.student) &&
+                Objects.equals(course, that.course);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, questionTitle, questionDesc, courseNumber);
+        return Objects.hash(id, questionTitle, questionDesc, student, course);
     }
 
     @Override
@@ -157,9 +158,6 @@ public class ClassQuestion {
         sb.append(", questionDesc='").append(questionDesc).append('\'');
         sb.append(", questionStatus=").append(questionStatus);
         sb.append(", correlatedCourse='").append(correlatedCourse).append('\'');
-        sb.append(", student=").append(student);
-        sb.append(", video=").append(video);
-        sb.append(", course=").append(course);
         sb.append(", courseNumber='").append(courseNumber).append('\'');
         sb.append(", createTime=").append(createTime);
         sb.append(", version=").append(version);
