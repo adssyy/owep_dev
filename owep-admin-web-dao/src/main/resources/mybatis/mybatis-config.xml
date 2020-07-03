@@ -13,11 +13,8 @@
                                 javaType="com.kclm.owep.entity.UserStatus"/>
     </typeHandlers>-->
 
-    <typeAliases>
+    <!--<typeAliases>
         <package name="com.kclm.owep.entity"/>
-    </typeAliases>
+    </typeAliases>-->
 
-    <mappers>
-<!--        <mapper resource="mybatis/mappers/UserMapper.xml"/>-->
-    </mappers>
 </configuration>
