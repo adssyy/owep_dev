@@ -1,6 +1,9 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 /*********************
  * @Author: ZhongLei
  * @Version : v1.0
@@ -8,7 +11,7 @@ import java.time.LocalDateTime;
  * @Description 考评记录实体类
  */
 
-public class PollRecord {
+public class PollRecord implements Serializable {
 
     private Integer id;
 
@@ -84,6 +87,43 @@ public class PollRecord {
 
     private String pollItem15;
 
+    /***
+     * 空参构造
+     */
+    public PollRecord() {
+    }
+
+    /***
+     * 带参构造
+     * @return
+     */
+    public PollRecord(Integer id, String ipAddress, Double pollScore, Integer pollCount, String pollSuggest, LocalDateTime lastAccessTime, Integer version, LocalDateTime createTime, Boolean pollStatus, Integer fkTeacherPollId, String pollItem1, String pollItem2, String pollItem3, String pollItem4, String pollItem5, String pollItem6, String pollItem7, String pollItem8, String pollItem9, String pollItem10, String pollItem11, String pollItem12, String pollItem13, String pollItem14, String pollItem15) {
+        this.id = id;
+        this.ipAddress = ipAddress;
+        this.pollScore = pollScore;
+        this.pollCount = pollCount;
+        this.pollSuggest = pollSuggest;
+        this.lastAccessTime = lastAccessTime;
+        this.version = version;
+        this.createTime = createTime;
+        this.pollStatus = pollStatus;
+        this.fkTeacherPollId = fkTeacherPollId;
+        this.pollItem1 = pollItem1;
+        this.pollItem2 = pollItem2;
+        this.pollItem3 = pollItem3;
+        this.pollItem4 = pollItem4;
+        this.pollItem5 = pollItem5;
+        this.pollItem6 = pollItem6;
+        this.pollItem7 = pollItem7;
+        this.pollItem8 = pollItem8;
+        this.pollItem9 = pollItem9;
+        this.pollItem10 = pollItem10;
+        this.pollItem11 = pollItem11;
+        this.pollItem12 = pollItem12;
+        this.pollItem13 = pollItem13;
+        this.pollItem14 = pollItem14;
+        this.pollItem15 = pollItem15;
+    }
 
     public Integer getId() {
         return id;
@@ -332,5 +372,54 @@ public class PollRecord {
 
     public void setPollItem15(String pollItem15) {
         this.pollItem15 = pollItem15 == null ? null : pollItem15.trim();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PollRecord)) return false;
+        PollRecord that = (PollRecord) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getIpAddress(), that.getIpAddress()) &&
+                Objects.equals(getPollScore(), that.getPollScore()) &&
+                Objects.equals(getPollCount(), that.getPollCount()) &&
+                Objects.equals(getPollSuggest(), that.getPollSuggest());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getIpAddress(), getPollScore(), getPollCount(), getPollSuggest());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("PollRecord{");
+        sb.append("id=").append(id);
+        sb.append(", ipAddress='").append(ipAddress).append('\'');
+        sb.append(", pollScore=").append(pollScore);
+        sb.append(", pollCount=").append(pollCount);
+        sb.append(", pollSuggest='").append(pollSuggest).append('\'');
+        sb.append(", lastAccessTime=").append(lastAccessTime);
+        sb.append(", version=").append(version);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", pollStatus=").append(pollStatus);
+        sb.append(", fkTeacherPollId=").append(fkTeacherPollId);
+        sb.append(", pollItem1='").append(pollItem1).append('\'');
+        sb.append(", pollItem2='").append(pollItem2).append('\'');
+        sb.append(", pollItem3='").append(pollItem3).append('\'');
+        sb.append(", pollItem4='").append(pollItem4).append('\'');
+        sb.append(", pollItem5='").append(pollItem5).append('\'');
+        sb.append(", pollItem6='").append(pollItem6).append('\'');
+        sb.append(", pollItem7='").append(pollItem7).append('\'');
+        sb.append(", pollItem8='").append(pollItem8).append('\'');
+        sb.append(", pollItem9='").append(pollItem9).append('\'');
+        sb.append(", pollItem10='").append(pollItem10).append('\'');
+        sb.append(", pollItem11='").append(pollItem11).append('\'');
+        sb.append(", pollItem12='").append(pollItem12).append('\'');
+        sb.append(", pollItem13='").append(pollItem13).append('\'');
+        sb.append(", pollItem14='").append(pollItem14).append('\'');
+        sb.append(", pollItem15='").append(pollItem15).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

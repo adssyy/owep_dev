@@ -1,6 +1,8 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /*********************
  * @Author: ZhongLei
@@ -9,7 +11,7 @@ import java.time.LocalDateTime;
  * @Description 学习记录实体类
  */
 
-public class StudyRecord {
+public class StudyRecord implements Serializable {
 
     private Integer id;
 
@@ -46,6 +48,41 @@ public class StudyRecord {
     //最后一次访问时间
     private LocalDateTime lastAccessTime;
 
+    /***
+     * 空参构造
+     */
+    public StudyRecord() {
+    }
+
+    /***
+     * 带参构造
+     * @param id
+     * @param progressStatus
+     * @param createTime
+     * @param fkStudentId
+     * @param fkSectionId
+     * @param courseName
+     * @param chapterName
+     * @param sectionName
+     * @param videoRate
+     * @param videoLength
+     * @param version
+     * @param lastAccessTime
+     */
+    public StudyRecord(Integer id, Integer progressStatus, LocalDateTime createTime, Integer fkStudentId, Integer fkSectionId, String courseName, String chapterName, String sectionName, Double videoRate, Integer videoLength, Integer version, LocalDateTime lastAccessTime) {
+        this.id = id;
+        this.progressStatus = progressStatus;
+        this.createTime = createTime;
+        this.fkStudentId = fkStudentId;
+        this.fkSectionId = fkSectionId;
+        this.courseName = courseName;
+        this.chapterName = chapterName;
+        this.sectionName = sectionName;
+        this.videoRate = videoRate;
+        this.videoLength = videoLength;
+        this.version = version;
+        this.lastAccessTime = lastAccessTime;
+    }
 
     public Integer getId() {
         return id;
@@ -164,5 +201,41 @@ public class StudyRecord {
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StudyRecord)) return false;
+        StudyRecord that = (StudyRecord) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getCreateTime(), that.getCreateTime()) &&
+                Objects.equals(getCourseName(), that.getCourseName()) &&
+                Objects.equals(getChapterName(), that.getChapterName()) &&
+                Objects.equals(getSectionName(), that.getSectionName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCreateTime(), getCourseName(), getChapterName(), getSectionName());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("StudyRecord{");
+        sb.append("id=").append(id);
+        sb.append(", progressStatus=").append(progressStatus);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", fkStudentId=").append(fkStudentId);
+        sb.append(", fkSectionId=").append(fkSectionId);
+        sb.append(", courseName='").append(courseName).append('\'');
+        sb.append(", chapterName='").append(chapterName).append('\'');
+        sb.append(", sectionName='").append(sectionName).append('\'');
+        sb.append(", videoRate=").append(videoRate);
+        sb.append(", videoLength=").append(videoLength);
+        sb.append(", version=").append(version);
+        sb.append(", lastAccessTime=").append(lastAccessTime);
+        sb.append('}');
+        return sb.toString();
     }
 }
