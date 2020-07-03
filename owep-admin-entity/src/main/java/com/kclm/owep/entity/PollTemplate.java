@@ -1,6 +1,9 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 /*********************
  * @Author: ZhongLei
  * @Version : v1.0
@@ -8,7 +11,7 @@ import java.time.LocalDateTime;
  * @Description 考评模板实体类
  */
 
-public class PollTemplate {
+public class PollTemplate implements Serializable {
 
     private Integer id;
 
@@ -33,6 +36,26 @@ public class PollTemplate {
     //最后访问时间
     private LocalDateTime lastAccessTime;
 
+    /***
+     * 空参构造
+     */
+    public PollTemplate() {
+    }
+
+    /***
+     * 带参构造
+     * @return
+     */
+    public PollTemplate(Integer id, String templateContent, String templateName, String templateNum, Integer templateStatus, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
+        this.id = id;
+        this.templateContent = templateContent;
+        this.templateName = templateName;
+        this.templateNum = templateNum;
+        this.templateStatus = templateStatus;
+        this.createTime = createTime;
+        this.version = version;
+        this.lastAccessTime = lastAccessTime;
+    }
 
     public Integer getId() {
         return id;
@@ -111,5 +134,36 @@ public class PollTemplate {
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PollTemplate)) return false;
+        PollTemplate that = (PollTemplate) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getTemplateContent(), that.getTemplateContent()) &&
+                Objects.equals(getTemplateName(), that.getTemplateName()) &&
+                Objects.equals(getTemplateNum(), that.getTemplateNum());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTemplateContent(), getTemplateName(), getTemplateNum());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("PollTemplate{");
+        sb.append("id=").append(id);
+        sb.append(", templateContent='").append(templateContent).append('\'');
+        sb.append(", templateName='").append(templateName).append('\'');
+        sb.append(", templateNum='").append(templateNum).append('\'');
+        sb.append(", templateStatus=").append(templateStatus);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", version=").append(version);
+        sb.append(", lastAccessTime=").append(lastAccessTime);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -1,6 +1,9 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 /*********************
  * @Author: ZhongLei
  * @Version : v1.0
@@ -8,7 +11,7 @@ import java.time.LocalDateTime;
  * @Description 教师考评实体类
  */
 
-public class TeacherPoll {
+public class TeacherPoll implements Serializable {
 
     private Integer id;
 
@@ -65,6 +68,56 @@ public class TeacherPoll {
 
     //最后访问时间
     private LocalDateTime lastAccessTime;
+
+    /***
+     * 空参构造
+     */
+    public TeacherPoll() {
+    }
+
+    /***
+     * 带参构造
+     * @param id
+     * @param teacherName
+     * @param className
+     * @param pollAddress
+     * @param pollGrade
+     * @param effectiveTime
+     * @param pollStatus
+     * @param pollCount
+     * @param pollSuggest
+     * @param fkTemplateId
+     * @param fkUserId
+     * @param fkClassId
+     * @param allowIp
+     * @param ipLimit
+     * @param startTime
+     * @param endTime
+     * @param createTime
+     * @param version
+     * @param lastAccessTime
+     */
+    public TeacherPoll(Integer id, String teacherName, String className, String pollAddress, String pollGrade, LocalDateTime effectiveTime, String pollStatus, Integer pollCount, String pollSuggest, Integer fkTemplateId, Integer fkUserId, Integer fkClassId, String allowIp, Integer ipLimit, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
+        this.id = id;
+        this.teacherName = teacherName;
+        this.className = className;
+        this.pollAddress = pollAddress;
+        this.pollGrade = pollGrade;
+        this.effectiveTime = effectiveTime;
+        this.pollStatus = pollStatus;
+        this.pollCount = pollCount;
+        this.pollSuggest = pollSuggest;
+        this.fkTemplateId = fkTemplateId;
+        this.fkUserId = fkUserId;
+        this.fkClassId = fkClassId;
+        this.allowIp = allowIp;
+        this.ipLimit = ipLimit;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.createTime = createTime;
+        this.version = version;
+        this.lastAccessTime = lastAccessTime;
+    }
 
     public Integer getId() {
         return id;
@@ -216,5 +269,48 @@ public class TeacherPoll {
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TeacherPoll)) return false;
+        TeacherPoll that = (TeacherPoll) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getTeacherName(), that.getTeacherName()) &&
+                Objects.equals(getClassName(), that.getClassName()) &&
+                Objects.equals(getPollAddress(), that.getPollAddress()) &&
+                Objects.equals(getPollGrade(), that.getPollGrade());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTeacherName(), getClassName(), getPollAddress(), getPollGrade());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("TeacherPoll{");
+        sb.append("id=").append(id);
+        sb.append(", teacherName='").append(teacherName).append('\'');
+        sb.append(", className='").append(className).append('\'');
+        sb.append(", pollAddress='").append(pollAddress).append('\'');
+        sb.append(", pollGrade='").append(pollGrade).append('\'');
+        sb.append(", effectiveTime=").append(effectiveTime);
+        sb.append(", pollStatus='").append(pollStatus).append('\'');
+        sb.append(", pollCount=").append(pollCount);
+        sb.append(", pollSuggest='").append(pollSuggest).append('\'');
+        sb.append(", fkTemplateId=").append(fkTemplateId);
+        sb.append(", fkUserId=").append(fkUserId);
+        sb.append(", fkClassId=").append(fkClassId);
+        sb.append(", allowIp='").append(allowIp).append('\'');
+        sb.append(", ipLimit=").append(ipLimit);
+        sb.append(", startTime=").append(startTime);
+        sb.append(", endTime=").append(endTime);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", version=").append(version);
+        sb.append(", lastAccessTime=").append(lastAccessTime);
+        sb.append('}');
+        return sb.toString();
     }
 }
