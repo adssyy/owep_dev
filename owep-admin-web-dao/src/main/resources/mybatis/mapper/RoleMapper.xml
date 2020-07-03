@@ -12,7 +12,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
-    <result column="fk_parent_id" jdbcType="INTEGER" property="fkParentId" />
+    <result column="fk_parent_id" jdbcType="INTEGER" property="parent" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -143,7 +143,7 @@
       fk_parent_id)
     values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleDescription,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}, 
-      #{fkParentId,jdbcType=INTEGER})
+      #{parent,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kclm.owep.entity.Role">
     <!--
@@ -170,7 +170,7 @@
       <if test="version != null">
         version,
       </if>
-      <if test="fkParentId != null">
+      <if test="parent != null">
         fk_parent_id,
       </if>
     </trim>
@@ -193,8 +193,8 @@
       <if test="version != null">
         #{version,jdbcType=INTEGER},
       </if>
-      <if test="fkParentId != null">
-        #{fkParentId,jdbcType=INTEGER},
+      <if test="parent != null">
+        #{parent,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -233,8 +233,8 @@
       <if test="record.version != null">
         version = #{record.version,jdbcType=INTEGER},
       </if>
-      <if test="record.fkParentId != null">
-        fk_parent_id = #{record.fkParentId,jdbcType=INTEGER},
+      <if test="record.parent != null">
+        fk_parent_id = #{record.parent,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -253,7 +253,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       last_access_time = #{record.lastAccessTime,jdbcType=TIMESTAMP},
       version = #{record.version,jdbcType=INTEGER},
-      fk_parent_id = #{record.fkParentId,jdbcType=INTEGER}
+      fk_parent_id = #{record.parent,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -280,8 +280,8 @@
       <if test="version != null">
         version = #{version,jdbcType=INTEGER},
       </if>
-      <if test="fkParentId != null">
-        fk_parent_id = #{fkParentId,jdbcType=INTEGER},
+      <if test="parent != null">
+        fk_parent_id = #{parent,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -297,7 +297,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
       version = #{version,jdbcType=INTEGER},
-      fk_parent_id = #{fkParentId,jdbcType=INTEGER}
+      fk_parent_id = #{parent,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
