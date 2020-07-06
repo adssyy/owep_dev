@@ -18,7 +18,7 @@ public class Profession {
 
     private String profDesc;    //专业描述
 
-    private Integer profStatus; //'专业启用状态 1：已启用 2：未启用'
+    private Integer profStatus; //'专业启用状态 1：已启用 0：未启用'
 
     private String instituteName; // 所属机构名称
 

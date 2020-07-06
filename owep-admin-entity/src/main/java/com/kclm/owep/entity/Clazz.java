@@ -1,3 +1,6 @@
+/********************************
+ *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.time.LocalDate;
@@ -13,45 +16,105 @@ import java.util.Objects;
  */
 public class Clazz {
 
-    private Integer id; //id
+    /**
+     * id
+     */
+    private Integer id;
 
-    private String classNumber; //班级编号
+    /**
+     * 班级编号
+     */
+    private String classNumber;
 
-    private String className;   //班级名称
+    /***
+     * 班级名称
+     */
+    private String className;
 
-    private LocalDate startTime;     //开班时间
+    /***
+     * 开班时间
+     */
+    private LocalDate startTime;
 
-    private LocalDate endTime;       //结束时间
+    /***
+     * 结束时间
+     */
+    private LocalDate endTime;
 
-    private Integer classStatus;    //启用状态（1：启用 2：未启用）
+    /***
+     * 启用状态（1：启用 0：未启用）
+     */
+    private Integer classStatus;
 
-    private String instituteName;   //所属机构
+    /***
+     * 所属机构
+     */
+    private String instituteName;
 
-    private String branchName;      //所属分支
+    /***
+     * 所属分支
+     */
+    private String branchName;
 
-    private String classDesc;       //班级描述
+    /***
+     * 班级描述
+     */
+    private String classDesc;
 
-    private String teacherName;     //老师名
+    /***
+     * 老师名
+     */
+    private String teacherName;
 
-    private Profession profession;     //专业管理
+    /***
+     * 专业管理
+     */
+    private Profession profession;
 
-    private Integer delete;            //是否删除（1：未删除 0：已删除）
+    /***
+     * 是否删除（1：未删除 0：已删除）
+     */
+    private Integer delete;
 
-    private Integer version;            //版本号
+    /***
+     * 版本号
+     */
+    private Integer version;
 
-    private LocalDateTime createTime;           //创建时间
+    /***
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
-    private LocalDateTime lastAccessTime;        //最后一次访问时间
+    /***
+     * 最后一次访问时间
+     */
+    private LocalDateTime lastAccessTime;
 
-    private String oldClassName;        //旧的班级名称
+    /***
+     * 旧的班级名称
+     */
+    private String oldClassName;
 
-    private String oldClassNum;         //旧的班级编号
+    /***
+     * 旧的班级编号
+     */
+    private String oldClassNum;
 
-    private List<Resource> resourceList;    //资源管理
+    /***
+     * 资源管理
+     */
+    private List<Resource> resourceList;
 
-    private List<Course> courseList;        //课程
+    /***
+     * 课程
+     */
+    private List<Course> courseList;
 
-    private List<PlanManager> planManagerList;  //方案
+    /***
+     * 方案
+     */
+    private List<PlanManager> planManagerList;
 
 
     public Integer getId() {
