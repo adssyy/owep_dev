@@ -1,10 +1,10 @@
 package com.kclm.owep.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Advice {
     /**
-     * 反馈人id
+     * 主键
      * @mbg.generated
      */
     private Integer id;
@@ -31,13 +31,13 @@ public class Advice {
      * 创建时间
      * @mbg.generated
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 最后访问时间
      * @mbg.generated
      */
-    private Date lastAccessTime;
+    private LocalDateTime lastAccessTime;
 
     /**
      * 版本
@@ -45,128 +45,58 @@ public class Advice {
      */
     private Integer version;
 
-    /**
-     * @return the value of t_advice.id
-     *
-     * @mbg.generated
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * @param id the value for t_advice.id
-     *
-     * @mbg.generated
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * @return the value of t_advice.email
-     *
-     * @mbg.generated
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the value for t_advice.email
-     *
-     * @mbg.generated
-     */
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
     }
 
-    /**
-     * @return the value of t_advice.advice_content
-     *
-     * @mbg.generated
-     */
     public String getAdviceContent() {
         return adviceContent;
     }
 
-    /**
-     * @param adviceContent the value for t_advice.advice_content
-     *
-     * @mbg.generated
-     */
     public void setAdviceContent(String adviceContent) {
         this.adviceContent = adviceContent == null ? null : adviceContent.trim();
     }
 
-    /**
-     * @return the value of t_advice.suggest_name
-     *
-     * @mbg.generated
-     */
     public Integer getSuggestName() {
         return suggestName;
     }
 
-    /**
-     * @param suggestName the value for t_advice.suggest_name
-     *
-     * @mbg.generated
-     */
     public void setSuggestName(Integer suggestName) {
         this.suggestName = suggestName;
     }
 
-    /**
-     * @return the value of t_advice.create_time
-     *
-     * @mbg.generated
-     */
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    /**
-     * @param createTime the value for t_advice.create_time
-     *
-     * @mbg.generated
-     */
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    /**
-     * @return the value of t_advice.last_access_time
-     *
-     * @mbg.generated
-     */
-    public Date getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    /**
-     * @param lastAccessTime the value for t_advice.last_access_time
-     *
-     * @mbg.generated
-     */
-    public void setLastAccessTime(Date lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 
-    /**
-     * @return the value of t_advice.version
-     *
-     * @mbg.generated
-     */
     public Integer getVersion() {
         return version;
     }
 
-    /**
-     * @param version the value for t_advice.version
-     *
-     * @mbg.generated
-     */
     public void setVersion(Integer version) {
         this.version = version;
     }
