@@ -17,6 +17,8 @@ public class Evaluate implements Serializable {
     private User user;
     //学员ID
     private Student student;
+    //class_id
+    private Integer class_id;
     //学生姓名
     private String studentName;
     //状态,1 表示有效，0表示无效
@@ -35,6 +37,7 @@ public class Evaluate implements Serializable {
                 Objects.equals(lastAccessTime, evaluate1.lastAccessTime) &&
                 Objects.equals(user, evaluate1.user) &&
                 Objects.equals(student, evaluate1.student) &&
+                Objects.equals(class_id, evaluate1.class_id) &&
                 Objects.equals(studentName, evaluate1.studentName) &&
                 Objects.equals(evaluateStatus, evaluate1.evaluateStatus) &&
                 Objects.equals(evaluate, evaluate1.evaluate);
@@ -42,7 +45,15 @@ public class Evaluate implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, user, student, studentName, evaluateStatus, evaluate);
+        return Objects.hash(id, version, createTime, lastAccessTime, user, student, class_id, studentName, evaluateStatus, evaluate);
+    }
+
+    public Integer getClass_id() {
+        return class_id;
+    }
+
+    public void setClass_id(Integer class_id) {
+        this.class_id = class_id;
     }
 
     public Integer getId() {

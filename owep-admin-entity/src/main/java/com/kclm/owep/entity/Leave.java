@@ -23,6 +23,8 @@ public class Leave implements Serializable {
     private Integer approvalStatus;
     //学生
     private Student student;
+    //class_id
+    private Integer classId;
     //意见
     private String option;
     //学生姓名
@@ -46,6 +48,7 @@ public class Leave implements Serializable {
                 Objects.equals(reasonLeave, leave.reasonLeave) &&
                 Objects.equals(approvalStatus, leave.approvalStatus) &&
                 Objects.equals(student, leave.student) &&
+                Objects.equals(classId, leave.classId) &&
                 Objects.equals(option, leave.option) &&
                 Objects.equals(studentName, leave.studentName) &&
                 Objects.equals(leaveType, leave.leaveType) &&
@@ -54,7 +57,15 @@ public class Leave implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, leaveTime, endTime, reasonLeave, approvalStatus, student, option, studentName, leaveType, serialNumber);
+        return Objects.hash(id, version, createTime, lastAccessTime, leaveTime, endTime, reasonLeave, approvalStatus, student, classId, option, studentName, leaveType, serialNumber);
+    }
+
+    public Integer getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Integer classId) {
+        this.classId = classId;
     }
 
     public Integer getId() {
