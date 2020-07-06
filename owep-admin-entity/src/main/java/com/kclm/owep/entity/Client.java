@@ -5,6 +5,8 @@ package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
+
 /************
  *@Author yejx
  *@version v1.0
@@ -142,6 +144,12 @@ public class Client {
      */
     private User user;
 
+    /**
+     * 客户的跟踪记录
+     */
+    private List<ClientNote> clientNoteList;
+
+
     public Client() {
     }
 
@@ -180,6 +188,14 @@ public class Client {
 
     public void setClientPhone(String clientPhone) {
         this.clientPhone = clientPhone;
+    }
+
+    public List<ClientNote> getClientNoteList() {
+        return clientNoteList;
+    }
+
+    public void setClientNoteList(List<ClientNote> clientNoteList) {
+        this.clientNoteList = clientNoteList;
     }
 
     public Integer getGender() {

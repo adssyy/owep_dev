@@ -4,6 +4,8 @@
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 /************
  *@Author yejx
  *@version v1.0
@@ -68,9 +70,15 @@ public class Chapter {
     private Integer version;
 
     /**
-     *最好一次访问时间
+     *最后一次访问时间
      */
     private LocalDateTime lastAccessTime;
+
+
+    /**
+     * 一个章包含多个节
+     */
+    private List<Section> sectionList;
 
     /**
      * 空参构造
@@ -85,6 +93,14 @@ public class Chapter {
         this.createTime = createTime;
         this.videoStatus = videoStatus;
         this.course = course;
+    }
+
+    public List<Section> getSectionList() {
+        return sectionList;
+    }
+
+    public void setSectionList(List<Section> sectionList) {
+        this.sectionList = sectionList;
     }
 
     public Integer getId() {
