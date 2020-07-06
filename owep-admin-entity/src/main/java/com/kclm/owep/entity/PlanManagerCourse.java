@@ -5,6 +5,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /************
  *@Author yejx
@@ -167,5 +168,19 @@ public class PlanManagerCourse implements Serializable {
         sb.append(", version=").append(version);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlanManagerCourse that = (PlanManagerCourse) o;
+        return Objects.equals(planManager, that.planManager) &&
+                Objects.equals(course, that.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(planManager, course);
     }
 }

@@ -1,3 +1,7 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -14,14 +18,14 @@ import java.util.Objects;
  */
 public class Permission implements Serializable {
     private Integer id;
-    private String permissionName;//权限名
-    private String permissionDescription;//权限描述
-    private LocalDateTime createTime;//创建时间
-    private LocalDateTime lastAccessTime;//最后一次访问时间
-    private Integer version;//版本号
-    private List<Role> roles;//关联角色
-    private List<Action> actions;//关联行为
-    private List<Menu> menus;//关联菜单
+    private String permissionName;/** 权限名*/
+    private String permissionDescription;/** 权限描述*/
+    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
+    private Integer version;/** 版本号*/
+    private List<Role> roles;/** 关联角色*/
+    private List<Action> actions;/** 关联行为*/
+    private List<Menu> menus;/** 关联菜单*/
 
 
     public Permission() {

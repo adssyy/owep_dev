@@ -1,3 +1,7 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -14,14 +18,14 @@ import java.util.Objects;
  */
 public class Group implements Serializable {
     private Integer id;
-    private String groupName;//组名
-    private String groupDescription;//组描述
-    private LocalDateTime createTime;//创建时间
-    private LocalDateTime lastAccessTime;//最后一次访问时间
-    private Integer version;//版本号
-    private Integer maxCount;//最多支持分配多少个角色
-    private List<Role> roles;//关联角色表
-    private List<User> users;//关联用户
+    private String groupName;/** 组名*/
+    private String groupDescription;/** 组描述*/
+    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
+    private Integer version;/** 版本号*/
+    private Integer maxCount;/** 最多支持分配多少个角色*/
+    private List<Role> roles;/** 关联角色表*/
+    private List<User> users;/** 关联用户*/
 
 
     public Group() {
