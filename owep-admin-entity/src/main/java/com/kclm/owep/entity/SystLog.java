@@ -1,8 +1,11 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class SystLog {
+public class SystLog implements Serializable {
+
+    private static final long serialVersionUID=1L;
     //id
     private Integer id;
 
