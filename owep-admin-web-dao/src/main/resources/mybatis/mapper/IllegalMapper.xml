@@ -61,8 +61,24 @@
       #{studentName,jdbcType=VARCHAR}, #{disciplineTime,jdbcType=TIMESTAMP}, #{presentationCondition,jdbcType=VARCHAR}, 
       #{attachment,jdbcType=VARCHAR})
   </insert>
-
+  <!--
+    条件查询
+   -->
   <select id="selectByCondition" resultMap="BaseResultMap">
-    select * from t_illegal where
+    select * from t_illegal
+    <where>
+      <if test="number != null and number != ''">
+        and stu_number
+      </if>
+      <if test="name != null and name != ''">
+        and stu_name like "{#name}"
+      </if>
+    </where>
+    <if test="startTime != null">
+        and start
+    </if>
+    <if test="endTime != null">
+
+    </if>
   </select>
 </mapper>
