@@ -26,7 +26,7 @@ public class PollItem implements Serializable {
     private String pollContent;
 
     //是否启用  1.启用 2.未启用
-    private Integer status;
+    private Integer pollStatus;
 
     //创建时间
     private LocalDateTime createTime;
@@ -43,21 +43,11 @@ public class PollItem implements Serializable {
     public PollItem() {
     }
 
-    /***
-     * 带参构造
-     * @param id
-     * @param pollNum
-     * @param pollContent
-     * @param status
-     * @param createTime
-     * @param version
-     * @param lastAccessTime
-     */
-    public PollItem(Integer id, String pollNum, String pollContent, Integer status, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
+    public PollItem(Integer id, String pollNum, String pollContent, Integer pollStatus, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
         this.id = id;
         this.pollNum = pollNum;
         this.pollContent = pollContent;
-        this.status = status;
+        this.pollStatus = pollStatus;
         this.createTime = createTime;
         this.version = version;
         this.lastAccessTime = lastAccessTime;
@@ -87,12 +77,12 @@ public class PollItem implements Serializable {
         this.pollContent = pollContent;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getPollStatus() {
+        return pollStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setPollStatus(Integer pollStatus) {
+        this.pollStatus = pollStatus;
     }
 
     public LocalDateTime getCreateTime() {
@@ -127,12 +117,12 @@ public class PollItem implements Serializable {
         return Objects.equals(getId(), pollItem.getId()) &&
                 Objects.equals(getPollNum(), pollItem.getPollNum()) &&
                 Objects.equals(getPollContent(), pollItem.getPollContent()) &&
-                Objects.equals(getStatus(), pollItem.getStatus());
+                Objects.equals(getPollStatus(), pollItem.getPollStatus());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPollNum(), getPollContent(), getStatus());
+        return Objects.hash(getId(), getPollNum(), getPollContent(), getPollStatus());
     }
 
     @Override
@@ -141,7 +131,7 @@ public class PollItem implements Serializable {
         sb.append("id=").append(id);
         sb.append(", pollNum='").append(pollNum).append('\'');
         sb.append(", pollContent='").append(pollContent).append('\'');
-        sb.append(", status=").append(status);
+        sb.append(", pollStatus=").append(pollStatus);
         sb.append(", createTime=").append(createTime);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
