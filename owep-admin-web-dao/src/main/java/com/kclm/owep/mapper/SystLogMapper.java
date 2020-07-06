@@ -1,23 +1,13 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.SystLog;
-
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
-
+/************
+ *@Author chenxin
+ *@Version v1.0
+ *@Create 2020/7/616:53
+ *@Description 系统日志接口
+ */
 public interface SystLogMapper {
 
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(SystLog record);
-
-    int insertSelective(SystLog record);
-
-    SystLog selectByPrimaryKey(Integer id);
-
-
-    int updateByPrimaryKeySelective(SystLog record);
-
-
-    int updateByPrimaryKey(SystLog record);
+//TODO
 }

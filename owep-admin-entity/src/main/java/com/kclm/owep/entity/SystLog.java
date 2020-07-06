@@ -3,43 +3,77 @@ package com.kclm.owep.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class SystLog implements Serializable {
+/************
+ *@Author chenxin
+ *@Version v1.0
+ *@Create 2020/7/616:22
+ *@Description 系统日志实体类
+ */
 
+public class SystLog implements Serializable {
+    /**
+     * 序列化接口
+     */
     private static final long serialVersionUID=1L;
-    //id
+    /**
+     *id(主键)
+     */
     private Integer id;
 
-    //日志主题(菜单标题)
+    /**
+     *日志主题(菜单标题)
+     */
+
     private String title;
+    /**
+     *操作模块名
+     */
 
-    //操作模块名
     private String moduleName;
+    /**
+     *操作菜单名
+     */
 
-    //操作菜单名
     private String menuName;
+    /**
+     *ip地址
+     */
 
-    //ip地址
     private String ipAddr;
+    /**
+     *请求方法
+     */
 
-    //请求方法
     private String method;
+    /**
+     *请求地址
+     */
 
-    //请求地址
     private String requestUrl;
+    /**
+     *类型
+     */
 
-    //类型
     private String type;
+    /**
+     *登录用户名
+     */
 
-    //登录用户名
     private String loginUserName;
+    /**
+     *最后访问时间
+     */
 
-    //最后访问时间
     private LocalDateTime lastAccessTime;
+    /**
+     *创建时间
+     */
 
-    //创建时间
     private LocalDateTime createTime;
+    /**
+     *版本
+     */
 
-    //版本
     private Integer version;
 
     public LocalDateTime getLastAccessTime() {
@@ -155,5 +189,23 @@ public class SystLog implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    @Override
+    public String toString() {
+        return "SystLog{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", moduleName='" + moduleName + '\'' +
+                ", menuName='" + menuName + '\'' +
+                ", ipAddr='" + ipAddr + '\'' +
+                ", method='" + method + '\'' +
+                ", requestUrl='" + requestUrl + '\'' +
+                ", type='" + type + '\'' +
+                ", loginUserName='" + loginUserName + '\'' +
+                ", lastAccessTime=" + lastAccessTime +
+                ", createTime=" + createTime +
+                ", version=" + version +
+                '}';
     }
 }
