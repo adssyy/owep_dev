@@ -1,6 +1,5 @@
 package com.kclm.owep.mapper;
 
-import com.kclm.owep.entity.Clazz;
 import com.kclm.owep.entity.ClazzExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
