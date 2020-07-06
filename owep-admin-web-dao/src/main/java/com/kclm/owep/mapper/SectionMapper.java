@@ -2,6 +2,12 @@
  *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
  */
 package com.kclm.owep.mapper;
+
+import com.kclm.owep.entity.Section;
+
+import java.io.Serializable;
+import java.util.List;
+
 /************
  *@Author yejx
  *@version v1.0
@@ -10,5 +16,31 @@ package com.kclm.owep.mapper;
  *
  */
 public interface SectionMapper {
+
+    /**
+     * 通过章id，查询所有的节
+     * @return
+     */
+    List<Section> findAll(Serializable id);
+
+    /**
+     * 添加节
+     * @param section
+     */
+    void saveSection(Section section);
+
+    /**
+     * 通过节id,删除节
+     * @param id
+     */
+    void deleteSection(Serializable id);
+
+    /**
+     * 修改节信息
+     * @param section
+     */
+    void updateSection(Section section);
+
+
 
 }

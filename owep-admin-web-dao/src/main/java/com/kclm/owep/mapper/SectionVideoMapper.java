@@ -2,6 +2,9 @@
  *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
  */
 package com.kclm.owep.mapper;
+
+import com.kclm.owep.entity.SectionVideo;
+
 /************
  *@Author yejx
  *@version v1.0
@@ -11,4 +14,9 @@ package com.kclm.owep.mapper;
  */
 public interface SectionVideoMapper {
 
+    /**
+     * 给节添加视频
+     * @param sectionVideo
+     */
+    void saveSectionVideo(SectionVideo sectionVideo);
 }
