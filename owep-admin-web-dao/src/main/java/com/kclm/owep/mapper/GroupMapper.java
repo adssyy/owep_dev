@@ -1,3 +1,7 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Group;
