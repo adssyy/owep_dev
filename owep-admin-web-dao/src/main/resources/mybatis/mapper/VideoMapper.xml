@@ -9,7 +9,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="video_name" jdbcType="VARCHAR" property="videoName" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="fk_parent_id" jdbcType="INTEGER" property="fkParentId" />
+    <result column="fk_parent_id" jdbcType="INTEGER" property="parent" />
     <result column="video_length" jdbcType="DOUBLE" property="videoLength" />
     <result column="video_from" jdbcType="VARCHAR" property="videoFrom" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -151,7 +151,7 @@
       delete, create_time, last_access_time, 
       version)
     values (#{id,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{fkParentId,jdbcType=INTEGER}, #{videoLength,jdbcType=DOUBLE}, #{videoFrom,jdbcType=VARCHAR}, 
+      #{parent,jdbcType=INTEGER}, #{videoLength,jdbcType=DOUBLE}, #{videoFrom,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER}, #{videoUrl,jdbcType=VARCHAR}, #{videoDesc,jdbcType=VARCHAR}, 
       #{delete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=TIMESTAMP}, 
       #{version,jdbcType=INTEGER})
@@ -172,7 +172,7 @@
       <if test="type != null">
         type,
       </if>
-      <if test="fkParentId != null">
+      <if test="parent != null">
         fk_parent_id,
       </if>
       <if test="videoLength != null">
@@ -213,8 +213,8 @@
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="fkParentId != null">
-        #{fkParentId,jdbcType=INTEGER},
+      <if test="parent != null">
+        #{parent,jdbcType=INTEGER},
       </if>
       <if test="videoLength != null">
         #{videoLength,jdbcType=DOUBLE},
@@ -271,8 +271,8 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.fkParentId != null">
-        fk_parent_id = #{record.fkParentId,jdbcType=INTEGER},
+      <if test="record.parent != null">
+        fk_parent_id = #{record.parent,jdbcType=INTEGER},
       </if>
       <if test="record.videoLength != null">
         video_length = #{record.videoLength,jdbcType=DOUBLE},
@@ -315,7 +315,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       video_name = #{record.videoName,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
-      fk_parent_id = #{record.fkParentId,jdbcType=INTEGER},
+      fk_parent_id = #{record.parent,jdbcType=INTEGER},
       video_length = #{record.videoLength,jdbcType=DOUBLE},
       video_from = #{record.videoFrom,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
@@ -342,8 +342,8 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="fkParentId != null">
-        fk_parent_id = #{fkParentId,jdbcType=INTEGER},
+      <if test="parent != null">
+        fk_parent_id = #{parent,jdbcType=INTEGER},
       </if>
       <if test="videoLength != null">
         video_length = #{videoLength,jdbcType=DOUBLE},
@@ -383,7 +383,7 @@
     update t_video
     set video_name = #{videoName,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      fk_parent_id = #{fkParentId,jdbcType=INTEGER},
+      fk_parent_id = #{parent,jdbcType=INTEGER},
       video_length = #{videoLength,jdbcType=DOUBLE},
       video_from = #{videoFrom,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
