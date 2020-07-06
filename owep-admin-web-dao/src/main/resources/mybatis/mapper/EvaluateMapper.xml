@@ -24,7 +24,9 @@
       <result column="effective_date" property="effectiveDate"></result>
     </association>
   </resultMap>
-
+<!--
+  通过班级id查找学生评价的数据
+-->
     <select id="selectByClassId"  parameterType="Integer" resultMap="BaseResultMap">
       select * from t_evaluate where class_id = {#value}
     </select>
