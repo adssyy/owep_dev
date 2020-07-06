@@ -6,6 +6,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /************
  *@Author yejx
@@ -24,6 +25,11 @@ public class ChannelType implements Serializable {
      *渠道类型名称
      */
     private String channelTypeName;
+
+    /**
+     * 客户渠道
+     */
+    private List<Channel> channelList;
 
     /**
      *创建时间
@@ -76,6 +82,14 @@ public class ChannelType implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public List<Channel> getChannelList() {
+        return channelList;
+    }
+
+    public void setChannelList(List<Channel> channelList) {
+        this.channelList = channelList;
     }
 
     public LocalDateTime getLastAccessTime() {
