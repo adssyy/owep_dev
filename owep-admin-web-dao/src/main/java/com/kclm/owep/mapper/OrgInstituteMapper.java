@@ -4,8 +4,8 @@ import com.kclm.owep.entity.OrgInstitute;
 
 public interface OrgInstituteMapper {
 
-
-    int deleteByPrimaryKey(Integer id);
+//TODo
+   /* int deleteByPrimaryKey(Integer id);
 
 
     int insert(OrgInstitute record);
@@ -20,5 +20,5 @@ public interface OrgInstituteMapper {
     int updateByPrimaryKeySelective(OrgInstitute record);
 
 
-    int updateByPrimaryKey(OrgInstitute record);
+    int updateByPrimaryKey(OrgInstitute record);*/
 }

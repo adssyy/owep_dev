@@ -1,24 +1,50 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class OrgInstitute {
+/*******
+ * @Author yangwr
+ * @Version v1.0
+ * @Create 2020/7/6 16:34
+ * @Description 组织机构实体类
+ */
+public class OrgInstitute implements Serializable {
 
-    private Integer id; //组织机构id
+    private static final long serialVersionUID = 1L;
 
-    private String instituteName;  //机构名称
+    /***
+     * 组织机构id
+     */
+    private Integer id;
+    /***
+     * 机构名称
+     */
+    private String instituteName;
+    /***
+     *机构类型
+     */
+    private Integer instituteType;
+    /***
+     *是否逻辑删除，1表示未删除，0表示已删除
+     */
+    private Integer delete;
+    /***
+     *版本
+     */
+    private Integer version;
+    /***
+     *创建时间
+     */
+    private LocalDateTime createTime;
+    /***
+     *最后访问时间
+     */
+    private LocalDateTime lastAccessTime;
 
-    private Integer instituteType; //机构类型
-
-    private Integer delete; //是否逻辑删除，1表示未删除，0表示已删除
-
-    private Integer version; //版本
-
-    private LocalDateTime createTime; //创建时间
-
-    private LocalDateTime lastAccessTime; //最后访问时间
-
-    //get/set方法
+    /***
+     *get,set方法
+     */
     public Integer getId() {
 
         return id;
