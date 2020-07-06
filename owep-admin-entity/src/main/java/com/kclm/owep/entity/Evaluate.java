@@ -1,29 +1,57 @@
+/*********************
+ * 2018-2021 版权所有 CopyRight（c） 快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-
+/*********************
+ * @Auther shentr
+ * @Version V1.0
+ * @Create 2020/7/6 16:18
+ * @Description 学生评价
+ */
 public class Evaluate implements Serializable {
-    //主键
+    /**
+     *主键
+     */
     private Integer id;
-    //版本
+    /**
+     *版本
+     */
     private Integer version;
-    //创建时间
+    /**
+     *创建时间
+     */
     private LocalDate createTime;
-    //最后修改时间
+    /**
+     *最后修改时间
+     */
     private LocalDate lastAccessTime;
-    //老师ID
+    /**
+     *老师ID外键
+     */
     private User user;
-    //学员ID
+    /**
+     *学员外键
+     */
     private Student student;
-    //class_id
+    /**
+     *class_id
+     */
     private Integer class_id;
-    //学生姓名
+    /**
+     *学生姓名
+     */
     private String studentName;
-    //状态,1 表示有效，0表示无效
+    /**
+     *状态,1 表示有效，0表示无效
+     */
     private Integer evaluateStatus;
-    //评价内容
+    /**
+     *评价内容
+     */
     private String evaluate;
 
     @Override
