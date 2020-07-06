@@ -25,6 +25,7 @@ public interface AdviceMapper {
 
     /**
      * 根据名字查询
+     * 前端已有bookstrap自带的查询共=功能，但是只能查询页面上显示的记录，无法查询后端的数据
      * @mbg.generated
      */
     List<Advice> selectByName(Advice advice);
