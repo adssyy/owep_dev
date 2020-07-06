@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 /************
  *@Author yejx
@@ -192,5 +193,19 @@ public class PlanManager implements Serializable {
         sb.append(",最后一次访问时间 =").append(lastAccessTime);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlanManager that = (PlanManager) o;
+        return Objects.equals(planNumber, that.planNumber) &&
+                Objects.equals(planName, that.planName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(planNumber, planName);
     }
 }

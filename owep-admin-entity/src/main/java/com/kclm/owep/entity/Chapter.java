@@ -6,6 +6,7 @@ package com.kclm.owep.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /************
  *@Author yejx
@@ -217,5 +218,20 @@ public class Chapter implements Serializable {
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chapter chapter = (Chapter) o;
+        return Objects.equals(chapterNumber, chapter.chapterNumber) &&
+                Objects.equals(chapterName, chapter.chapterName) &&
+                Objects.equals(course, chapter.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chapterNumber, chapterName, course);
     }
 }

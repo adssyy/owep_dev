@@ -6,6 +6,8 @@ package com.kclm.owep.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
+
 /************
  *@Author yejx
  *@version v1.0
@@ -274,5 +276,20 @@ public class CourseReport implements Serializable {
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CourseReport that = (CourseReport) o;
+        return Objects.equals(courseLearnCount, that.courseLearnCount) &&
+                Objects.equals(student, that.student) &&
+                Objects.equals(course, that.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseLearnCount, student, course);
     }
 }
