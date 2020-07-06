@@ -1,7 +1,10 @@
+/********************************
+ *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
+ */
+
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 /*********************
@@ -18,7 +21,7 @@ public class ClassQuestion {
 
     private String questionDesc;    //问题内容
 
-    private Integer questionStatus; //回复状态 1:未回复 2：已回复'
+    private Integer questionStatus; //回复状态 0:未回复 1：已回复'
 
     private String correlatedCourse;    //相关的课程名
 
