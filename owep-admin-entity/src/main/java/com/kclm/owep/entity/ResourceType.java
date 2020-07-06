@@ -1,23 +1,52 @@
+/********************************
+ *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
+/*****
+ * @Author WSP
+ * @Version v1.0
+ * @Create 2020/7/6 16:33
+ * @Description 资源类型实体类
+ */
 public class ResourceType {
 
-    private Integer id;     //主键id
+    /***
+     * 主键ID
+     */
+    private Integer id;
 
-    private String typeName;  //资源类型名称/资源管理
+    /***
+     * 资源类型名称/资源管理
+     */
+    private String typeName;
 
-    private String typeDesc;  //资源描述
+    /***
+     * 资源描述
+     */
+    private String typeDesc;
 
-    private LocalDateTime createTime;    //创建时间
+    /***
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
-    private Integer delete;    //逻辑删除，1表示未删除，0表示已删除
+    /***
+     * 逻辑删除，1表示未删除，0表示已删除
+     */
+    private Integer delete;
 
-    private Integer version;   //版本数
+    /***
+     * 版本数
+     */
+    private Integer version;
 
-    private LocalDateTime lastAccessTime;    //最后一次访问时间
+    /***
+     * 最后一次访问时间
+     */
+    private LocalDateTime lastAccessTime;
 
     public Integer getId() {
         return id;
