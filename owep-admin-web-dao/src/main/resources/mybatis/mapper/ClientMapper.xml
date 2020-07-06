@@ -21,15 +21,15 @@
     <result column="client_email" jdbcType="VARCHAR" property="clientEmail" />
     <result column="loan_status" jdbcType="INTEGER" property="loanStatus" />
     <result column="loan" jdbcType="DOUBLE" property="loan" />
-    <result column="interview_time" jdbcType="TIMESTAMP" property="interviewTime" />
+ <!--   <result column="interview_time" jdbcType="TIMESTAMP" property="interviewTime" />-->
     <result column="client_state" jdbcType="INTEGER" property="clientState" />
-    <result column="fk_profession_id" jdbcType="INTEGER" property="fkProfessionId" />
+ <!--   <result column="fk_profession_id" jdbcType="INTEGER" property="fkProfessionId" />-->
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="sign_time" jdbcType="VARCHAR" property="signTime" />
     <result column="delete" jdbcType="INTEGER" property="delete" />
-    <result column="fk_channel_id" jdbcType="INTEGER" property="fkChannelId" />
+   <!-- <result column="fk_channel_id" jdbcType="INTEGER" property="fkChannelId" />-->
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
-    <result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />
+   <!-- <result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />-->
   </resultMap>
 </mapper>

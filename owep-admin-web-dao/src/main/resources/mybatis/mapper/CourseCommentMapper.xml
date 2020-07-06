@@ -11,8 +11,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
-    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />
-    <result column="fk_course_id" jdbcType="INTEGER" property="fkCourseId" />
+<!--    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />
+    <result column="fk_course_id" jdbcType="INTEGER" property="fkCourseId" />-->
   </resultMap>
 
 </mapper>
