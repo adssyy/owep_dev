@@ -43,6 +43,4 @@ public interface CourseReportMapper {
      * @param id
      */
     void deleteCourseReport(Serializable id);
-
-    
 }
