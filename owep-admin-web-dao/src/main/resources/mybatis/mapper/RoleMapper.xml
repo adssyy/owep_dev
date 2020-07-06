@@ -10,7 +10,6 @@
         <result column="version" jdbcType="INTEGER" property="version"/>
         <!--  <result column="fk_parent_id" jdbcType="INTEGER" property="parent"/>-->
     </resultMap>
-
     <sql id="base_column_list">
         id,
         role_name,
@@ -26,7 +25,7 @@
         <choose>
             <when test="parent != null">
                 (#{id}, #{roleName}, #{roleDescription}, #{createTime}, #{lastAccessTime}, #{version},
-                 #{parent.id})
+                 #{parent.id}),
             </when>
             <otherwise>
                 (#{id}, #{roleName}, #{roleDescription}, #{createTime}, #{lastAccessTime}, #{version}, -1)
@@ -130,6 +129,97 @@
             <result column="cv" property="version"/>
         </collection>
     </resultMap>
-    <select id="findGroupsByRoleId" resultMap="BaseResultMap">
+    <!--根据角色Id查询该角色下所关联的用户组-->
+    <select id="findGroupsByRoleId" resultMap="RoleInGroup">
+        select r.id               rid,
+               role_name,
+               role_description,
+               r.create_time      rctime,
+               r.last_access_time rltime,
+               r.version          rv,
+               g.id               gid,
+               group_name,
+               group_description,
+               g.create_time      gctime,
+               g.last_access_time gltime,
+               g.version          gv,
+               max_count
+        from t_role r
+                     join t_group_role gr on r.id = gr.role_id
+                     join t_group g on gr.group_id = g.id
+        where role_id = #{roleId};
+    </select>
+    <resultMap id="RoleInGroup" type="Role">
+        <id column="rid" property="id"/>
+        <result column="rltime" property="lastAccessTime"/>
+        <result column="rctime" property="createTime"/>
+        <result column="rv" property="version"/>
+        <collection property="groups" ofType="Group">
+            <id column="gid" property="id"/>
+            <result column="gctime" property="createTime"/>
+            <result column="gltime" property="lastAccessTime"/>
+            <result column="gv" property="version"/>
+        </collection>
+    </resultMap>
+    <!--查询角色下所拥有的权限-->
+    <select id="findPermissionInRole" resultMap="RoleInPermission">
+        select r.id               rid,
+               role_name,
+               role_description,
+               r.create_time      rctime,
+               r.last_access_time rltime,
+               r.version          rv,
+               p.id               pid,
+               permission_name,
+               permission_description,
+               p.create_time      pctime,
+               p.last_access_time pltime,
+               p.version          pv
+        from t_role r
+                     left join t_role_permission rp on r.id = rp.permission_id
+                     left join t_permission p on p.id = rp.permission_id
+        where role_id = #{roleId}
+    </select>
+    <resultMap id="RoleInPermission" type="Role">
+        <id column="rid" property="id"/>
+        <result column="rctime" property="createTime"/>
+        <result column="rltime" property="lastAccessTime"/>
+        <result column="rv" property="version"/>
+        <collection property="permissions" ofType="Permission">
+            <id column="pid" property="id"/>
+            <result column="pctime" property="createTime"/>
+            <result column="pltime" property="lastAccessTime"/>
+            <result column="pv" property="version"/>
+        </collection>
+    </resultMap>
+    <!--向角色权限表中添加数据-->
+    <insert id="saveRoleForPermission">
+        insert t_role_permission(role_id, permission_id) value (#{roleId}, #{perId})
+    </insert>
+    <!--根据角色ID删除该角色下的所有权限-->
+    <delete id="delPermissionByRoleId">
+        delete
+        from t_role_permission
+                where role_id in
+        <foreach collection="list" close=")" open="(" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+    <!--删除某个角色下的某个权限-->
+    <delete id="delPermissionByPerIdAndRoleId">
+        delete
+        from t_role_permission
+        where role_id = #{roleId}
+          and permission_id = #{perId}
+    </delete>
+
+    <select id="countPermissionByRoleId" resultType="int">
+        select count(permission_id)
+        from t_role_permission
+        where role_id = #{roleId};
+    </select>
+    <select id="count" resultType="_int">
+        select count(id)
+        from t_role
     </select>
 </mapper>
