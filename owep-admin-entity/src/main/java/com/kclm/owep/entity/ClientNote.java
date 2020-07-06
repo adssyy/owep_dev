@@ -4,7 +4,10 @@
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 /************
  *@Author yejx
@@ -32,7 +35,7 @@ public class ClientNote implements Serializable {
     /**
      *创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      *版本
@@ -42,7 +45,7 @@ public class ClientNote implements Serializable {
     /**
      *最后一次访问时间
      */
-    private Date lastAccessTime;
+    private LocalDateTime lastAccessTime;
 
     /**
      *跟进记录
@@ -77,12 +80,16 @@ public class ClientNote implements Serializable {
         this.clientState = clientState;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
     }
 
     public Integer getVersion() {
@@ -91,14 +98,6 @@ public class ClientNote implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public Date getLastAccessTime() {
-        return lastAccessTime;
-    }
-
-    public void setLastAccessTime(Date lastAccessTime) {
-        this.lastAccessTime = lastAccessTime;
     }
 
     public String getClientNote() {
@@ -121,5 +120,19 @@ public class ClientNote implements Serializable {
         sb.append(", clientNote='").append(clientNote).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClientNote that = (ClientNote) o;
+        return Objects.equals(client, that.client) &&
+                Objects.equals(clientNote, that.clientNote);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(client, clientNote);
     }
 }
