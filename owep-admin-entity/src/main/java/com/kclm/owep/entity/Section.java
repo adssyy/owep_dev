@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 /************
  *@Author yejx
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
  *@Description 节实体类
  *
  */
-public class Section {
+public class Section implements Serializable {
     /**
      *节 id
      */

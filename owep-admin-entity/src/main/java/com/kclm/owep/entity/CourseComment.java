@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /************
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
  *@Description 学生对课程评价的实体类
  *
  */
-public class CourseComment {
+public class CourseComment implements Serializable {
     /**
      *课程评论id
      */

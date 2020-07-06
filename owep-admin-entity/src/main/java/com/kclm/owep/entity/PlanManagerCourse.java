@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /************
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
  *@Description 方案和课程中间实体类
  *
  */
-public class PlanManagerCourse {
+public class PlanManagerCourse implements Serializable {
     /**
      *方案和课程中间表的主键
      */

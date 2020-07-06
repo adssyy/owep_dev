@@ -4,6 +4,7 @@
 
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 /************
@@ -13,7 +14,7 @@ import java.util.Date;
  *@Description 课程实体类
  *
  */
-public class Course {
+public class Course implements Serializable {
     /**
      *课程id
      */
@@ -32,12 +33,12 @@ public class Course {
     /**
      *课程开始时间
      */
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      *课程结束时间
      */
-    private Date endTime;
+    private LocalDateTime endTime;
 
     /**
      *课程学时
@@ -67,7 +68,7 @@ public class Course {
     /**
      *创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      *视频公开状态：0私有视频、1公开视频
@@ -122,33 +123,12 @@ public class Course {
     public Course() {
     }
 
-    public Course(String courseNumber, String courseName, Date startTime, Date endTime, Integer coursePeriod, String courseStatus, Date createTime, Integer courseOpenStatus, Integer videoStatus, CourseCategory courseCategory) {
-        this.courseNumber = courseNumber;
-        this.courseName = courseName;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.coursePeriod = coursePeriod;
-        this.courseStatus = courseStatus;
-        this.createTime = createTime;
-        this.courseOpenStatus = courseOpenStatus;
-        this.videoStatus = videoStatus;
-        this.courseCategory = courseCategory;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Boolean getFree() {
-        return free;
-    }
-
-    public void setFree(Boolean free) {
-        this.free = free;
     }
 
     public String getCourseNumber() {
@@ -167,19 +147,19 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
@@ -189,6 +169,14 @@ public class Course {
 
     public void setCoursePeriod(Integer coursePeriod) {
         this.coursePeriod = coursePeriod;
+    }
+
+    public Boolean getFree() {
+        return free;
+    }
+
+    public void setFree(Boolean free) {
+        this.free = free;
     }
 
     public String getCourseStatus() {
@@ -215,11 +203,11 @@ public class Course {
         this.courseDesc = courseDesc;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

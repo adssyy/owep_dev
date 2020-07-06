@@ -4,6 +4,7 @@
 package com.kclm.owep.entity;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /************
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  *@Description 渠道类型实体类
  *
  */
-public class ChannelType {
+public class ChannelType implements Serializable {
     /**
      *渠道类型id
      */

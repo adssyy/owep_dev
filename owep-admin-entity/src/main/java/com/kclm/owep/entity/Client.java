@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  *@Description 客户实体类
  *
  */
-public class Client {
+public class Client implements Serializable {
     /**
      *意向客户id
      */
@@ -137,7 +138,7 @@ public class Client {
     /**
      *最后一次访问时间
      */
-    private Date lastAccessTime;
+    private LocalDateTime lastAccessTime;
 
     /**
      *关联用户对象    （咨询师的姓名）
@@ -366,11 +367,11 @@ public class Client {
         this.version = version;
     }
 
-    public Date getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(Date lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 
