@@ -1,45 +1,108 @@
+/********************************
+ *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
+/*****
+ * @Author WSP
+ * @Version v1.0
+ * @Create 2020/7/6 16:32
+ * @Description 文档管理实体类
+ */
 public class Resource {
 
-    private Integer id;  //主键id
+    /***
+     * 主键ID
+     */
+    private Integer id;
 
-    private String resourceName;  //资源名称
+    /***
+     * 资源名称
+     */
+    private String resourceName;
 
-    private Integer type;   //资源类型，1、表示课程资源，2、表示公共资源
+    /***
+     * 资源类型，0.表示课程资源，1.表示公共资源
+     */
+    private Integer type;
 
-    private String resourceSuffix;   //资源扩展名(类型)，如pdf、docx、ppt、md等
+    /***
+     * 资源扩展名（类型），如pdf、docx、ppt、md等
+     */
+    private String resourceSuffix;
 
-    private Integer resourceSize;  //资源大小
+    /***
+     * 资源大小
+     */
+    private Integer resourceSize;
 
-    private String resourceTitle;  //资源标题（空）
+    /***
+     * 资源标题（空）
+     */
+    private String resourceTitle;
 
-    private String resourcePath;  //文件路径
+    /***
+     * 文件路径
+     */
+    private String resourcePath;
 
-    private String resourceLabel;  //资源标签
+    /***
+     * 资源标签
+     */
+    private String resourceLabel;
 
-    private String resourceDesc;  //资源描述
+    /***
+     * 资源描述
+     */
+    private String resourceDesc;
 
-    private LocalDateTime createTime;  //创建时间
+    /***
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
-    private Integer delete;   //逻辑删除，1表示未删除，0表示已删除
+    /***
+     * 逻辑删除，1.表示未删除，0表示已删除
+     */
+    private Integer delete;
 
-    private Section section;  //节
+    /***
+    * 节
+    */
+    private List<Section> section;
 
-    private Chapter chapter;   //章
+    /***
+     * 章
+     */
+    private List<Chapter> chapter;
 
-    private Course course;   //课程
+    /***
+     * 课程
+     */
+    private List<Course> course;
 
-    private ResourceType resourceType;  //资源类型
+    /***
+     * 资源类型
+     */
+    private List<ResourceType> resourceType;
 
-    private Integer oldResourcename;  //旧资源名称
+    /***
+     * 旧资源名称
+     */
+    private Integer oldResourcename;
 
-    private Integer version;  //版本号
+    /***
+     * 版本号
+     */
+    private Integer version;
 
-    private LocalDateTime lastAccessTime;  //最后一次访问时间
+    /***
+     * 最后一次访问时间
+     */
+    private LocalDateTime lastAccessTime;
 
     public Integer getId() {
         return id;
@@ -129,35 +192,35 @@ public class Resource {
         this.delete = delete;
     }
 
-    public Section getSection() {
+    public List<Section> getSection() {
         return section;
     }
 
-    public void setSection(Section section) {
+    public void setSection(List<Section> section) {
         this.section = section;
     }
 
-    public Chapter getChapter() {
+    public List<Chapter> getChapter() {
         return chapter;
     }
 
-    public void setChapter(Chapter chapter) {
+    public void setChapter(List<Chapter> chapter) {
         this.chapter = chapter;
     }
 
-    public Course getCourse() {
+    public List<Course> getCourse() {
         return course;
     }
 
-    public void setCourse(Course course) {
+    public void setCourse(List<Course> course) {
         this.course = course;
     }
 
-    public ResourceType getResourceType() {
+    public List<ResourceType> getResourceType() {
         return resourceType;
     }
 
-    public void setResourceType(ResourceType resourceType) {
+    public void setResourceType(List<ResourceType> resourceType) {
         this.resourceType = resourceType;
     }
 

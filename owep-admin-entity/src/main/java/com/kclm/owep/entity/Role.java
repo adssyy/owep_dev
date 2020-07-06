@@ -1,3 +1,7 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -13,15 +17,15 @@ import java.util.List;
  */
 public class Role implements Serializable {
     private Integer id;
-    private String roleName;//角色名
-    private String roleDescription;//角色描述
-    private LocalDateTime createTime;//创建时间
-    private LocalDateTime lastAccessTime;//最后一次访问时间
-    private Integer version;//版本号
-    private Role parent;//父角色
-    private List<Role> childRoles;//子角色
-    private List<Group> groups;//关联用户组
-    private List<Permission> permissions;//关联权限表
+    private String roleName;/** 角色名*/
+    private String roleDescription;/** 角色描述*/
+    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
+    private Integer version;/** 版本号*/
+    private Role parent;/** 父角色*/
+    private List<Role> childRoles;/** 子角色*/
+    private List<Group> groups;/** 关联用户组*/
+    private List<Permission> permissions;/** 关联权限表*/
 
     public Role() {
     }

@@ -5,6 +5,8 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 /************
  *@Author yejx
  *@version v1.0
@@ -240,5 +242,19 @@ public class Section implements Serializable {
         sb.append(", experimentInstrusction='").append(experimentInstrusction).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Section section = (Section) o;
+        return Objects.equals(sectionName, section.sectionName) &&
+                Objects.equals(sectionNumber, section.sectionNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sectionName, sectionNumber);
     }
 }

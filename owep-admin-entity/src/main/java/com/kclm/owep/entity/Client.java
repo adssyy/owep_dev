@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /************
  *@Author yejx
@@ -414,5 +415,19 @@ public class Client implements Serializable {
         sb.append(", user=").append(user);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(clientName, client.clientName) &&
+                Objects.equals(clientPhone, client.clientPhone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clientName, clientPhone);
     }
 }
