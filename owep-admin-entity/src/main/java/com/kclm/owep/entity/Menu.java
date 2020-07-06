@@ -1,3 +1,8 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
+
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -14,17 +19,17 @@ import java.util.Objects;
  */
 public class Menu implements Serializable {
     private Integer id;
-    private Menu parent;//父菜单
-    private String menuName;//菜单名
-    private String menuUrl;//菜单URL
-    private String menuDescription;//菜单描述
-    private String menuCode;//菜单代号
-    private LocalDateTime createTime;//菜单创建时间
-    private LocalDateTime lastAccessTime;//最后一次访问时间
-    private Integer version;//版本号
-    private List<Menu> childMenus;//子菜单
-    private List<Permission> permissions;//关联权限
-    private List<Action> actions;//关联行为表
+    private Menu parent;/** 父菜单*/
+    private String menuName;/** 菜单名*/
+    private String menuUrl;/** 菜单URL*/
+    private String menuDescription;/** 菜单描述*/
+    private String menuCode;/** 菜单代号*/
+    private LocalDateTime createTime;/** 菜单创建时间*/
+    private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
+    private Integer version;/** 版本号*/
+    private List<Menu> childMenus;/** 子菜单*/
+    private List<Permission> permissions;/** 关联权限*/
+    private List<Action> actions;/** 关联行为表*/
 
     public Menu() {
     }

@@ -1,3 +1,7 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -14,16 +18,16 @@ import java.util.Objects;
  */
 public class Action implements Serializable {
     private Integer id;
-    private String actionName;//行为名
-    private String actionDescription;//行为描述
-    private String actionUrl;//行为URL
-    private LocalDateTime createTime;//创建时间
-    private LocalDateTime lastAccessTime;//最后一次访问时间
-    private Integer version;//版本号
-    private String actionCode;//行为代号
-    private Integer actionValue;//用二进制值来代表行为。
-    private List<Menu> menuList;//关联菜单
-    private List<Permission> permissions;//关联权限.
+    private String actionName;/** 行为名*/
+    private String actionDescription;/** 行为描述*/
+    private String actionUrl;/** 行为URL*/
+    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime lastAccessTime;/**最后一次访问时间*/
+    private Integer version;/** 版本号*/
+    private String actionCode;/** 行为代号*/
+    private Integer actionValue;/** 用二进制值来代表行为*/
+    private List<Menu> menuList;/** 关联菜单*/
+    private List<Permission> permissions;/** 关联权限*/
 
     public Action() {
     }

@@ -204,7 +204,7 @@ public class User {
      * @mbg.generated
      */
 
-    private List<Group> groups;//关联用户组
+    private List<Group> groups;/** 关联用户组*/
     public Integer getId() {
         return id;
     }

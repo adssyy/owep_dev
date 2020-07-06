@@ -1,3 +1,7 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -13,21 +17,21 @@ import java.util.Objects;
  */
 public class Video implements Serializable {
     private Integer id;
-    private long videoSize;//视频大小
-    private int videoCount;//课时，即这个课程下有多少节视频
-    private String videoName;//视频名
-    private Integer type;//视频类型
-    private Video parentDir; //视频是有父级文件夹
-    private Double videoLength;//视频时长
-    private String videoFrom;//视频来源
-    private Integer status;//视频状态
-    private String videoUrl;//视频URL
-    private String videoDesc;//视频描述
-    private Integer delete;//视频是否删除 1未删除 0删除
-    private LocalDateTime createTime;//视频创建时间
-    private LocalDateTime lastAccessTime;//视频最后一次访问时间
-    private Integer version;//版本号
-    private List<Video> childVideos;//文件夹下所有子视频
+    private long videoSize;/** 视频大小*/
+    private int videoCount;/** 课时，即这个课程下有多少节视频*/
+    private String videoName;/** 视频名*/
+    private Integer type;/** 视频类型*/
+    private Video parentDir; /** 视频是有父级文件夹*/
+    private Double videoLength;/** 视频时长*/
+    private String videoFrom;/** 视频来源*/
+    private Integer status;/** 视频状态*/
+    private String videoUrl;/** 视频URL*/
+    private String videoDesc;/** 视频描述*/
+    private Integer delete;/** 视频是否删除 1未删除 0删除*/
+    private LocalDateTime createTime;/** 视频创建时间*/
+    private LocalDateTime lastAccessTime;/** 视频最后一次访问时间*/
+    private Integer version;/** 版本号*/
+    private List<Video> childVideos;/** 文件夹下所有子视频*/
     public Video() {
     }
 

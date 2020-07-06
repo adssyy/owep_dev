@@ -16,49 +16,49 @@ import java.util.List;
 public interface RoleMapper {
     /*添加角色*/
     int saveRole(Role role);
-
-    /*更新角色信息*/
+/*
+    *//*更新角色信息*//*
     int updateRole(Role role);
 
-    /*根据Id删除角色*/
+    *//*根据Id删除角色*//*
     int delRoleById(List<Integer> ids);
 
-    /*查询所有角色*/
+    *//*查询所有角色*//*
     List<Role> findAll();
 
-    /*根据ID查询角色*/
+    *//*根据ID查询角色*//*
     Role findById(Integer id);
 
-    /*根据角色名字查询相关信息*/
+    *//*根据角色名字查询相关信息*//*
     Role findByName(String roleName);
 
-    /*根据条件查询，参数可为NULL*/
+    *//*根据条件查询，参数可为NULL*//*
     Role findByCondition(Integer id, String roleName, String version);
 
 
-    /*自关联查询,根据父Id查询出该父角色下的所有子角色*/
+    *//*自关联查询,根据父Id查询出该父角色下的所有子角色*//*
     List<Role> findChilds(Integer parentId);
 
-    /*外关联查询,某角色下的所有组*/
+    *//*外关联查询,某角色下的所有组*//*
     List<Role> findGroupsByRoleId(Integer roleId);
 
-    /*外关联查询,查询该角色下所分配的权限*/
+    *//*外关联查询,查询该角色下所分配的权限*//*
     Role findPermissionInRole(Integer roleId);
 
-    /*向角色权限中间表添加数据*/
+    *//*向角色权限中间表添加数据*//*
     int saveRoleForPermission(@Param("roleId") Integer roleId, @Param("perId") Integer perId);
 
-    /*删除该角色所分配的所有的权限*/
+    *//*删除该角色所分配的所有的权限*//*
     int delPermissionByRoleId(List<Integer> roleIds);
 
-    /*删除某角色下的某个权限*/
+    *//*删除某角色下的某个权限*//*
     int delPermissionByPerIdAndRoleId(@Param("roleId") Integer roleId, @Param("perId") Integer perId);
 
-    /*统计该角色所具有的权限数量*/
+    *//*统计该角色所具有的权限数量*//*
     int countPermissionByRoleId(Integer roleId);
 
-    /*统计表中数据*/
-    int count();
+    *//*统计表中数据*//*
+    int count();*/
 
 
 }
