@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /************
@@ -12,7 +13,7 @@ import java.util.Date;
  *@Description 跟进记录实体类
  *
  */
-public class ClientNote {
+public class ClientNote implements Serializable {
     /**
      *跟进记录id
      */

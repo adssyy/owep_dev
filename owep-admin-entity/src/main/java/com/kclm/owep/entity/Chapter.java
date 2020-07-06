@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *@Description 章实体类
  *
  */
-public class Chapter {
+public class Chapter implements Serializable {
     /**
      *章id
      */

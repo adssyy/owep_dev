@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 /************
@@ -12,7 +13,7 @@ import java.util.List;
  *@Description 分类实体类
  *
  */
-public class CourseCategory {
+public class CourseCategory implements Serializable {
     /**
      *课程分类id
      */

@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 /************
  *@Author yejx
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
  *@Description 节和视频中间实体类
  *
  */
-public class SectionVideo {
+public class SectionVideo implements Serializable {
     /**
      *主键
      */

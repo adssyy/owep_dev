@@ -3,6 +3,8 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 /************
  *@Author yejx
@@ -11,7 +13,7 @@ import java.util.Date;
  *@Description 课程学习统计实体类
  *
  */
-public class CourseReport {
+public class CourseReport implements Serializable {
     /**
      *学生课程统计id
      */
@@ -60,7 +62,7 @@ public class CourseReport {
     /**
      *创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      *作业总数量
@@ -100,7 +102,7 @@ public class CourseReport {
     /**
      *最后一次访问时间
      */
-    private Date lastAccessTime;
+    private LocalDateTime lastAccessTime;
 
     public CourseReport() {
     }
@@ -178,11 +180,11 @@ public class CourseReport {
         this.testCount = testCount;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -242,11 +244,12 @@ public class CourseReport {
         this.version = version;
     }
 
-    public Date getLastAccessTime() {
+
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(Date lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 

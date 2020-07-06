@@ -3,7 +3,9 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /************
@@ -13,7 +15,7 @@ import java.util.Date;
  *@Description 方案实体类
  *
  */
-public class PlanManager {
+public class PlanManager implements Serializable {
     /**
      * 主键 方案id
      */
@@ -47,7 +49,7 @@ public class PlanManager {
     /**
      *创建时间
      */
-    private LocalDate createTime;
+    private LocalDateTime createTime;
 
     /**
      *版本
@@ -57,7 +59,7 @@ public class PlanManager {
     /**
      *最后一次访问时间
      */
-    private Date lastAccessTime;
+    private LocalDateTime lastAccessTime;
 
     /**
      * 空参构造
@@ -74,7 +76,7 @@ public class PlanManager {
      * @param planDesc
      * @param createTime
      */
-    public PlanManager(String planNumber, String planName, Integer planStatus, String planDesc, LocalDate createTime) {
+    public PlanManager(String planNumber, String planName, Integer planStatus, String planDesc, LocalDateTime createTime) {
         this.planNumber = planNumber;
         this.planName = planName;
         this.planStatus = planStatus;
@@ -93,7 +95,7 @@ public class PlanManager {
      * @param version
      * @param lastAccessTime
      */
-    public PlanManager(String planNumber, String planName, Integer planStatus, String planDesc, Integer delete, LocalDate createTime, Integer version, Date lastAccessTime) {
+    public PlanManager(String planNumber, String planName, Integer planStatus, String planDesc, Integer delete, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
         this.planNumber = planNumber;
         this.planName = planName;
         this.planStatus = planStatus;
@@ -152,11 +154,11 @@ public class PlanManager {
         this.delete = delete;
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -168,11 +170,11 @@ public class PlanManager {
         this.version = version;
     }
 
-    public Date getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(Date lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 

@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 /************
  *@Author yejx
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
  *@Description 渠道实体类
  *
  */
-public class Channel {
+public class Channel implements Serializable {
     /**
      *主键
      */
