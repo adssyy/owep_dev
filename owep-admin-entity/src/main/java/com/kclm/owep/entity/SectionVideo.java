@@ -5,6 +5,8 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 /************
  *@Author yejx
  *@version v1.0
@@ -108,5 +110,23 @@ public class SectionVideo implements Serializable {
         sb.append(", version=").append(version);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SectionVideo that = (SectionVideo) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(section, that.section) &&
+                Objects.equals(video, that.video) &&
+                Objects.equals(createTime, that.createTime) &&
+                Objects.equals(lastAccessTime, that.lastAccessTime) &&
+                Objects.equals(version, that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(section, video);
     }
 }
