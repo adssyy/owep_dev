@@ -1,9 +1,13 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class SystemConfig {
+public class SystemConfig implements Serializable {
+
+    private static final long serialVersionUID=1L;
+
     //id(主键)
     private Integer id;
 

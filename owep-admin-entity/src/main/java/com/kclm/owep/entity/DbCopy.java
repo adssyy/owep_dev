@@ -1,10 +1,12 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class DbCopy {
+public class DbCopy implements Serializable {
 
+    private static final long serialVersionUID=1L;
     //主键
     private Integer id;
 
