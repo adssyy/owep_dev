@@ -6,7 +6,11 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Clazz;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*********************
@@ -15,63 +19,53 @@ import java.util.List;
  * @Create: 2020年7月06日 下午16:10:40
  * @Description 班级
  */
-public interface ClazzMapper {
+@Mapper
+public interface ClazzMapper extends BaseMapper<Clazz> {
 
     /***
-     * 增加一条记录
-     * @param clazz
+     * 保存一条记录
+     * @param entity
      * @return
      */
-    int save(Clazz clazz);
+    @Override
+    int save(Clazz entity);
+
+    /***
+     * 更新一条记录
+     * @param entity
+     * @return
+     */
+    @Override
+    int update(Clazz entity);
 
     /***
      * 根据id删除一条记录
      * @param id
      * @return
      */
-    int deleteByPrimaryKey(Integer id);
+    @Override
+    int deleteById(@Param("id") Serializable id);
 
     /***
-     * 更新
-     * @param record
+     * 删除多条记录
+     * @param idList
      * @return
      */
-    int update(Clazz record);
+    @Override
+    int deleteSelect(@Param("idList") List<Serializable> idList);
 
     /***
-     * 根据id查询一条记录
+     * 更加id来查询一条记录
      * @param id
      * @return
      */
-    Clazz selectByPrimaryKey(Integer id);
+    @Override
+    Clazz selectById(@Param("id") Serializable id);
 
     /***
-     * 查询全部记录
+     * 查询所有的记录
      * @return
      */
+    @Override
     List<Clazz> selectAll();
-
-    /***
-     * 分页查询
-     * @param limit
-     * @param size
-     * @return
-     */
-    List<Clazz> selectByPage(int limit,int size);
-
-    /***
-     * 根据班级编号查询
-     * @param number
-     * @return
-     */
-    List<Clazz> selectByNumber(String number);
-
-    /***
-     * 根据班级名称来查询
-     * @param name
-     * @return
-     */
-    List<Clazz> selectByName(String name);
-
-
 }
