@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.PlanManager;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  *@Description 持久层接口PlanManagerMapper
  *
  */
+@Mapper
 public interface PlanManagerMapper {
 
     /**
@@ -54,5 +56,11 @@ public interface PlanManagerMapper {
      * @param planManager
      */
     void updatePlanManager(PlanManager planManager);
+
+    /**
+     * 查询方案的总记录数
+     * @return
+     */
+    Long rowTotal();
 
 }
