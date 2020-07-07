@@ -1,3 +1,8 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
+
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Permission;
@@ -6,6 +11,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+/**
+ * @author: ZhangQi
+ * @version:v1.0
+ * @create: 2020/7/7 15:54
+ * @description:权限接口
+ **/
 @Mapper
 public interface PermissionMapper {
     /**

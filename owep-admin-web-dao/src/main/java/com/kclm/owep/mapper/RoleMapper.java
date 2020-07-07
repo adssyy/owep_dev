@@ -14,7 +14,7 @@ import java.util.List;
  * @author: ZhangQi
  * @version:v1.0
  * @create: 2020/7/5 9:41
- * @description:
+ * @description: 角色接口
  **/
 @Mapper
 public interface RoleMapper {

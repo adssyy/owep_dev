@@ -14,7 +14,7 @@ import java.util.List;
  * @author: ZhangQi
  * @version:v1.0
  * @create: 2020/7/4 10:36
- * @description:
+ * @description:用户组接口
  **/
 @Mapper
 public interface GroupMapper {
