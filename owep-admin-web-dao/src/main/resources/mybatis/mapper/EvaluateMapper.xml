@@ -6,6 +6,7 @@
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="fk_class_id" jdbcType="INTEGER" property="fkClassId" />
     <!--<result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />
     <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />-->
     <result column="student_name" jdbcType="VARCHAR" property="studentName" />
@@ -24,11 +25,17 @@
       <result column="effective_date" property="effectiveDate"></result>
     </association>
   </resultMap>
-<!--
-  通过班级id查找学生评价的数据
--->
+  <!--
+    通过班级id查找学生评价的数据
+  -->
     <select id="selectByClassId"  parameterType="Integer" resultMap="BaseResultMap">
       select * from t_evaluate where class_id = {#value}
     </select>
+  <!--
+    更新评价内容
+  -->
+  <update id="updateEvaluate">
+    update t_evaluate set evaluate = {#evaluate} where class_id = {#classId}
+  </update>
 
 </mapper>
