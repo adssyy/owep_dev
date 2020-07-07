@@ -201,11 +201,8 @@
                p.version          pv
         from t_menu c
                      left join t_menu p on c.fk_parent_id = p.id
-        <where>
-            <if test="_parameter != 0">
-                c.id = #{id}
-            </if>
-        </where>
+
+        where c.id = #{id}
     </select>
     <resultMap id="ParentMenu" type="Menu">
         <id column="cid" property="id"/>
@@ -227,4 +224,164 @@
             <result column="pv" property="version"/>
         </association>
     </resultMap>
+    <!--以菜单ID为准删除中间表的数据-->
+    <delete id="deleteByMenuIdInAPM">
+        delete
+        from t_menu_action_per
+        where menu_id = #{menuId}
+    </delete>
+    <!--更新中间表的数据-->
+    <update id="updateInAPM">
+        update t_menu_action_per
+        set action_id=#{actionId},
+            per_id=#{perId}
+        where menu_id = #{menuId}
+    </update>
+    <!--外联查询 查询菜单所关联的行为 可传入ID进入条件查询-->
+    <select id="findActionInMenu" resultMap="MenuAction">
+        select m.id               mid,
+               menu_name,
+               menu_url,
+               menu_description,
+               menu_code,
+               m.create_time      mctime,
+               m.last_access_time mltime,
+               m.version          mv,
+               a.id               aid,
+               action_name,
+               action_description,
+               action_url,
+               a.create_time      actime,
+               a.last_access_time altime,
+               a.version          av,
+               action_code,
+               action_value
+        from t_menu m
+                     left join t_menu_action_per map on m.id = map.menu_id
+                     left join t_action a on map.action_id = a.id
+        <where>
+            <if test="_parameter != 0">
+                m.id = #{menuId}
+            </if>
+        </where>
+    </select>
+    <resultMap id="MenuAction" type="Menu">
+        <id column="mid" property="id"/>
+        <result column="mv" property="version"/>
+        <result column="mltime" property="lastAccessTime"/>
+        <result column="mctime" property="createTime"/>
+        <collection property="actions" ofType="Action">
+            <id column="aid" property="id"/>
+            <result column="av" property="version"/>
+            <result column="altime" property="lastAccessTime"/>
+            <result column="actime" property="createTime"/>
+        </collection>
+    </resultMap>
+    <!--外联查询 查询菜单所关联的权限-->
+    <select id="findPermissionInMenu" resultMap="MenuPermission">
+        select m.id               mid,
+               menu_name,
+               menu_url,
+               menu_description,
+               menu_code,
+               m.create_time      mctime,
+               m.last_access_time mltime,
+               m.version          mv,
+               p.id               pid,
+               permission_name,
+               permission_description,
+               p.create_time      pctime,
+               p.last_access_time pltime,
+               p.version          pv
+        from t_permission p
+                     left join t_perm_menu pm on p.id = pm.perm_id
+                     left join t_menu m on pm.menu_id
+        <where>
+            <if test="_parameter != 0">
+                m.id = #{menuId}
+            </if>
+        </where>
+    </select>
+    <resultMap id="MenuPermission" type="Menu">
+        <id column="mid" property="id"/>
+        <result column="mctime" property="createTime"/>
+        <result column="mltime" property="lastAccessTime"/>
+        <result column="mv" property="version"/>
+        <collection property="permissions" ofType="Permission">
+            <id column="pid" property="id"/>
+            <result column="pctime" property="createTime"/>
+            <result column="pltime" property="lastAccessTime"/>
+            <result column="pv" property="version"/>
+        </collection>
+    </resultMap>
+    <!--外联查询 三表关联查询-->
+    <select id="findAllInAPM" resultMap="MenuActionPermission">
+        select m.id               mid,
+               menu_name,
+               menu_url,
+               menu_description,
+               menu_code,
+               m.create_time      mctime,
+               m.last_access_time mltime,
+               m.version          mv,
+               p.id               pid,
+               permission_name,
+               permission_description,
+               p.create_time      pctime,
+               p.last_access_time pltime,
+               p.version          pv,
+               a.id               aid,
+               action_name,
+               action_description,
+               action_url,
+               a.create_time      actime,
+               a.last_access_time altime,
+               a.version          av,
+               action_code,
+               action_value
+        from t_menu m
+                     left join t_menu_action_per map on map.menu_id = m.id
+                     left join t_action a on map.action_id = a.id
+                     left join t_permission p
+                on map.per_id = p.id
+        <where>
+            <if test="menuId != 0">
+                m.id = #{menuId}
+            </if>
+            <if test="actionId != 0">
+                and a.id = #{actionId}
+            </if>
+            <if test="perId != 0">
+                and p.id = #{perId}
+            </if>
+        </where>
+    </select>
+    <resultMap id="MenuActionPermission" type="Menu">
+        <id column="mid" property="id"/>
+        <result column="mctime" property="createTime"/>
+        <result column="mltime" property="lastAccessTime"/>
+        <result column="mv" property="version"/>
+        <collection property="permissions" ofType="Permission">
+            <id column="pid" property="id"/>
+            <result column="pctime" property="createTime"/>
+            <result column="pltime" property="lastAccessTime"/>
+            <result column="pv" property="version"/>
+        </collection>
+        <collection property="actions" ofType="Action">
+            <id column="aid" property="id"/>
+            <result column="av" property="version"/>
+            <result column="altime" property="lastAccessTime"/>
+            <result column="actime" property="createTime"/>
+        </collection>
+    </resultMap>
+    <!--查询中间表有多少数据-->
+    <select id="countInAPM" resultType="int">
+        select count(menu_id)
+        from t_menu_action_per
+    </select>
+    <!--查询菜单表中有多少数据-->
+    <select id="count" resultType="int">
+        select count(id)
+        from t_menu
+    </select>
 </mapper>
