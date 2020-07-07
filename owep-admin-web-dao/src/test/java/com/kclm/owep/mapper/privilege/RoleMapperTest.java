@@ -1,6 +1,8 @@
-package com.kclm.owep.mapper;
+package com.kclm.owep.mapper.privilege;
 
 import com.kclm.owep.entity.Role;
+import com.kclm.owep.mapper.ActionMapperTest;
+import com.kclm.owep.mapper.RoleMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

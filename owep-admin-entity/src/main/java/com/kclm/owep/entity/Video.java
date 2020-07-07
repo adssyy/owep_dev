@@ -24,19 +24,18 @@ public class Video implements Serializable {
     private Video parentDir; /** 视频是有父级文件夹*/
     private Double videoLength;/** 视频时长*/
     private String videoFrom;/** 视频来源*/
-    private Integer status;/** 视频状态*/
+    private Integer status;/** 视频状态 1通过 0未审核*/
     private String videoUrl;/** 视频URL*/
     private String videoDesc;/** 视频描述*/
     private Integer delete;/** 视频是否删除 1未删除 0删除*/
-    private LocalDateTime createTime;/** 视频创建时间*/
+    private LocalDateTime createTime=LocalDateTime.now();/** 视频创建时间*/
     private LocalDateTime lastAccessTime;/** 视频最后一次访问时间*/
-    private Integer version;/** 版本号*/
+    private Integer version=1;/** 版本号*/
     private List<Video> childVideos;/** 文件夹下所有子视频*/
     public Video() {
     }
 
-    public Video(Integer id, long videoSize, int videoCount, String videoName, Integer type, Video parentDir, Double videoLength, String videoFrom, Integer status, String videoUrl, String videoDesc, Integer delete, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version) {
-        this.id = id;
+    public Video(long videoSize, int videoCount, String videoName, Integer type, Video parentDir, Double videoLength, String videoFrom, Integer status, String videoUrl, String videoDesc, Integer delete) {
         this.videoSize = videoSize;
         this.videoCount = videoCount;
         this.videoName = videoName;
@@ -48,45 +47,6 @@ public class Video implements Serializable {
         this.videoUrl = videoUrl;
         this.videoDesc = videoDesc;
         this.delete = delete;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-    }
-
-    public Video(long videoSize, int videoCount, String videoName, Integer type, Video parentDir, Double videoLength, String videoFrom, Integer status, String videoUrl, String videoDesc, Integer delete, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version) {
-        this.videoSize = videoSize;
-        this.videoCount = videoCount;
-        this.videoName = videoName;
-        this.type = type;
-        this.parentDir = parentDir;
-        this.videoLength = videoLength;
-        this.videoFrom = videoFrom;
-        this.status = status;
-        this.videoUrl = videoUrl;
-        this.videoDesc = videoDesc;
-        this.delete = delete;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-    }
-
-    public Video(Integer id, long videoSize, int videoCount, String videoName, Integer type, Video parentDir, Double videoLength, String videoFrom, Integer status, String videoUrl, String videoDesc, Integer delete, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, List<Video> childVideos) {
-        this.id = id;
-        this.videoSize = videoSize;
-        this.videoCount = videoCount;
-        this.videoName = videoName;
-        this.type = type;
-        this.parentDir = parentDir;
-        this.videoLength = videoLength;
-        this.videoFrom = videoFrom;
-        this.status = status;
-        this.videoUrl = videoUrl;
-        this.videoDesc = videoDesc;
-        this.delete = delete;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.childVideos = childVideos;
     }
 
     @Override
