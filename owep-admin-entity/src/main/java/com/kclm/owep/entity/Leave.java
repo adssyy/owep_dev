@@ -4,7 +4,7 @@
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 /*********************
  * @Auther shentr
@@ -24,19 +24,19 @@ public class Leave implements Serializable {
     /**
      *创建时间
      */
-    private LocalDate createTime;
+    private LocalDateTime createTime;
     /**
      *最后修改时间
      */
-    private LocalDate lastAccessTime;
+    private LocalDateTime lastAccessTime;
     /**
      *请假时间
      */
-    private LocalDate leaveTime;
+    private LocalDateTime leaveTime;
     /**
      *结束时间
      */
-    private LocalDate endTime;
+    private LocalDateTime endTime;
     /**
      *请假事由
      */
@@ -116,35 +116,35 @@ public class Leave implements Serializable {
         this.version = version;
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDate getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(LocalDate lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 
-    public LocalDate getLeaveTime() {
+    public LocalDateTime getLeaveTime() {
         return leaveTime;
     }
 
-    public void setLeaveTime(LocalDate leaveTime) {
+    public void setLeaveTime(LocalDateTime leaveTime) {
         this.leaveTime = leaveTime;
     }
 
-    public LocalDate getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDate endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 

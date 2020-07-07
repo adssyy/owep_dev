@@ -4,7 +4,7 @@
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 /*********************
  * @Auther shentr
@@ -17,19 +17,18 @@ public class Illegal implements Serializable {
      *主键
      */
     private Integer id;
-    //版本
     /**
-     *视频观看状态：0不允许观看、1允许观看
+     *版本
      */
     private Integer version;
     /**
      *创建时间
      */
-    private LocalDate createTime;
+    private LocalDateTime createTime;
     /**
      *最后修改时间
      */
-    private LocalDate lastAccessTime;
+    private LocalDateTime lastAccessTime;
     /**
      *老师外键
      */
@@ -42,7 +41,7 @@ public class Illegal implements Serializable {
     /**
      *fk_class_id
      */
-    private Integer fkClassId;
+    private Clazz clazz;
     /**
      *违纪学生姓名
      */
@@ -50,7 +49,7 @@ public class Illegal implements Serializable {
     /**
      *违规时间
      */
-    private LocalDate disciplineTime;
+    private LocalDateTime disciplineTime;
     /**
      *情况说明
      */
@@ -71,7 +70,7 @@ public class Illegal implements Serializable {
                 Objects.equals(lastAccessTime, illegal.lastAccessTime) &&
                 Objects.equals(user, illegal.user) &&
                 Objects.equals(student, illegal.student) &&
-                Objects.equals(fkClassId, illegal.fkClassId) &&
+                Objects.equals(clazz, illegal.clazz) &&
                 Objects.equals(studentName, illegal.studentName) &&
                 Objects.equals(disciplineTime, illegal.disciplineTime) &&
                 Objects.equals(presentationCondition, illegal.presentationCondition) &&
@@ -80,12 +79,12 @@ public class Illegal implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, user, student, fkClassId, studentName, disciplineTime, presentationCondition, attachment);
+        return Objects.hash(id, version, createTime, lastAccessTime, user, student, clazz, studentName, disciplineTime, presentationCondition, attachment);
     }
 
-    public Integer getFkClassId() { return fkClassId; }
+    public Clazz getClazz() { return clazz; }
 
-    public void setFkClassId(Integer fkClassId) { this.fkClassId = fkClassId; }
+    public void setClazz(Clazz clazz) { this.clazz = clazz; }
 
     public Integer getId() {
         return id;
@@ -103,19 +102,19 @@ public class Illegal implements Serializable {
         this.version = version;
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDate getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(LocalDate lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 
@@ -143,11 +142,11 @@ public class Illegal implements Serializable {
         this.studentName = studentName == null ? null : studentName.trim();
     }
 
-    public LocalDate getDisciplineTime() {
+    public LocalDateTime getDisciplineTime() {
         return disciplineTime;
     }
 
-    public void setDisciplineTime(LocalDate disciplineTime) {
+    public void setDisciplineTime(LocalDateTime disciplineTime) {
         this.disciplineTime = disciplineTime;
     }
 
