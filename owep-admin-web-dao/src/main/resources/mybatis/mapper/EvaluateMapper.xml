@@ -29,13 +29,13 @@
     通过班级id查找学生评价的数据
   -->
     <select id="selectByClassId"  parameterType="Integer" resultMap="BaseResultMap">
-      select * from t_evaluate where class_id = {#value}
+      select * from t_evaluate where fk_class_id = {#value}
     </select>
   <!--
     更新评价内容
   -->
   <update id="updateEvaluate">
-    update t_evaluate set evaluate = {#evaluate} where class_id = {#classId}
+    update t_evaluate set evaluate = {#evaluate} where fk_class_id = {#classId}
   </update>
 
 </mapper>

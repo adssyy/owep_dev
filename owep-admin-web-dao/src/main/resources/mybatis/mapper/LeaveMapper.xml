@@ -21,8 +21,11 @@
     <result column="leave_type" jdbcType="VARCHAR" property="leaveType" />
     <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
   </resultMap>
-  <select id="selectByClassId" resultMap="BaseResultMap">
-    select * from t_leave where class_id = {#value}
+  <!--<select id="selectByClassId" resultMap="BaseResultMap">
+    select * from t_leave where fk_class_id = {#value}
+  </select>-->
+  <select id="selectByClassId" resultType="Leave">
+    select * from t_leave where fk_class_id = {#value}
   </select>
   <update id="leaveApproveById" parameterType="integer">
     update t_leave set approval_status = {#approvalStatus} where id = {#id}
