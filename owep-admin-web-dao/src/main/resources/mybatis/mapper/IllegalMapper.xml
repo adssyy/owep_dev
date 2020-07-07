@@ -63,6 +63,20 @@
   </insert>
 
   <select id="selectByCondition" resultMap="BaseResultMap">
-    select * from t_illegal where
+    select * from t_illegal
+    <where>
+      <if test="number != null and number != ''">
+        and fk_student_id = (select id from t_student where stu_number like #{number})
+      </if>
+      <if test="name != null and name != ''">
+        and student_name like {#name}
+      </if>
+      <if test="startTime != null">
+        and discipline_time &gt;= #{endTime}
+      </if>
+      <if test="endTime != null">
+        and discipline_time &lt;= #{endTime}
+      </if>
+    </where>
   </select>
 </mapper>

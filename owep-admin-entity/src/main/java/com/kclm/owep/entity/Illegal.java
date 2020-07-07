@@ -40,9 +40,9 @@ public class Illegal implements Serializable {
      */
     private Student student;
     /**
-     *class_id
+     *fk_class_id
      */
-    private Integer class_id;
+    private Integer fkClassId;
     /**
      *违纪学生姓名
      */
@@ -71,7 +71,7 @@ public class Illegal implements Serializable {
                 Objects.equals(lastAccessTime, illegal.lastAccessTime) &&
                 Objects.equals(user, illegal.user) &&
                 Objects.equals(student, illegal.student) &&
-                Objects.equals(class_id, illegal.class_id) &&
+                Objects.equals(fkClassId, illegal.fkClassId) &&
                 Objects.equals(studentName, illegal.studentName) &&
                 Objects.equals(disciplineTime, illegal.disciplineTime) &&
                 Objects.equals(presentationCondition, illegal.presentationCondition) &&
@@ -80,16 +80,12 @@ public class Illegal implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, user, student, class_id, studentName, disciplineTime, presentationCondition, attachment);
+        return Objects.hash(id, version, createTime, lastAccessTime, user, student, fkClassId, studentName, disciplineTime, presentationCondition, attachment);
     }
 
-    public Integer getClass_id() {
-        return class_id;
-    }
+    public Integer getFkClassId() { return fkClassId; }
 
-    public void setClass_id(Integer class_id) {
-        this.class_id = class_id;
-    }
+    public void setFkClassId(Integer fkClassId) { this.fkClassId = fkClassId; }
 
     public Integer getId() {
         return id;

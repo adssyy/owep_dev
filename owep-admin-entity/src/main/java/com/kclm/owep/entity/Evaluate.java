@@ -38,9 +38,9 @@ public class Evaluate implements Serializable {
      */
     private Student student;
     /**
-     *class_id
+     *fk_class_id
      */
-    private Integer class_id;
+    private Integer fkClassId;
     /**
      *学生姓名
      */
@@ -65,7 +65,7 @@ public class Evaluate implements Serializable {
                 Objects.equals(lastAccessTime, evaluate1.lastAccessTime) &&
                 Objects.equals(user, evaluate1.user) &&
                 Objects.equals(student, evaluate1.student) &&
-                Objects.equals(class_id, evaluate1.class_id) &&
+                Objects.equals(fkClassId, evaluate1.fkClassId) &&
                 Objects.equals(studentName, evaluate1.studentName) &&
                 Objects.equals(evaluateStatus, evaluate1.evaluateStatus) &&
                 Objects.equals(evaluate, evaluate1.evaluate);
@@ -73,16 +73,12 @@ public class Evaluate implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, user, student, class_id, studentName, evaluateStatus, evaluate);
+        return Objects.hash(id, version, createTime, lastAccessTime, user, student, fkClassId, studentName, evaluateStatus, evaluate);
     }
 
-    public Integer getClass_id() {
-        return class_id;
-    }
+    public Integer getFkClassId() { return fkClassId; }
 
-    public void setClass_id(Integer class_id) {
-        this.class_id = class_id;
-    }
+    public void setFkClassId(Integer fkClassId) { this.fkClassId = fkClassId; }
 
     public Integer getId() {
         return id;
