@@ -245,10 +245,12 @@
         last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
+    where id = #{id}
   </update>
 
   <!--  通过关键字查找  -->
   <select id="findByKeywords" resultType="TeacherPoll" parameterType="string">
+        //TODO
 
   </select>
 

@@ -1,3 +1,6 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -13,39 +16,64 @@ import java.util.Objects;
 
 public class StudyRecord implements Serializable {
 
+    /***
+     * 主键
+     */
     private Integer id;
 
-    //学习进度标识 1:未观看或未观看结束 2:已观看完(只有为2时，才能观看下一个视频）
+    /***
+     * 学习进度标识 0:未观看或未观看结束 1:已观看完(只有为2时，才能观看下一个视频）
+     */
     private Integer progressStatus;
 
-    //创建时间
+    /***
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    //学院id
+    /***
+     * 学员id
+     */
     private Integer fkStudentId;
 
-    //课程节的id
+    /***
+     * 课程节的id
+     */
     private Integer fkSectionId;
 
-    //课程名称
+    /***
+     * 课程名称
+     */
     private String courseName;
 
-    //章名称
+    /***
+     * 章名称
+     */
     private String chapterName;
 
-    //节名称
+    /***
+     * 节名称
+     */
     private String sectionName;
 
-    //视频观看最大进度
+    /***
+     * 视频观看最大进度
+     */
     private Double videoRate;
 
-    //视频时长
+    /***
+     * 视频时长
+     */
     private Integer videoLength;
 
-    //版本
+    /***
+     * 版本
+     */
     private Integer version;
 
-    //最后一次访问时间
+    /***
+     * 最后一次访问时间
+     */
     private LocalDateTime lastAccessTime;
 
     /***
