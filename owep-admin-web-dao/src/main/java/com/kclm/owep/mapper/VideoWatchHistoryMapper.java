@@ -1,6 +1,13 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
+
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.VideoWatchHistory;
+import com.kclm.owep.mapper.common.BaseMapper;
+
+import java.io.Serializable;
 
 /*******************
  *Author:ZhongLei
@@ -9,37 +16,12 @@ import com.kclm.owep.entity.VideoWatchHistory;
  *@Description:视频观看历史持久层接口
  ***/
 
-public interface VideoWatchHistoryMapper {
+public interface VideoWatchHistoryMapper extends BaseMapper<VideoWatchHistory> {
 
+    /***
+     * 统计视频观看历史数量
+     * @return
+     */
     int countVideoWatchHistory();
 
-
-//    int deleteByExample(VideoWatchHistoryExample example);
-
-
-    int deleteByPrimaryKey(Integer id);
-
-
-    int insert(VideoWatchHistory record);
-
-
-    int insertSelective(VideoWatchHistory record);
-
-
-//    List<VideoWatchHistory> selectByExample(VideoWatchHistoryExample example);
-
-
-    VideoWatchHistory selectByPrimaryKey(Integer id);
-
-
-  /*  int updateByExampleSelective(@Param("record") VideoWatchHistory record, @Param("example") VideoWatchHistoryExample example);
-
-
-    int updateByExample(@Param("record") VideoWatchHistory record, @Param("example") VideoWatchHistoryExample example);*/
-
-
-    int updateByPrimaryKeySelective(VideoWatchHistory record);
-
-
-    int updateByPrimaryKey(VideoWatchHistory record);
 }

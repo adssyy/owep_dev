@@ -1,3 +1,6 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -13,37 +16,59 @@ import java.util.Objects;
 
 public class VideoWatchRecord implements Serializable {
 
-    //观看绝对历史id
+    /***
+     * 观看绝对历史id
+     */
     private Integer id;
 
-    //开始时间
+    /***
+     * 开始时间
+     */
     private LocalDateTime startTime;
 
-    //开始位置（记录第几章节）
+    /***
+     * 开始位置（记录第几章节）
+     */
     private String startPosition;
 
-    //结束时间
+    /***
+     * 结束时间
+     */
     private LocalDateTime endTime;
 
-    //结束位置
+    /***
+     * 结束位置
+     */
     private String endPosition;
 
-    //视频id
+    /***
+     * 视频id
+     */
     private Integer fkVideoId;
 
-    //学习记录id
+    /***
+     * 学习记录id
+     */
     private Integer fkStudyrecordId;
 
-    //当前视频看到的位置，以秒为单位
+    /***
+     * 当前视频看到的位置，以秒为单位
+     */
     private Double currentProgress;
 
-    //创建时间
+    /***
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    //最后一次访问时间
+    /***
+     * 最后一次访问时间
+     */
     private LocalDateTime lastAccessTime;
 
-    //版本
+    /***
+     * 版本
+     */
     private Integer version;
 
     /***
