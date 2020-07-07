@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.ChannelType;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.util.List;
 
@@ -15,41 +16,7 @@ import java.util.List;
  *@Description 持久层接口ChannelTypeMapper
  *
  */
-public interface ChannelTypeMapper {
-
-
-    /**
-     * 查询所有的渠道类型
-     * @return
-     */
-    List<ChannelType> findAll();
-
-
-    /**
-     * 通过id查询渠道类型
-     * @return
-     */
-    ChannelType findById();
-
-    /**
-     * 通过id删除渠道类型
-     */
-    void deleteById();
-
-
-    /**
-     * 通过id跟新渠道类型
-     * @param channelType
-     */
-    void updateById(ChannelType channelType);
-
-
-    /**
-     * 添加渠道类型
-     * @param channelType
-     */
-    void saveChannelType(ChannelType channelType);
-
+public interface ChannelTypeMapper extends BaseMapper<ChannelType> {
 
 
 }

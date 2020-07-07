@@ -10,11 +10,68 @@
    <!-- <result column="fk_channeltype_id" jdbcType="INTEGER" property="fkChanneltypeId" />-->
   </resultMap>
 
+  <!--所有的字段-->
   <sql id="Base_Column_List">
     id, channel_name, create_time, version, last_access_time, fk_channeltype_id
   </sql>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.kclm.owep.entity.Channel">
+  <!--动态添加-->
+  <insert id="save" parameterType="Channel">
+    insert into t_channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="channelName != null">
+        channel_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="channelType.id != null">
+        fk_channeltype_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelType.id != null">
+        #{channelType.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!--添加渠道-->
+  <insert id="saveAllField" parameterType="Channel">
+    insert into t_channel (id, channel_name, create_time,
+    version, last_access_time, fk_channeltype_id
+    )
+    values (#{id,jdbcType=INTEGER}, #{channelName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{fkChanneltypeId,jdbcType=INTEGER}
+    )
+  </insert>
+
+  <!--动态更新-->
+  <update id="update" parameterType="com.kclm.owep.entity.Channel">
     update t_channel
     <set>
       <if test="channelName != null">
@@ -29,20 +86,52 @@
       <if test="lastAccessTime != null">
         last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="fkChanneltypeId != null">
-        fk_channeltype_id = #{fkChanneltypeId,jdbcType=INTEGER},
+      <if test="channelType.id != null">
+        fk_channeltype_id = #{channelType.id,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <!--通过id 来更新-->
-  <update id="updateByPrimaryKey" parameterType="com.kclm.owep.entity.Channel">
+
+  <!--更新-->
+  <update id="updateAllField" parameterType="Channel">
     update t_channel
     set channel_name = #{channelName,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      version = #{version,jdbcType=INTEGER},
-      last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      fk_channeltype_id = #{fkChanneltypeId,jdbcType=INTEGER}
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    version = #{version,jdbcType=INTEGER},
+    last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+    fk_channeltype_id = #{channelType.id,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--通过id删除-->
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from t_channel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--删除所选-->
+  <delete id="deleteSelect">
+    delete from t_channel where id in
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+    </foreach>
+  </delete>
+
+  <!--通过id查询-->
+  <select id="selectById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_channel id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--通过渠道类型id查询渠道名称-->
+  <select id="selectByChannelTypeId" resultType="channel">
+    select
+    <include refid="Base_Column_List"/>
+    from t_channel fk_channeltype_id = #{id,javaType=INTEGER}
+  </select>
+
+
+
+
 </mapper>

@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Channel;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,34 +16,13 @@ import java.util.List;
  *@Description 持久层接口ChannelMapper
  *
  */
-public interface ChannelMapper {
+public interface ChannelMapper extends BaseMapper<Channel> {
 
     /**
      * 通过渠道类型的id获取,获取相应的渠道
      * @return
      */
-    List<Channel> findByChannelTypeId(Serializable id);
-
-    /**
-     * 通过渠道记录id,来更新渠道名称
-     */
-    void updateByChannelId(Channel channel);
-
-    /**
-     * 通过渠道记录id,来删除渠道名称
-     */
-    void deleteByChannelId(Serializable id);
-
-    /**
-     *通过渠道记录id,来查询渠道信息
-     * @return
-     */
-    Channel findByChannelId(Serializable id);
+    List<Channel> selectByChannelTypeId(Serializable id);
 
 
-    /**
-     * 添加渠道
-     * @param channel
-     */
-    void saveChannel(Channel channel);
 }

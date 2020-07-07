@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Chapter;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,48 +16,14 @@ import java.util.List;
  *@Description 持久层接口ChapterMapper
  *
  */
-public interface ChapterMapper {
+public interface ChapterMapper extends BaseMapper<Chapter> {
 
 
     /**
-     * 查询所有的章
+     * 查询记录数
      * @return
      */
-    List<Chapter> findAll();
-
-    /**
-     * 分页查询部分章
-     * @param offset
-     * @param limit
-     * @return
-     */
-    List<Chapter> findChapterLimit(int offset, int limit);
-
-
-    /**
-     * 通过章的id来查询章
-     * @param id
-     * @return
-     */
-    Chapter findById(Serializable id);
-
-    /**
-     * 通过章的id删除章
-     * @param id
-     */
-    void deleteById(Serializable id);
-
-    /**
-     * 修改章的信息
-     * @param chapter
-     */
-    void updateByField(Chapter chapter);
-
-    /**
-     * 添加章
-     * @param chapter
-     */
-    void saveChapter(Chapter chapter);
+    long rowTotal();
 
 
 }
