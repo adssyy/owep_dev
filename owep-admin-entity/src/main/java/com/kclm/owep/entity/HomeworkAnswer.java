@@ -75,21 +75,31 @@ public class HomeworkAnswer implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         HomeworkAnswer that = (HomeworkAnswer) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(answerUrl, that.answerUrl) &&
-                Objects.equals(answerContent, that.answerContent) &&
-                Objects.equals(answerAttachment, that.answerAttachment) &&
                 Objects.equals(answerStatus, that.answerStatus) &&
-                Objects.equals(auditContent, that.auditContent) &&
-                Objects.equals(createTime, that.createTime) &&
-                Objects.equals(lastAccessTime, that.lastAccessTime) &&
-                Objects.equals(version, that.version) &&
                 Objects.equals(homework, that.homework) &&
                 Objects.equals(student, that.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, answerUrl, answerContent, answerAttachment, answerStatus, auditContent, createTime, lastAccessTime, version, homework, student);
+        return Objects.hash(id, answerStatus, homework, student);
+    }
+
+    @Override
+    public String toString() {
+        return "HomeworkAnswer{" +
+                "id=" + id +
+                ", answerUrl='" + answerUrl + '\'' +
+                ", answerContent='" + answerContent + '\'' +
+                ", answerAttachment='" + answerAttachment + '\'' +
+                ", answerStatus=" + answerStatus +
+                ", auditContent='" + auditContent + '\'' +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", version=" + version +
+                ", homework=" + homework +
+                ", student=" + student +
+                '}';
     }
 
     public Integer getId() {

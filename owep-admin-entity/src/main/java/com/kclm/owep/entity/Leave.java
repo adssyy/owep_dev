@@ -76,24 +76,34 @@ public class Leave implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Leave leave = (Leave) o;
         return Objects.equals(id, leave.id) &&
-                Objects.equals(version, leave.version) &&
-                Objects.equals(createTime, leave.createTime) &&
-                Objects.equals(lastAccessTime, leave.lastAccessTime) &&
                 Objects.equals(leaveTime, leave.leaveTime) &&
                 Objects.equals(endTime, leave.endTime) &&
-                Objects.equals(reasonLeave, leave.reasonLeave) &&
-                Objects.equals(approvalStatus, leave.approvalStatus) &&
-                Objects.equals(student, leave.student) &&
-                Objects.equals(fkClassId, leave.fkClassId) &&
-                Objects.equals(option, leave.option) &&
-                Objects.equals(studentName, leave.studentName) &&
-                Objects.equals(leaveType, leave.leaveType) &&
-                Objects.equals(serialNumber, leave.serialNumber);
+                Objects.equals(studentName, leave.studentName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, leaveTime, endTime, reasonLeave, approvalStatus, student, fkClassId, option, studentName, leaveType, serialNumber);
+        return Objects.hash(id, leaveTime, endTime, studentName);
+    }
+
+    @Override
+    public String toString() {
+        return "Leave{" +
+                "id=" + id +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", leaveTime=" + leaveTime +
+                ", endTime=" + endTime +
+                ", reasonLeave='" + reasonLeave + '\'' +
+                ", approvalStatus=" + approvalStatus +
+                ", student=" + student +
+                ", fkClassId=" + fkClassId +
+                ", option='" + option + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", leaveType='" + leaveType + '\'' +
+                ", serialNumber=" + serialNumber +
+                '}';
     }
 
     public Integer getFkClassId() { return fkClassId; }

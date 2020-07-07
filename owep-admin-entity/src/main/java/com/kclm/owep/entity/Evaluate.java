@@ -58,22 +58,31 @@ public class Evaluate implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Evaluate evaluate1 = (Evaluate) o;
-        return Objects.equals(id, evaluate1.id) &&
-                Objects.equals(version, evaluate1.version) &&
-                Objects.equals(createTime, evaluate1.createTime) &&
-                Objects.equals(lastAccessTime, evaluate1.lastAccessTime) &&
-                Objects.equals(user, evaluate1.user) &&
-                Objects.equals(student, evaluate1.student) &&
-                Objects.equals(fkClassId, evaluate1.fkClassId) &&
-                Objects.equals(studentName, evaluate1.studentName) &&
-                Objects.equals(evaluateStatus, evaluate1.evaluateStatus) &&
-                Objects.equals(evaluate, evaluate1.evaluate);
+        Evaluate evaluate = (Evaluate) o;
+        return Objects.equals(id, evaluate.id) &&
+                Objects.equals(studentName, evaluate.studentName) &&
+                Objects.equals(evaluateStatus, evaluate.evaluateStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, user, student, fkClassId, studentName, evaluateStatus, evaluate);
+        return Objects.hash(id, studentName, evaluateStatus);
+    }
+
+    @Override
+    public String toString() {
+        return "Evaluate{" +
+                "id=" + id +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", user=" + user +
+                ", student=" + student +
+                ", fkClassId=" + fkClassId +
+                ", studentName='" + studentName + '\'' +
+                ", evaluateStatus=" + evaluateStatus +
+                ", evaluate='" + evaluate + '\'' +
+                '}';
     }
 
     public Integer getFkClassId() { return fkClassId; }

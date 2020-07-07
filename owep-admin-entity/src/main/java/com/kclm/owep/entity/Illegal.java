@@ -65,21 +65,30 @@ public class Illegal implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Illegal illegal = (Illegal) o;
         return Objects.equals(id, illegal.id) &&
-                Objects.equals(version, illegal.version) &&
-                Objects.equals(createTime, illegal.createTime) &&
-                Objects.equals(lastAccessTime, illegal.lastAccessTime) &&
-                Objects.equals(user, illegal.user) &&
-                Objects.equals(student, illegal.student) &&
-                Objects.equals(clazz, illegal.clazz) &&
                 Objects.equals(studentName, illegal.studentName) &&
-                Objects.equals(disciplineTime, illegal.disciplineTime) &&
-                Objects.equals(presentationCondition, illegal.presentationCondition) &&
-                Objects.equals(attachment, illegal.attachment);
+                Objects.equals(disciplineTime, illegal.disciplineTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, user, student, clazz, studentName, disciplineTime, presentationCondition, attachment);
+        return Objects.hash(id, studentName, disciplineTime);
+    }
+
+    @Override
+    public String toString() {
+        return "Illegal{" +
+                "id=" + id +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", user=" + user +
+                ", student=" + student +
+                ", clazz=" + clazz +
+                ", studentName='" + studentName + '\'' +
+                ", disciplineTime=" + disciplineTime +
+                ", presentationCondition='" + presentationCondition + '\'' +
+                ", attachment='" + attachment + '\'' +
+                '}';
     }
 
     public Clazz getClazz() { return clazz; }
