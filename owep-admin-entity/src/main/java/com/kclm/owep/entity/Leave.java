@@ -50,9 +50,9 @@ public class Leave implements Serializable {
      */
     private Student student;
     /**
-     *class_id
+     *fk_class_id
      */
-    private Integer classId;
+    private Integer fkClassId;
     /**
      *意见
      */
@@ -84,7 +84,7 @@ public class Leave implements Serializable {
                 Objects.equals(reasonLeave, leave.reasonLeave) &&
                 Objects.equals(approvalStatus, leave.approvalStatus) &&
                 Objects.equals(student, leave.student) &&
-                Objects.equals(classId, leave.classId) &&
+                Objects.equals(fkClassId, leave.fkClassId) &&
                 Objects.equals(option, leave.option) &&
                 Objects.equals(studentName, leave.studentName) &&
                 Objects.equals(leaveType, leave.leaveType) &&
@@ -93,16 +93,12 @@ public class Leave implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, leaveTime, endTime, reasonLeave, approvalStatus, student, classId, option, studentName, leaveType, serialNumber);
+        return Objects.hash(id, version, createTime, lastAccessTime, leaveTime, endTime, reasonLeave, approvalStatus, student, fkClassId, option, studentName, leaveType, serialNumber);
     }
 
-    public Integer getClassId() {
-        return classId;
-    }
+    public Integer getFkClassId() { return fkClassId; }
 
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
+    public void setFkClassId(Integer fkClassId) { this.fkClassId = fkClassId; }
 
     public Integer getId() {
         return id;
