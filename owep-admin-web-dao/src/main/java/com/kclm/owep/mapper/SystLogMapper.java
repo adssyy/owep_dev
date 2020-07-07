@@ -1,6 +1,10 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.SystLog;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 /************
  *@Author chenxin
  *@Version v1.0
@@ -8,6 +12,21 @@ import com.kclm.owep.entity.SystLog;
  *@Description 系统日志接口
  */
 public interface SystLogMapper {
+    /*********
+     * 查询所有的日志
+     * @return
+     */
+    List<SystLog> findAll();
 
-//TODO
+    /*********
+     * 根据时间或用户名查找日志记录
+     * @param username
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<SystLog> findByTime(String username, LocalDateTime startTime,LocalDateTime endTime);
+
+
+
 }

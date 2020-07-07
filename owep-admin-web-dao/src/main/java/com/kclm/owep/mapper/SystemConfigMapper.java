@@ -10,6 +10,20 @@ import com.kclm.owep.entity.SystemConfig;
  */
 public interface SystemConfigMapper {
 
+    /***********
+     * 保存系统信息
+     * @param systemConfig
+     * @return
+     */
+    int save(SystemConfig systemConfig);
 
-//TODO
+    /************
+     * 更新系统信息
+     * @param systemConfig
+     * @return
+     */
+    int update(SystemConfig systemConfig);
+
+
+
 }
