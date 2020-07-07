@@ -6,6 +6,8 @@
     <!-- 全局设置 -->
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 在持久层中单元测试时，临时使用，通过控制器启动时，此行需要去掉 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
 
     <!--<typeHandlers>
@@ -16,5 +18,10 @@
     <!--<typeAliases>
         <package name="com.kclm.owep.entity"/>
     </typeAliases>-->
+
+    <!-- 在其它的映射文件没有修改好的情况下，需要对自己的mapper进行测试时使用，以后会删除掉 -->
+    <mappers>
+        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
+    </mappers>
 
 </configuration>
