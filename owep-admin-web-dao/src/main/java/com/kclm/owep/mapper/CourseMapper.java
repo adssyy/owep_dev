@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Course;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  *@Description 持久层接口CourseMapper
  *
  */
-public interface CourseMapper {
+public interface CourseMapper extends BaseMapper<Course> {
 
     /**
      * 通过分页查询部分

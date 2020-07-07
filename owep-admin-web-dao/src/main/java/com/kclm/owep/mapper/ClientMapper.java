@@ -20,20 +20,16 @@ public interface ClientMapper extends BaseMapper<Client> {
 
 
     /**
-     * 分页查询部分客户
-     * @param offset
-     * @param limit
-     * @return
-     */
-    List<Client> findClientLimit(int offset, int limit);
-
-
-    /**
      * 通过客户属性查询客户
      * @return
      */
     List<Client> findByField(Client client);
 
+    /**
+     * 查询客户总数量
+     * @return
+     */
+    long rowTotal();
 
 
 

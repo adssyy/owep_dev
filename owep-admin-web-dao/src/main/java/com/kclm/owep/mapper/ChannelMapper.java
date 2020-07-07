@@ -22,7 +22,7 @@ public interface ChannelMapper extends BaseMapper<Channel> {
      * 通过渠道类型的id获取,获取相应的渠道
      * @return
      */
-    List<Channel> findByChannelTypeId(Serializable id);
+    List<Channel> selectByChannelTypeId(Serializable id);
 
 
 }

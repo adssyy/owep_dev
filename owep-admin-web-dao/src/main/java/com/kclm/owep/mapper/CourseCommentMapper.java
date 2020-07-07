@@ -25,21 +25,21 @@ public interface CourseCommentMapper extends BaseMapper<CourseComment> {
      * @param courseId
      * @return
      */
-    List<CourseComment> findByStuIdAndCourseId(Serializable studentId,Serializable courseId);
+    List<CourseComment> selectByStuIdAndCourseId(Serializable studentId,Serializable courseId);
 
     /**
      * 通过学生id,查询单个学生对所有课程的评价
      * @param studentId
      * @return
      */
-    List<CourseComment> findByStudentId(Serializable studentId);
+    List<CourseComment> selectByStudentId(Serializable studentId);
 
     /**
      * 通过课程id,查询所有学生对课程的评价
      * @param CourseId
      * @return
      */
-    List<CourseComment> findByCourseId(Serializable CourseId);
+    List<CourseComment> selectByCourseId(Serializable CourseId);
 
 
 }

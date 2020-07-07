@@ -18,6 +18,11 @@ import java.util.List;
  */
 public interface ClientNoteMapper extends BaseMapper<ClientNote> {
 
-
+    /**
+     * 通过客户id 查询客户的跟踪记录
+     * @param id
+     * @return
+     */
+    List<ClientNote> selectAll(Serializable id);
 
 }

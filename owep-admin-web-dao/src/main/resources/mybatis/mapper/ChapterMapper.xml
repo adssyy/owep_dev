@@ -17,4 +17,187 @@
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
   </resultMap>
 
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id, chapter_number, chapter_name,
+    chapter_image_url, chapter_status, chapter_desc,
+    create_time, video_status, fk_course_id, delete, version, last_access_time
+  </sql>
+
+  <!--添加章-->
+  <insert id="saveAllField" parameterType="Chapter">
+    insert into t_chapter (id, chapter_number, chapter_name,
+    chapter_image_url, chapter_status, chapter_desc,
+    create_time, video_status, fk_course_id,
+    delete, version, last_access_time
+    )
+    values (#{id,jdbcType=INTEGER}, #{chapterNumber,jdbcType=VARCHAR}, #{chapterName,jdbcType=VARCHAR},
+    #{
+chapterImageUrl,jdbcType=VARCHAR}, #{chapterStatus,jdbcType=INTEGER}, #{chapterDesc,jdbcType=VARCHAR},
+    #{
+createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdbcType=INTEGER},
+    #{delete,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <!--添加章-->
+  <insert id="save" parameterType="Chapter">
+    insert into t_chapter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="chapterNumber != null">
+        chapter_number,
+      </if>
+      <if test="chapterName != null">
+        chapter_name,
+      </if>
+      <if test="chapterImageUrl != null">
+        chapter_image_url,
+      </if>
+      <if test="chapterStatus != null">
+        chapter_status,
+      </if>
+      <if test="chapterDesc != null">
+        chapter_desc,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="videoStatus != null">
+        video_status,
+      </if>
+      <if test="course.id != null">
+        fk_course_id,
+      </if>
+      <if test="delete != null">
+        delete,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chapterNumber != null">
+        #{chapterNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterImageUrl != null">
+        #{chapterImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterStatus != null">
+        #{chapterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="chapterDesc != null">
+        #{chapterDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="
+createTime != null">
+        #{
+createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoStatus != null">
+        #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        #{course.id,jdbcType=INTEGER},
+      </if>
+      <if test="delete != null">
+        #{delete,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--更新章-->
+  <update id="update" parameterType="Chapter">
+    update t_chapter
+    <set>
+      <if test="chapterNumber != null">
+        chapter_number = #{chapterNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        chapter_name = #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterImageUrl != null">
+        chapter_image_url = #{chapterImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterStatus != null">
+        chapter_status = #{chapterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="chapterDesc != null">
+        chapter_desc = #{chapterDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoStatus != null">
+        video_status = #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        fk_course_id = #{course.id,jdbcType=INTEGER},
+      </if>
+      <if test="delete != null">
+        delete = #{delete,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--删除章-->
+  <delete id="deleteById" parameterType="Integer">
+    delete from t_chapter
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--删除所选的章-->
+  <delete id="deleteSelect" >
+    delete from t_chapter
+    where id in
+    <foreach collection="list" separator="," open="(" close=")" item="id"></foreach>
+  </delete>
+
+  <!--通过id查询章-->
+  <select id="selectById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_chapter
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--查询所有的章-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_chapter
+  </select>
+
+
+
+  <!--查询章的总记录数-->
+  <select id="rowTotal" parameterType="chapter" resultType="java.lang.Long">
+    select count(*) from t_chapter
+  </select>
+
+
 </mapper>

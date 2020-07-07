@@ -23,14 +23,14 @@ public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
      * 通过上级课程分类id查询所有的下级课程分类id
      * @return
      */
-    List<CourseCategory> findSubAll(Serializable id);
+    List<CourseCategory> selectSubAll(Serializable id);
 
     /**
      * 通过课程分类名称查询
      * @param categoryName
      * @return
      */
-    CourseCategory findByCategoryName(String categoryName);
+    CourseCategory selectByCategoryName(String categoryName);
 
 
 }
