@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.CourseComment;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  *@Description 持久层接口CourseCommentMapper
  *
  */
-public interface CourseCommentMapper {
+public interface CourseCommentMapper extends BaseMapper<CourseComment> {
 
 
     /**
@@ -40,16 +41,5 @@ public interface CourseCommentMapper {
      */
     List<CourseComment> findByCourseId(Serializable CourseId);
 
-    /**
-     * 添加课程评价
-     * @param courseComment
-     */
-    void saveCourseComment(CourseComment courseComment);
-
-    /**
-     * 删除单个学生对单个课程的评价
-     * @param courseComment
-     */
-    void deleteCourseComment(CourseComment courseComment);
 
 }

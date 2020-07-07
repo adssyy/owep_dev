@@ -19,12 +19,6 @@ public interface ChapterMapper {
 
 
     /**
-     * 查询所有的章
-     * @return
-     */
-    List<Chapter> findAll();
-
-    /**
      * 分页查询部分章
      * @param offset
      * @param limit
@@ -34,29 +28,10 @@ public interface ChapterMapper {
 
 
     /**
-     * 通过章的id来查询章
-     * @param id
-     * @return
-     */
-    Chapter findById(Serializable id);
-
-    /**
-     * 通过章的id删除章
-     * @param id
-     */
-    void deleteById(Serializable id);
-
-    /**
      * 修改章的信息
      * @param chapter
      */
     void updateByField(Chapter chapter);
-
-    /**
-     * 添加章
-     * @param chapter
-     */
-    void saveChapter(Chapter chapter);
 
 
 }

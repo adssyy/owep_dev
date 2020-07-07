@@ -18,12 +18,6 @@ import java.util.List;
 public interface CourseMapper {
 
     /**
-     * 查询所有课程
-     * @return
-     */
-    List<Course> findAll();
-
-    /**
      * 通过分页查询部分
      * @return
      */
@@ -37,28 +31,5 @@ public interface CourseMapper {
      */
     List<Course> findByCourseName(String CourseName);
 
-    /**
-     * 添加课程
-     * @param course
-     */
-    void saveCourse(Course course);
-
-    /**
-     * 通过课程id 删除多个课程
-     * @param integerList
-     */
-    void deleteCourse(List<Integer> integerList);
-
-    /**
-     * 通过课程id 删除单个课程
-     * @param id
-     */
-    void deleteById(Serializable id);
-
-    /**
-     * 修改课程信息
-     * @param course
-     */
-    void updateCourse(Course course);
 
 }
