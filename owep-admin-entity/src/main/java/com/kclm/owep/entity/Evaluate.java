@@ -20,11 +20,11 @@ public class Evaluate implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
     /**
      *最后修改时间
      */
@@ -53,6 +53,24 @@ public class Evaluate implements Serializable {
      *评价内容
      */
     private String evaluate;
+
+    public Evaluate() {
+    }
+
+    public Evaluate(Integer id, String studentName, Integer evaluateStatus) {
+        this.id = id;
+        this.studentName = studentName;
+        this.evaluateStatus = evaluateStatus;
+    }
+
+    public Evaluate(Integer id, User user, Student student, Integer fkClassId, String studentName, Integer evaluateStatus) {
+        this.id = id;
+        this.user = user;
+        this.student = student;
+        this.fkClassId = fkClassId;
+        this.studentName = studentName;
+        this.evaluateStatus = evaluateStatus;
+    }
 
     @Override
     public boolean equals(Object o) {

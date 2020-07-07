@@ -70,6 +70,25 @@ public class Leave implements Serializable {
      */
     private Integer serialNumber;
 
+    public Leave() {
+    }
+
+    public Leave(Integer id, LocalDateTime leaveTime, LocalDateTime endTime, String studentName) {
+        this.id = id;
+        this.leaveTime = leaveTime;
+        this.endTime = endTime;
+        this.studentName = studentName;
+    }
+
+    public Leave(Integer id, LocalDateTime leaveTime, LocalDateTime endTime, Student student, Integer fkClassId, String studentName) {
+        this.id = id;
+        this.leaveTime = leaveTime;
+        this.endTime = endTime;
+        this.student = student;
+        this.fkClassId = fkClassId;
+        this.studentName = studentName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

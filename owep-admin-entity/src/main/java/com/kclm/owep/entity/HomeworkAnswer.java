@@ -47,7 +47,7 @@ public class HomeworkAnswer implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *最后一次修改时间
@@ -57,7 +57,7 @@ public class HomeworkAnswer implements Serializable {
     /**
      *版本号
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *外键，作业id
@@ -68,6 +68,22 @@ public class HomeworkAnswer implements Serializable {
      *外键，学员id
      */
     private Student student;
+
+    public HomeworkAnswer() {
+    }
+
+    public HomeworkAnswer(Integer id, String answerContent, Integer answerStatus) {
+        this.id = id;
+        this.answerContent = answerContent;
+        this.answerStatus = answerStatus;
+    }
+
+    public HomeworkAnswer(Integer id, Integer answerStatus, Homework homework, Student student) {
+        this.id = id;
+        this.answerStatus = answerStatus;
+        this.homework = homework;
+        this.student = student;
+    }
 
     @Override
     public boolean equals(Object o) {

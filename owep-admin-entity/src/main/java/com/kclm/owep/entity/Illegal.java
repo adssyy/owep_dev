@@ -20,11 +20,11 @@ public class Illegal implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
     /**
      *最后修改时间
      */
@@ -58,6 +58,24 @@ public class Illegal implements Serializable {
      *证据文件，以学员名#id.扩展名 命名
      */
     private String attachment;
+
+    public Illegal() {
+    }
+
+    public Illegal(Integer id, String studentName, LocalDateTime disciplineTime) {
+        this.id = id;
+        this.studentName = studentName;
+        this.disciplineTime = disciplineTime;
+    }
+
+    public Illegal(Integer id, User user, Student student, Clazz clazz, String studentName, LocalDateTime disciplineTime) {
+        this.id = id;
+        this.user = user;
+        this.student = student;
+        this.clazz = clazz;
+        this.studentName = studentName;
+        this.disciplineTime = disciplineTime;
+    }
 
     @Override
     public boolean equals(Object o) {
