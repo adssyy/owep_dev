@@ -262,10 +262,6 @@ public class Resource {
         sb.append(", resourceDesc='").append(resourceDesc).append('\'');
         sb.append(", createTime=").append(createTime);
         sb.append(", delete=").append(delete);
-        sb.append(", section=").append(section);
-        sb.append(", chapter=").append(chapter);
-        sb.append(", course=").append(course);
-        sb.append(", resourceType=").append(resourceType);
         sb.append(", oldResourcename=").append(oldResourcename);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
