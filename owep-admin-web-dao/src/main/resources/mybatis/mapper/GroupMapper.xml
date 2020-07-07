@@ -42,7 +42,7 @@
         where id = #{id}
     </select>
     <insert id="saveGroup" keyProperty="id" parameterType="Group">
-        insert t_group(<include refid="base_column_list"/>)
+        insert t_group(id,group_name, group_description,create_time, last_access_time, version,max_count)
             values (#{id}, #{groupName}, #{groupDescription}, #{createTime}, #{lastAccessTime}, #{version}, #{maxCount})
     </insert>
     <!--更新-->

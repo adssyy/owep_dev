@@ -58,7 +58,7 @@ public interface RoleMapper {
      * 自关联查询,根据父Id查询出该父角色下的所有子角色
      * */
     Role findChild(Integer parentId);
-
+    //TODO 查询父亲
     /**
      * 外关联查询,某角色下的所有组
      * */
