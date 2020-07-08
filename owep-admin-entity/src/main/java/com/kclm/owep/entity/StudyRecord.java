@@ -83,7 +83,19 @@ public class StudyRecord implements Serializable {
     }
 
     /***
-     * 带参构造
+     * 有参构造
+     * @param progressStatus
+     * @param fkStudentId
+     * @param courseName
+     */
+    public StudyRecord(Integer progressStatus, Integer fkStudentId, String courseName) {
+        this.progressStatus = progressStatus;
+        this.fkStudentId = fkStudentId;
+        this.courseName = courseName;
+    }
+
+    /***
+     * 全参构造
      * @param id
      * @param progressStatus
      * @param createTime

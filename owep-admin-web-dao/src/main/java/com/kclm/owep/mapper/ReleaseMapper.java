@@ -6,6 +6,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Release;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /******************
  * @Author yejf
@@ -13,7 +14,8 @@ import com.kclm.owep.mapper.common.BaseMapper;
  * @Create 2020-07-07 23:20
  * @Description 版本发布数据操作的接口
  */
+@Mapper
 public interface ReleaseMapper extends BaseMapper<Release> {
 
-    //todo
+    //nothing! 父类方法已经可以满足要求
 }

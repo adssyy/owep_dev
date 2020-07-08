@@ -6,9 +6,8 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.PollRecord;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-import java.io.Serializable;
-import java.util.List;
 
 /*******************
  *Author:ZhongLei
@@ -17,6 +16,7 @@ import java.util.List;
  *@Description:考评记录持久层接口
  ***/
 
+@Mapper
 public interface PollRecordMapper extends BaseMapper<PollRecord> {
 
     /***
@@ -24,6 +24,6 @@ public interface PollRecordMapper extends BaseMapper<PollRecord> {
      * @param pollRecord
      * @return
      */
-    int countPollRecord(PollRecord pollRecord);
+    int countPollRecord();
 
 }

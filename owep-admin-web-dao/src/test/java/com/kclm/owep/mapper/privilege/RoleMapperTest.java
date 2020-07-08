@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoleMapperTest extends ActionMapperTest {
 @Autowired
 private RoleMapper roleMapper;
-    @Test
+    /*@Test
     void saveRole() {
         Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
         roleMapper.saveRole(role);
-    }
+    }*/
 
     @Test
     void updateRole() {

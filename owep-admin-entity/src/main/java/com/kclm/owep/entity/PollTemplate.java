@@ -63,7 +63,21 @@ public class PollTemplate implements Serializable {
     }
 
     /***
-     * 带参构造
+     * 有参构造
+     * @param templateContent
+     * @param templateName
+     * @param templateNum
+     * @param templateStatus
+     */
+    public PollTemplate(String templateContent, String templateName, String templateNum, Integer templateStatus) {
+        this.templateContent = templateContent;
+        this.templateName = templateName;
+        this.templateNum = templateNum;
+        this.templateStatus = templateStatus;
+    }
+
+    /***
+     * 全参构造
      * @param id
      * @param templateContent
      * @param templateName

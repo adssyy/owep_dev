@@ -1,9 +1,9 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.TeacherPoll;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -12,19 +12,21 @@ import java.util.List;
  *@Create: 2020/7/6 14:07
  *@Description:教师考评持久层接口
  ***/
-public interface TeacherPollMapper {
 
+@Mapper
+public interface TeacherPollMapper extends BaseMapper<TeacherPoll> {
+
+    /***
+     * 统计教师考评记录数量
+     * @return
+     */
     int countTeacherPoll();
 
-    int deleteById(Serializable id);
-
-    int save(TeacherPoll teacherPoll);
-
-    int insertSelective(TeacherPoll teacherPoll);
-
-    int update(TeacherPoll teacherPoll);
-
+    /***
+     * 根据关键字查找教师考评记录
+     * @param keyword
+     * @return
+     */
     List<TeacherPoll> findByKeywords(@Param("keyword")String keyword);
 
-    int deleteSelected(List<Integer> idList);
 }
