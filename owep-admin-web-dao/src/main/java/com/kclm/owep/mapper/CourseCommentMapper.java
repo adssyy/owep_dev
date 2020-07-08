@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.CourseComment;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  *@Description 持久层接口CourseCommentMapper
  *
  */
+@Mapper
 public interface CourseCommentMapper extends BaseMapper<CourseComment> {
 
 
@@ -40,6 +42,9 @@ public interface CourseCommentMapper extends BaseMapper<CourseComment> {
      * @return
      */
     List<CourseComment> selectByCourseId(Serializable CourseId);
+
+    @Override
+    int save(CourseComment entity);
 
 
 }

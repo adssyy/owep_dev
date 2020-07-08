@@ -7,7 +7,12 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
-   <!-- <result column="fk_channeltype_id" jdbcType="INTEGER" property="fkChanneltypeId" />-->
+    <!--channelType 外键-->
+    <association column="fk_channeltype_id"
+                 property="channelType"
+                 javaType="com.kclm.owep.entity.ChannelType"
+                 fetchType="eager"
+                 select="com.kclm.owep.mapper.ChannelTypeMapper.selectById"/>
   </resultMap>
 
   <!--所有的字段-->
@@ -114,6 +119,7 @@
   <delete id="deleteSelect">
     delete from t_channel where id in
     <foreach collection="list" item="id" open="(" close=")" separator=",">
+      ${id}
     </foreach>
   </delete>
 
@@ -121,14 +127,14 @@
   <select id="selectById" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
-    from t_channel id = #{id,jdbcType=INTEGER}
+    from t_channel where id = #{id,jdbcType=INTEGER}
   </select>
 
   <!--通过渠道类型id查询渠道名称-->
   <select id="selectByChannelTypeId" resultType="channel">
     select
     <include refid="Base_Column_List"/>
-    from t_channel fk_channeltype_id = #{id,javaType=INTEGER}
+    from t_channel where fk_channeltype_id = #{id,javaType=INTEGER}
   </select>
 
 

@@ -48,17 +48,17 @@ public class PlanManagerCourse implements Serializable {
     /**
      *逻辑删除：0未删除、1已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      * 空参构造
@@ -81,16 +81,6 @@ public class PlanManagerCourse implements Serializable {
         this.courseOrder = courseOrder;
     }
 
-    public PlanManagerCourse(PlanManager planManager, Course course, Integer stageNum, Integer stageName, Integer courseOrder, Integer delete, LocalDateTime createTime, Integer version) {
-        this.planManager = planManager;
-        this.course = course;
-        this.stageNum = stageNum;
-        this.stageName = stageName;
-        this.courseOrder = courseOrder;
-        this.delete = delete;
-        this.createTime = createTime;
-        this.version = version;
-    }
 
     public PlanManager getPlanManager() {
         return planManager;
@@ -132,12 +122,20 @@ public class PlanManagerCourse implements Serializable {
         this.courseOrder = courseOrder;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getId() {
+        return id;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public LocalDateTime getCreateTime() {
@@ -163,7 +161,7 @@ public class PlanManagerCourse implements Serializable {
         sb.append(", stageNum=").append(stageNum);
         sb.append(", stageName=").append(stageName);
         sb.append(", courseOrder=").append(courseOrder);
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", createTime=").append(createTime);
         sb.append(", version=").append(version);
         sb.append('}');

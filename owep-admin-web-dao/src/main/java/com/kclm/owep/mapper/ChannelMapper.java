@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Channel;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  *@Description 持久层接口ChannelMapper
  *
  */
+@Mapper
 public interface ChannelMapper extends BaseMapper<Channel> {
 
     /**
@@ -24,5 +26,16 @@ public interface ChannelMapper extends BaseMapper<Channel> {
      */
     List<Channel> selectByChannelTypeId(Serializable id);
 
+    @Override
+    int save(Channel entity);
+
+    @Override
+    int update(Channel entity);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    Channel selectById(Serializable id);
 
 }

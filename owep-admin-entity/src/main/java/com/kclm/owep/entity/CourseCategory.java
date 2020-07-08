@@ -39,17 +39,17 @@ public class CourseCategory implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *逻辑删除 0未删除，1已删除
      */
-    private String delete;
+    private String isDelete;
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
@@ -105,12 +105,12 @@ public class CourseCategory implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getDelete() {
-        return delete;
+    public String getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(String delete) {
-        this.delete = delete;
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Integer getVersion() {
@@ -136,7 +136,7 @@ public class CourseCategory implements Serializable {
         sb.append(", categoryName='").append(categoryName).append('\'');
         sb.append(", categoryDesc='").append(categoryDesc).append('\'');
         sb.append(", createTime=").append(createTime);
-        sb.append(", delete='").append(delete).append('\'');
+        sb.append(", isDelete='").append(isDelete).append('\'');
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');

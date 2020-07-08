@@ -3,9 +3,9 @@
  */
 package com.kclm.owep.mapper;
 
-import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.PlanManagerCourse;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,27 +17,29 @@ import java.util.List;
  *@Description 持久层接口PlanManagerCourseMapper
  *
  */
-public interface PlanManagerCourseMapper extends BaseMapper<PlanManager> {
+@Mapper
+public interface PlanManagerCourseMapper extends BaseMapper<PlanManagerCourse> {
 
     /**
      * 通过方案id查询设置的课程
      * @return
      */
-    List<PlanManagerCourse> findAll(Serializable id);
+    List<PlanManagerCourse> selectAllById(Serializable id);
 
     /**
-     * 分页查询部分方案
-     * @param offset
-     * @param limit
-     * @return
-     */
-    List<PlanManagerCourse> findPlanManagerCourseLimit(Serializable id,int offset, int limit);
-
-
-    /**
+     * //TODO
      * 修改方案课程顺序
      * @param planManagerCourse
      */
     void updatePlanManagerCourse(PlanManagerCourse planManagerCourse);
+
+    @Override
+    int save(PlanManagerCourse entity);
+
+    @Override
+    int update(PlanManagerCourse entity);
+
+    @Override
+    int deleteById(Serializable id);
 
 }

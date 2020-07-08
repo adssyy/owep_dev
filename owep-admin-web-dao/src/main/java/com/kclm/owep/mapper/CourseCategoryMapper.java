@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.CourseCategory;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  *@Description 持久层接口CourseCategoryMapper
  *
  */
+@Mapper
 public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
 
 
@@ -32,5 +34,18 @@ public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
      */
     CourseCategory selectByCategoryName(String categoryName);
 
+    @Override
+    int save(CourseCategory entity);
 
+    @Override
+    int update(CourseCategory entity);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    List<CourseCategory> selectAll();
 }
