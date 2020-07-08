@@ -35,10 +35,34 @@
     update t_leave set approval_status = #{approvalStatus} where id = #{id}
   </update>
 
+  <!--插入数据-->
   <insert id="save" parameterType="com.kclm.owep.entity.Leave">
-    insert into t_leave(id,version,create_time,last_access_time,fk_class_id,leave_time,end_time,
+    insert into t_leave(version,create_time,last_access_time,fk_class_id,leave_time,end_time,
     reason_leave,approval_status,fk_student_id,`option`,student_name,leave_type,serial_number)
-    values (#{id},#{version},#{createTime},#{lastAccessTime},#{clazz.id},#{leaveTime},#{endTime}
+    values (#{version},#{createTime},#{lastAccessTime},#{clazz.id},#{leaveTime},#{endTime}
     ,#{reasonLeave},#{approvalStatus},#{student.id},#{option},#{studentName},#{leaveType},#{serialNumber})
   </insert>
+
+  <!--查找全部数据-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_leave
+  </select>
+
+  <!--通过id查找数据-->
+  <select id="selectById" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_leave where id = #{id}
+  </select>
+
+  <!--通过id删除数据-->
+  <delete id="deleteById" parameterType="int">
+    delete from t_leave where id = #{id}
+  </delete>
+
+  <!--删除选中的数据-->
+  <delete id="deleteSelect" parameterType="List">
+    delete from t_leave where id in
+    <foreach collection="list" item="list" open="(" separator="," close=")">
+    #{list}
+    </foreach>
+  </delete>
 </mapper>

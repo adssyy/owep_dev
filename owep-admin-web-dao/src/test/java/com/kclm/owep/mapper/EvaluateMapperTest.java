@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /*********************
@@ -39,9 +40,10 @@ public class EvaluateMapperTest {
 
     @Test
     void test9() {
-        int i  = evaluateMapper.save(new Evaluate(3,new User(),new Student(),new Clazz(),
-                "shen",0));
-        System.out.println(i);
+        //int i  = evaluateMapper.save(new Evaluate(3,new User(),new Student(),new Clazz(),
+         //       "shen",0));
+        Evaluate e = evaluateMapper.selectById(3);
+        System.out.println(e);
     }
 
     @Test
@@ -61,9 +63,9 @@ public class EvaluateMapperTest {
     * */
     @Test
     void test3() {
-        Illegal i = new Illegal(3,new User(),new Student(),new Clazz()
+        Illegal i = new Illegal(2,new User(),new Student(),new Clazz()
                 ,"shen",LocalDateTime.now());
-        i.setPresentationCondition("notnull");
+        //i.setPresentationCondition("notnull");
         int update = illegalMapper.save(i);
         System.out.println(update);
     }
@@ -72,6 +74,7 @@ public class EvaluateMapperTest {
     void test4() {
         List<Illegal> illegalList = illegalMapper.selectByClassId(1);
         System.out.println(illegalList.size());
+        System.out.println(illegalList.get(0).toString());
     }
 
     @Test
@@ -83,6 +86,15 @@ public class EvaluateMapperTest {
     @Test
     void test6() {
         int update = illegalMapper.deleteById(1);
+        System.out.println(update);
+    }
+
+    @Test
+    void test11() {
+        List l = new ArrayList();
+        l.add(1);
+        l.add(2);
+        int update = illegalMapper.deleteSelect(l);
         System.out.println(update);
     }
 

@@ -116,8 +116,8 @@ public class Leave implements Serializable {
                 ", endTime=" + endTime +
                 ", reasonLeave='" + reasonLeave + '\'' +
                 ", approvalStatus=" + approvalStatus +
-                ", student=" + student.getStuName() +
-                ", clazz=" + clazz.getClassName() +
+                ", student=" + student +
+                ", clazz=" + clazz +
                 ", option='" + option + '\'' +
                 ", studentName='" + studentName + '\'' +
                 ", leaveType='" + leaveType + '\'' +

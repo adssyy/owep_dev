@@ -94,9 +94,9 @@ public class Evaluate implements Serializable {
                 ", version=" + version +
                 ", createTime=" + createTime +
                 ", lastAccessTime=" + lastAccessTime +
-                ", user=" + user.getUserName() +
-                ", student=" + student.getStuName() +
-                ", clazz=" + clazz.getClassName() +
+                ", user=" + user +
+                ", student=" + student +
+                ", clazz=" + clazz +
                 ", studentName='" + studentName + '\'' +
                 ", evaluateStatus=" + evaluateStatus +
                 ", evaluate='" + evaluate + '\'' +
