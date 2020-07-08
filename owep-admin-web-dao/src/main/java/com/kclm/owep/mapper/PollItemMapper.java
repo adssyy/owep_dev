@@ -6,8 +6,8 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.PollItem;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -17,6 +17,7 @@ import java.util.List;
  *@Description:考评选项持久层接口
  ***/
 
+@Mapper
 public interface PollItemMapper extends BaseMapper<PollItem> {
 
     /***
@@ -31,5 +32,7 @@ public interface PollItemMapper extends BaseMapper<PollItem> {
      * @return
      */
     int countPollItem();
+
+    
 
 }

@@ -6,6 +6,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.VideoWatchHistory;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 
@@ -16,6 +17,7 @@ import java.io.Serializable;
  *@Description:视频观看历史持久层接口
  ***/
 
+@Mapper
 public interface VideoWatchHistoryMapper extends BaseMapper<VideoWatchHistory> {
 
     /***

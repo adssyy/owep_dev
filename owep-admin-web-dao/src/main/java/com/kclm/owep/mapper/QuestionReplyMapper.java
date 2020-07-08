@@ -4,7 +4,11 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.QuestionReply;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*********************
@@ -13,41 +17,53 @@ import java.util.List;
  * @Create: 2020年7月06日 下午16:24:40
  * @Description 班级问题回复表
  */
-public interface QuestionReplyMapper {
+@Mapper
+public interface QuestionReplyMapper extends BaseMapper<QuestionReply> {
 
     /***
-     * 增加一条数据
-     * @param record
+     * 保存一条记录
+     * @param entity
      * @return
      */
-    int save(QuestionReply record);
-
-    /***
-     * 根据id删除一条记录
-     * @param id
-     * @return
-     */
-    int deleteByPrimaryKey(Integer id);
+    @Override
+    int save(QuestionReply entity);
 
     /***
      * 更新一条记录
-     * @param record
+     * @param entity
      * @return
      */
-    int updateByPrimaryKey(QuestionReply record);
+    @Override
+    int update(QuestionReply entity);
 
     /***
-     * 根据id查询一条记录
+     * 根据id来删除一条记录
      * @param id
      * @return
      */
-    QuestionReply selectByPrimaryKey(Integer id);
+    @Override
+    int deleteById(@Param("id") Serializable id);
 
     /***
-     * 查询所有记录
+     * 删除多条记录
+     * @param idList
      * @return
      */
+    @Override
+    int deleteSelect(@Param("idList") List<Serializable> idList);
+
+    /***
+     * 根据id来查询一条记录
+     * @param id
+     * @return
+     */
+    @Override
+    QuestionReply selectById(@Param("id") Serializable id);
+
+    /***
+     * 查询所有的记录
+     * @return
+     */
+    @Override
     List<QuestionReply> selectAll();
-
-
 }

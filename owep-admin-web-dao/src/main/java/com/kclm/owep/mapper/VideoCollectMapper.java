@@ -1,43 +1,27 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.VideoCollect;
-import com.kclm.owep.entity.VideoCollectExample;
-import java.util.List;
-
 import com.kclm.owep.mapper.common.BaseMapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Mapper;
 
+/*********************
+ * @Author: ZhongLei
+ * @Version : v1.0
+ * @Create: 2020年7月08日
+ * @Description 视频收藏
+ */
+
+@Mapper
 public interface VideoCollectMapper extends BaseMapper<VideoCollect> {
 
-    long countByExample(VideoCollectExample example);
+    /***
+     * 统计视频收藏的数量
+     * @return
+     */
+    int countVideoCollect();
 
-
-    int deleteByExample(VideoCollectExample example);
-
-
-    int deleteByPrimaryKey(Integer id);
-
-
-    int insert(VideoCollect record);
-
-
-    int insertSelective(VideoCollect record);
-
-
-    List<VideoCollect> selectByExample(VideoCollectExample example);
-
-
-    VideoCollect selectByPrimaryKey(Integer id);
-
-
-    int updateByExampleSelective(@Param("record") VideoCollect record, @Param("example") VideoCollectExample example);
-
-
-    int updateByExample(@Param("record") VideoCollect record, @Param("example") VideoCollectExample example);
-
-
-    int updateByPrimaryKeySelective(VideoCollect record);
-
-
-    int updateByPrimaryKey(VideoCollect record);
 }

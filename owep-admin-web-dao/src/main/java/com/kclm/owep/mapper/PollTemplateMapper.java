@@ -6,9 +6,8 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.PollTemplate;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -18,6 +17,7 @@ import java.util.List;
  *@Description:考评模板持久层接口
  ***/
 
+@Mapper
 public interface PollTemplateMapper extends BaseMapper<PollTemplate> {
 
     /***

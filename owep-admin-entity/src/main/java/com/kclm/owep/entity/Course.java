@@ -50,12 +50,12 @@ public class Course implements Serializable {
     /**
      *课程是否免费：0表示不免费、1 表示免费
      */
-    private Boolean free;
+    private Integer free;
 
     /**
      *课程状态 0未启用、1启用
      */
-    private String courseStatus;
+    private Integer courseStatus;
 
     /**
      *课程图片
@@ -173,19 +173,19 @@ public class Course implements Serializable {
         this.coursePeriod = coursePeriod;
     }
 
-    public Boolean getFree() {
+    public Integer getFree() {
         return free;
     }
 
-    public void setFree(Boolean free) {
+    public void setFree(Integer free) {
         this.free = free;
     }
 
-    public String getCourseStatus() {
+    public Integer getCourseStatus() {
         return courseStatus;
     }
 
-    public void setCourseStatus(String courseStatus) {
+    public void setCourseStatus(Integer courseStatus) {
         this.courseStatus = courseStatus;
     }
 

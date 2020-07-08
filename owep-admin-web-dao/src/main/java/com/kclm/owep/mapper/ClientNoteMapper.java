@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.ClientNote;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,32 +16,13 @@ import java.util.List;
  *@Description 持久层接口ClientNoteMapper
  *
  */
-public interface ClientNoteMapper {
+public interface ClientNoteMapper extends BaseMapper<ClientNote> {
 
     /**
-     * 查询单个客户的所有的跟踪记录
+     * 通过客户id 查询客户的跟踪记录
+     * @param id
      * @return
      */
-    List<ClientNote> findAll();
-
-    /**
-     * 通过跟踪记录id 删除跟踪记录
-     * @param id
-     */
-    void deleteById(Serializable id);
-
-    /**
-     * 更新跟踪记录信息
-     * @param clientNote
-     */
-    void updateClientNote(ClientNote clientNote);
-
-    /**
-     * 添加跟踪记录
-     * @param clientNote
-     */
-    void saveClientNote(ClientNote clientNote);
-
-
+    List<ClientNote> selectAll(Serializable id);
 
 }
