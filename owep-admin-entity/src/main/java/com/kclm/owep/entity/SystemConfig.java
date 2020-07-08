@@ -12,56 +12,76 @@ import java.time.LocalDateTime;
  */
 
 public class SystemConfig implements Serializable {
+
     /**
      * 序列化接口
      */
     private static final long serialVersionUID=1L;
+
     /**
      *id(主键)
      */
-
     private Integer id;
+
     /**
      *系统名称
      */
-
     private String systemName;
+
     /**
      *版权所属
      */
-
     private String copyName;
+
     /**
      *登录页LOGO
      */
-
     private String loginPageLogo;
     /**
      *系统页LOGO
      */
 
     private String systemPageLogo;
+
     /**
      *创建时间
      */
-
     private LocalDateTime createTime;
+
     /**
      *版本号
      */
-
     private Integer version;
+
     /**
      * 最后一次访问时间
      */
-
     private LocalDateTime lastAccessTime;
+
     /**
      * 登录次数
      */
-
     private Integer loginCount;
 
+    /**
+     * 构造方法
+     */
+    public SystemConfig() {
+    }
+
+    public SystemConfig(String systemName, String copyName, String loginPageLogo, String systemPageLogo, Integer loginCount) {
+        this.systemName = systemName;
+        this.copyName = copyName;
+        this.loginPageLogo = loginPageLogo;
+        this.systemPageLogo = systemPageLogo;
+        this.loginCount = loginCount;
+        this.version=1;
+        this.createTime=LocalDateTime.now();
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getId() {
         return id;

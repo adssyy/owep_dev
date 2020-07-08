@@ -1,6 +1,9 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.DbCopy;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,33 +15,16 @@ import java.util.List;
  *@Create 2020/7/616:53
  *@Description 数据库备份接口
  */
-public interface DbCopyMapper {
-
-    /***********
-     * 查询所有备份记录
-     * @return
-     */
-    List<DbCopy> findAll();
+@Mapper
+public interface DbCopyMapper extends BaseMapper<DbCopy> {
 
     /***********
      * 根据时间范围查找
-     * @param startTime
-     * @param endTime
+     * @param start
+     * @param end
      * @return
      */
-    List<DbCopy> findByTime(LocalDateTime startTime,LocalDateTime endTime);
+    List<DbCopy> findByTime(@Param("start,end") LocalDateTime start,LocalDateTime end);
 
-    /************
-     * 根据id删除记录
-     * @param id
-     * @return
-     */
-    int delete(Serializable id);
 
-    /**********
-     * 删除选中的列
-     * @param idList
-     * @return
-     */
-    int deleteSelected(List<Integer> idList);
 }
