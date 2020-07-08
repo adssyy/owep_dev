@@ -38,6 +38,9 @@
         <mapper resource="mybatis/mapper/SectionMapper.xml"/>
         <mapper resource="mybatis/mapper/SectionVideoMapper.xml"/>
         <!--yejx结束-->
+        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+
     </mappers>
 
 </configuration>

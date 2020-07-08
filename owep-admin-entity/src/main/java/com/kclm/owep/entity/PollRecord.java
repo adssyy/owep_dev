@@ -148,7 +148,23 @@ public class PollRecord implements Serializable {
     }
 
     /***
-     * 带参构造
+     * 有参构造
+     * @param ipAddress
+     * @param pollScore
+     * @param pollCount
+     * @param createTime
+     * @param fkTeacherPollId
+     */
+    public PollRecord(String ipAddress, Double pollScore, Integer pollCount, LocalDateTime createTime, Integer fkTeacherPollId) {
+        this.ipAddress = ipAddress;
+        this.pollScore = pollScore;
+        this.pollCount = pollCount;
+        this.createTime = createTime;
+        this.fkTeacherPollId = fkTeacherPollId;
+    }
+
+    /***
+     * 全参构造
      * @return
      */
     public PollRecord(Integer id, String ipAddress, Double pollScore, Integer pollCount, String pollSuggest, LocalDateTime lastAccessTime, Integer version, LocalDateTime createTime, Boolean pollStatus, Integer fkTeacherPollId, String pollItem1, String pollItem2, String pollItem3, String pollItem4, String pollItem5, String pollItem6, String pollItem7, String pollItem8, String pollItem9, String pollItem10, String pollItem11, String pollItem12, String pollItem13, String pollItem14, String pollItem15) {

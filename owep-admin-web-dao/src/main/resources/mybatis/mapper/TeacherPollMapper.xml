@@ -42,7 +42,19 @@
   </delete>
 
   <!--  添加教师考评记录  -->
-  <insert id="save" parameterType="com.kclm.owep.entity.TeacherPoll">
+  <insert id="save" parameterType="com.kclm.owep.entity.TeacherPoll" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into t_teacher_poll (id, teacher_name, class_name,poll_address, poll_grade, effective_time,poll_count, poll_suggest,
+    fk_template_id, fk_user_id, fk_class_id,allow_ip, start_time,end_time)
+    values (null, #{teacherName,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR},
+    #{pollAddress,jdbcType=VARCHAR}, #{pollGrade,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP},
+     #{pollCount,jdbcType=INTEGER}, #{pollSuggest,jdbcType=VARCHAR},
+    #{fkTemplateId,jdbcType=INTEGER}, #{fkUserId,jdbcType=INTEGER}, #{fkClassId,jdbcType=INTEGER},
+    #{allowIp,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+    #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+
+ <!-- &lt;!&ndash;  添加教师考评记录  &ndash;&gt;
+  <insert id="saveAll" parameterType="com.kclm.owep.entity.TeacherPoll">
     insert into t_teacher_poll (id, teacher_name, class_name, 
       poll_address, poll_grade, effective_time, 
       poll_status, poll_count, poll_suggest, 
@@ -57,7 +69,7 @@
       #{allowIp,jdbcType=VARCHAR}, #{ipLimit,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}, 
       #{lastAccessTime,jdbcType=TIMESTAMP})
-  </insert>
+  </insert>-->
 
   <!-- 添加教师考评记录 -->
   <insert id="insertSelective" parameterType="com.kclm.owep.entity.TeacherPoll">
@@ -251,15 +263,23 @@
   <!--  通过关键字查找  -->
   <select id="findByKeywords" resultType="TeacherPoll" parameterType="string">
         //TODO
-
+        select
   </select>
 
   <!--  通过id批量删除  -->
-  <delete id="deleteSelected" parameterType="list">
+  <delete id="deleteSelect" parameterType="list">
     delete from t_teacher_poll where id in
-    <foreach collection="list" open="(" close=")" item="id">
+    <foreach collection="list" open="(" close=")" separator="," item="id">
       #{id}
     </foreach>
   </delete>
+
+  <select id="selectById" parameterType="integer" resultType="teacherPoll">
+    select * from t_teacher_poll where id = #{value}
+  </select>
+
+  <select id="selectAll" resultType="teacherPoll">
+    select * from t_teacher_poll
+  </select>
 
 </mapper>

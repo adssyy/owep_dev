@@ -36,7 +36,12 @@
     where id = #{value}
   </delete>
 
-  <insert id="save" parameterType="com.kclm.owep.entity.StudyRecord">
+  <insert id="save" parameterType="com.kclm.owep.entity.StudyRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into t_studyrecord (id, progress_status,fk_student_id, course_name)
+    values (null, #{progressStatus,jdbcType=INTEGER}, #{fkStudentId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR})
+  </insert>
+
+  <!--<insert id="saveAll" parameterType="com.kclm.owep.entity.StudyRecord">
     insert into t_studyrecord (id, progress_status, create_time, 
       fk_student_id, fk_section_id, course_name, 
       chapter_name, section_name, video_rate, 
@@ -47,7 +52,7 @@
       #{chapterName,jdbcType=VARCHAR}, #{sectionName,jdbcType=VARCHAR}, #{videoRate,jdbcType=DOUBLE}, 
       #{videoLength,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}
       )
-  </insert>
+  </insert>-->
 
   <!--<insert id="insertSelective" parameterType="com.kclm.owep.entity.StudyRecord">
     insert into t_studyrecord
