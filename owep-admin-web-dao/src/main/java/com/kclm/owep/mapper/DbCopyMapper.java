@@ -18,13 +18,14 @@ import java.util.List;
 @Mapper
 public interface DbCopyMapper extends BaseMapper<DbCopy> {
 
+
     /***********
      * 根据时间范围查找
      * @param start
      * @param end
      * @return
      */
-    List<DbCopy> findByTime(@Param("start,end") LocalDateTime start,LocalDateTime end);
+    List<DbCopy> findByTime(@Param("start") LocalDateTime start,@Param("end") LocalDateTime end);
 
 
 }

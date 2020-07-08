@@ -26,7 +26,7 @@ class PlanManagerTest {
         System.out.println(dataSource);
     }
 
-    @Test
+   /* @Test
     public void testInsert(){
         PlanManager planManager = new PlanManager();
         planManager.setPlanName("javaee开发");
@@ -36,5 +36,5 @@ class PlanManagerTest {
         planManager.setCreateTime(LocalDateTime.now());
         planManagerMapper.savePlanManager(planManager);
         System.out.println(planManager);
-    }
+    }*/
 }
