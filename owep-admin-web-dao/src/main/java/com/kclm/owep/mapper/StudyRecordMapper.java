@@ -1,7 +1,14 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
+
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.StudyRecord;
+import com.kclm.owep.mapper.common.BaseMapper;
+
 import java.io.Serializable;
+import java.util.List;
 
 /*******************
  *Author:ZhongLei
@@ -10,23 +17,12 @@ import java.io.Serializable;
  *@Description:学习记录持久层接口
  ***/
 
-public interface StudyRecordMapper {
+public interface StudyRecordMapper extends BaseMapper<StudyRecord> {
 
+    /***
+     * 统计学习记录数量
+     * @return
+     */
     int countStudyRecord();
 
-    StudyRecord findById(Serializable id);
-
-    int deleteById(Serializable id);
-
-
-    int save(StudyRecord studyRecord);
-
-
-    int insertSelective(StudyRecord studyRecord);
-
-
-    int updateByPrimaryKeySelective(StudyRecord studyRecord);
-
-
-    int updateByPrimaryKey(StudyRecord studyRecord);
 }

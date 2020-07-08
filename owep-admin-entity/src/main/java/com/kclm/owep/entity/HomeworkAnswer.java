@@ -3,14 +3,17 @@
  */
 package com.kclm.owep.entity;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 /*********************
  * @Auther shentr
  * @Version V1.0
  * @Create 2020/7/6 18:06
  * @Description 学员作业完成
  */
-public class HomeworkAnswer {
+public class HomeworkAnswer implements Serializable {
     /**
      *主键
      */
@@ -44,17 +47,17 @@ public class HomeworkAnswer {
     /**
      *创建时间
      */
-    private LocalDate createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *最后一次修改时间
      */
-    private LocalDate lastAccessTime;
+    private LocalDateTime lastAccessTime;
 
     /**
      *版本号
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *外键，作业id
@@ -65,6 +68,55 @@ public class HomeworkAnswer {
      *外键，学员id
      */
     private Student student;
+
+    public HomeworkAnswer() {
+    }
+
+    public HomeworkAnswer(Integer id, String answerContent, Integer answerStatus) {
+        this.id = id;
+        this.answerContent = answerContent;
+        this.answerStatus = answerStatus;
+    }
+
+    public HomeworkAnswer(Integer id, Integer answerStatus, Homework homework, Student student) {
+        this.id = id;
+        this.answerStatus = answerStatus;
+        this.homework = homework;
+        this.student = student;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HomeworkAnswer that = (HomeworkAnswer) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(answerStatus, that.answerStatus) &&
+                Objects.equals(homework, that.homework) &&
+                Objects.equals(student, that.student);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, answerStatus, homework, student);
+    }
+
+    @Override
+    public String toString() {
+        return "HomeworkAnswer{" +
+                "id=" + id +
+                ", answerUrl='" + answerUrl + '\'' +
+                ", answerContent='" + answerContent + '\'' +
+                ", answerAttachment='" + answerAttachment + '\'' +
+                ", answerStatus=" + answerStatus +
+                ", auditContent='" + auditContent + '\'' +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", version=" + version +
+                ", homework=" + homework +
+                ", student=" + student +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -114,19 +166,19 @@ public class HomeworkAnswer {
         this.auditContent = auditContent == null ? null : auditContent.trim();
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDate getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(LocalDate lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 

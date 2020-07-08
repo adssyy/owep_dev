@@ -42,7 +42,7 @@
         where id = #{id}
     </select>
     <insert id="saveGroup" keyProperty="id" parameterType="Group">
-        insert t_group(<include refid="base_column_list"/>)
+        insert t_group(id,group_name, group_description,create_time, last_access_time, version,max_count)
             values (#{id}, #{groupName}, #{groupDescription}, #{createTime}, #{lastAccessTime}, #{version}, #{maxCount})
     </insert>
     <!--更新-->
@@ -50,22 +50,22 @@
         update t_group
         <set>
             <if test="groupName != null">
-                group_name=#{groupName}
+                group_name=#{groupName},
             </if>
             <if test="groupDescription != null">
-                group_description=#{groupDescription}
+                group_description=#{groupDescription},
             </if>
             <if test="createTime != null">
-                create_time=#{createTime}
+                create_time=#{createTime},
             </if>
             <if test="lastAccessTime != null">
-                last_access_time=#{lastAccessTime}
+                last_access_time=#{lastAccessTime},
             </if>
             <if test="version != null">
-                version=#{version}
+                version=#{version},
             </if>
             <if test="maxCount != null">
-                max_count=#{maxCount}
+                max_count=#{maxCount},
             </if>
         </set>
         where id=#{id}
@@ -109,7 +109,7 @@
         from t_group g
                      left join t_group_role gr on g.id = gr.group_id
                      left join t_role r on gr.role_id = r.id
-        where gid = #{groupId}
+        where g.id = #{groupId}
     </select>
     <resultMap id="GroupRole" type="Group">
         <id property="id" column="gid"/>
@@ -179,7 +179,7 @@
         <result property="version" column="gv"/>
         <result property="groupName" column="gname"/>
         <result property="maxCount" column="gmax"/>
-        <collection property="users" ofType="User">
+        <collection property="users"  ofType="User">
             <id property="id" column="uid"/>
             <result property="userName" column="uname"/>
             <result property="userPwd" column="upwd"/>

@@ -20,9 +20,9 @@ public class Permission implements Serializable {
     private Integer id;
     private String permissionName;/** 权限名*/
     private String permissionDescription;/** 权限描述*/
-    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime createTime=LocalDateTime.now();/** 创建时间*/
     private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
-    private Integer version;/** 版本号*/
+    private Integer version=1;/** 版本号*/
     private List<Role> roles;/** 关联角色*/
     private List<Action> actions;/** 关联行为*/
     private List<Menu> menus;/** 关联菜单*/
@@ -31,33 +31,15 @@ public class Permission implements Serializable {
     public Permission() {
     }
 
-    public Permission(String permissionName, String permissionDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version) {
+    public Permission(String permissionName, String permissionDescription) {
         this.permissionName = permissionName;
         this.permissionDescription = permissionDescription;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
     }
 
-    public Permission(Integer id, String permissionName, String permissionDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version) {
-        this.id = id;
+    public Permission(String permissionName, String permissionDescription, LocalDateTime lastAccessTime) {
         this.permissionName = permissionName;
         this.permissionDescription = permissionDescription;
-        this.createTime = createTime;
         this.lastAccessTime = lastAccessTime;
-        this.version = version;
-    }
-
-    public Permission(Integer id, String permissionName, String permissionDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, List<Role> roles, List<Action> actions, List<Menu> menus) {
-        this.id = id;
-        this.permissionName = permissionName;
-        this.permissionDescription = permissionDescription;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.roles = roles;
-        this.actions = actions;
-        this.menus = menus;
     }
 
     @Override

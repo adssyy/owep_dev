@@ -1,3 +1,6 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -13,78 +16,129 @@ import java.util.Objects;
 
 public class PollRecord implements Serializable {
 
+    /***
+     * 主键
+     */
     private Integer id;
 
-    //考评IP地址
+    /***
+     * 考评IP地址
+     */
     private String ipAddress;
 
-    //考评得分
+    /***
+     *  考评得分
+     */
     private Double pollScore;
 
-    //考评选项条数
+    /***
+     * 考评选项条数
+     */
     private Integer pollCount;
 
-    //考评建议
+    /***
+     * 考评建议
+     */
     private String pollSuggest;
 
-    //最后一次访问时间
+    /***
+     * 最后一次访问时间
+     */
     private LocalDateTime lastAccessTime;
 
-    //版本号
+    /***
+     * 版本号
+     */
     private Integer version;
 
-    //考评时间
+    /***
+     * 考评时间
+     */
     private LocalDateTime createTime;
 
-    //考评状态  0.有效 1.无效
+    /***
+     * 考评状态  0.有效 1.无效
+     */
     private Boolean pollStatus;
 
-    //外键，教师考评id
+    /***
+     * 外键，教师考评id
+     */
     private Integer fkTeacherPollId;
 
-    //所选模块中第一条,采用 条件:分值 的格式存储
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem1;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem2;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem3;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem4;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem5;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem6;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem7;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem8;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem9;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem10;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem11;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem12;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem13;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem14;
 
-
+    /***
+     * 所选模块中第一条,采用 条件:分值 的格式存储
+     */
     private String pollItem15;
 
     /***

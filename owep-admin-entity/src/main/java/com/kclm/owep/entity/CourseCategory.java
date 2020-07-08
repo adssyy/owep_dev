@@ -32,9 +32,9 @@ public class CourseCategory implements Serializable {
     private String categoryDesc;
 
     /**
-     *自关联  下级分类对象
+     *自关联 上级id
      */
-    private List<CourseCategory> courseCategoryList;
+    private CourseCategory courseCategory;
 
     /**
      *创建时间
@@ -56,6 +56,15 @@ public class CourseCategory implements Serializable {
      */
     private LocalDateTime lastAccessTime;
 
+    public CourseCategory() {
+    }
+
+    public CourseCategory(String categoryName, String categoryDesc, CourseCategory courseCategory) {
+        this.categoryName = categoryName;
+        this.categoryDesc = categoryDesc;
+        this.courseCategory = courseCategory;
+    }
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -72,12 +81,20 @@ public class CourseCategory implements Serializable {
         this.categoryDesc = categoryDesc;
     }
 
-    public List<CourseCategory> getCourseCategoryList() {
-        return courseCategoryList;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCourseCategoryList(List<CourseCategory> courseCategoryList) {
-        this.courseCategoryList = courseCategoryList;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public CourseCategory getCourseCategory() {
+        return courseCategory;
+    }
+
+    public void setCourseCategory(CourseCategory courseCategory) {
+        this.courseCategory = courseCategory;
     }
 
     public LocalDateTime getCreateTime() {

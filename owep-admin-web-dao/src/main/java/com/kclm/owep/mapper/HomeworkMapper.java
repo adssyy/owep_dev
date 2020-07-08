@@ -5,7 +5,11 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Homework;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*********************
@@ -14,42 +18,52 @@ import java.util.List;
  * @Create: 2020年7月06日 上午17:40:40
  * @Description 班级作业
  */
-public interface HomeworkMapper {
-
+@Mapper
+public interface HomeworkMapper extends BaseMapper<Homework> {
     /***
-     * 增加一条记录
-     * @param record
+     * 保存一条记录
+     * @param entity
      * @return
      */
-    int save(Homework record);
-
-    /***
-     * 根据id删除一条记录
-     * @param id
-     * @return
-     */
-    int deleteByPrimaryKey(Integer id);
+    @Override
+    int save(Homework entity);
 
     /***
      * 更新一条记录
-     * @param record
+     * @param entity
      * @return
      */
-    int updateByPrimaryKey(Homework record);
+    @Override
+    int update(Homework entity);
 
     /***
-     * 根据id查询一条记录
+     * 根据id来删除一条记录
      * @param id
      * @return
      */
-    Homework selectByPrimaryKey(Integer id);
+    @Override
+    int deleteById(@Param("id") Serializable id);
+
+    /***
+     * 删除多条记录
+     * @param idList
+     * @return
+     */
+    @Override
+    int deleteSelect(@Param("idList") List<Serializable> idList);
+
+    /***
+     * 根据id来查询一条记录
+     * @param id
+     * @return
+     */
+    @Override
+    Homework selectById(@Param("id") Serializable id);
 
     /***
      * 查询所有的记录
      * @return
      */
+    @Override
     List<Homework> selectAll();
-
-
-
 }

@@ -1,6 +1,14 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
+
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.VideoWatchRecord;
+import com.kclm.owep.mapper.common.BaseMapper;
+
+import java.io.Serializable;
+import java.util.List;
 
 /*******************
  *Author:ZhongLei
@@ -9,37 +17,13 @@ import com.kclm.owep.entity.VideoWatchRecord;
  *@Description:视频观看记录持久层接口
  ***/
 
-public interface VideoWatchRecordMapper {
+public interface VideoWatchRecordMapper extends BaseMapper<VideoWatchRecord> {
 
-   /* long countByExample(VideoWatchRecordExample example);
-
-
-    int deleteByExample(VideoWatchRecordExample example);*/
-
-
-    int deleteByPrimaryKey(Integer id);
+    /***
+     * 统计视频观看记录数量
+     * @return
+     */
+    int countVideoWatchRecord();
 
 
-    int insert(VideoWatchRecord record);
-
-
-    int insertSelective(VideoWatchRecord record);
-
-
-//    List<VideoWatchRecord> selectByExample(VideoWatchRecordExample example);
-
-
-    VideoWatchRecord selectByPrimaryKey(Integer id);
-
-
-   /* int updateByExampleSelective(@Param("record") VideoWatchRecord record, @Param("example") VideoWatchRecordExample example);
-
-
-    int updateByExample(@Param("record") VideoWatchRecord record, @Param("example") VideoWatchRecordExample example);*/
-
-
-    int updateByPrimaryKeySelective(VideoWatchRecord record);
-
-
-    int updateByPrimaryKey(VideoWatchRecord record);
 }

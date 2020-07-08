@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Course;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,13 +16,7 @@ import java.util.List;
  *@Description 持久层接口CourseMapper
  *
  */
-public interface CourseMapper {
-
-    /**
-     * 查询所有课程
-     * @return
-     */
-    List<Course> findAll();
+public interface CourseMapper extends BaseMapper<Course> {
 
     /**
      * 通过分页查询部分
@@ -37,28 +32,5 @@ public interface CourseMapper {
      */
     List<Course> findByCourseName(String CourseName);
 
-    /**
-     * 添加课程
-     * @param course
-     */
-    void saveCourse(Course course);
-
-    /**
-     * 通过课程id 删除多个课程
-     * @param integerList
-     */
-    void deleteCourse(List<Integer> integerList);
-
-    /**
-     * 通过课程id 删除单个课程
-     * @param id
-     */
-    void deleteById(Serializable id);
-
-    /**
-     * 修改课程信息
-     * @param course
-     */
-    void updateCourse(Course course);
 
 }

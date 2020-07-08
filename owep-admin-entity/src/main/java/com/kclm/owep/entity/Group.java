@@ -20,9 +20,9 @@ public class Group implements Serializable {
     private Integer id;
     private String groupName;/** 组名*/
     private String groupDescription;/** 组描述*/
-    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime createTime=LocalDateTime.now();/** 创建时间*/
     private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
-    private Integer version;/** 版本号*/
+    private Integer version=1;/** 版本号*/
     private Integer maxCount;/** 最多支持分配多少个角色*/
     private List<Role> roles;/** 关联角色表*/
     private List<User> users;/** 关联用户*/
@@ -31,35 +31,17 @@ public class Group implements Serializable {
     public Group() {
     }
 
-    public Group(Integer id, String groupName, String groupDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, Integer maxCount) {
-        this.id = id;
+    public Group(String groupName, String groupDescription, Integer maxCount) {
         this.groupName = groupName;
         this.groupDescription = groupDescription;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
         this.maxCount = maxCount;
     }
 
-    public Group(String groupName, String groupDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, Integer maxCount) {
+    public Group(String groupName, String groupDescription, LocalDateTime lastAccessTime, Integer maxCount) {
         this.groupName = groupName;
         this.groupDescription = groupDescription;
-        this.createTime = createTime;
         this.lastAccessTime = lastAccessTime;
-        this.version = version;
         this.maxCount = maxCount;
-    }
-
-    public Group(Integer id, String groupName, String groupDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, Integer maxCount, List<Role> roles, List<User> users) {
-        this.id = id;
-        this.groupName = groupName;
-        this.groupDescription = groupDescription;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.maxCount = maxCount;
-        this.roles = roles;
-        this.users = users;
     }
 
     @Override
