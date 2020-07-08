@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Illegal;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,12 +24,12 @@ public interface IllegalMapper extends BaseMapper<Illegal> {
     /**
     *根据班级id查询违纪处理的数据
     */
-    List<Illegal> selectByClassId(Integer classId);
+    List<Illegal> selectByClassId(Serializable classId);
 
     /**
     * 条件查询
     */
-    List<Illegal> selectByCondition(@Param("number") String number, @Param("name") String name,
+    List<Illegal> selectByCondition(@Param("stuNumber") String stuNumber, @Param("stuName") String stuName,
                                     @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 
 }

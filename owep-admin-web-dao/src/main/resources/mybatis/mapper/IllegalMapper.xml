@@ -60,17 +60,17 @@
   <select id="selectByCondition" resultMap="BaseResultMap">
     select * from t_illegal
     <where>
-      <if test="number != null and number != ''">
-        and fk_student_id = (select id from t_student where stu_number like #{number})
+      <if test="stuNumber != null and stuNumber != ''">
+        and fk_student_id = (select id from t_student where stu_number like #{stuNumber})
       </if>
-      <if test="name != null and name != ''">
-        and student_name like #{name}
+      <if test="stuName != null and stuName != ''">
+        and student_name like #{stuName}
       </if>
       <if test="startTime != null">
-        and fk_class_id in (select id from t_class where start_time = #{startTime})
+        and discipline_time &gt;= #{startTime}
       </if>
       <if test="endTime != null">
-        and fk_class_id in (select id from t_class where end_time = #{endTime})
+        and discipline_time &lt;= #{endTime}
       </if>
     </where>
   </select>

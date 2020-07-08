@@ -8,6 +8,7 @@ import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*********************
@@ -22,7 +23,7 @@ public interface LeaveMapper extends BaseMapper<Leave> {
     /**
      *通过班级id查找请假处理的数据
      */
-    List<Leave> selectByClassId(Integer classId);
+    List<Leave> selectByClassId(Serializable classId);
 
     /**
     * 请假审批
