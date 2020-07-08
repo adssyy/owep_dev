@@ -6,6 +6,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.ReleaseLog;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /******************
  * @Author yejf
@@ -13,7 +14,8 @@ import com.kclm.owep.mapper.common.BaseMapper;
  * @Create 2020-07-07 23:22
  * @Description 版本发布 日志信息数据的操作接口
  */
+@Mapper
 public interface ReleaseLogMapper extends BaseMapper<ReleaseLog> {
 
-    //todo
+    //nothing! 父接口的方法已满足要求
 }
