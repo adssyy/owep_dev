@@ -35,14 +35,22 @@
   </delete>
 
   <!--  添加考评模板  -->
-  <insert id="save" parameterType="com.kclm.owep.entity.PollTemplate">
+  <insert id="save" parameterType="com.kclm.owep.entity.PollTemplate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into t_poll_template (id, template_content, template_name, 
-      template_num, template_status, create_time, 
-      version, last_access_time)
-    values (#{id,jdbcType=INTEGER}, #{templateContent,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, 
-      #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP})
+      template_num, template_status)
+    values (null,#{templateContent,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR},
+      #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER})
   </insert>
+
+  <!--&lt;!&ndash;  添加考评模板  &ndash;&gt;
+  <insert id="save" parameterType="com.kclm.owep.entity.PollTemplate">
+    insert into t_poll_template (id, template_content, template_name,
+    template_num, template_status, create_time,
+    version, last_access_time)
+    values (#{id,jdbcType=INTEGER}, #{templateContent,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR},
+    #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+    #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP})
+  </insert>-->
 
   <!--&lt;!&ndash;  添加考评模板  &ndash;&gt;
   <insert id="insertSelective" parameterType="com.kclm.owep.entity.PollTemplate">

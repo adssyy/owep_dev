@@ -78,7 +78,23 @@ public class VideoWatchRecord implements Serializable {
     }
 
     /***
-     * 带参构造
+     * 有参构造
+     * @param startTime
+     * @param startPosition
+     * @param endTime
+     * @param endPosition
+     * @param fkVideoId
+     */
+    public VideoWatchRecord(LocalDateTime startTime, String startPosition, LocalDateTime endTime, String endPosition, Integer fkVideoId) {
+        this.startTime = startTime;
+        this.startPosition = startPosition;
+        this.endTime = endTime;
+        this.endPosition = endPosition;
+        this.fkVideoId = fkVideoId;
+    }
+
+    /***
+     * 全参构造
      * @param id
      * @param startTime
      * @param startPosition
