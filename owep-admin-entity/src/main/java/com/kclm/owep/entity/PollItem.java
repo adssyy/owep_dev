@@ -16,25 +16,39 @@ import java.util.Objects;
  ***/
 public class PollItem implements Serializable {
 
-    //考评选项id
+    /***
+     * 考评选项id
+     */
     private Integer id;
 
-    //考评选项编号
+    /***
+     * 考评选项编号
+     */
     private String pollNum;
 
-    //考评内容
+    /***
+     * 考评内容
+     */
     private String pollContent;
 
-    //是否启用  1.启用 2.未启用
+    /***
+     * 是否启用  1.启用 0.未启用
+     */
     private Integer pollStatus;
 
-    //创建时间
+    /***
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    //版本
+    /***
+     * 版本
+     */
     private Integer version;
 
-    //最后访问时间
+    /***
+     * 最后访问时间
+     */
     private LocalDateTime lastAccessTime;
 
     /***
@@ -43,6 +57,16 @@ public class PollItem implements Serializable {
     public PollItem() {
     }
 
+    /***
+     * 全参构造
+     * @param id
+     * @param pollNum
+     * @param pollContent
+     * @param pollStatus
+     * @param createTime
+     * @param version
+     * @param lastAccessTime
+     */
     public PollItem(Integer id, String pollNum, String pollContent, Integer pollStatus, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
         this.id = id;
         this.pollNum = pollNum;
@@ -51,6 +75,18 @@ public class PollItem implements Serializable {
         this.createTime = createTime;
         this.version = version;
         this.lastAccessTime = lastAccessTime;
+    }
+
+    /***
+     * 三参构造
+     * @param pollNum
+     * @param pollContent
+     * @param pollStatus
+     */
+    public PollItem(String pollNum, String pollContent, Integer pollStatus) {
+        this.pollNum = pollNum;
+        this.pollContent = pollContent;
+        this.pollStatus = pollStatus;
     }
 
     public Integer getId() {

@@ -5,9 +5,9 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.PollItem;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -16,23 +16,23 @@ import java.util.List;
  *@Create: 2020/7/6 14:07
  *@Description:考评选项持久层接口
  ***/
-public interface PollItemMapper {
 
-    //添加考评选项
-    int save(PollItem pollItem);
+@Mapper
+public interface PollItemMapper extends BaseMapper<PollItem> {
 
-    //删除考评选项
-    int deleteById(Serializable id);
-
-    //修改考评选项
-    int update(PollItem pollItem);
-
-    //通过关键字查找考评选项
+    /***
+     * 通过关键字查找考评选项
+     * @param keyword
+     * @return
+     */
     List<PollItem> findByKeywords(@Param("keyword") String keyword);
 
-    //删除多个
-    int deleteSelected(List<Integer> idList);
-
-    //统计考评选项数量
+    /***
+     * 统计考评选项数量
+     * @return
+     */
     int countPollItem();
+
+    
+
 }

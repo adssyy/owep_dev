@@ -1,3 +1,6 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -13,60 +16,99 @@ import java.util.Objects;
 
 public class TeacherPoll implements Serializable {
 
+    /***
+     * 主键
+     */
     private Integer id;
 
-    //老师名称
+    /***
+     * 老师名称
+     */
     private String teacherName;
 
-    //班级名称
+    /***
+     * 班级名称
+     */
     private String className;
 
-    //考评地址
+    /***
+     * 考评地址
+     */
     private String pollAddress;
 
-    //考评成绩
+    /***
+     * 考评成绩
+     */
     private String pollGrade;
 
-    //有效期
+    /***
+     * 有效期
+     */
     private LocalDateTime effectiveTime;
 
-    //考评状态 1:未开始 2:进行中 3:已结束(未审核) 4:已结束(已审核)
+    /***
+     * 考评状态 1:未开始 2:进行中 3:已结束(未审核) 4:已结束(已审核)
+     */
     private String pollStatus;
 
-    //考评人数
+    /***
+     * 考评人数
+     */
     private Integer pollCount;
 
-    //考评建议
+    /***
+     * 考评建议
+     */
     private String pollSuggest;
 
-    //模板id
+    /***
+     * 模板id
+     */
     private Integer fkTemplateId;
 
-    //用户id
+    /***
+     * 用户id
+     */
     private Integer fkUserId;
 
-    //班级id
+    /***
+     * 班级id
+     */
     private Integer fkClassId;
 
-    //允许ipi地址
+    /***
+     * 允许ipi地址
+     */
     private String allowIp;
 
-    //是否限定IP网段   1.表示限定 0.表示不限定
+    /***
+     * 是否限定IP网段   1.表示限定 0.表示不限定
+     */
     private Integer ipLimit;
 
-    //开始时间
+    /***
+     * 开始时间
+     */
     private LocalDateTime startTime;
 
-    //结束时间
+    /***
+     * 结束时间
+     */
     private LocalDateTime endTime;
 
-    //创建时间
+    /***
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    //版本
+    /***
+     * 版本
+     */
     private Integer version;
 
-    //最后访问时间
+    /***
+     * 最后访问时间
+     */
     private LocalDateTime lastAccessTime;
 
     /***
@@ -76,7 +118,26 @@ public class TeacherPoll implements Serializable {
     }
 
     /***
-     * 带参构造
+     * 有参构造
+     */
+    public TeacherPoll(String teacherName, String className, String pollAddress, String pollGrade, LocalDateTime effectiveTime, Integer pollCount, String pollSuggest, Integer fkTemplateId, Integer fkUserId, Integer fkClassId, String allowIp, LocalDateTime startTime, LocalDateTime endTime) {
+        this.teacherName = teacherName;
+        this.className = className;
+        this.pollAddress = pollAddress;
+        this.pollGrade = pollGrade;
+        this.effectiveTime = effectiveTime;
+        this.pollCount = pollCount;
+        this.pollSuggest = pollSuggest;
+        this.fkTemplateId = fkTemplateId;
+        this.fkUserId = fkUserId;
+        this.fkClassId = fkClassId;
+        this.allowIp = allowIp;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    /***
+     * 全参构造
      * @param id
      * @param teacherName
      * @param className
