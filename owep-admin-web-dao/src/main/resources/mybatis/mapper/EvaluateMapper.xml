@@ -6,7 +6,7 @@
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
-    <result column="fk_class_id" jdbcType="INTEGER" property="fkClassId" />
+    <!--<result column="fk_class_id" jdbcType="INTEGER" property="fkClassId" />-->
     <!--<result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />
     <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />-->
     <result column="student_name" jdbcType="VARCHAR" property="studentName" />
@@ -35,14 +35,14 @@
   <!--
     更新评价内容
   -->
-  <update id="update" parameterType="Evaluate">
+  <update id="update" parameterType="com.kclm.owep.entity.Evaluate">
     update t_evaluate set evaluate = #{evaluate} where id = #{id}
   </update>
 
   <!--插入数据-->
-  <insert id="save" parameterType="Evaluate">
+  <insert id="save" parameterType="com.kclm.owep.entity.Evaluate">
     insert into t_evaluate(id,version,create_time,last_access_time,fk_user_id,fk_student_id,fk_class_id
     ,student_name,evaluate_status,evaluate) values (#{id},#{version},#{createTime},#{lastAccessTime}
-    ,#{user.id},#{student.id},#{fkClassId},#{studentName},#{evaluateStatus},#{evaluate})
+    ,#{user.id},#{student.id},#{clazz.id},#{studentName},#{evaluateStatus},#{evaluate})
   </insert>
 </mapper>

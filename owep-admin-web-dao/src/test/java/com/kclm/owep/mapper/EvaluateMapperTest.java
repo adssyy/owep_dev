@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /*********************
@@ -26,6 +27,10 @@ public class EvaluateMapperTest {
     @Autowired
     private LeaveMapper leaveMapper;
 
+    /*
+    * 以下是学生评价的测试
+    *
+    * */
     @Test
     void test1() {
         List<Evaluate> evaluateList = evaluateMapper.selectByClassId(1);
@@ -34,24 +39,32 @@ public class EvaluateMapperTest {
 
     @Test
     void test9() {
-        User u = new User();
-        u.setId(1);
-        Student s = new Student();
-        s.setId(1);
-        int i  = evaluateMapper.save(new Evaluate(1,u,s,
-                1,"shen",0));
+        int i  = evaluateMapper.save(new Evaluate(3,new User(),new Student(),new Clazz(),
+                "shen",0));
         System.out.println(i);
     }
 
     @Test
     void test2() {
-        int update = evaluateMapper.update(new Evaluate());
+        Evaluate e = new Evaluate();
+        e.setId(2);
+        e.setEvaluate("不错");
+        int update = evaluateMapper.update(e);
         System.out.println(update);
     }
 
+
+    /*
+    *
+    *
+    * 以下是违规的测试
+    * */
     @Test
     void test3() {
-        int update = illegalMapper.save(new Illegal());
+        Illegal i = new Illegal(3,new User(),new Student(),new Clazz()
+                ,"shen",LocalDateTime.now());
+        i.setPresentationCondition("notnull");
+        int update = illegalMapper.save(i);
         System.out.println(update);
     }
 
@@ -63,7 +76,7 @@ public class EvaluateMapperTest {
 
     @Test
     void test5() {
-        List<Illegal> illegals = illegalMapper.selectByCondition(null,"shen",null,null);
+        List<Illegal> illegals = illegalMapper.selectByCondition(null,"shen", LocalDateTime.now(),null);
         System.out.println(illegals.size());
     }
 
@@ -73,6 +86,9 @@ public class EvaluateMapperTest {
         System.out.println(update);
     }
 
+    /*
+    * 以下是请假模块的测试
+    * */
     @Test
     void test7() {
         List<Leave> leaveList = leaveMapper.selectByClassId(1);
@@ -81,7 +97,18 @@ public class EvaluateMapperTest {
 
     @Test
     void test8() {
-        int update = leaveMapper.update(new Leave());
+        Leave l = new Leave();
+        l.setId(1);
+        l.setApprovalStatus(1);
+        int update = leaveMapper.update(l);
         System.out.println(update);
     }
+
+    @Test
+    void test10() {
+        int update = leaveMapper.save(new Leave(3,LocalDateTime.now(),LocalDateTime.now()
+        ,new Student(),new Clazz(),"shen"));
+        System.out.println(update);
+    }
+
 }

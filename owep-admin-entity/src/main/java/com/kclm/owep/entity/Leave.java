@@ -20,11 +20,11 @@ public class Leave implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
     /**
      *最后修改时间
      */
@@ -52,7 +52,7 @@ public class Leave implements Serializable {
     /**
      *fk_class_id
      */
-    private Integer fkClassId;
+    private Clazz clazz;
     /**
      *意见
      */
@@ -80,12 +80,12 @@ public class Leave implements Serializable {
         this.studentName = studentName;
     }
 
-    public Leave(Integer id, LocalDateTime leaveTime, LocalDateTime endTime, Student student, Integer fkClassId, String studentName) {
+    public Leave(Integer id, LocalDateTime leaveTime, LocalDateTime endTime, Student student, Clazz clazz, String studentName) {
         this.id = id;
         this.leaveTime = leaveTime;
         this.endTime = endTime;
         this.student = student;
-        this.fkClassId = fkClassId;
+        this.clazz = clazz;
         this.studentName = studentName;
     }
 
@@ -116,8 +116,8 @@ public class Leave implements Serializable {
                 ", endTime=" + endTime +
                 ", reasonLeave='" + reasonLeave + '\'' +
                 ", approvalStatus=" + approvalStatus +
-                ", student=" + student +
-                ", fkClassId=" + fkClassId +
+                ", student=" + student.getStuName() +
+                ", clazz=" + clazz.getClassName() +
                 ", option='" + option + '\'' +
                 ", studentName='" + studentName + '\'' +
                 ", leaveType='" + leaveType + '\'' +
@@ -125,9 +125,9 @@ public class Leave implements Serializable {
                 '}';
     }
 
-    public Integer getFkClassId() { return fkClassId; }
+    public Clazz getClazz() { return clazz; }
 
-    public void setFkClassId(Integer fkClassId) { this.fkClassId = fkClassId; }
+    public void setClazz(Clazz clazz) { this.clazz = clazz; }
 
     public Integer getId() {
         return id;

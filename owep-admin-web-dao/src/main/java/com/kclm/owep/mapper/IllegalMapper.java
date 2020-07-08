@@ -6,6 +6,7 @@ package com.kclm.owep.mapper;
 import com.kclm.owep.entity.Illegal;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.kclm.owep.mapper.common.BaseMapper;
@@ -28,6 +29,6 @@ public interface IllegalMapper extends BaseMapper<Illegal> {
     * 条件查询
     */
     List<Illegal> selectByCondition(@Param("number") String number, @Param("name") String name,
-                          @Param("startTime") LocalDate startTime,@Param("endTime") LocalDate endTime);
+                                    @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 
 }
