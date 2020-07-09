@@ -6,35 +6,54 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.sql.DataSource;
-
-import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class PlanManagerTest {
-
-    @Autowired
-    private DataSource dataSource;
+class PlanManagerMapperTest {
 
     @Autowired
     private PlanManagerMapper planManagerMapper;
 
     @Test
-    public void testDataBases(){
-        System.out.println(dataSource);
+    void selectByField() {
     }
 
     @Test
+    void rowTotal() {
+    }
+
+<<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
+   /* @Test
     public void testInsert(){
+=======
+    @Test
+    void save() {
+>>>>>>> ce462c4a60311824f748cf72b7f8fbd375302bd8:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerMapperTest.java
         PlanManager planManager = new PlanManager();
         planManager.setPlanName("javaee开发");
         planManager.setPlanNumber("FA_110");
         planManager.setPlanStatus(1);
         planManager.setPlanDesc("web开发");
         planManager.setCreateTime(LocalDateTime.now());
+        planManagerMapper.save(planManager);
         //planManagerMapper.savePlanManager(planManager);
+//        planManagerMapper.savePlanManager(planManager);
         System.out.println(planManager);
+<<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
+    }*/
+=======
     }
+
+    @Test
+    void deleteById() {
+    }
+
+    @Test
+    void deleteSelect() {
+    }
+
+    @Test
+    void selectAll() {
+    }
+>>>>>>> ce462c4a60311824f748cf72b7f8fbd375302bd8:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerMapperTest.java
 }

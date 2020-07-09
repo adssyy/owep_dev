@@ -5,9 +5,11 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Menu;
+import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,70 +19,56 @@ import java.util.List;
  * @description:菜单接口
  **/
 @Mapper
-public interface MenuMapper {
-    /**
-     * 根据Id删除菜单
-     */
-    int deleteById(Integer id);
+public interface MenuMapper extends BaseMapper<Menu> {
 
     /**
-     * 插入菜单
+     * 自关联查询 查询菜单的父级菜单
+     * 传入0则查出所有菜单 并且查出其父级菜单
      */
-    int insert(Menu menu);
+    List<Menu> selectParent(Serializable id);
 
     /**
-     * 更新菜单信息
+     * 自关联查询 查询子菜单 传入0则查询所有
      */
-    int update(Menu menu);
-
-
-    /**
-     * 根据Id查询菜单的基本信息(不包含父子关联)
-     */
-    Menu findById(Integer id);
-
-    /**
-     * 可根据Id查询菜单的父级菜单
-     */
-    Menu findParent(Integer id);
-
-    /**
-     * 查询所有菜单的基本的信息不包父子关联。
-     */
-    List<Menu> findByAll();
-
-    /**
-     * 自关联查询 查询子菜单
-     */
-    List<Menu> findMenuChild(Integer menuId);
+    List<Menu> selectMenuChild(Serializable menuId);
 
     /**
      * 向中间表插入数据 给菜单分配行为 需要传入该菜单所关联的权限
      */
-    int assignActionToMenuAndPermission(@Param("menuId") Integer menuId, @Param("actionId") Integer actionId, @Param("perId") Integer perId);
+    int assignActionToMenuAndPermission(@Param("menuId") Serializable menuId, @Param("actionId") Serializable actionId, @Param("perId") Serializable perId);
 
-    /*更新中间表的数据 以菜单Id为条件*/
-    int updateInAPM(@Param("perId") Integer perId, @Param("actionId") Integer actionId, @Param("menuId") Integer menuId);
+    /**
+     * 更新中间表的数据
+     * 以菜单Id为条件
+     */
+    int updateInAPMByMenuId(@Param("perId") Serializable perId, @Param("actionId") Serializable actionId, @Param("menuId") Serializable menuId);
+
+    /**
+     * 更新中间表的数据
+     * 以权限Id为条件
+     */
+    int updateInAPMByPerId(@Param("perId") Serializable perId, @Param("actionId") Serializable actionId, @Param("menuId") Serializable menuId);
 
     /**
      * 删除中间表的数据 以MenuId为准
      */
-    int deleteByMenuIdInAPM(Integer menuId);
+    int deleteByMenuIdInAPM(List<Serializable> menuId);
 
     /**
      * 外联查询 查询菜单所关联的行为 可利用ID查单个对象
      */
-    List<Menu> findActionInMenu(Integer menuId);
+    List<Menu> selectActionInMenu(Serializable menuId);
 
     /**
      * 外联查询  查询菜单所关联的权限 可利用进行条件查询
      */
-    List<Menu> findPermissionInMenu(Integer menuId);
+    List<Menu> selectPermissionInMenu(Serializable menuId);
 
     /**
-     * 外联查询 三表关联查询
+     * 外联查询 三表关联查询 同时附加menu自关联查询 查询其子孩子
+     * 传入0 则查询所有
      */
-    List<Menu> findAllInAPM(@Param("menuId") Integer menuId, @Param("perId") Integer perId, @Param("actionId") Integer actionId);
+    List<Menu> selectAllInAPM(@Param("menuId") Serializable menuId, @Param("perId") Serializable perId, @Param("actionId") Serializable actionId);
 
     /**
      * 统计中间表数据

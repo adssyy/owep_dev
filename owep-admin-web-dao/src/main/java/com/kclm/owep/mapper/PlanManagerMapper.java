@@ -21,13 +21,9 @@ import java.util.List;
 public interface PlanManagerMapper extends BaseMapper<PlanManager> {
 
 
-    /**
-     * 分页查询所有的方案
-     * @param offset
-     * @param limit
-     * @return
-     */
-    List<PlanManager> findPlanManagerLimit(int offset, int limit);
+
+    List<PlanManager> selectByField(PlanManager planManager);
+
 
     /**
      * 查询方案的总记录数
@@ -35,4 +31,15 @@ public interface PlanManagerMapper extends BaseMapper<PlanManager> {
      */
     Long rowTotal();
 
+    @Override
+    int save(PlanManager entity);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    List<PlanManager> selectAll();
 }

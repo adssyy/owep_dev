@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.AssignRecord;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  *@Description 持久层接口AssignRecordMapper
  *
  */
+@Mapper
 public interface AssignRecordMapper extends BaseMapper<AssignRecord> {
 
     /**
@@ -31,6 +33,8 @@ public interface AssignRecordMapper extends BaseMapper<AssignRecord> {
      * @return
      */
     List<AssignRecord> findByToId(Serializable id);
+
+
 
 
 }

@@ -2,6 +2,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /************
  *@Author chenxin
@@ -15,6 +16,7 @@ public class SystLog implements Serializable {
      * 序列化接口
      */
     private static final long serialVersionUID=1L;
+
     /**
      *id(主键)
      */
@@ -23,58 +25,74 @@ public class SystLog implements Serializable {
     /**
      *日志主题(菜单标题)
      */
-
     private String title;
     /**
      *操作模块名
      */
 
     private String moduleName;
+
     /**
      *操作菜单名
      */
-
     private String menuName;
+
     /**
      *ip地址
      */
-
     private String ipAddr;
+
     /**
      *请求方法
      */
-
     private String method;
+
     /**
      *请求地址
      */
-
     private String requestUrl;
+
     /**
      *类型
      */
-
     private String type;
+
     /**
      *登录用户名
      */
-
     private String loginUserName;
+
     /**
      *最后访问时间
      */
-
     private LocalDateTime lastAccessTime;
+
     /**
      *创建时间
      */
+    private LocalDateTime createTime=LocalDateTime.now();
 
-    private LocalDateTime createTime;
     /**
      *版本
      */
+    private Integer version=1;
 
-    private Integer version;
+    /**
+     * 构造方法
+     */
+    public SystLog() {
+    }
+
+    public SystLog(String title, String moduleName, String menuName, String ipAddr, String method, String requestUrl, String type, String loginUserName) {
+        this.title = title;
+        this.moduleName = moduleName;
+        this.menuName = menuName;
+        this.ipAddr = ipAddr;
+        this.method = method;
+        this.requestUrl = requestUrl;
+        this.type = type;
+        this.loginUserName = loginUserName;
+    }
 
     public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
@@ -207,5 +225,25 @@ public class SystLog implements Serializable {
                 ", createTime=" + createTime +
                 ", version=" + version +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SystLog systLog = (SystLog) o;
+        return Objects.equals(title, systLog.title) &&
+                Objects.equals(moduleName, systLog.moduleName) &&
+                Objects.equals(menuName, systLog.menuName) &&
+                Objects.equals(ipAddr, systLog.ipAddr) &&
+                Objects.equals(method, systLog.method) &&
+                Objects.equals(requestUrl, systLog.requestUrl) &&
+                Objects.equals(type, systLog.type) &&
+                Objects.equals(loginUserName, systLog.loginUserName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, moduleName, menuName, ipAddr, method, requestUrl, type, loginUserName);
     }
 }

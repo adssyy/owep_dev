@@ -38,7 +38,7 @@ public class AssignRecord implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *转出事由
@@ -53,7 +53,7 @@ public class AssignRecord implements Serializable {
     /**
      *版本号
      */
-    private Integer version;
+    private Integer version = 1;
 
     public AssignRecord() {
     }

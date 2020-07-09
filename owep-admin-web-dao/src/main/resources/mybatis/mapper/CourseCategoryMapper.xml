@@ -7,14 +7,14 @@
     <result column="category_desc" jdbcType="VARCHAR" property="categoryDesc" />
   <!--  <result column="fk_parent_id" jdbcType="INTEGER" property="fkParentId" />-->
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="delete" jdbcType="VARCHAR" property="delete" />
+    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
   </resultMap>
 
   <!--所有字段-->
   <sql id="Base_Column_List">
-    id, category_name, category_desc, fk_parent_id, create_time, `delete`, version, last_access_time
+    id, category_name, category_desc, fk_parent_id, create_time, is_delete, version, last_access_time
   </sql>
 
   <!--添加课程分类-->
@@ -36,8 +36,8 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="delete != null">
-        delete,
+      <if test="isDelete != null">
+        is_delete,
       </if>
       <if test="version != null">
         version,
@@ -62,8 +62,8 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="delete != null">
-        #{delete,jdbcType=VARCHAR},
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
@@ -90,8 +90,8 @@
         <if test="createTime != null">
           create_time = #{createTime,jdbcType=TIMESTAMP},
         </if>
-        <if test="delete != null">
-          delete = #{delete,jdbcType=VARCHAR},
+        <if test="isDelete != null">
+          delete = #{isDelete,jdbcType=VARCHAR},
         </if>
         <if test="version != null">
           version = #{version,jdbcType=INTEGER},

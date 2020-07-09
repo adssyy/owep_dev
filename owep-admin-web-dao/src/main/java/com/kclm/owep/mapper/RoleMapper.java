@@ -5,9 +5,11 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Role;
+import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,77 +19,55 @@ import java.util.List;
  * @description: 角色接口
  **/
 @Mapper
-public interface RoleMapper {
-    /**
-     * 添加角色
-     */
-    int saveRole(Role role);
+public interface RoleMapper extends BaseMapper<Role> {
 
     /**
-     * 更新角色信息
-     */
-    int updateRole(Role role);
-
-    /**
-     * 根据Id删除角色
-     */
-    int delRoleById(List<Integer> ids);
-
-    /**
-     * 查询所有角色
+     * 根据角色名字 模糊查询
      * */
-    List<Role> findAll();
-
-    /**
-     * 根据ID查询角色
-     * */
-    Role findById(Integer id);
-
-    /**
-     * 根据角色名字查询相关信息
-     * */
-    Role findByName(String roleName);
-
-    /**
-     * 根据条件查询，参数可为NULL
-     * */
-    Role findByCondition(@Param("id") Integer id, @Param("roleName") String roleName, @Param("version") String version);
+    Role selectByName(String roleName);
 
 
     /**
-     * 自关联查询,根据父Id查询出该父角色下的所有子角色
+     * 自关联查询,查询出该角色下的所有子角色
+     * 传入 0 则列出所有角色 同时查出其子角色
      * */
-    Role findChild(Integer parentId);
-    //TODO 查询父亲
+    List<Role> selectChild(Serializable Id);
+    /**
+     * 自关联查询，查询父角色
+     * 传入0则查询所有角色 同时查出该角色的父角色
+     * */
+    List<Role> selectParent(Serializable Id);
     /**
      * 外关联查询,某角色下的所有组
+     * 传入0则查询所有
      * */
-    List<Role> findGroupsByRoleId(Integer roleId);
+    List<Role> selectGroupsByRoleId(Serializable roleId);
 
     /**
      * 外关联查询,查询该角色下所分配的权限
+     * 传入0则查询所有
      * */
-    Role findPermissionInRole(Integer roleId);
+    List<Role> selectPermissionInRole(Serializable roleId);
 
     /**
-     * 向角色权限中间表添加数据
+     * 向角色权限中间表添加数据 给角色发呢配权限
      * */
-    int saveRoleForPermission(@Param("roleId") Integer roleId, @Param("perId") Integer perId);
+    int assignPermissionToRole(@Param("roleId") Serializable roleId, @Param("perId") Serializable perId);
 
     /**
      * 删除该角色所分配的所有的权限
      * */
-    int delPermissionByRoleId(List<Integer> roleIds);
+    int deletePermissionByRoleId(List<Serializable> roleIds);
 
     /**
      * 删除某角色下的某个权限
      * */
-    int delPermissionByPerIdAndRoleId(@Param("roleId") Integer roleId, @Param("perId") Integer perId);
+    int deletePermissionByPerIdAndRoleId(@Param("roleId") Serializable roleId, @Param("perId") Serializable perId);
 
     /**
-     * 统计该角色所具有的权限数量
+     * 统计该角色所具有的权限数量 传入0则查询所有
      * */
-    int countPermissionByRoleId(Integer roleId);
+    int countPermissionByRoleId(Serializable roleId);
 
     /**
      * 统计表中数据

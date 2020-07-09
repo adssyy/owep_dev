@@ -2,6 +2,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /*******
  * @Author yangwr
@@ -32,21 +33,62 @@ public class OrgInstitute implements Serializable {
     /***
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
     /***
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
     /***
      *最后访问时间
      */
-    private LocalDateTime lastAccessTime;
+    private LocalDateTime lastAccessTime = LocalDateTime.now();
 
-    /***
-     *get,set方法
-     */
+    public OrgInstitute() {
+    }
+
+    @Override
+    public String toString() {
+        return "OrgInstitute{" +
+                "id=" + id +
+                ", instituteName='" + instituteName + '\'' +
+                ", instituteType=" + instituteType +
+                ", delete=" + delete +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                '}';
+    }
+
+    public OrgInstitute(Integer id, String instituteName, Integer instituteType, Integer delete, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
+        this.id = id;
+        this.instituteName = instituteName;
+        this.instituteType = instituteType;
+        this.delete = delete;
+        this.version = version;
+        this.createTime = createTime;
+        this.lastAccessTime = lastAccessTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrgInstitute that = (OrgInstitute) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(instituteName, that.instituteName) &&
+                Objects.equals(instituteType, that.instituteType) &&
+                Objects.equals(delete, that.delete) &&
+                Objects.equals(version, that.version) &&
+                Objects.equals(createTime, that.createTime) &&
+                Objects.equals(lastAccessTime, that.lastAccessTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, instituteName, instituteType, delete, version, createTime, lastAccessTime);
+    }
+
     public Integer getId() {
-
         return id;
     }
 
@@ -59,7 +101,7 @@ public class OrgInstitute implements Serializable {
     }
 
     public void setInstituteName(String instituteName) {
-        this.instituteName = instituteName == null ? null : instituteName.trim();
+        this.instituteName = instituteName;
     }
 
     public Integer getInstituteType() {
@@ -82,26 +124,21 @@ public class OrgInstitute implements Serializable {
         return version;
     }
 
-
     public void setVersion(Integer version) {
         this.version = version;
     }
-
 
     public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-
     public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
-
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;

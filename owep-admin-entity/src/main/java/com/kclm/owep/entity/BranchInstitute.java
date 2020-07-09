@@ -3,6 +3,7 @@ package com.kclm.owep.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /*******
  * @Author yangwr
@@ -39,12 +40,44 @@ public class BranchInstitute implements Serializable {
      */
     private LocalDateTime lastAccessTime;
 
-    /***
-     * get,set 方法
-     * @return
-     */
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public BranchInstitute() {
+    }
+
+    public BranchInstitute(Integer id, String branchName, List<OrgInstitute> fkOrgId, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
+        this.id = id;
+        this.branchName = branchName;
+        this.fkOrgId = fkOrgId;
+        this.version = version;
+        this.createTime = createTime;
+        this.lastAccessTime = lastAccessTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BranchInstitute{" +
+                "id=" + id +
+                ", branchName='" + branchName + '\'' +
+                ", fkOrgId=" + fkOrgId +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BranchInstitute that = (BranchInstitute) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(branchName, that.branchName) &&
+                Objects.equals(fkOrgId, that.fkOrgId) &&
+                Objects.equals(version, that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, branchName, fkOrgId, version);
     }
 
     public Integer getId() {
