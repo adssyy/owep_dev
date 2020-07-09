@@ -1,8 +1,10 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-public class Notice {
+public class Notice implements Serializable {
     /**
      * 主键
      * @mbg.generated
@@ -31,13 +33,13 @@ public class Notice {
      * 创建时间
      * @mbg.generated
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      * 版本
      * @mbg.generated
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      * 最后访问时间
@@ -50,6 +52,21 @@ public class Notice {
      * @mbg.generated
      */
     private Integer noticeStatus;
+
+    public Notice() {
+    }
+
+    public Notice(Integer id, String noticeTitle, String noticeContent, String noticePublisher,
+                  LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime, Integer noticeStatus) {
+        this.id = id;
+        this.noticeTitle = noticeTitle;
+        this.noticeContent = noticeContent;
+        this.noticePublisher = noticePublisher;
+        this.createTime = createTime;
+        this.version = version;
+        this.lastAccessTime = lastAccessTime;
+        this.noticeStatus = noticeStatus;
+    }
 
     public Integer getId() {
         return id;
@@ -113,5 +130,37 @@ public class Notice {
 
     public void setNoticeStatus(Integer noticeStatus) {
         this.noticeStatus = noticeStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Notice{" +
+                "id=" + id +
+                ", noticeTitle='" + noticeTitle + '\'' +
+                ", noticeContent='" + noticeContent + '\'' +
+                ", noticePublisher='" + noticePublisher + '\'' +
+                ", lastAccessTime=" + lastAccessTime +
+                ", noticeStatus=" + noticeStatus +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Notice notice = (Notice) o;
+        return Objects.equals(id, notice.id) &&
+                Objects.equals(noticeTitle, notice.noticeTitle) &&
+                Objects.equals(noticeContent, notice.noticeContent) &&
+                Objects.equals(noticePublisher, notice.noticePublisher) &&
+                Objects.equals(createTime, notice.createTime) &&
+                Objects.equals(version, notice.version) &&
+                Objects.equals(lastAccessTime, notice.lastAccessTime) &&
+                Objects.equals(noticeStatus, notice.noticeStatus);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, noticeTitle, noticeContent, noticePublisher, createTime, version, lastAccessTime, noticeStatus);
     }
 }

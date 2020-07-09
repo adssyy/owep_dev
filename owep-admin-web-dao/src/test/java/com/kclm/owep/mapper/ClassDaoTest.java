@@ -30,4 +30,5 @@ public class ClassDaoTest {
         Clazz clazz = clazzMapper.selectByPrimaryKey(1);
         System.out.println(clazz);
     }
+    
 }

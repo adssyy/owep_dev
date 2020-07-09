@@ -31,6 +31,7 @@
 >>>>>>> c8822ef2d608aeb0201b56d58ce5b93fdcc69760
 =======
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
+
         <mapper resource="mybatis/mapper/QuestionMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionReplyMapper.xml"/>
         <mapper resource="mybatis/mapper/ClazzMapper.xml"/>
@@ -55,6 +56,8 @@
         <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
 >>>>>>> ce462c4a60311824f748cf72b7f8fbd375302bd8
 
+        <mapper resource="mybatis/mapper/NewsMapper.xml"/>
+        <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
     </mappers>
 
 </configuration>
