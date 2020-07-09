@@ -12,6 +12,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*********************
+ * @Author: tanj
+ * @Version : v1.0
+ * @Create: 2020年7月07日 下午16:10:40
+ * @Description 专业方向测试
+ */
 @SpringBootTest
 class ProfessionMapperTest {
 

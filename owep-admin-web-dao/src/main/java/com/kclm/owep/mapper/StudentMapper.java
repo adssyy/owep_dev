@@ -5,6 +5,11 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Student;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.io.Serializable;
+import java.util.List;
 
 
 /*****
@@ -13,6 +18,16 @@ import com.kclm.owep.mapper.common.BaseMapper;
  * @Create 2020/7/7 16:02
  * @Description 学生表接口
  */
+@Mapper
 public interface StudentMapper extends BaseMapper<Student> {
+
+    @Override
+    int deleteById(@Param("id") Serializable id);
+
+    @Override
+    int deleteSelect(@Param("idList") List<Serializable> idList);
+
+    @Override
+    Student selectById(@Param("id") Serializable id);
 
 }

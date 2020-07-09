@@ -37,9 +37,6 @@ class RoleMapperTest extends ActionMapperTest {
     }
 <<<<<<< HEAD
 */
-=======
-
->>>>>>> 4d8b0531d6b19011932fe62c6edce26e621f3d16
     @Test
     void updateRole() {
         Role role3 = roleMapper.selectById(3);

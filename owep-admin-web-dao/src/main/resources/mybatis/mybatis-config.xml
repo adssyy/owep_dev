@@ -52,6 +52,8 @@
         <mapper resource="mybatis/mapper/HomeworkMapper.xml"/>
         <mapper resource="mybatis/mapper/NewsMapper.xml"/>
         <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
+        <mapper resource="mybatis/mapper/StudentMapper.xml"/>
+        <mapper resource="mybatis/mapper/VideoMapper.xml"/>
     </mappers>
 
 </configuration>
