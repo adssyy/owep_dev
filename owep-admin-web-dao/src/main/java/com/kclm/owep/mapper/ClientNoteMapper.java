@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.ClientNote;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  *@Description 持久层接口ClientNoteMapper
  *
  */
+@Mapper
 public interface ClientNoteMapper extends BaseMapper<ClientNote> {
 
     /**
@@ -25,4 +27,15 @@ public interface ClientNoteMapper extends BaseMapper<ClientNote> {
      */
     List<ClientNote> selectAll(Serializable id);
 
+    @Override
+    int save(ClientNote entity);
+
+    @Override
+    int update(ClientNote entity);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    List<ClientNote> selectAll();
 }

@@ -45,17 +45,17 @@ public class PlanManager implements Serializable {
     /**
      *逻辑删除：0、未删除、1已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
@@ -75,37 +75,14 @@ public class PlanManager implements Serializable {
      * @param planName
      * @param planStatus
      * @param planDesc
-     * @param createTime
      */
-    public PlanManager(String planNumber, String planName, Integer planStatus, String planDesc, LocalDateTime createTime) {
+    public PlanManager(String planNumber, String planName, Integer planStatus, String planDesc) {
         this.planNumber = planNumber;
         this.planName = planName;
         this.planStatus = planStatus;
         this.planDesc = planDesc;
-        this.createTime = createTime;
     }
 
-    /**
-     * 全参构造
-     * @param planNumber
-     * @param planName
-     * @param planStatus
-     * @param planDesc
-     * @param delete
-     * @param createTime
-     * @param version
-     * @param lastAccessTime
-     */
-    public PlanManager(String planNumber, String planName, Integer planStatus, String planDesc, Integer delete, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
-        this.planNumber = planNumber;
-        this.planName = planName;
-        this.planStatus = planStatus;
-        this.planDesc = planDesc;
-        this.delete = delete;
-        this.createTime = createTime;
-        this.version = version;
-        this.lastAccessTime = lastAccessTime;
-    }
 
     public Integer getId() {
         return id;
@@ -147,12 +124,12 @@ public class PlanManager implements Serializable {
         this.planDesc = planDesc;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public LocalDateTime getCreateTime() {
@@ -187,7 +164,7 @@ public class PlanManager implements Serializable {
         sb.append(", 方案名称='").append(planName).append('\'');
         sb.append(", 方案状态=").append(planStatus);
         sb.append(", 方案描述='").append(planDesc).append('\'');
-        sb.append(", 逻辑删除=").append(delete);
+        sb.append(", 逻辑删除=").append(isDelete);
         sb.append(", 创建时间=").append(createTime);
         sb.append(", 版本=").append(version);
         sb.append(",最后一次访问时间 =").append(lastAccessTime);

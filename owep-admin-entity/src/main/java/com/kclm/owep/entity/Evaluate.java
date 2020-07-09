@@ -40,7 +40,7 @@ public class Evaluate implements Serializable {
     /**
      *fk_class_id
      */
-    private Integer fkClassId;
+    private Clazz clazz;
     /**
      *学生姓名
      */
@@ -63,11 +63,11 @@ public class Evaluate implements Serializable {
         this.evaluateStatus = evaluateStatus;
     }
 
-    public Evaluate(Integer id, User user, Student student, Integer fkClassId, String studentName, Integer evaluateStatus) {
+    public Evaluate(Integer id, User user, Student student,  Clazz clazz, String studentName, Integer evaluateStatus) {
         this.id = id;
         this.user = user;
         this.student = student;
-        this.fkClassId = fkClassId;
+        this.clazz = clazz;
         this.studentName = studentName;
         this.evaluateStatus = evaluateStatus;
     }
@@ -96,16 +96,16 @@ public class Evaluate implements Serializable {
                 ", lastAccessTime=" + lastAccessTime +
                 ", user=" + user +
                 ", student=" + student +
-                ", fkClassId=" + fkClassId +
+                ", clazz=" + clazz +
                 ", studentName='" + studentName + '\'' +
                 ", evaluateStatus=" + evaluateStatus +
                 ", evaluate='" + evaluate + '\'' +
                 '}';
     }
 
-    public Integer getFkClassId() { return fkClassId; }
+    public Clazz getClazz() { return clazz; }
 
-    public void setFkClassId(Integer fkClassId) { this.fkClassId = fkClassId; }
+    public void setClazz(Clazz clazz) { this.clazz = clazz; }
 
     public Integer getId() {
         return id;

@@ -64,7 +64,7 @@ public class CourseReport implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *作业总数量
@@ -99,7 +99,7 @@ public class CourseReport implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间

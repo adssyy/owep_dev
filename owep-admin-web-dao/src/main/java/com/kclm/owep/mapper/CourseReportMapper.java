@@ -4,6 +4,8 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.CourseReport;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,14 +17,15 @@ import java.util.List;
  *@Description 持久层接口CourseReportMapper
  *
  */
-public interface CourseReportMapper {
+@Mapper
+public interface CourseReportMapper extends BaseMapper<CourseReport> {
 
 
     /**
      * 查询单个学生对单个课程的学习记录
      * @return
      */
-    List<CourseReport> findAllByStudentIdAndCourseId(Serializable studentId, Serializable courseId);
+    List<CourseReport> selectAllByStudentIdAndCourseId(Serializable studentId, Serializable courseId);
 
 
     /**
@@ -30,17 +33,12 @@ public interface CourseReportMapper {
      * @param courseId
      * @return
      */
-    List<CourseReport> findAllByCourseId(Serializable courseId);
+    List<CourseReport> selectAllByCourseId(Serializable courseId);
 
-    /**
-     * 添加课程学习记录
-     * @param courseReport
-     */
-    void saveCourseReport(CourseReport courseReport);
+    @Override
+    int save(CourseReport entity);
 
-    /**
-     * 通过id 删除记录
-     * @param id
-     */
-    void deleteCourseReport(Serializable id);
+    @Override
+    int update(CourseReport entity);
+
 }

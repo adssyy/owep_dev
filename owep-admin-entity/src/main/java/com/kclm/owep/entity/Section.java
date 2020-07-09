@@ -38,7 +38,7 @@ public class Section implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *视频观看状态：0不允许观看、1允许观看
@@ -53,7 +53,7 @@ public class Section implements Serializable {
     /**
      *逻辑删除：0未删除、1已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      *实验文档路径
@@ -78,7 +78,7 @@ public class Section implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
@@ -97,7 +97,6 @@ public class Section implements Serializable {
         this.sectionName = sectionName;
         this.sectionNumber = sectionNumber;
         this.sectionDesc = sectionDesc;
-        this.createTime = createTime;
         this.chapter = chapter;
         this.lookVideoStatus = lookVideoStatus;
     }
@@ -158,12 +157,12 @@ public class Section implements Serializable {
         this.chapter = chapter;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public String getExperimentDucumentFile() {
@@ -232,7 +231,7 @@ public class Section implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", videoStatus=").append(videoStatus);
         sb.append(", chapter=").append(chapter);
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", experimentDucumentFile='").append(experimentDucumentFile).append('\'');
         sb.append(", experimentEnvironmentAddr='").append(experimentEnvironmentAddr).append('\'');
         sb.append(", experiment=").append(experiment);

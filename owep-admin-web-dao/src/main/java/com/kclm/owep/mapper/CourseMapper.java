@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,13 +17,8 @@ import java.util.List;
  *@Description 持久层接口CourseMapper
  *
  */
+@Mapper
 public interface CourseMapper extends BaseMapper<Course> {
-
-    /**
-     * 通过分页查询部分
-     * @return
-     */
-    List<Course> findCourseLimit(int offset, int limit);
 
 
     /**
@@ -30,7 +26,23 @@ public interface CourseMapper extends BaseMapper<Course> {
      * @param CourseName
      * @return
      */
-    List<Course> findByCourseName(String CourseName);
+    List<Course> selectByCourseName(String CourseName);
 
+    @Override
+    int save(Course entity);
 
+    @Override
+    int update(Course entity);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    Course selectById(Serializable id);
+
+    @Override
+    List<Course> selectAll();
 }

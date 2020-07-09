@@ -55,7 +55,7 @@ public class Client implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *总金额
@@ -95,11 +95,11 @@ public class Client implements Serializable {
     /**
      *面试起始时间
      */
-    private String interviewTimeStart;
+    private LocalDateTime interviewTimeStart;
     /**
      *面试终止时间
      */
-    private String interviewTimeEnd;
+    private LocalDateTime interviewTimeEnd;
 
     /**
      *客户类型：0无意向、1已签约、2潜在客户、3标准客户
@@ -119,12 +119,12 @@ public class Client implements Serializable {
     /**
      *签约时间
      */
-    private String signTime;
+    private LocalDateTime signTime;
 
     /**
      *逻辑删除 0:未删除 1:已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      *关联渠道对象
@@ -134,7 +134,7 @@ public class Client implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
@@ -296,19 +296,19 @@ public class Client implements Serializable {
         this.loan = loan;
     }
 
-    public String getInterviewTimeStart() {
+    public LocalDateTime getInterviewTimeStart() {
         return interviewTimeStart;
     }
 
-    public void setInterviewTimeStart(String interviewTimeStart) {
+    public void setInterviewTimeStart(LocalDateTime interviewTimeStart) {
         this.interviewTimeStart = interviewTimeStart;
     }
 
-    public String getInterviewTimeEnd() {
+    public LocalDateTime getInterviewTimeEnd() {
         return interviewTimeEnd;
     }
 
-    public void setInterviewTimeEnd(String interviewTimeEnd) {
+    public void setInterviewTimeEnd(LocalDateTime interviewTimeEnd) {
         this.interviewTimeEnd = interviewTimeEnd;
     }
 
@@ -336,20 +336,20 @@ public class Client implements Serializable {
         this.major = major;
     }
 
-    public String getSignTime() {
+    public LocalDateTime getSignTime() {
         return signTime;
     }
 
-    public void setSignTime(String signTime) {
+    public void setSignTime(LocalDateTime signTime) {
         this.signTime = signTime;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Channel getChannel() {
@@ -408,7 +408,7 @@ public class Client implements Serializable {
         sb.append(", profession=").append(profession);
         sb.append(", major='").append(major).append('\'');
         sb.append(", signTime='").append(signTime).append('\'');
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", channel=").append(channel);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);

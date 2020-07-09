@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,20 +13,21 @@ import java.util.Objects;
  * @Create: 2020年7月03日 下午16:24:40
  * @Description 班级问题回复表
  */
-public class QuestionReply {
-    private Integer id;     //
+public class QuestionReply implements Serializable {
 
-    private String replyName;   //回复人名字
+    private Integer id;     //
 
     private String replyContent;    //回复内容
 
-    private LocalDateTime createTime;        //回复时间
+    private LocalDateTime createTime=LocalDateTime.now();        //回复时间
+
+    private String replyAuthor;   //回复人名字
 
     private LocalDateTime lastAccessTime;    //最后一次修改时间
 
     private Integer version;        //版本号
 
-    private ClassQuestion classQuestion;  //班级问题
+    private Question question;  //班级问题
 
     public Integer getId() {
         return id;
@@ -33,14 +35,6 @@ public class QuestionReply {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getReplyName() {
-        return replyName;
-    }
-
-    public void setReplyName(String replyName) {
-        this.replyName = replyName;
     }
 
     public String getReplyContent() {
@@ -59,6 +53,14 @@ public class QuestionReply {
         this.createTime = createTime;
     }
 
+    public String getReplyAuthor() {
+        return replyAuthor;
+    }
+
+    public void setReplyAuthor(String replyAuthor) {
+        this.replyAuthor = replyAuthor;
+    }
+
     public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
@@ -75,12 +77,12 @@ public class QuestionReply {
         this.version = version;
     }
 
-    public ClassQuestion getClassQuestion() {
-        return classQuestion;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setClassQuestion(ClassQuestion classQuestion) {
-        this.classQuestion = classQuestion;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     @Override
@@ -89,21 +91,21 @@ public class QuestionReply {
         if (o == null || getClass() != o.getClass()) return false;
         QuestionReply that = (QuestionReply) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(replyName, that.replyName) &&
+                Objects.equals(replyAuthor, that.replyAuthor) &&
                 Objects.equals(replyContent, that.replyContent) &&
                 Objects.equals(createTime, that.createTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, replyName, replyContent, createTime);
+        return Objects.hash(id, replyAuthor, replyContent, createTime);
     }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("QuestionReply{");
         sb.append("id=").append(id);
-        sb.append(", replyName='").append(replyName).append('\'');
+        sb.append(", replyName='").append(replyAuthor).append('\'');
         sb.append(", replyContent='").append(replyContent).append('\'');
         sb.append(", createTime=").append(createTime);
         sb.append(", lastAccessTime=").append(lastAccessTime);
