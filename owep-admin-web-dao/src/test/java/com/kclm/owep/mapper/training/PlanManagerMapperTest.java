@@ -30,11 +30,9 @@ class PlanManagerMapperTest {
         planManager.setPlanStatus(1);
         planManager.setPlanDesc("web开发");
         planManager.setCreateTime(LocalDateTime.now());
-<<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerMapperTest.java
         planManagerMapper.save(planManager);
-=======
         //planManagerMapper.savePlanManager(planManager);
->>>>>>> c8822ef2d608aeb0201b56d58ce5b93fdcc69760:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
+//        planManagerMapper.savePlanManager(planManager);
         System.out.println(planManager);
     }
 
