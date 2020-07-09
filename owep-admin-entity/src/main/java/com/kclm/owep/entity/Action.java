@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * author：ZhangQi
+ * author：ZhangqQi
  * module：privilege
  * description:行为实体,关联权限和菜单
  * version：v0.1

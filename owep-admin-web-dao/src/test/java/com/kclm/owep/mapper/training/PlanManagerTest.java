@@ -34,7 +34,7 @@ class PlanManagerTest {
         planManager.setPlanStatus(1);
         planManager.setPlanDesc("web开发");
         planManager.setCreateTime(LocalDateTime.now());
-        planManagerMapper.savePlanManager(planManager);
+//        planManagerMapper.savePlanManager(planManager);
         System.out.println(planManager);
     }
 }

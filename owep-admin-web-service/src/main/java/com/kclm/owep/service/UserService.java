@@ -1,6 +1,6 @@
 package com.kclm.owep.service;
 
-import com.kclm.owep.dto.UserDto;
+import com.kclm.owep.entity.User;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,7 +16,7 @@ public interface UserService {
 
     boolean delete(Serializable id);
 
-    UserDto findById(Serializable id);
+    User findById(Serializable id);
 
-    List<UserDto> findAll();
+    List<User> findAll();
 }

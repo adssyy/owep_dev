@@ -27,7 +27,7 @@ public class ClassDaoTest {
 
     @Test
     void test(){
-        Clazz clazz = clazzMapper.selectByPrimaryKey(1);
-        System.out.println(clazz);
+//        Clazz clazz = clazzMapper.selectByPrimaryKey(1);
+//        System.out.println(clazz);
     }
 }

@@ -22,8 +22,8 @@ class RoleMapperTest extends ActionMapperTest {
 private RoleMapper roleMapper;
     @Test
     void saveRole() {
-        Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
-        roleMapper.saveRole(role);
+//        Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
+//        roleMapper.saveRole(role);
     }
 
     @Test
