@@ -28,7 +28,7 @@
         from t_group;
     </select>
     <!--根据组名查询-->
-    <select id="findByGroupName" resultType="Group">
+    <select id="selectByGroupName" resultType="Group">
         select
         <include refid="base_column_list"/>
         from t_group
@@ -99,7 +99,7 @@
         </foreach>
     </delete>
     <!--外联查询 根据用户组的iD查看分配的角色-->
-    <select id="findRolesByGroupId" resultMap="GroupRole">
+    <select id="selectRolesByGroupId" resultMap="GroupRole">
         select g.id               gid,
                group_name,
                group_description,
@@ -158,7 +158,7 @@
           and role_id = #{roleId}
     </delete>
     <!--查询某个组中所分配的所有用户-->
-    <select id="findUserInGroup" resultMap="GroupInUser">
+    <select id="selectUserInGroup" resultMap="GroupInUser">
         select g.id                gid,
                g.group_name        gname,
                g.group_description gdesc,

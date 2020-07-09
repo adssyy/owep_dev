@@ -15,8 +15,8 @@
   </resultMap>
 
 <!--  根据名字查询-->
-  <select id="selectByName" parameterType="com.kclm.owep.entity.Notice" resultMap="BaseResultMap">
-    select * from t_notice where notice_title = #{value}
+  <select id="selectAll" parameterType="com.kclm.owep.entity.Notice" resultMap="BaseResultMap">
+    select * from t_notice
   </select>
 
 <!--  根据id查询-->

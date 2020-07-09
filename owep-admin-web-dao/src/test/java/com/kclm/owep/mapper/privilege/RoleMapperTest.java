@@ -1,21 +1,20 @@
 package com.kclm.owep.mapper.privilege;
 
-import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Role;
 import com.kclm.owep.mapper.ActionMapperTest;
 import com.kclm.owep.mapper.RoleMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * @program: owep
  * @package: com.kclm.owep.mapper
- * @description:
  * @author: qi_kran
  * @create: 2020-07-06 11:22
+ * @description: 角色测试类
  **/
 class RoleMapperTest extends ActionMapperTest {
     @Autowired
@@ -28,6 +27,8 @@ class RoleMapperTest extends ActionMapperTest {
         roleMapper.save(new Role("角色3", "测试角色3"));
         roleMapper.save(new Role("角色4", "测试角色4"));
         roleMapper.save(new Role("角色5", "测试角色5"));
+//        Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
+//        roleMapper.saveRole(role);
     }
 
     @Test
@@ -62,30 +63,30 @@ class RoleMapperTest extends ActionMapperTest {
 
     @Test
     void findByName() {
-        Role byName = roleMapper.findByName("1");
+        Role byName = roleMapper.selectByName("1");
         System.out.println(byName);
     }
 
     @Test
     void findChilds() {
-        List<Role> role = roleMapper.findChild(0);
+        List<Role> role = roleMapper.selectChild(0);
     }
 
     @Test
     void findParent() {
-        List<Role> parent = roleMapper.findParent(0);
+        List<Role> parent = roleMapper.selectParent(0);
 
     }
 
     @Test
     void findGroupsByRoleId() {
-        List<Role> groups = roleMapper.findGroupsByRoleId(1);
+        List<Role> groups = roleMapper.selectGroupsByRoleId(1);
 
     }
 
     @Test
     void findPermissionInRole() {
-        List<Role> role = roleMapper.findPermissionInRole(2);
+        List<Role> role = roleMapper.selectPermissionInRole(2);
     }
 
     @Test

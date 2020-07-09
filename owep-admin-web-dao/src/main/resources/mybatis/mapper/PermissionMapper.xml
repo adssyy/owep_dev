@@ -111,14 +111,14 @@
         <include refid="Base_Column_List"/>
         from t_permission
     </select>
-    <select id="findByName" resultType="Permission">
+    <select id="selectByName" resultType="Permission">
         select
         <include refid="Base_Column_List"/>
         from t_permission
         where permission_name like concat('%', #{name}, '%')
     </select>
     <!--查询关联某个权限的所有的角色-->
-    <select id="findRoleInPermission" resultMap="PermissionRole">
+    <select id="selectRoleInPermission" resultMap="PermissionRole">
         select p.id               pid,
                permission_name,
                permission_description,
@@ -157,7 +157,7 @@
         </collection>
     </resultMap>
     <!--外联查询 查询权限下所关联的菜单 可传Id进行条件查询。不传则默认查询所有-->
-    <select id="findMenuInPermission" resultMap="PermissionMenu">
+    <select id="selectMenuInPermission" resultMap="PermissionMenu">
         select p.id               pid,
                permission_name,
                permission_description,
@@ -200,7 +200,7 @@
         </collection>
     </resultMap>
     <!--外联查询 查询权限下所关联的行为 可传Id进行条件查询。不传则默认查询所有-->
-    <select id="findActionInPermission" resultMap="PermissionAction">
+    <select id="selectActionInPermission" resultMap="PermissionAction">
         select p.id               pid,
                permission_name,
                permission_description,

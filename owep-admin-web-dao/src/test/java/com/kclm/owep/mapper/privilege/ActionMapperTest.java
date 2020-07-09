@@ -72,6 +72,6 @@ class ActionMapperTest extends com.kclm.owep.mapper.ActionMapperTest {
 
     @Test
     void findByActionName() {
-        actionMapper.findByActionName("1");
+        actionMapper.selectByActionName("1");
     }
 }
