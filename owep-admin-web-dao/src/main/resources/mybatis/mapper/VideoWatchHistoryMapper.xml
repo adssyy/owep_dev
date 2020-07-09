@@ -26,21 +26,26 @@
     where id = #{value}
   </select>
 
+  <!--  添加视频观看历史记录  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.VideoWatchHistory">
+    insert into t_videowatch_history (id) values (null)
+  </insert>
+
   <!--  通过id删除视频观看历史记录  -->
   <delete id="deleteById" parameterType="java.lang.Integer">
     delete from t_videowatch_history
     where id = #{value}
   </delete>
 
-  <!--  添加视频观看历史记录  -->
+  <!--&lt;!&ndash;  添加视频观看历史记录  &ndash;&gt;
   <insert id="save" parameterType="com.kclm.owep.entity.VideoWatchHistory">
-    insert into t_videowatch_history (id, fk_study_record_id, watch_position, 
+    insert into t_videowatch_history (id, fk_study_record_id, watch_position,
       create_time, last_access_time, version
       )
-    values (#{id,jdbcType=INTEGER}, #{fkStudyRecordId,jdbcType=INTEGER}, #{watchPosition,jdbcType=DOUBLE}, 
+    values (#{id,jdbcType=INTEGER}, #{fkStudyRecordId,jdbcType=INTEGER}, #{watchPosition,jdbcType=DOUBLE},
       #{createTime,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}
       )
-  </insert>
+  </insert>-->
 
   <!--&lt;!&ndash;  添加视频观看历史记录  &ndash;&gt;
   <insert id="insertSelective" parameterType="com.kclm.owep.entity.VideoWatchHistory">
@@ -122,7 +127,7 @@
 
     <!--  通过id批量删除  -->
     <delete id="deleteSelect" parameterType="list">
-        delete from t_videowatch_history wehere id in
+        delete from t_videowatch_history where id in
         <foreach collection="list" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>

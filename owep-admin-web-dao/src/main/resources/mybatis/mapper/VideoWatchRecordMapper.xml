@@ -175,7 +175,7 @@
   </select>
 
   <!--  查询所有视频观看记录  -->
-  <select id="findAll" resultType="VideoWatchRecord">
+  <select id="selectAll" resultType="VideoWatchRecord">
     select * from t_videowatch_record
   </select>
 
