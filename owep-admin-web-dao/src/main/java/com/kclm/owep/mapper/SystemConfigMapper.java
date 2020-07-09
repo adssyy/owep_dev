@@ -1,6 +1,8 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.SystemConfig;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /************
  *@Author chenxin
@@ -8,8 +10,7 @@ import com.kclm.owep.entity.SystemConfig;
  *@Create 2020/7/616:53
  *@Description 系统信息接口
  */
-public interface SystemConfigMapper {
+@Mapper
+public interface SystemConfigMapper extends BaseMapper<SystemConfig> {
 
-
-//TODO
 }

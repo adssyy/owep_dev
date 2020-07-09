@@ -8,6 +8,7 @@ import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*********************
@@ -22,6 +23,6 @@ public interface EvaluateMapper extends BaseMapper<Evaluate> {
     /**
     *通过班级id查找学生评价的数据
     */
-    List<Evaluate> selectByClassId(Integer classId);
+    List<Evaluate> selectByClassId(Serializable classId);
 
 }

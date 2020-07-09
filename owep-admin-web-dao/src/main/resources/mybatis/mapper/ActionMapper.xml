@@ -208,7 +208,7 @@
         from t_action
     </select>
     <!--根据行为名 进行模糊搜索-->
-    <select id="findByActionName" resultMap="BaseResultMap">
+    <select id="selectByActionName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_action

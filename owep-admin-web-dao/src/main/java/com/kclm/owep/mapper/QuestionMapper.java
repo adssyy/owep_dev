@@ -5,7 +5,7 @@
 
 package com.kclm.owep.mapper;
 
-import com.kclm.owep.entity.ClassQuestion;
+import com.kclm.owep.entity.Question;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,7 +19,7 @@ import java.util.List;
  * @Description 班级
  */
 @Mapper
-public interface ClassQuestionMapper extends BaseMapper<ClassQuestion> {
+public interface QuestionMapper extends BaseMapper<Question> {
 
     /***
      * 增加一条记录
@@ -27,7 +27,7 @@ public interface ClassQuestionMapper extends BaseMapper<ClassQuestion> {
      * @return
      */
     @Override
-    int save(ClassQuestion entity);
+    int save(Question entity);
 
     /***
      * 更新一条记录
@@ -35,7 +35,7 @@ public interface ClassQuestionMapper extends BaseMapper<ClassQuestion> {
      * @return
      */
     @Override
-    int update(ClassQuestion entity);
+    int update(Question entity);
 
     /***
      * 删除一条记录
@@ -59,12 +59,12 @@ public interface ClassQuestionMapper extends BaseMapper<ClassQuestion> {
      * @return
      */
     @Override
-    ClassQuestion selectById(@Param("id") Serializable id);
+    Question selectById(@Param("id") Serializable id);
 
     /***
      * 查询所有
      * @return
      */
     @Override
-    List<ClassQuestion> selectAll();
+    List<Question> selectAll();
 }

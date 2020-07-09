@@ -1,8 +1,10 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-public class News {
+public class News implements Serializable {
     /**
      * 主键
      * @mbg.generated
@@ -37,13 +39,13 @@ public class News {
      * 新闻创建时间
      * @mbg.generated
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      * 版本
      * @mbg.generated
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      * 最后访问时间
@@ -62,6 +64,24 @@ public class News {
      * @mbg.generated
      */
     private Integer readSize;
+
+    public News(){
+
+    }
+
+    public News(Integer id, String newsTitle, String newsContent, Integer newsType, String newsPublisher,
+                LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime, String newsUrl, Integer readSize) {
+        this.id = id;
+        this.newsTitle = newsTitle;
+        this.newsContent = newsContent;
+        this.newsType = newsType;
+        this.newsPublisher = newsPublisher;
+        this.createTime = createTime;
+        this.version = version;
+        this.lastAccessTime = lastAccessTime;
+        this.newsUrl = newsUrl;
+        this.readSize = readSize;
+    }
 
     public Integer getId() {
         return id;
@@ -141,5 +161,41 @@ public class News {
 
     public void setReadSize(Integer readSize) {
         this.readSize = readSize;
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", newsTitle='" + newsTitle + '\'' +
+                ", newsContent='" + newsContent + '\'' +
+                ", newsType=" + newsType +
+                ", newsPublisher='" + newsPublisher + '\'' +
+                ", lastAccessTime=" + lastAccessTime +
+                ", newsUrl='" + newsUrl + '\'' +
+                ", readSize=" + readSize +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        News news = (News) o;
+        return Objects.equals(id, news.id) &&
+                Objects.equals(newsTitle, news.newsTitle) &&
+                Objects.equals(newsContent, news.newsContent) &&
+                Objects.equals(newsType, news.newsType) &&
+                Objects.equals(newsPublisher, news.newsPublisher) &&
+                Objects.equals(createTime, news.createTime) &&
+                Objects.equals(version, news.version) &&
+                Objects.equals(lastAccessTime, news.lastAccessTime) &&
+                Objects.equals(newsUrl, news.newsUrl) &&
+                Objects.equals(readSize, news.readSize);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, newsTitle, newsContent, newsType, newsPublisher, createTime, version, lastAccessTime, newsUrl, readSize);
     }
 }

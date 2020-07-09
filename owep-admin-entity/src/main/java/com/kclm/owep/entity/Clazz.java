@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Objects;
  * @Create: 2020年7月03日 上午10:10:40
  * @Description 班级
  */
-public class Clazz {
+public class Clazz implements Serializable {
 
     /**
      * id
@@ -74,17 +75,17 @@ public class Clazz {
     /***
      * 是否删除（1：未删除 0：已删除）
      */
-    private Integer delete;
+    private Integer isDelete=1;
 
     /***
      * 版本号
      */
-    private Integer version;
+    private Integer version=1;
 
     /***
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime=LocalDateTime.now();
 
     /***
      * 最后一次访问时间
@@ -107,15 +108,23 @@ public class Clazz {
     private List<Resource> resourceList;
 
     /***
-     * 课程
-     */
-    private List<Course> courseList;
-
-    /***
      * 方案
      */
     private List<PlanManager> planManagerList;
 
+    public Clazz() {
+    }
+
+    public Clazz(String classNumber, String className, LocalDate startTime, LocalDate endTime, Integer classStatus, String instituteName, String branchName, Profession profession) {
+        this.classNumber = classNumber;
+        this.className = className;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.classStatus = classStatus;
+        this.instituteName = instituteName;
+        this.branchName = branchName;
+        this.profession = profession;
+    }
 
     public Integer getId() {
         return id;
@@ -125,12 +134,12 @@ public class Clazz {
         this.id = id;
     }
 
-    public String getCalssNumber() {
+    public String getClassNumber() {
         return classNumber;
     }
 
-    public void setCalssNumber(String calssNumber) {
-        this.classNumber = calssNumber;
+    public void setClassNumber(String classNumber) {
+        this.classNumber = classNumber;
     }
 
     public String getClassName() {
@@ -205,12 +214,12 @@ public class Clazz {
         this.profession = profession;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Integer getVersion() {
@@ -241,26 +250,16 @@ public class Clazz {
         return oldClassName;
     }
 
-
     public void setOldClassName(String oldClassName) {
-        this.oldClassName = oldClassName == null ? null : oldClassName.trim();
+        this.oldClassName = oldClassName;
     }
-
 
     public String getOldClassNum() {
         return oldClassNum;
     }
 
     public void setOldClassNum(String oldClassNum) {
-        this.oldClassNum = oldClassNum == null ? null : oldClassNum.trim();
-    }
-
-    public String getClassNumber() {
-        return classNumber;
-    }
-
-    public void setClassNumber(String classNumber) {
-        this.classNumber = classNumber;
+        this.oldClassNum = oldClassNum;
     }
 
     public List<Resource> getResourceList() {
@@ -269,14 +268,6 @@ public class Clazz {
 
     public void setResourceList(List<Resource> resourceList) {
         this.resourceList = resourceList;
-    }
-
-    public List<Course> getCourseList() {
-        return courseList;
-    }
-
-    public void setCourseList(List<Course> courseList) {
-        this.courseList = courseList;
     }
 
     public List<PlanManager> getPlanManagerList() {
@@ -315,7 +306,7 @@ public class Clazz {
         sb.append(", branchName='").append(branchName).append('\'');
         sb.append(", classDesc='").append(classDesc).append('\'');
         sb.append(", teacherName='").append(teacherName).append('\'');
-        sb.append(", delete=").append(delete);
+        sb.append(", delete=").append(isDelete);
         sb.append(", version=").append(version);
         sb.append(", createTime=").append(createTime);
         sb.append(", lastAccessTime=").append(lastAccessTime);
