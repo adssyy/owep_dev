@@ -3,16 +3,27 @@
 <mapper namespace="com.kclm.owep.mapper.AssignRecordMapper">
   <resultMap id="BaseResultMap" type="com.kclm.owep.entity.AssignRecord">
     <id column="id" jdbcType="INTEGER" property="id" />
-<!--    <result column="fk_from_user_id" jdbcType="INTEGER" property="fkFromUserId" />
-    <result column="fk_to_user_id" jdbcType="INTEGER" property="fkToUserId" />
-    <result column="fk_client_id" jdbcType="INTEGER" property="fkClientId" />-->
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
-  <!--  <association property="">
-      <result></result>
-    </association>-->
+    <!--客户外键-->
+    <association column="fk_client_id"
+                 fetchType="eager"
+                 property="client"
+                 javaType="Client"
+                 select="com.kclm.owep.mapper.ClientMapper.selectById"/>
+    <!--转出咨询师外键-->
+    <association column="fk_from_user_id"
+                 fetchType="eager"
+                 property="fromUser"
+                 javaType="User"
+                 select="com.kclm.owep.mapper.UserMapper.selectById"/>
+    <!--转入咨询师外键-->
+    <association column="fk_to_user_id"
+                 property="toUser"
+                 javaType="User"
+                 select="com.kclm.owep.mapper.UserMapper.selectById"/>
   </resultMap>
 
   <!--所有字段-->
@@ -140,6 +151,7 @@
   <delete id="deleteSelect">
     delete from t_assign_record where id in
     <foreach collection="list" open="(" separator="," close=")" item="id">
+      ${id}
     </foreach>
   </delete>
 
@@ -152,7 +164,7 @@
   </select>
 
   <!--查询该咨询师转出的记录-->
-  <select id="findByFormId" parameterType="Integer" resultMap="BaseResultMap">
+  <select id="findByFormId" parameterType="Integer" resultType="AssignRecord">
     select
     <include refid="Base_Column_List" />
     from t_assign_record

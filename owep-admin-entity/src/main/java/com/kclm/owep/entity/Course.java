@@ -70,7 +70,7 @@ public class Course implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *视频公开状态：0私有视频、1公开视频
@@ -110,12 +110,12 @@ public class Course implements Serializable {
     /**
      *逻辑删除 0:未删除 1:已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
@@ -269,12 +269,12 @@ public class Course implements Serializable {
         this.courseSendType = courseSendType;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Integer getVersion() {
@@ -313,7 +313,7 @@ public class Course implements Serializable {
         sb.append(", listener=").append(listener);
         sb.append(", courseType='").append(courseType).append('\'');
         sb.append(", courseSendType='").append(courseSendType).append('\'');
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');

@@ -3,7 +3,6 @@
 <mapper namespace="com.kclm.owep.mapper.MenuMapper">
     <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Menu">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="fk_parent_id" jdbcType="INTEGER" property="parent"/>
         <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
         <result column="menu_url" jdbcType="VARCHAR" property="menuUrl"/>
         <result column="menu_description" jdbcType="VARCHAR" property="menuDescription"/>
@@ -23,18 +22,29 @@
         last_access_time,
         version
     </sql>
-    <select id="findById" parameterType="java.lang.Integer" resultType="Menu">
+    <!--查询menu的基本信息-->
+    <select id="selectById" parameterType="java.lang.Integer" resultType="Menu">
         select
         <include refid="Base_Column_List"/>
         from t_menu
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <!--根据ID进行删除-->
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete
         from t_menu
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.kclm.owep.entity.Menu">
+    <delete id="deleteSelect">
+        delete
+        from t_menu
+                where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--插入菜单-->
+    <insert id="save" parameterType="com.kclm.owep.entity.Menu">
         insert into t_menu
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -95,11 +105,12 @@
             </if>
         </trim>
     </insert>
+    <!--更新菜单-->
     <update id="update" parameterType="Menu">
         update t_menu
         <set>
             <if test="parent != null">
-                fk_parent_id = #{parent,jdbcType=INTEGER},
+                fk_parent_id = #{parent.id,jdbcType=INTEGER},
             </if>
             <if test="menuName != null">
                 menu_name = #{menuName,jdbcType=VARCHAR},
@@ -125,12 +136,13 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <!--为 菜单和权限分配行为-->
     <insert id="assignActionToMenuAndPermission">
         insert into t_menu_action_per(menu_id, per_id, action_id)
         values (#{menuId}, #{perId}, #{actionId})
     </insert>
     <!--查询所有的菜单的基本信息不包含父子关联-->
-    <select id="findByAll" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_menu
@@ -201,8 +213,11 @@
                p.version          pv
         from t_menu c
                      left join t_menu p on c.fk_parent_id = p.id
-
-        where c.id = #{id}
+        <where>
+            <if test="_parameter != 0">
+                c.id = #{id}
+            </if>
+        </where>
     </select>
     <resultMap id="ParentMenu" type="Menu">
         <id column="cid" property="id"/>
@@ -225,10 +240,13 @@
         </association>
     </resultMap>
     <!--以菜单ID为准删除中间表的数据-->
-    <delete id="deleteByMenuIdInAPM">
+    <delete id="deleteByMenuIdInAPM" parameterType="integer">
         delete
         from t_menu_action_per
-        where menu_id = #{menuId}
+                where menu_id in
+        <foreach collection="list" close=")" open="(" separator="," item="id">
+            #{id}
+        </foreach>
     </delete>
     <!--更新中间表的数据-->
     <update id="updateInAPM">
@@ -267,11 +285,20 @@
     </select>
     <resultMap id="MenuAction" type="Menu">
         <id column="mid" property="id"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_description" property="menuDescription"/>
         <result column="mv" property="version"/>
         <result column="mltime" property="lastAccessTime"/>
         <result column="mctime" property="createTime"/>
         <collection property="actions" ofType="Action">
             <id column="aid" property="id"/>
+            <result column="action_url" property="actionUrl"/>
+            <result column="action_code" property="actionCode"/>
+            <result column="action_name" property="actionName"/>
+            <result column="action_value" property="actionValue"/>
+            <result column="action_description" property="actionDescription"/>
             <result column="av" property="version"/>
             <result column="altime" property="lastAccessTime"/>
             <result column="actime" property="createTime"/>
@@ -293,9 +320,9 @@
                p.create_time      pctime,
                p.last_access_time pltime,
                p.version          pv
-        from t_permission p
-                     left join t_perm_menu pm on p.id = pm.perm_id
-                     left join t_menu m on pm.menu_id
+        from t_menu m
+                     left join t_perm_menu pm on m.id = pm.menu_id
+                     left join t_permission p on pm.perm_id = p.id
         <where>
             <if test="_parameter != 0">
                 m.id = #{menuId}
@@ -304,11 +331,17 @@
     </select>
     <resultMap id="MenuPermission" type="Menu">
         <id column="mid" property="id"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_description" property="menuDescription"/>
         <result column="mctime" property="createTime"/>
         <result column="mltime" property="lastAccessTime"/>
         <result column="mv" property="version"/>
         <collection property="permissions" ofType="Permission">
             <id column="pid" property="id"/>
+            <result column="permission_name" property="permissionName"/>
+            <result column="permission_description" property="permissionDescription"/>
             <result column="pctime" property="createTime"/>
             <result column="pltime" property="lastAccessTime"/>
             <result column="pv" property="version"/>
@@ -358,17 +391,28 @@
     </select>
     <resultMap id="MenuActionPermission" type="Menu">
         <id column="mid" property="id"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_description" property="menuDescription"/>
         <result column="mctime" property="createTime"/>
         <result column="mltime" property="lastAccessTime"/>
         <result column="mv" property="version"/>
         <collection property="permissions" ofType="Permission">
             <id column="pid" property="id"/>
+            <result column="permission_name" property="permissionName"/>
+            <result column="permission_description" property="permissionDescription"/>
             <result column="pctime" property="createTime"/>
             <result column="pltime" property="lastAccessTime"/>
             <result column="pv" property="version"/>
         </collection>
         <collection property="actions" ofType="Action">
             <id column="aid" property="id"/>
+            <result column="action_url" property="actionUrl"/>
+            <result column="action_code" property="actionCode"/>
+            <result column="action_name" property="actionName"/>
+            <result column="action_value" property="actionValue"/>
+            <result column="action_description" property="actionDescription"/>
             <result column="av" property="version"/>
             <result column="altime" property="lastAccessTime"/>
             <result column="actime" property="createTime"/>

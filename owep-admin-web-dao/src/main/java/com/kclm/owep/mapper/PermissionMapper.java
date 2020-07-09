@@ -7,8 +7,10 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Permission;
 
+import java.io.Serializable;
 import java.util.List;
 
+import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 /**
@@ -18,30 +20,7 @@ import org.apache.ibatis.annotations.Param;
  * @description:权限接口
  **/
 @Mapper
-public interface PermissionMapper {
-    /**
-     * 根据Id删除
-     */
-    int deleteById(Integer id);
-
-    /**
-     * 插入权限
-     */
-    int insert(Permission record);
-
-    /*更新记录*/
-    int update(Permission record);
-
-    /**
-     * 根据Id的查询
-     */
-    Permission findById(Integer id);
-
-    /**
-     * 查询所有
-     */
-    List<Permission> findByAll();
-
+public interface PermissionMapper extends BaseMapper<Permission> {
     /**
      * 根据名字查询
      */
@@ -50,28 +29,27 @@ public interface PermissionMapper {
     /**
      * 外联查询 查询关联某个权限的所有角色 可传Id进行条件查询。不传则默认查询所有
      */
-    List<Permission> findRoleInPermission(Integer perId);
+    List<Permission> findRoleInPermission(Serializable perId);
 
     /**
-     * 外联查询 查询权限下所关联的菜单 可传Id进行条件查询。不传则默认查询所有
+     * 外联查询 查询权限下所关联的菜单 可传Id进行条件查询。传0则默认查询所有
      */
-    List<Permission> findMenuInPermission(Integer perId);
+    List<Permission> findMenuInPermission(Serializable perId);
 
     /**
-     * 外联查询 查询权限下所关联的行为 可传Id进行条件查询。不传则默认查询所有
+     * 外联查询 查询权限下所关联的行为 可传Id进行条件查询。传0则默认查询所有
      */
-    List<Permission> findActionInPermission(Integer perId);
+    List<Permission> findActionInPermission(Serializable perId);
 
     /**
      * 向中间表插入数据 给权限分配菜单
      */
-//TODO 分配数据统一用assign
-    int assignMenuToPermission(@Param("perId") Integer perId, @Param("menuId") Integer menuId);
+    int assignMenuToPermission(@Param("perId") Serializable perId, @Param("menuId") Serializable menuId);
 
     /**
      * 向中间表删除数据 根据权限Id删除关联的菜单
      */
-    int deleteMenusByPermissionId(List<Integer> perIds);
+    int deleteMenusByPermissionId(List<Serializable> perIds);
 
     /**
      * 向中间表插入数据 给权限分配行为
