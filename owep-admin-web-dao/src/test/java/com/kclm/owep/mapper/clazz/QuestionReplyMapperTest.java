@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +26,7 @@ class QuestionReplyMapperTest {
         Question question = new Question();
         question.setId(1);
         questionReply.setQuestion(question);
-        questionReply.setReplyContent("在多看几遍视频 ");
+        questionReply.setReplyContent("在多看几遍视频2 ");
         questionReply.setReplyAuthor("yuyan");
         int save = questionReplyMapper.save(questionReply);
         LOGGER.info("{}条记录受影响",save);
@@ -33,14 +35,21 @@ class QuestionReplyMapperTest {
 
     @Test
     void update() {
+        QuestionReply questionReply = new QuestionReply();
+        questionReply.setId(2);
+        questionReply.setReplyContent("update");
+        questionReplyMapper.update(questionReply);
     }
 
     @Test
     void deleteById() {
+        int i = questionReplyMapper.deleteById(2);
     }
 
     @Test
     void deleteSelect() {
+        List<Serializable> idList = Arrays.asList(2, 3);
+        questionReplyMapper.deleteSelect(idList);
     }
 
     @Test

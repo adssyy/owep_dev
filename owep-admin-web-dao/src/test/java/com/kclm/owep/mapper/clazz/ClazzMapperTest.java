@@ -2,12 +2,17 @@ package com.kclm.owep.mapper.clazz;
 
 import com.kclm.owep.entity.Clazz;
 import com.kclm.owep.entity.PlanManager;
+import com.kclm.owep.entity.Profession;
 import com.kclm.owep.entity.Resource;
 import com.kclm.owep.mapper.ClazzMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,18 +24,37 @@ class ClazzMapperTest {
     private ClazzMapper clazzMapper;
     @Test
     void save() {
+        Clazz clazz = new Clazz();
+        clazz.setClassNumber("JAVAEE20200709");
+        clazz.setClassName("java企业级开发");
+        clazz.setStartTime(LocalDate.now());
+        clazz.setEndTime(LocalDate.now());
+        clazz.setClassStatus(1);
+        clazz.setInstituteName("萍乡学院");
+        clazz.setBranchName("计算机");
+        Profession profession = new Profession();
+        profession.setId(1);
+        clazz.setProfession(profession);
+        clazzMapper.save(clazz);
     }
 
     @Test
     void update() {
+        Clazz clazz = new Clazz();
+        clazz.setId(1);
+        clazz.setClassName("updateClassName");
+        clazzMapper.update(clazz);
     }
 
     @Test
     void deleteById() {
+        clazzMapper.deleteById(2);
     }
 
     @Test
     void deleteSelect() {
+        List<Serializable> idList = Arrays.asList(3, 4);
+        clazzMapper.deleteSelect(idList);
     }
 
     @Test
@@ -41,6 +65,8 @@ class ClazzMapperTest {
 
     @Test
     void selectAll() {
+        List<Clazz> clazzes = clazzMapper.selectAll();
+        clazzes.forEach(System.out::println);
     }
   /*  @Test
     void selectClazzAndResAndPlan(){

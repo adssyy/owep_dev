@@ -30,7 +30,7 @@
       <result column="resource_label" property="resourceLabel"/>
       <result column="resource_desc" property="resourceDesc"/>
       <result column="create_time" property="createTime"/>
-      <result column="is_delete" property="delete"/>
+      <result column="is_delete" property="isDelete"/>
       <result column="version" property="version"/>
       <result column="last_access_time" property="lastAccessTime"/>
     </collection>
@@ -39,7 +39,7 @@
       <result column="plan_number" property="planNumber"/>
       <result column="plan_name" property="planName"/>
       <result column="plan_status" property="planStatus"/>
-      <result column="is_delete" property="delete"/>
+      <result column="is_delete" property="isDelete"/>
       <result column="create_time" property="createTime"/>
       <result column="version" property="version"/>
       <result column="last_access_time" property="lastAccessTime"/>

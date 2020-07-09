@@ -22,7 +22,6 @@ class PlanManagerMapperTest {
     void rowTotal() {
     }
 
-<<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
    /* @Test
     public void testInsert(){
 =======
@@ -41,8 +40,6 @@ class PlanManagerMapperTest {
         System.out.println(planManager);
 <<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
     }*/
-=======
-    }
 
     @Test
     void deleteById() {
@@ -55,5 +52,4 @@ class PlanManagerMapperTest {
     @Test
     void selectAll() {
     }
->>>>>>> ce462c4a60311824f748cf72b7f8fbd375302bd8:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerMapperTest.java
 }
