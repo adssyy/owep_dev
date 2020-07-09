@@ -24,22 +24,22 @@ public interface PermissionMapper extends BaseMapper<Permission> {
     /**
      * 根据名字查询
      */
-    List<Permission> findByName(String name);
+    List<Permission> selectByName(String name);
 
     /**
      * 外联查询 查询关联某个权限的所有角色 可传Id进行条件查询。不传则默认查询所有
      */
-    List<Permission> findRoleInPermission(Serializable perId);
+    List<Permission> selectRoleInPermission(Serializable perId);
 
     /**
      * 外联查询 查询权限下所关联的菜单 可传Id进行条件查询。传0则默认查询所有
      */
-    List<Permission> findMenuInPermission(Serializable perId);
+    List<Permission> selectMenuInPermission(Serializable perId);
 
     /**
      * 外联查询 查询权限下所关联的行为 可传Id进行条件查询。传0则默认查询所有
      */
-    List<Permission> findActionInPermission(Serializable perId);
+    List<Permission> selectActionInPermission(Serializable perId);
 
     /**
      * 向中间表插入数据 给权限分配菜单

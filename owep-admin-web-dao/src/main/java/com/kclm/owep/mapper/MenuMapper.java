@@ -25,20 +25,29 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * 自关联查询 查询菜单的父级菜单
      * 传入0则查出所有菜单 并且查出其父级菜单
      */
-    List<Menu> findParent(Serializable id);
+    List<Menu> selectParent(Serializable id);
 
     /**
      * 自关联查询 查询子菜单 传入0则查询所有
      */
-    List<Menu> findMenuChild(Serializable menuId);
+    List<Menu> selectMenuChild(Serializable menuId);
 
     /**
      * 向中间表插入数据 给菜单分配行为 需要传入该菜单所关联的权限
      */
     int assignActionToMenuAndPermission(@Param("menuId") Serializable menuId, @Param("actionId") Serializable actionId, @Param("perId") Serializable perId);
 
-    /*更新中间表的数据 以菜单Id为条件*/
-    int updateInAPM(@Param("perId") Serializable perId, @Param("actionId") Serializable actionId, @Param("menuId") Serializable menuId);
+    /**
+     * 更新中间表的数据
+     * 以菜单Id为条件
+     */
+    int updateInAPMByMenuId(@Param("perId") Serializable perId, @Param("actionId") Serializable actionId, @Param("menuId") Serializable menuId);
+
+    /**
+     * 更新中间表的数据
+     * 以权限Id为条件
+     */
+    int updateInAPMByPerId(@Param("perId") Serializable perId, @Param("actionId") Serializable actionId, @Param("menuId") Serializable menuId);
 
     /**
      * 删除中间表的数据 以MenuId为准
@@ -48,18 +57,18 @@ public interface MenuMapper extends BaseMapper<Menu> {
     /**
      * 外联查询 查询菜单所关联的行为 可利用ID查单个对象
      */
-    List<Menu> findActionInMenu(Serializable menuId);
+    List<Menu> selectActionInMenu(Serializable menuId);
 
     /**
      * 外联查询  查询菜单所关联的权限 可利用进行条件查询
      */
-    List<Menu> findPermissionInMenu(Serializable menuId);
+    List<Menu> selectPermissionInMenu(Serializable menuId);
 
     /**
-     * 外联查询 三表关联查询
+     * 外联查询 三表关联查询 同时附加menu自关联查询 查询其子孩子
      * 传入0 则查询所有
      */
-    List<Menu> findAllInAPM(@Param("menuId") Serializable menuId, @Param("perId") Serializable perId, @Param("actionId") Serializable actionId);
+    List<Menu> selectAllInAPM(@Param("menuId") Serializable menuId, @Param("perId") Serializable perId, @Param("actionId") Serializable actionId);
 
     /**
      * 统计中间表数据

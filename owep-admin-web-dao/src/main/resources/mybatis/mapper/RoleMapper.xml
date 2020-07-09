@@ -117,14 +117,14 @@
         where id = #{id}
     </select>
     <!--通过名字进行模糊查询-->
-    <select id="findByName" resultMap="BaseResultMap">
+    <select id="selectByName" resultMap="BaseResultMap">
         select
         <include refid="base_column_list"/>
         from t_role
         where role_name like concat('%', #{roleName}, '%')
     </select>
     <!--查询角色的孩子 可传如Id作为条件-->
-    <select id="findChild" resultMap="RoleChild">
+    <select id="selectChild" resultMap="RoleChild">
         select r.id                rid,
                r.role_name         rname,
                r.role_description  rdesc,
@@ -161,7 +161,7 @@
         </collection>
     </resultMap>
     <!--根据角色Id查询该角色下所关联的用户组-->
-    <select id="findGroupsByRoleId" resultMap="RoleInGroup">
+    <select id="selectGroupsByRoleId" resultMap="RoleInGroup">
         select r.id               rid,
                role_name,
                role_description,
@@ -202,7 +202,7 @@
         </collection>
     </resultMap>
     <!--查询角色下所拥有的权限-->
-    <select id="findPermissionInRole" resultMap="RoleInPermission">
+    <select id="selectPermissionInRole" resultMap="RoleInPermission">
         select r.id               rid,
                role_name,
                role_description,
@@ -276,7 +276,7 @@
         from t_role
     </select>
     <!--根据ID来查询父角色-->
-    <select id="findParent" resultMap="ParentRole">
+    <select id="selectParent" resultMap="ParentRole">
         select r.id                rid,
                r.role_name         rname,
                r.role_description  rdesc,

@@ -1,7 +1,6 @@
 package com.kclm.owep.mapper.privilege;
 
 import com.kclm.owep.entity.Group;
-import com.kclm.owep.entity.Role;
 import com.kclm.owep.mapper.ActionMapperTest;
 import com.kclm.owep.mapper.GroupMapper;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @program: owep
@@ -38,7 +35,7 @@ private GroupMapper groupMapper;
 
     @Test
     void findByGroupName() {
-        List<Group> byGroupName = groupMapper.findByGroupName("组");
+        List<Group> byGroupName = groupMapper.selectByGroupName("组");
         byGroupName.forEach(System.out::println);
     }
 
@@ -83,7 +80,7 @@ private GroupMapper groupMapper;
 
     @Test
     void findRolesByGroupId() {
-        List<Group> group = groupMapper.findRolesByGroupId(0);
+        List<Group> group = groupMapper.selectRolesByGroupId(0);
 
     }
 
@@ -99,7 +96,7 @@ private GroupMapper groupMapper;
 
     @Test
     void findUserInGroup(){
-        List<Group> group = groupMapper.findUserInGroup(0);
+        List<Group> group = groupMapper.selectUserInGroup(0);
 
     }
 }

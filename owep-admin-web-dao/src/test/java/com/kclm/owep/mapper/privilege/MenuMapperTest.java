@@ -65,14 +65,14 @@ class MenuMapperTest extends ActionMapperTest {
 
     @Test
     void findParent() {
-        List<Menu> parent = menuMapper.findParent(0);
+        List<Menu> parent = menuMapper.selectParent(0);
         System.out.println(parent);
 
     }
 
     @Test
     void findMenuChild() {
-        List<Menu> menuChild = menuMapper.findMenuChild(0);
+        List<Menu> menuChild = menuMapper.selectMenuChild(0);
         System.out.println(menuChild.size());
         for (Menu m : menuChild) {
             System.out.println(m);
@@ -106,17 +106,17 @@ class MenuMapperTest extends ActionMapperTest {
 
     @Test
     void findActionInMenu() {
-        menuMapper.findActionInMenu(1);
+        menuMapper.selectActionInMenu(1);
     }
 
     @Test
     void findPermissionInMenu() {
-        menuMapper.findPermissionInMenu(1);
+        menuMapper.selectPermissionInMenu(1);
     }
 
     @Test
     void findAllInAPM() {
-        menuMapper.findAllInAPM(0,0,0);
+        menuMapper.selectAllInAPM(0,0,0);
     }
 
     @Test
