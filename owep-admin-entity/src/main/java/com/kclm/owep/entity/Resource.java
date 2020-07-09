@@ -67,7 +67,7 @@ public class Resource {
     /***
      * 逻辑删除，1.表示未删除，0表示已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /***
     * 节
@@ -184,12 +184,12 @@ public class Resource {
         this.createTime = createTime;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public List<Section> getSection() {
@@ -261,7 +261,7 @@ public class Resource {
         sb.append(", resourceLabel='").append(resourceLabel).append('\'');
         sb.append(", resourceDesc='").append(resourceDesc).append('\'');
         sb.append(", createTime=").append(createTime);
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", oldResourcename=").append(oldResourcename);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
