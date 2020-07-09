@@ -22,32 +22,32 @@ import java.util.List;
 public interface RoleMapper extends BaseMapper<Role> {
 
     /**
-     * 根据角色名字查询相关信息
+     * 根据角色名字 模糊查询
      * */
-    Role findByName(String roleName);
+    Role selectByName(String roleName);
 
 
     /**
      * 自关联查询,查询出该角色下的所有子角色
      * 传入 0 则列出所有角色 同时查出其子角色
      * */
-    List<Role> findChild(Serializable Id);
+    List<Role> selectChild(Serializable Id);
     /**
      * 自关联查询，查询父角色
      * 传入0则查询所有角色 同时查出该角色的父角色
      * */
-    List<Role> findParent(Serializable Id);
+    List<Role> selectParent(Serializable Id);
     /**
      * 外关联查询,某角色下的所有组
      * 传入0则查询所有
      * */
-    List<Role> findGroupsByRoleId(Serializable roleId);
+    List<Role> selectGroupsByRoleId(Serializable roleId);
 
     /**
      * 外关联查询,查询该角色下所分配的权限
      * 传入0则查询所有
      * */
-    List<Role> findPermissionInRole(Serializable roleId);
+    List<Role> selectPermissionInRole(Serializable roleId);
 
     /**
      * 向角色权限中间表添加数据 给角色发呢配权限

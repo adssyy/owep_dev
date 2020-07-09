@@ -28,7 +28,7 @@ public interface GroupMapper extends BaseMapper<Group> {
     /**
      * 根据组名称进行模糊查询
      */
-    List<Group> findByGroupName(String groupName);
+    List<Group> selectByGroupName(String groupName);
 
     /**
      * 为用户组添加角色，向中间表添加数据
@@ -49,12 +49,12 @@ public interface GroupMapper extends BaseMapper<Group> {
      * 查询某个用户组已经分配好的角色
      * 如若传入0则查询所有
      */
-    List<Group> findRolesByGroupId(Serializable groupId);
+    List<Group> selectRolesByGroupId(Serializable groupId);
 
     /**
      * 查询该组所关联的所有用户
      */
-    List<Group> findUserInGroup(Serializable groupId);
+    List<Group> selectUserInGroup(Serializable groupId);
 
     /**
      * 统计用户组中已经分配的角色 传入0则查询统计所有

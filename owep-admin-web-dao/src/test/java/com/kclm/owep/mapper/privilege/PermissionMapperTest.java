@@ -66,19 +66,19 @@ class PermissionMapperTest extends ActionMapperTest {
 
     @Test
     void findByName() {
-        List<Permission> name = permissionMapper.findByName("1");
+        List<Permission> name = permissionMapper.selectByName("1");
         name.forEach(System.out::println);
     }
 
     @Test
     void findRoleInPermission() {
-        List<Permission> permission = permissionMapper.findRoleInPermission(1);
+        List<Permission> permission = permissionMapper.selectRoleInPermission(1);
         permission.forEach(System.out::println);
     }
 
     @Test
     void findMenuInPermission() {
-        List<Permission> menuInPermission = permissionMapper.findMenuInPermission(1);
+        List<Permission> menuInPermission = permissionMapper.selectMenuInPermission(1);
         menuInPermission.forEach(System.out::println);
         menuInPermission.get(0).getMenus().forEach(System.out::println);
     }

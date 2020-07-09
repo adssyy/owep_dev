@@ -1,6 +1,5 @@
 package com.kclm.owep.mapper.privilege;
 
-import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Role;
 import com.kclm.owep.mapper.ActionMapperTest;
 import com.kclm.owep.mapper.RoleMapper;
@@ -62,30 +61,30 @@ class RoleMapperTest extends ActionMapperTest {
 
     @Test
     void findByName() {
-        Role byName = roleMapper.findByName("1");
+        Role byName = roleMapper.selectByName("1");
         System.out.println(byName);
     }
 
     @Test
     void findChilds() {
-        List<Role> role = roleMapper.findChild(0);
+        List<Role> role = roleMapper.selectChild(0);
     }
 
     @Test
     void findParent() {
-        List<Role> parent = roleMapper.findParent(0);
+        List<Role> parent = roleMapper.selectParent(0);
 
     }
 
     @Test
     void findGroupsByRoleId() {
-        List<Role> groups = roleMapper.findGroupsByRoleId(1);
+        List<Role> groups = roleMapper.selectGroupsByRoleId(1);
 
     }
 
     @Test
     void findPermissionInRole() {
-        List<Role> role = roleMapper.findPermissionInRole(2);
+        List<Role> role = roleMapper.selectPermissionInRole(2);
     }
 
     @Test

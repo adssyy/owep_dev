@@ -26,9 +26,9 @@ public interface ActionMapper extends BaseMapper<Action> {
     int count();
 
     /*
-     * 根据行为名称进行查询
+     * 根据行为名称进行模糊查询
      * */
-    List<Action> findByActionName(@Param("actionName") String actionName);
+    List<Action> selectByActionName(@Param("actionName") String actionName);
 
 
 }
