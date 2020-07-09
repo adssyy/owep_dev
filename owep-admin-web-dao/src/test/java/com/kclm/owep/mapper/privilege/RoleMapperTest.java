@@ -6,15 +6,15 @@ import com.kclm.owep.mapper.RoleMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * @program: owep
  * @package: com.kclm.owep.mapper
- * @description:
  * @author: qi_kran
  * @create: 2020-07-06 11:22
+ * @description: 角色测试类
  **/
 class RoleMapperTest extends ActionMapperTest {
     @Autowired
@@ -22,14 +22,6 @@ class RoleMapperTest extends ActionMapperTest {
 
     @Test
     void saveRole() {
-<<<<<<< HEAD
-        Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
-        roleMapper.saveRole(role);
-<<<<<<< HEAD
-    }
-=======
-    }*/
-=======
         roleMapper.save(new Role("角色1", "测试角色1"));
         roleMapper.save(new Role("角色2", "测试角色2"));
         roleMapper.save(new Role("角色3", "测试角色3"));
@@ -38,9 +30,7 @@ class RoleMapperTest extends ActionMapperTest {
 //        Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
 //        roleMapper.saveRole(role);
     }
->>>>>>> ce462c4a60311824f748cf72b7f8fbd375302bd8
 
-/*>>>>>>> c8822ef2d608aeb0201b56d58ce5b93fdcc69760*/
     @Test
     void updateRole() {
         Role role3 = roleMapper.selectById(3);
