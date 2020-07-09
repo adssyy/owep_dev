@@ -58,7 +58,7 @@ public class PollItem implements Serializable {
     }
 
     /***
-     * 带参构造
+     * 全参构造
      * @param id
      * @param pollNum
      * @param pollContent
@@ -75,6 +75,18 @@ public class PollItem implements Serializable {
         this.createTime = createTime;
         this.version = version;
         this.lastAccessTime = lastAccessTime;
+    }
+
+    /***
+     * 三参构造
+     * @param pollNum
+     * @param pollContent
+     * @param pollStatus
+     */
+    public PollItem(String pollNum, String pollContent, Integer pollStatus) {
+        this.pollNum = pollNum;
+        this.pollContent = pollContent;
+        this.pollStatus = pollStatus;
     }
 
     public Integer getId() {

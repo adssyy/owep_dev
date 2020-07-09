@@ -21,7 +21,13 @@
 
     <!-- 在其它的映射文件没有修改好的情况下，需要对自己的mapper进行测试时使用，以后会删除掉 -->
     <mappers>
+<<<<<<< HEAD
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
+
+=======
+        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+>>>>>>> c8822ef2d608aeb0201b56d58ce5b93fdcc69760
 
     </mappers>
 

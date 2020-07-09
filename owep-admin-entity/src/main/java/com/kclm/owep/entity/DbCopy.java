@@ -40,12 +40,12 @@ public class DbCopy implements Serializable {
     /**
      *备份的时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime=LocalDateTime.now();
 
     /**
      *版本号
      */
-    private Integer version;
+    private Integer version=1;
 
     /**
      *最后一次访问时间
@@ -147,13 +147,17 @@ public class DbCopy implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DbCopy dbCopy = (DbCopy) o;
-        return Objects.equals(fileName, dbCopy.fileName) &&
+        return Objects.equals(id, dbCopy.id) &&
+                Objects.equals(fileName, dbCopy.fileName) &&
                 Objects.equals(filePath, dbCopy.filePath) &&
-                Objects.equals(status, dbCopy.status);
+                Objects.equals(status, dbCopy.status) &&
+                Objects.equals(createTime, dbCopy.createTime) &&
+                Objects.equals(version, dbCopy.version) &&
+                Objects.equals(lastAccessTime, dbCopy.lastAccessTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fileName, filePath, status);
+        return Objects.hash(id, fileName, filePath, status, createTime, version, lastAccessTime);
     }
 }

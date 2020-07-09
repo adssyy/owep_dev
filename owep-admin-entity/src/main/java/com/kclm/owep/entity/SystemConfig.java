@@ -46,12 +46,12 @@ public class SystemConfig implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime=LocalDateTime.now();
 
     /**
      *版本号
      */
-    private Integer version;
+    private Integer version=1;
 
     /**
      * 最后一次访问时间
@@ -75,8 +75,6 @@ public class SystemConfig implements Serializable {
         this.loginPageLogo = loginPageLogo;
         this.systemPageLogo = systemPageLogo;
         this.loginCount = loginCount;
-        this.version=1;
-        this.createTime=LocalDateTime.now();
     }
 
     public static long getSerialVersionUID() {

@@ -175,10 +175,8 @@
   </delete>
   <!--依多个主键值，删除多行记录-->
   <delete id="deleteSelect" parameterType="list">
-    delete
-    form t_system_config
-    where id in
-    <foreach collection="list" open="(" close=")" separator="," item="id">
+    delete from  t_system_config where id in
+    <foreach collection="list" separator="," item="id" open="(" close=")">
       #{id}
     </foreach>
   </delete>

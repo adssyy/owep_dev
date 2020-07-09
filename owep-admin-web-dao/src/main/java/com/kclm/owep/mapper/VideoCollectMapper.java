@@ -1,63 +1,27 @@
+/*******************
+ *版权所有 CopyRight(c) 快程乐码信息科技有限公司所有，未经授权，不得复制转发
+ *
+ */
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.VideoCollect;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.io.Serializable;
-import java.util.List;
 /*********************
- * @Author: tanj
+ * @Author: ZhongLei
  * @Version : v1.0
- * @Create: 2020年7月07日 上午17:30:40
+ * @Create: 2020年7月08日
  * @Description 视频收藏
  */
+
 @Mapper
 public interface VideoCollectMapper extends BaseMapper<VideoCollect> {
-    /***
-     * 添加一条记录
-     * @param entity
-     * @return
-     */
-    @Override
-    int save(VideoCollect entity);
 
     /***
-     * 更新一条记录
-     * @param entity
+     * 统计视频收藏的数量
      * @return
      */
-    @Override
-    int update(VideoCollect entity);
+    int countVideoCollect();
 
-    /***
-     * 根据id来删除一条记录
-     * @param id
-     * @return
-     */
-    @Override
-    int deleteById(Serializable id);
-
-    /***
-     * 删除多条记录
-     * @param idList
-     * @return
-     */
-    @Override
-    int deleteSelect(List<Serializable> idList);
-
-    /***
-     * 根据id来查询一条记录
-     * @param id
-     * @return
-     */
-    @Override
-    VideoCollect selectById(Serializable id);
-
-    /***
-     * 查询所有记录
-     * @return
-     */
-    @Override
-    List<VideoCollect> selectAll();
 }

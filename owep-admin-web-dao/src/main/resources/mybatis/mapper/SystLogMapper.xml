@@ -216,11 +216,15 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <!--依多个主键值，删除多行记录-->
-  <delete id="deleteSelect" parameterType="list">
-    delete
-    form t_syslog
-    where id in
+  <!--<delete id="deleteSelect" parameterType="list">
+    delete form t_syslog where id in
     <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>-->
+  <delete id="deleteSelect" parameterType="list">
+    delete from  t_syslog where id in
+    <foreach collection="list" separator="," item="id" open="(" close=")">
       #{id}
     </foreach>
   </delete>

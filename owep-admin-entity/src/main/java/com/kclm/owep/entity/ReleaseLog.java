@@ -42,7 +42,6 @@ public class ReleaseLog implements Serializable {
         sb.append(", type='").append(type).append('\'');
         sb.append(", content='").append(content).append('\'');
         sb.append(", seq=").append(seq);
-        sb.append(", release=").append(release);
         sb.append('}');
         return sb.toString();
     }

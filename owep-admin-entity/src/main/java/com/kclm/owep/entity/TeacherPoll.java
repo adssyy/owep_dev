@@ -118,7 +118,26 @@ public class TeacherPoll implements Serializable {
     }
 
     /***
-     * 带参构造
+     * 有参构造
+     */
+    public TeacherPoll(String teacherName, String className, String pollAddress, String pollGrade, LocalDateTime effectiveTime, Integer pollCount, String pollSuggest, Integer fkTemplateId, Integer fkUserId, Integer fkClassId, String allowIp, LocalDateTime startTime, LocalDateTime endTime) {
+        this.teacherName = teacherName;
+        this.className = className;
+        this.pollAddress = pollAddress;
+        this.pollGrade = pollGrade;
+        this.effectiveTime = effectiveTime;
+        this.pollCount = pollCount;
+        this.pollSuggest = pollSuggest;
+        this.fkTemplateId = fkTemplateId;
+        this.fkUserId = fkUserId;
+        this.fkClassId = fkClassId;
+        this.allowIp = allowIp;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    /***
+     * 全参构造
      * @param id
      * @param teacherName
      * @param className

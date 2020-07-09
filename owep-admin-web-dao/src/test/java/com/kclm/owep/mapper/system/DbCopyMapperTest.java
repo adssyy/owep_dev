@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -25,12 +26,12 @@ class DbCopyMapperTest {
     public void save(){
         DbCopy dbCopy=new DbCopy();
 
-        dbCopy.setCreateTime(LocalDateTime.now());
-        dbCopy.setFileName("katong");
+        //dbCopy.setCreateTime(LocalDateTime.now());
+        dbCopy.setFileName("new1");
         dbCopy.setFilePath("hello/hello");
         dbCopy.setLastAccessTime(LocalDateTime.now());
         dbCopy.setStatus(true);
-        dbCopy.setVersion(1);
+        //dbCopy.setVersion(1);
         this.dbCopyMapper.save(dbCopy);
         System.out.println(dbCopyMapper);
         System.out.println(dbCopy);
@@ -39,27 +40,25 @@ class DbCopyMapperTest {
     @Test
     public void update(){
         DbCopy dbCopy=new DbCopy();
-        dbCopy.setId(4);
-        dbCopy.setFileName("update2");
-        dbCopy.setVersion(1);
+        dbCopy.setId(1009);
+        dbCopy.setFileName("new1_update");
+        dbCopy.setVersion(2);
         dbCopy.setStatus(true);
-        dbCopy.setCreateTime(LocalDateTime.now());
+        dbCopy.setLastAccessTime(LocalDateTime.now());
+        //dbCopy.setCreateTime(LocalDateTime.now());
         this.dbCopyMapper.update(dbCopy);
         System.out.println(dbCopy);
 
     }
     @Test
     public void deleteById(){
-        DbCopy dbCopy=new DbCopy();
-        dbCopy.setId(3);
-        this.dbCopyMapper.deleteById(dbCopy);
-
+        System.out.println(this.dbCopyMapper.deleteById(3));
     }
 
     @Test
     public void deleteSelect(){
-
-        //dbCopyMapper.deleteSelect();
+        final List<Serializable> idList = Arrays.asList(2, 3);
+        System.out.println(dbCopyMapper.deleteSelect(idList));
     }
 
     @Test

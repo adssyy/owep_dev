@@ -70,12 +70,12 @@ public class SystLog implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime=LocalDateTime.now();
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version=1;
 
     /**
      * 构造方法
