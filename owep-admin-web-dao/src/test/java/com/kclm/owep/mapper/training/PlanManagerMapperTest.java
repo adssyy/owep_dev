@@ -22,8 +22,13 @@ class PlanManagerMapperTest {
     void rowTotal() {
     }
 
+<<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
+   /* @Test
+    public void testInsert(){
+=======
     @Test
     void save() {
+>>>>>>> ce462c4a60311824f748cf72b7f8fbd375302bd8:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerMapperTest.java
         PlanManager planManager = new PlanManager();
         planManager.setPlanName("javaee开发");
         planManager.setPlanNumber("FA_110");
@@ -34,6 +39,9 @@ class PlanManagerMapperTest {
         //planManagerMapper.savePlanManager(planManager);
 //        planManagerMapper.savePlanManager(planManager);
         System.out.println(planManager);
+<<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
+    }*/
+=======
     }
 
     @Test
@@ -47,4 +55,5 @@ class PlanManagerMapperTest {
     @Test
     void selectAll() {
     }
+>>>>>>> ce462c4a60311824f748cf72b7f8fbd375302bd8:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerMapperTest.java
 }
