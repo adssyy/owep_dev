@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Chapter;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  *@Description 持久层接口ChapterMapper
  *
  */
+@Mapper
 public interface ChapterMapper extends BaseMapper<Chapter> {
 
 
@@ -25,5 +27,21 @@ public interface ChapterMapper extends BaseMapper<Chapter> {
      */
     long rowTotal();
 
+    @Override
+    int save(Chapter entity);
 
+    @Override
+    int update(Chapter entity);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    Chapter selectById(Serializable id);
+
+    @Override
+    List<Chapter> selectAll();
 }

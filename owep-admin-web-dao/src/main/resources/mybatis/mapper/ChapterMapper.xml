@@ -12,7 +12,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="video_status" jdbcType="INTEGER" property="videoStatus" />
     <!--<result column="fk_course_id" jdbcType="INTEGER" property="fkCourseId" />-->
-    <result column="delete" jdbcType="INTEGER" property="delete" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
   </resultMap>
@@ -21,7 +21,7 @@
   <sql id="Base_Column_List">
     id, chapter_number, chapter_name,
     chapter_image_url, chapter_status, chapter_desc,
-    create_time, video_status, fk_course_id, delete, version, last_access_time
+    create_time, video_status, fk_course_id, is_delete, version, last_access_time
   </sql>
 
   <!--添加章-->
@@ -82,9 +82,6 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="chapterNumber != null">
         #{chapterNumber,jdbcType=VARCHAR},
       </if>
@@ -100,10 +97,8 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
       <if test="chapterDesc != null">
         #{chapterDesc,jdbcType=VARCHAR},
       </if>
-      <if test="
-createTime != null">
-        #{
-createTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="videoStatus != null">
         #{videoStatus,jdbcType=INTEGER},
@@ -111,8 +106,8 @@ createTime,jdbcType=TIMESTAMP},
       <if test="course.id != null">
         #{course.id,jdbcType=INTEGER},
       </if>
-      <if test="delete != null">
-        #{delete,jdbcType=INTEGER},
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
@@ -151,8 +146,8 @@ createTime,jdbcType=TIMESTAMP},
       <if test="course.id != null">
         fk_course_id = #{course.id,jdbcType=INTEGER},
       </if>
-      <if test="delete != null">
-        delete = #{delete,jdbcType=INTEGER},
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
       <if test="version != null">
         version = #{version,jdbcType=INTEGER},
@@ -191,7 +186,6 @@ createTime,jdbcType=TIMESTAMP},
     <include refid="Base_Column_List"/>
     from t_chapter
   </select>
-
 
 
   <!--查询章的总记录数-->

@@ -5,6 +5,10 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.SectionVideo;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.io.Serializable;
+import java.util.List;
 
 /************
  *@Author yejx
@@ -13,11 +17,21 @@ import com.kclm.owep.mapper.common.BaseMapper;
  *@Description 持久层接口SectionVideoMapperQ
  *
  */
+@Mapper
 public interface SectionVideoMapper extends BaseMapper<SectionVideo> {
 
     /**
-     * 给节添加视频
-     * @param sectionVideo
+     * 通过节id查询
+     *
+     * @param id
+     * @return
      */
-    void saveSectionVideo(SectionVideo sectionVideo);
+    List<SectionVideo> selectAllById(Serializable id);
+
+
+    @Override
+    int save(SectionVideo entity);
+
+    @Override
+    int deleteById(Serializable id);
 }

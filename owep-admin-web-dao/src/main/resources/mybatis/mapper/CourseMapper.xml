@@ -20,7 +20,7 @@
     <result column="course_type" jdbcType="VARCHAR" property="courseType" />
     <!--<result column="fk_course_category_id" jdbcType="INTEGER" property="fkCourseCategoryId" />-->
     <result column="course_send_type" jdbcType="VARCHAR" property="courseSendType" />
-    <result column="delete" jdbcType="INTEGER" property="delete" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
   </resultMap>
@@ -29,7 +29,7 @@
   <sql id="Base_Column_List">
     id, course_number, course_name, start_time, end_time, course_period, course_status,
     course_image, course_desc, create_time, course_open_status, video_status, free, hot,
-    listener, course_type, fk_course_category_id, course_send_type, `delete`, version,
+    listener, course_type, fk_course_category_id, course_send_type, is_delete, version,
     last_access_time
   </sql>
 
@@ -91,8 +91,8 @@
         <if test="courseSendType != null">
           course_send_type,
         </if>
-        <if test="delete != null">
-          delete,
+        <if test="isDelete != null">
+          is_delete,
         </if>
         <if test="version != null">
           version,
@@ -156,8 +156,8 @@
         <if test="courseSendType != null">
           #{courseSendType,jdbcType=VARCHAR},
         </if>
-        <if test="delete != null">
-          #{delete,jdbcType=INTEGER},
+        <if test="isDelete != null">
+          #{isDelete,jdbcType=INTEGER},
         </if>
         <if test="version != null">
           #{version,jdbcType=INTEGER},
@@ -168,10 +168,104 @@
       </trim>
   </insert>
 
+  <!--修改课程-->
+  <update id="update" parameterType="Course">
+    update t_course
+    <set>
+      <if test="courseNumber != null">
+        course_number = #{courseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coursePeriod != null">
+        course_period = #{coursePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="courseStatus != null">
+        course_status = #{courseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="courseImage != null">
+        course_image = #{courseImage,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDesc != null">
+        course_desc = #{courseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseOpenStatus != null">
+        course_open_status = #{courseOpenStatus,jdbcType=INTEGER},
+      </if>
+      <if test="videoStatus != null">
+        video_status = #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="free != null">
+        free = #{free,jdbcType=BIT},
+      </if>
+      <if test="hot != null">
+        hot = #{hot,jdbcType=BIT},
+      </if>
+      <if test="listener != null">
+        listener = #{listener,jdbcType=BIT},
+      </if>
+      <if test="courseType != null">
+        course_type = #{courseType,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCategory.id != null">
+        fk_course_category_id = #{courseCategory.id,jdbcType=INTEGER},
+      </if>
+      <if test="courseSendType != null">
+        course_send_type = #{courseSendType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
   <!--删除课程-->
-  <delete id="delete" parameterType="integer" >
+  <delete id="deleteById" parameterType="integer" >
     delete from t_course where id = #{id}
   </delete>
+
+  <!--删除所选课程-->
+  <delete id="deleteSelect" >
+    delete from t_course where id in
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+    </foreach>
+  </delete>
+
+  <!--通过id查找课程-->
+  <select id="selectById" resultType="course" parameterType="Integer">
+    select <include refid="Base_Column_List"/>
+    from t_course where in = #{id}
+  </select>
+
+  <!--通过课程名查找-->
+  <select id="selectByCourseName" resultType="course" parameterType="String">
+    select <include refid="Base_Column_List"/>
+    from t_course where course_name = #{courseName}
+  </select>
+
+  <!--查询所有课程-->
+  <select id="selectAll" resultType="course">
+    select <include refid="Base_Column_List"/>
+    from t_course
+  </select>
+
 
 
 
