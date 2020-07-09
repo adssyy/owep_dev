@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.SectionVideo;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 /************
  *@Author yejx
@@ -12,7 +13,7 @@ import com.kclm.owep.entity.SectionVideo;
  *@Description 持久层接口SectionVideoMapperQ
  *
  */
-public interface SectionVideoMapper {
+public interface SectionVideoMapper extends BaseMapper<SectionVideo> {
 
     /**
      * 给节添加视频

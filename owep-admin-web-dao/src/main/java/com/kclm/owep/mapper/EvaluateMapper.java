@@ -4,7 +4,11 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Evaluate;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /*********************
  * @Auther shentr
@@ -12,15 +16,12 @@ import org.apache.ibatis.annotations.Param;
  * @Create 2020/7/6 18:20
  * @Description 学员评价持久层接口
  */
-public interface EvaluateMapper {
+@Mapper
+public interface EvaluateMapper extends BaseMapper<Evaluate> {
 
     /**
     *通过班级id查找学生评价的数据
     */
-    Evaluate selectByClassId(Integer classId);
+    List<Evaluate> selectByClassId(Integer classId);
 
-    /**
-     * 更新评价内容
-     */
-    int updateEvaluate(@Param("evaluate") String evaluate,@Param("classId") String classId);
 }

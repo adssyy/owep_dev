@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.AssignRecord;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,13 +16,7 @@ import java.util.List;
  *@Description 持久层接口AssignRecordMapper
  *
  */
-public interface AssignRecordMapper {
-
-    /**
-     * 查询所有转出记录
-     * @return
-     */
-    List<AssignRecord> findAll();
+public interface AssignRecordMapper extends BaseMapper<AssignRecord> {
 
     /**
      * 查询咨询师转出的记录
@@ -36,12 +31,6 @@ public interface AssignRecordMapper {
      * @return
      */
     List<AssignRecord> findByToId(Serializable id);
-
-    /**
-     * 添加转出记录
-     * @param assignRecord
-     */
-    void saveAssignRecord(AssignRecord assignRecord);
 
 
 }

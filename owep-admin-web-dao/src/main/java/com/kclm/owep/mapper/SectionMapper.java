@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Section;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,31 +16,13 @@ import java.util.List;
  *@Description 持久层接口SectionMapper
  *
  */
-public interface SectionMapper {
+public interface SectionMapper extends BaseMapper<Section> {
 
     /**
      * 通过章id，查询所有的节
      * @return
      */
     List<Section> findAll(Serializable id);
-
-    /**
-     * 添加节
-     * @param section
-     */
-    void saveSection(Section section);
-
-    /**
-     * 通过节id,删除节
-     * @param id
-     */
-    void deleteSection(Serializable id);
-
-    /**
-     * 修改节信息
-     * @param section
-     */
-    void updateSection(Section section);
 
 
 

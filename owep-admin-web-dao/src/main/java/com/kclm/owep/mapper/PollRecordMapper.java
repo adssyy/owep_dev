@@ -1,7 +1,13 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
+
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.PollRecord;
-import java.io.Serializable;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
 
 /*******************
  *Author:ZhongLei
@@ -10,22 +16,14 @@ import java.io.Serializable;
  *@Description:考评记录持久层接口
  ***/
 
-public interface PollRecordMapper {
+@Mapper
+public interface PollRecordMapper extends BaseMapper<PollRecord> {
 
-    int countPollRecord(PollRecord pollRecord);
+    /***
+     * 统计考评记录数量
+     * @param pollRecord
+     * @return
+     */
+    int countPollRecord();
 
-
-    int deleteById(Serializable id);
-
-
-    int insert(PollRecord record);
-
-
-    int insertSelective(PollRecord record);
-
-
-    PollRecord findById(Serializable id);
-
-
-    int update(PollRecord pollRecord);
 }

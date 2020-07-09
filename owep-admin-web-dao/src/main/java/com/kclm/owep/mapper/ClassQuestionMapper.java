@@ -6,42 +6,65 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.ClassQuestion;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
-
-public interface ClassQuestionMapper {
+/*********************
+ * @Author: tanj
+ * @Version : v1.0
+ * @Create: 2020年7月07日 下午16:10:40
+ * @Description 班级
+ */
+@Mapper
+public interface ClassQuestionMapper extends BaseMapper<ClassQuestion> {
 
     /***
      * 增加一条记录
-     * @param record
+     * @param entity
      * @return
      */
-    int save(ClassQuestion record);
+    @Override
+    int save(ClassQuestion entity);
 
     /***
-     * 根据id删除一条记录
+     * 更新一条记录
+     * @param entity
+     * @return
+     */
+    @Override
+    int update(ClassQuestion entity);
+
+    /***
+     * 删除一条记录
      * @param id
      * @return
      */
-    int deleteByPrimaryKey(Integer id);
+    @Override
+    int deleteById(@Param("id") Serializable id);
 
     /**
-     * 更新一条记录
-     * @param record
+     * 删除多条记录
+     * @param idList
      * @return
      */
-    int updateByPrimaryKey(ClassQuestion record);
+    @Override
+    int deleteSelect(@Param("idList") List<Serializable> idList);
 
     /***
-     * 根据id查询一条记录
+     * 查询一条记录
      * @param id
      * @return
      */
-    ClassQuestion selectByPrimaryKey(Integer id);
+    @Override
+    ClassQuestion selectById(@Param("id") Serializable id);
 
     /***
-     * 查询所有的记录
+     * 查询所有
      * @return
      */
+    @Override
     List<ClassQuestion> selectAll();
 }

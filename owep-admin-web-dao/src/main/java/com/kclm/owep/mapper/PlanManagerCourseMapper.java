@@ -5,6 +5,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.PlanManagerCourse;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  *@Description 持久层接口PlanManagerCourseMapper
  *
  */
-public interface PlanManagerCourseMapper {
+public interface PlanManagerCourseMapper extends BaseMapper<PlanManager> {
 
     /**
      * 通过方案id查询设置的课程
@@ -32,18 +33,6 @@ public interface PlanManagerCourseMapper {
      */
     List<PlanManagerCourse> findPlanManagerCourseLimit(Serializable id,int offset, int limit);
 
-
-    /**
-     * 设置方案
-     * @param planManagerCourse
-     */
-    void savePlanManagerCourse(PlanManagerCourse planManagerCourse);
-
-    /**
-     * 删除
-     * @param id
-     */
-    void deletePlanManagerCourse(Serializable id);
 
     /**
      * 修改方案课程顺序

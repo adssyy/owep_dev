@@ -7,6 +7,9 @@ import com.kclm.owep.entity.Illegal;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 /*********************
  * @Auther shentr
@@ -14,16 +17,12 @@ import org.apache.ibatis.annotations.Param;
  * @Create 2020/7/6 18:20
  * @Description 违规处理持久层接口
  */
-public interface IllegalMapper {
+@Mapper
+public interface IllegalMapper extends BaseMapper<Illegal> {
     /**
     *根据班级id查询违纪处理的数据
     */
     List<Illegal> selectByClassId(Integer classId);
-
-    /**
-    * 通过id删除数据
-    * */
-    int deleteById(Integer id);
 
     /**
     * 条件查询
@@ -31,8 +30,4 @@ public interface IllegalMapper {
     List<Illegal> selectByCondition(@Param("number") String number, @Param("name") String name,
                           @Param("startTime") LocalDate startTime,@Param("endTime") LocalDate endTime);
 
-    /**
-    * 插入数据
-    * */
-    int insert(Illegal illegal);
 }

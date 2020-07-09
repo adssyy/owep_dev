@@ -4,6 +4,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Client;
+import com.kclm.owep.mapper.common.BaseMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,22 +16,7 @@ import java.util.List;
  *@Description 持久层接口ClientMapper
  *
  */
-public interface ClientMapper {
-
-
-    /**
-     * 查询所有的客户
-     * @return
-     */
-    List<Client> findAll();
-
-    /**
-     * 分页查询部分客户
-     * @param offset
-     * @param limit
-     * @return
-     */
-    List<Client> findClientLimit(int offset, int limit);
+public interface ClientMapper extends BaseMapper<Client> {
 
 
     /**
@@ -39,30 +25,11 @@ public interface ClientMapper {
      */
     List<Client> findByField(Client client);
 
-
     /**
-     * 添加客户
-     * @param client
+     * 查询客户总数量
+     * @return
      */
-    void saveClient(Client client);
-
-    /**
-     * 删除多个客户
-     * @param integerList
-     */
-    void deleteByIds(List<Integer> integerList);
-
-    /**
-     * 通过客户id 删除客户
-     * @param id
-     */
-    void deleteById(Serializable id);
-
-    /**
-     * 更新客户信息
-     * @param client
-     */
-    void updateClient(Client client);
+    long rowTotal();
 
 
 
