@@ -18,7 +18,7 @@
         version
     </sql>
     <!--根据Id查询-->
-    <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_permission
@@ -30,8 +30,17 @@
         from t_permission
         where id = #{id}
     </delete>
+    <!--批量删除-->
+    <delete id="deleteSelect">
+        delete
+        from t_permission
+                where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
     <!--插入权限记录-->
-    <insert id="insert" parameterType="Permission">
+    <insert id="save" parameterType="Permission">
         insert into t_permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -97,7 +106,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <!--查询所有的权限-->
-    <select id="findByAll" resultType="Permission">
+    <select id="selectAll" resultType="Permission">
         select
         <include refid="Base_Column_List"/>
         from t_permission
@@ -106,7 +115,7 @@
         select
         <include refid="Base_Column_List"/>
         from t_permission
-        where permission_name = #{name}
+        where permission_name like concat('%', #{name}, '%')
     </select>
     <!--查询关联某个权限的所有的角色-->
     <select id="findRoleInPermission" resultMap="PermissionRole">
@@ -116,8 +125,6 @@
                p.create_time      pctime,
                p.last_access_time pltime,
                p.version          pv,
-               role_id,
-               permission_id,
                r.id               rid,
                role_name,
                role_description,
@@ -135,11 +142,15 @@
     </select>
     <resultMap id="PermissionRole" type="Permission">
         <id column="pid" property="id"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="permission_description" property="permissionDescription"/>
         <result column="pctime" property="createTime"/>
         <result column="pltime" property="lastAccessTime"/>
         <result column="pv" property="version"/>
         <collection property="roles" ofType="Role">
             <id column="rid" property="id"/>
+            <result column="role_name" property="roleName"/>
+            <result column="role_description" property="roleDescription"/>
             <result column="rctime" property="createTime"/>
             <result column="rltime" property="lastAccessTime"/>
             <result column="rv" property="version"/>
@@ -163,7 +174,7 @@
                m.version          mv
         from t_permission p
                      left join t_perm_menu pm on p.id = pm.perm_id
-                     left join t_menu m on pm.menu_id
+                     left join t_menu m on pm.menu_id=m.id
         <where>
             <if test="_parameter != 0">
                 p.id = #{perId}
@@ -172,11 +183,17 @@
     </select>
     <resultMap id="PermissionMenu" type="Permission">
         <id column="pid" property="id"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="permission_description" property="permissionDescription"/>
         <result column="pctime" property="createTime"/>
         <result column="pltime" property="lastAccessTime"/>
         <result column="pv" property="version"/>
         <collection property="menus" ofType="Menu">
             <id column="mid" property="id"/>
+            <result column="menu_name" property="menuName"/>
+            <result column="menu_description" property="menuDescription"/>
+            <result column="menu_url" property="menuUrl"/>
+            <result column="menu_code" property="menuCode"/>
             <result column="mctime" property="createTime"/>
             <result column="mltime" property="lastAccessTime"/>
             <result column="mv" property="version"/>
@@ -210,17 +227,24 @@
     </select>
     <resultMap id="PermissionAction" type="Permission">
         <id column="pid" property="id"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="permission_description" property="permissionDescription"/>
         <result column="pctime" property="createTime"/>
         <result column="pltime" property="lastAccessTime"/>
         <result column="pv" property="version"/>
-        <collection property="actions" ofType="Action">
+        <collection property="actions" ofType="Action" >
             <id column="aid" property="id"/>
+            <result column="action_name" property="actionName"/>
+            <result column="action_description" property="actionDescription"/>
+            <result column="action_url" property="actionUrl"/>
+            <result column="action_code" property="actionCode"/>
+            <result column="action_value" property="actionValue"/>
             <result column="actime" property="createTime"/>
             <result column="altime" property="lastAccessTime"/>
             <result column="av" property="version"/>
         </collection>
     </resultMap>
-    <!--向中间表插入数据 给角色分配权限--> <!--TODO 批量插入的问题-->
+    <!--向中间表插入数据 给角色分配权限-->
     <insert id="assignMenuToPermission">
         insert into t_perm_menu(menu_id, perm_id)
         VALUES (#{menuId}, #{perId})
@@ -235,8 +259,8 @@
         </foreach>
     </delete>
     <!--给权限分配行为-->
-  <!--  <insert id="assignActionToPermission">
-        insert into t_menu_action_per(menu_id, per_id, action_id)
-        values (#{menuId}, #{perId}, #{actionId})
-    </insert>-->
+    <!--  <insert id="assignActionToPermission">
+          insert into t_menu_action_per(menu_id, per_id, action_id)
+          values (#{menuId}, #{perId}, #{actionId})
+      </insert>-->
 </mapper>
