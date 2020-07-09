@@ -64,4 +64,16 @@ public interface ProfessionMapper extends BaseMapper<Profession> {
      */
     @Override
     List<Profession> selectAll();
+
+    /***
+     * 根据专业名称来查询
+     * @return
+     */
+    List<Profession> selectByProName(String proName);
+
+    /***
+     * 根据分支类查询
+     * @return
+     */
+    List<Profession> selectByBranchName(String branName);
 }

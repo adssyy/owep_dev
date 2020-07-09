@@ -56,7 +56,7 @@
     last_access_time, old_class_name, old_class_num
   </sql>
 
-  <sql id="clazz_res">
+ <!-- <sql id="clazz_res">
       c.id,
       c.class_number,
       c.class_name,
@@ -125,37 +125,81 @@
                    left join t_planmanager p on p.id=cp.fk_plan_id
     where
       c.is_delete=1
+  </sql>-->
+  <sql id="clazz_res_plan">
+      c.id,
+      c.class_number,
+      c.class_name,
+      c.start_time,
+      c.end_time,
+      c.class_status,
+      c.institute_name,
+      c.branch_name,
+      c.class_desc,
+      c.teacher_name,
+      c.fk_profession_id,
+      c.is_delete,
+      c.version,
+      c.create_time,
+      c.last_access_time,
+      c.old_class_name,
+      c.old_class_num,
+      r.id,
+      r.resource_name,
+      r.resource_type,
+      r.resource_suffix,
+      r.resource_size,
+      r.resource_title,
+      r.resource_path,
+      r.resource_label,
+      r.resource_desc,
+      r.create_time,
+      r.is_delete,
+      r.old_resourcename,
+      r.version,
+      r.last_access_time,
+      p.id,
+      p.plan_number,
+      p.plan_name,
+      p.plan_status,
+      p.plan_desc,
+      p.is_delete,
+      p.create_time,
+      p.version,
+      p.last_access_time
+    from t_class c left join t_class_resource cr on c.id=cr.fk_class_id
+                   left join t_resource r on r.id=cr.fk_resource_id
+                   left join t_class_planmanager cp on c.id=cp.fk_class_id
+                   left join t_planmanager p on cp.fk_plan_id = p.id
+    where
+      c.is_delete=1
   </sql>
   <!--根据主键id来查询一条记录-->
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 
     select 
-    <include refid="Base_Column_List" />
-    from t_class
-    where id = #{id,jdbcType=INTEGER} and is_delete=1
+    <include refid="clazz_res_plan" />
+    and c.id = #{id,jdbcType=INTEGER}
 
   </select>
   <!--根据主键id来查询一条记录-->
   <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-
     select
-    <include refid="Base_Column_List" />
-    from t_class
-    where is_delete =0
+    <include refid="clazz_res_plan" />
   </select>
 
-  <!--多表操作 根据id来class 和resource-->
+ <!-- &lt;!&ndash;多表操作 根据id来class 和resource&ndash;&gt;
   <select id="selectClazzAndRes" parameterType="integer" resultMap="BaseResultMap">
     select
     <include refid="clazz_res"></include>
        and c.id = #{cid,jdbcType=INTEGER}
   </select>
-  <!--多表操作 根据id查询 class和planmanage-->
+  &lt;!&ndash;多表操作 根据id查询 class和planmanage&ndash;&gt;
   <select id="selectClazzAndPlan" parameterType="integer" resultMap="BaseResultMap">
     select
     <include refid="clazz_plan"></include>
     and c.id=#{cid,jdbcType=INTEGER}
-  </select>
+  </select>-->
   <!--根据id来删除一条记录-->
   <delete id="deleteById" parameterType="java.lang.Integer">
     <!--不是真正意义上的删除 将delete字段该为0-->
@@ -398,7 +442,23 @@
   <insert id="saveClazzPlanmanage">
     insert into t_class_planmanager values (#{cid},#{pid})
   </insert>
+  <!--对t_class_planmanage中间表进行删除操作-->
   <delete id="deleteClazzPlanmanage">
     delete from t_class_planmanager where fk_class_id=#{cid}
   </delete>
+  <!--根据班级编号来查询-->
+  <select id="selectByNum" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="clazz_res_plan"/>
+    and c.class_number like "%"#{classNum,jdbcType=VARCHAR}"%"
+  </select>
+  <!--根据班级名称来查询-->
+  <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="clazz_res_plan"/>
+    and c.class_name like "%"#{className,jdbcType=VARCHAR}"%"
+  </select>
+  <!--根据专业id来查询-->
+  <select id="selectByPro" parameterType="integer" resultMap="BaseResultMap">
+    select <include refid="clazz_res_plan"/>
+    and c.fk_profession_id = #{pid,jdbcType=VARCHAR}
+  </select>
 </mapper>

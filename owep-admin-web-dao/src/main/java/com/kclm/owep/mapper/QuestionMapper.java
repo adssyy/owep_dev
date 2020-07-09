@@ -67,4 +67,10 @@ public interface QuestionMapper extends BaseMapper<Question> {
      */
     @Override
     List<Question> selectAll();
+
+    /***
+     * 根据专业名称来查询
+     * @return
+     */
+    List<Question> selectByName();
 }

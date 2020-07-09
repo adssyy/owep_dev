@@ -42,7 +42,7 @@ class ClazzMapperTest {
     @Test
     void selectAll() {
     }
-    @Test
+  /*  @Test
     void selectClazzAndResAndPlan(){
         Clazz clazz = clazzMapper.selectClazzAndRes(1);
         List<Resource> resourceList = clazz.getResourceList();
@@ -54,5 +54,22 @@ class ClazzMapperTest {
         Clazz clazz = clazzMapper.selectClazzAndPlan(1);
         List<PlanManager> planManagerList = clazz.getPlanManagerList();
         planManagerList.forEach(System.out::println);
+    }*/
+    @Test
+    void selectByNum(){
+        List<Clazz> clazzes = clazzMapper.selectByNum("2020");
+        List<Resource> resourceList = clazzes.get(0).getResourceList();
+        clazzes.forEach(System.out::println);
+        resourceList.forEach(System.out::println);
+    }
+    @Test
+    void selectByName(){
+        List<Clazz> clazzes = clazzMapper.selectByName("企业级");
+        clazzes.forEach(System.out::println);
+    }
+    @Test
+    void selectByPro(){
+        List<Clazz> clazzes = clazzMapper.selectByPro(1);
+        clazzes.forEach(System.out::println);
     }
 }
