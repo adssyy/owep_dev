@@ -24,11 +24,15 @@ import java.sql.Connection;
 public class ClassDaoTest {
     @Autowired
     private ClazzMapper clazzMapper;
+<<<<<<< HEAD
 /*
     @Test
     void test(){
         Clazz clazz = clazzMapper.selectByPrimaryKey(1);
         System.out.println(clazz);
     }*/
+=======
+
+>>>>>>> 4d8b0531d6b19011932fe62c6edce26e621f3d16
     
 }
