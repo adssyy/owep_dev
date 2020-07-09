@@ -25,7 +25,7 @@ public interface CourseReportMapper extends BaseMapper<CourseReport> {
      * 查询单个学生对单个课程的学习记录
      * @return
      */
-    List<CourseReport> selectAllByStudentIdAndCourseId(Serializable studentId, Serializable courseId);
+    CourseReport selectAllByStudentIdAndCourseId(Serializable studentId, Serializable courseId);
 
 
     /**

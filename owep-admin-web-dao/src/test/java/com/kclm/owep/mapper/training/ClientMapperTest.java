@@ -128,8 +128,6 @@ class ClientMapperTest {
 
     @Test
     void selectAll() {
-        //TODO
-        /*等sign_time 修改后方法重新测*/
         List<Client> clients = clientMapper.selectAll();
         clients.forEach(System.out::println);
     }

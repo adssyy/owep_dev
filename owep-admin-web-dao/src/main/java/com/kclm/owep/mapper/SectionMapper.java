@@ -33,5 +33,5 @@ public interface SectionMapper extends BaseMapper<Section> {
     int update(Section entity);
 
     @Override
-    int deleteById(Serializable id);
+    Section selectById(Serializable id);
 }

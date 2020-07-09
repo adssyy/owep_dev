@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootTest
 class PlanManagerMapperTest {
@@ -16,10 +19,19 @@ class PlanManagerMapperTest {
 
     @Test
     void selectByField() {
+        PlanManager planManager = new PlanManager();
+        planManager.setPlanName("Android");
+        planManager.setPlanNumber("FA_20200612143616");
+        List<PlanManager> planManagers = planManagerMapper.selectByField(planManager);
+        System.out.println(planManagers);
     }
 
     @Test
     void rowTotal() {
+
+        Long aLong = planManagerMapper.rowTotal();
+        System.out.println(aLong);
+
     }
 
     @Test
@@ -30,23 +42,40 @@ class PlanManagerMapperTest {
         planManager.setPlanStatus(1);
         planManager.setPlanDesc("web开发");
         planManager.setCreateTime(LocalDateTime.now());
-<<<<<<< HEAD:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerMapperTest.java
         planManagerMapper.save(planManager);
-=======
-        //planManagerMapper.savePlanManager(planManager);
->>>>>>> c8822ef2d608aeb0201b56d58ce5b93fdcc69760:owep-admin-web-dao/src/test/java/com/kclm/owep/mapper/training/PlanManagerTest.java
         System.out.println(planManager);
     }
 
     @Test
     void deleteById() {
+
+        planManagerMapper.deleteById(2);
+
+
     }
 
     @Test
     void deleteSelect() {
+        List<Serializable> integers = Arrays.asList(3);
+        planManagerMapper.deleteSelect(integers);
+
     }
 
     @Test
     void selectAll() {
+        List<PlanManager> planManagers = planManagerMapper.selectAll();
+        planManagers.forEach(System.out::println);
+    }
+    
+    @Test
+    void update() {
+        PlanManager planManager = new PlanManager();
+        planManager.setId(2);
+        planManager.setLastAccessTime(LocalDateTime.now());
+        planManager.setPlanDesc("JAVAEE企业全栈开发描述");
+        planManager.setPlanName("JAVAEE企业全栈开发");
+        planManager.setPlanStatus(1);
+        planManager.setPlanNumber("FA_20200327153221");
+        planManagerMapper.update(planManager);
     }
 }

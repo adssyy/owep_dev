@@ -7,11 +7,18 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <!--通过渠道类型id获取所有的渠道-->
+    <collection  property="channelList"
+                 javaType="java.util.ArrayList"
+                 ofType="com.kclm.owep.entity.Channel"
+                 fetchType="lazy"
+                 column="id"
+                 select="com.kclm.owep.mapper.ChannelMapper.selectByChannelTypeId"/>
   </resultMap>
 
   <!--所有字段-->
   <sql id="Base_Column_List">
-    id, channel_type_name, create_time, version, last_access_time
+    id, channel_type_name, create_time,version, last_access_time
   </sql>
 
   <!--添加渠道类型-->

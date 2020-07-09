@@ -16,10 +16,18 @@
     <result column="homework_finished_count" jdbcType="INTEGER" property="homeworkFinishedCount" />
     <result column="video_count" jdbcType="INTEGER" property="videoCount" />
     <result column="video_finished_count" jdbcType="INTEGER" property="videoFinishedCount" />
-  <!--  <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />
-    <result column="fk_course_id" jdbcType="INTEGER" property="fkCourseId" />-->
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="course"
+                 column="fk_course_id"
+                 javaType="com.kclm.owep.entity.Course"
+                 select="com.kclm.owep.mapper.CourseMapper.selectById"
+                 fetchType="eager"/>
+    <association property="student"
+                 column="fk_student_id"
+                 fetchType="eager"
+                 javaType="com.kclm.owep.entity.Student"
+                 select="com.kclm.owep.mapper.StudentMapper.selectById"/>
   </resultMap>
 
   <!--所有字段-->
@@ -203,7 +211,7 @@
         last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and fk_student_id = #{student.id} and fk_course_id = #{course.id}
   </update>
 
   <!--通过学生id删除该学生课程统计-->

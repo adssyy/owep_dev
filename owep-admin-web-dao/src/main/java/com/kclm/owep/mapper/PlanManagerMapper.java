@@ -41,5 +41,8 @@ public interface PlanManagerMapper extends BaseMapper<PlanManager> {
     int deleteSelect(List<Serializable> idList);
 
     @Override
+    int update(PlanManager entity);
+
+    @Override
     List<PlanManager> selectAll();
 }

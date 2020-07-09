@@ -156,7 +156,7 @@
   </delete>
 
   <!--通过记录id 查询-->
-  <select id="selectById" parameterType="Integer" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="Integer" resultType="assignRecord">
     select 
     <include refid="Base_Column_List" />
     from t_assign_record
