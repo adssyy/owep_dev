@@ -49,7 +49,7 @@ public class Chapter implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *视频观看状态：0不允许观看、1允许观看
@@ -64,12 +64,12 @@ public class Chapter implements Serializable {
     /**
      *逻辑删除 0:未删除 1:已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
@@ -177,12 +177,12 @@ public class Chapter implements Serializable {
         this.course = course;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Integer getVersion() {
@@ -213,7 +213,7 @@ public class Chapter implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", videoStatus=").append(videoStatus);
         sb.append(", course=").append(course);
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');

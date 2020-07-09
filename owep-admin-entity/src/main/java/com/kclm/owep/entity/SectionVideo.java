@@ -33,7 +33,7 @@ public class SectionVideo implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *最后一次访问时间
@@ -43,7 +43,7 @@ public class SectionVideo implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     public SectionVideo() {
     }

@@ -6,35 +6,45 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.sql.DataSource;
-
-import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class PlanManagerTest {
-
-    @Autowired
-    private DataSource dataSource;
+class PlanManagerMapperTest {
 
     @Autowired
     private PlanManagerMapper planManagerMapper;
 
     @Test
-    public void testDataBases(){
-        System.out.println(dataSource);
+    void selectByField() {
     }
 
     @Test
-    public void testInsert(){
+    void rowTotal() {
+    }
+
+    @Test
+    void save() {
         PlanManager planManager = new PlanManager();
         planManager.setPlanName("javaee开发");
         planManager.setPlanNumber("FA_110");
         planManager.setPlanStatus(1);
         planManager.setPlanDesc("web开发");
         planManager.setCreateTime(LocalDateTime.now());
-        planManagerMapper.savePlanManager(planManager);
+        planManagerMapper.save(planManager);
+        //planManagerMapper.savePlanManager(planManager);
+//        planManagerMapper.savePlanManager(planManager);
         System.out.println(planManager);
+    }
+
+    @Test
+    void deleteById() {
+    }
+
+    @Test
+    void deleteSelect() {
+    }
+
+    @Test
+    void selectAll() {
     }
 }

@@ -1,5 +1,6 @@
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
  * @Create: 2020年7月03日 上午12:30:40
  * @Description 专业方向
  */
-public class Profession {
+public class Profession implements Serializable {
 
     private Integer id; //id
 
@@ -24,19 +25,15 @@ public class Profession {
 
     private String instituteBranchName;  //所属机构下面的分支名称
 
-    private Integer delete;         //是否删除 1:正常 0：删除
+    private Integer isDelete=1;         //是否删除 1:正常 0：删除
 
     private String orderProfeName;  //旧的专业名称
 
-    private Integer version;        //版本号
+    private Integer version=1;        //版本号
 
-    private LocalDateTime createTime;        //创建时间
+    private LocalDateTime createTime=LocalDateTime.now();        //创建时间
 
     private LocalDateTime lastAccessTime;    //最后一次访问时间
-
-    private List<BranchInstitute> branchInstituteList; //分支机构表
-
-
 
     public Integer getId() {
         return id;
@@ -86,12 +83,12 @@ public class Profession {
         this.instituteBranchName = instituteBranchName;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public String getOrderProfeName() {
@@ -126,14 +123,6 @@ public class Profession {
         this.lastAccessTime = lastAccessTime;
     }
 
-    public List<BranchInstitute> getBranchInstituteList() {
-        return branchInstituteList;
-    }
-
-    public void setBranchInstituteList(List<BranchInstitute> branchInstituteList) {
-        this.branchInstituteList = branchInstituteList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -160,7 +149,7 @@ public class Profession {
         sb.append(", profStatus=").append(profStatus);
         sb.append(", instituteName='").append(instituteName).append('\'');
         sb.append(", instituteBranchName='").append(instituteBranchName).append('\'');
-        sb.append(", delete=").append(delete);
+        sb.append(", delete=").append(isDelete);
         sb.append(", orderProfeName='").append(orderProfeName).append('\'');
         sb.append(", version=").append(version);
         sb.append(", createTime=").append(createTime);

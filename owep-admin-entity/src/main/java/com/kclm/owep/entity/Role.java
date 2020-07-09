@@ -50,7 +50,6 @@ public class Role implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append(", version=").append(version);
-        sb.append(", parent=").append(parent.id);
         sb.append('}');
         return sb.toString();
     }

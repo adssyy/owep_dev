@@ -18,8 +18,8 @@
     <!--<result column="fk_homework_id" jdbcType="INTEGER" property="fkHomeworkId" />
     <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />-->
   </resultMap>
-  <update id="update" parameterType="HomeworkAnswer">
-
+  <update id="update" parameterType="com.kclm.owep.entity.HomeworkAnswer">
+    update t_homework_answer set audit_content = #{auditContent} where id = #{id}
   </update>
 
   <sql id="Base_Column_List">

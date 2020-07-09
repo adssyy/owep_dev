@@ -20,9 +20,11 @@
         <result column="client_state" jdbcType="INTEGER" property="clientState"/>
         <result column="major" jdbcType="VARCHAR" property="major"/>
         <result column="sign_time" jdbcType="VARCHAR" property="signTime"/>
-        <result column="delete" jdbcType="INTEGER" property="delete"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
         <result column="version" jdbcType="INTEGER" property="version"/>
         <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+        <result column="interview_time_start" jdbcType="TIMESTAMP" property="interviewTimeStart"/>
+        <result column="interview_time_end" jdbcType="TIMESTAMP" property="interviewTimeEnd"/>
         <!-- <result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />-->
         <!--   <result column="interview_time" jdbcType="TIMESTAMP" property="interviewTime" />-->
         <!-- <result column="fk_channel_id" jdbcType="INTEGER" property="fkChannelId" />-->
@@ -33,7 +35,7 @@
     <sql id="Base_Column_List">
     id, client_name, client_phone, gender, client_experience, salseman_describe, advance_pay,
     create_time, total_pay, month_pay, pay_ment, is_assign_class, client_email, loan_status,
-    loan, interview_time_start,interview_time_end, client_state, fk_profession_id, major, sign_time, `delete`, fk_channel_id,
+    loan, interview_time_start,interview_time_end, client_state, fk_profession_id, major, sign_time, is_delete, fk_channel_id,
     version, last_access_time, fk_user_id
   </sql>
 
@@ -41,9 +43,6 @@
     <insert id="save" parameterType="Client">
         insert into t_client
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="clientName != null">
                 client_name,
             </if>
@@ -104,8 +103,8 @@
             <if test="signTime != null">
                 sign_time,
             </if>
-            <if test="delete != null">
-                delete,
+            <if test="isDelete != null">
+               is_delete,
             </if>
             <if test="channel.id != null">
                 fk_channel_id,
@@ -121,9 +120,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="clientName != null">
                 #{clientName,jdbcType=VARCHAR},
             </if>
@@ -169,6 +165,9 @@
             <if test="interviewTimeStart != null">
                 #{interviewTimeStart,jdbcType=TIMESTAMP},
             </if>
+            <if test="interviewTimeEnd != null">
+                #{interviewTimeEnd,jdbcType=TIMESTAMP},
+            </if>
             <if test="clientState != null">
                 #{clientState,jdbcType=INTEGER},
             </if>
@@ -181,8 +180,8 @@
             <if test="signTime != null">
                 #{signTime,jdbcType=VARCHAR},
             </if>
-            <if test="delete != null">
-                #{delete,jdbcType=INTEGER},
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
             </if>
             <if test="channel.id != null">
                 #{channel.id,jdbcType=INTEGER},
@@ -246,7 +245,10 @@
                 loan = #{loan,jdbcType=DOUBLE},
             </if>
             <if test="interviewTimeStart != null">
-                interview_time = #{interviewTimeStart,jdbcType=TIMESTAMP},
+                interview_time_start = #{interviewTimeStart,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interviewTimeEnd != null">
+                interview_time_end = #{interviewTimeEnd,jdbcType=TIMESTAMP},
             </if>
             <if test="clientState != null">
                 client_state = #{clientState,jdbcType=INTEGER},
@@ -260,8 +262,8 @@
             <if test="signTime != null">
                 sign_time = #{signTime,jdbcType=VARCHAR},
             </if>
-            <if test="delete != null">
-                delete = #{delete,jdbcType=INTEGER},
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
             </if>
             <if test="channel.id != null">
                 fk_channel_id = #{channel.id,jdbcType=INTEGER},
@@ -286,26 +288,28 @@
     </delete>
 
     <!--删除所选客户-->
-    <delete id="deleteSelect">
+    <delete id="deleteSelect" parameterType="list">
         delete from t_client
         where id in
         <foreach collection="list" item="id" open="(" close=")" separator=",">
+            ${id}
         </foreach>
     </delete>
 
     <!--通过id 查询客户-->
-    <select id="selectById" resultType="client">
+    <select id="selectById" parameterType="Integer" resultType="client">
         select
         <include refid="Base_Column_List"/>
         from t_client where id = #{id}
     </select>
 
     <!--通过客户信息查询客户-->
-    <select id="findByField" resultType="client">
+    <select id="findByField" parameterType="client" resultType="client">
         select
         <include refid="Base_Column_List"/>
         from t_client
-        <trim suffix="and" prefixOverrides="where">
+        where
+        <trim suffixOverrides="and">
             <if test="clientState != null">
                 client_state = #{clientState,jdbcType=VARCHAR} and
             </if>
