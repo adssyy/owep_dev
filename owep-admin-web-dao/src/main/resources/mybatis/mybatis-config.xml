@@ -26,7 +26,7 @@
     </typeAliases>-->
 
     <!-- 在其它的映射文件没有修改好的情况下，需要对自己的mapper进行测试时使用，以后会删除掉 -->
-    <mappers>
+    <!--<mappers>
 
         <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
         <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
@@ -37,7 +37,7 @@
         <mapper resource="mybatis/mapper/QuestionReplyMapper.xml"/>
         <mapper resource="mybatis/mapper/ClazzMapper.xml"/>
         <mapper resource="mybatis/mapper/ProfessionMapper.xml"/>
-        <!--yejx 开始-->
+        &lt;!&ndash;yejx 开始&ndash;&gt;
         <mapper resource="mybatis/mapper/AssignRecordMapper.xml"/>
         <mapper resource="mybatis/mapper/PlanManagerMapper.xml"/>
         <mapper resource="mybatis/mapper/ChannelMapper.xml"/>
@@ -52,9 +52,9 @@
         <mapper resource="mybatis/mapper/PlanManagerCourseMapper.xml"/>
         <mapper resource="mybatis/mapper/SectionMapper.xml"/>
         <mapper resource="mybatis/mapper/SectionVideoMapper.xml"/>
-        <!--yejx结束-->
+        &lt;!&ndash;yejx结束&ndash;&gt;
         <mapper resource="mybatis/mapper/NewsMapper.xml"/>
         <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
-    </mappers>
+    </mappers>-->
 
 </configuration>
