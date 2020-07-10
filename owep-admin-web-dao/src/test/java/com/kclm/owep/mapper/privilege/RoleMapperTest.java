@@ -20,8 +20,13 @@ class RoleMapperTest extends ActionMapperTest {
     @Autowired
     private RoleMapper roleMapper;
 
-    @Test
+   /* @Test
     void saveRole() {
+<<<<<<< HEAD
+        Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
+        roleMapper.saveRole(role);
+=======
+>>>>>>> 4d8b0531d6b19011932fe62c6edce26e621f3d16
         roleMapper.save(new Role("角色1", "测试角色1"));
         roleMapper.save(new Role("角色2", "测试角色2"));
         roleMapper.save(new Role("角色3", "测试角色3"));
@@ -30,7 +35,8 @@ class RoleMapperTest extends ActionMapperTest {
 //        Role role=new Role("工程师", "工程操作者", LocalDateTime.now(), LocalDateTime.now(), 1, null);
 //        roleMapper.saveRole(role);
     }
-
+<<<<<<< HEAD
+*/
     @Test
     void updateRole() {
         Role role3 = roleMapper.selectById(3);

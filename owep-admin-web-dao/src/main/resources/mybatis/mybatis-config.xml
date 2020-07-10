@@ -32,7 +32,6 @@
         <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
 
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
-
         <mapper resource="mybatis/mapper/QuestionMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionReplyMapper.xml"/>
         <mapper resource="mybatis/mapper/ClazzMapper.xml"/>
@@ -53,8 +52,14 @@
         <mapper resource="mybatis/mapper/SectionMapper.xml"/>
         <mapper resource="mybatis/mapper/SectionVideoMapper.xml"/>
         <!--yejx结束-->
+        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+        <mapper resource="mybatis/mapper/ProfessionMapper.xml"/>
+        <mapper resource="mybatis/mapper/HomeworkMapper.xml"/>
         <mapper resource="mybatis/mapper/NewsMapper.xml"/>
         <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
+        <mapper resource="mybatis/mapper/StudentMapper.xml"/>
+        <mapper resource="mybatis/mapper/VideoMapper.xml"/>
     </mappers>
 
 </configuration>

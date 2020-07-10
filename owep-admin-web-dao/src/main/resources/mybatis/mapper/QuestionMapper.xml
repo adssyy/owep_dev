@@ -10,8 +10,8 @@
     <result column="favour_count" jdbcType="INTEGER" property="favourCount" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
-    <association property="student" column="fk_student_id" javaType="student" select="com.kclm.owep.mapper.StudentMapper.selectByPrimaryKey"/>
-    <association property="video" column="fk_video_id" javaType="video" select="com.kclm.owep.mapper.VideoMapper.selectByPrimaryKey"/>
+    <association property="student" column="fk_student_id" javaType="student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+    <association property="video" column="fk_video_id" javaType="video" select="com.kclm.owep.mapper.VideoMapper.selectById"/>
     <association property="clazz" column="fk_class_id" javaType="video" select="com.kclm.owep.mapper.ClazzMapper.selectById"/>
   </resultMap>
 
