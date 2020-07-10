@@ -1,7 +1,8 @@
-package com.kclm.owep.mapper;
+package com.kclm.owep.organization;
 
 import com.kclm.owep.OwepAdminWebDaoApplication;
 import com.kclm.owep.entity.OrgInstitute;
+import com.kclm.owep.mapper.OrgInstituteMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,7 @@ public class OrgInstituteMapperTest {
 
 
     @Autowired
-    private  OrgInstituteMapper orgInstituteMapper;
+    private OrgInstituteMapper orgInstituteMapper;
     @Test
     public void save(){
     OrgInstitute orgInstitute = new OrgInstitute();

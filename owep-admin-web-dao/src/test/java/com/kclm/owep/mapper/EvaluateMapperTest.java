@@ -17,7 +17,7 @@ import java.util.List;
  * @Auther shentr
  * @Version V1.0
  * @Create 2020/7/7 16:58
- * @Description TODO
+ * @Description 授课管理测试
  */
 @SpringBootTest(classes = OwepAdminWebDaoApplication.class)
 public class EvaluateMapperTest {

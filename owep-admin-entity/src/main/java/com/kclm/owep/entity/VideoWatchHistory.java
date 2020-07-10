@@ -52,6 +52,10 @@ public class VideoWatchHistory implements Serializable {
     public VideoWatchHistory() {
     }
 
+    public VideoWatchHistory(Integer id) {
+        this.id = id;
+    }
+
     /***
      * 带参构造
      * @param id
