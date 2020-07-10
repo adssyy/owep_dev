@@ -75,15 +75,8 @@
       <if test="channelTypeName != null">
         channel_type_name = #{channelTypeName,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        version = version + 1 ,
+        last_access_time = now() ,
     </set>
     where id = #{id,javaType=INTEGER}
   </update>
@@ -96,7 +89,7 @@
   </select>
 
   <!--查询单个渠道类型-->
-  <select id="selectById" parameterType="java.lang.Integer" resultType="channelType">
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from t_channel_type

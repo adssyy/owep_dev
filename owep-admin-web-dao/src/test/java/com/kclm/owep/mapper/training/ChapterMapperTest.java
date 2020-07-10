@@ -37,7 +37,7 @@ class ChapterMapperTest {
         Chapter chapter = new Chapter();
         chapter.setChapterNumber("1");
         chapter.setChapterName("oracle基础知识");
-        chapter.setChapterImageUrl("https://search-operate.cdn.bcebos.com//b40ab32fcd93e9.jpg");
+        chapter.setChapterImageUrl("https://sedn9.jpg");
         chapter.setChapterStatus(1);
         chapter.setChapterDesc("oracle基础知识");
         chapter.setVideoStatus(1);
@@ -58,7 +58,7 @@ class ChapterMapperTest {
         chapter.setId(1);
         chapter.setChapterNumber("1");
         chapter.setChapterName("oracle基础知识");
-        chapter.setChapterImageUrl("https://search-operate.cdn.bcebos.com//b40ab32fcd93e9.jpg");
+        chapter.setChapterImageUrl("https/b409.jpg");
         chapter.setChapterStatus(1);
         chapter.setChapterDesc("oracle基础知识");
         chapter.setVideoStatus(1);
@@ -77,13 +77,14 @@ class ChapterMapperTest {
 
     @Test
     void deleteSelect() {
-        List<Serializable> integers = Arrays.asList(2, 3);
+        List<Serializable> integers = Arrays.asList(1);
         chapterMapper.deleteSelect(integers);
     }
 
     @Test
     void selectById() {
-        chapterMapper.selectById(1);
+        Chapter chapter = chapterMapper.selectById(2);
+        System.out.println(chapter);
     }
 
     @Test

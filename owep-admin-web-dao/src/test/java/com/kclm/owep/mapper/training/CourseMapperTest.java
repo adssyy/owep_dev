@@ -83,7 +83,7 @@ class CourseMapperTest {
 
     @Test
     void deleteSelect() {
-        List<Serializable> integers = Arrays.asList(6, 7);
+        List<Serializable> integers = Arrays.asList(3);
         int i = courseMapper.deleteSelect(integers);
 
     }

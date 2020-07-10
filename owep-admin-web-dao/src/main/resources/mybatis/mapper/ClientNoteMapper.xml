@@ -79,15 +79,8 @@
       <if test="clientState != null">
         client_state = #{clientState,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        version = version + 1,
+        last_access_time = now(),
       <if test="clientNote != null">
         client_note = #{clientNote,jdbcType=LONGVARCHAR},
       </if>
