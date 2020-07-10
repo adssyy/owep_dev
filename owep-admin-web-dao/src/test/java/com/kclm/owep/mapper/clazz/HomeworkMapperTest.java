@@ -1,9 +1,6 @@
 package com.kclm.owep.mapper.clazz;
 
-import com.kclm.owep.entity.Chapter;
-import com.kclm.owep.entity.Clazz;
-import com.kclm.owep.entity.Homework;
-import com.kclm.owep.entity.Section;
+import com.kclm.owep.entity.*;
 import com.kclm.owep.mapper.HomeworkMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,9 @@ class HomeworkMapperTest {
         homework.setWorkTitle("课后作业");
         homework.setWorkContent("本节有三个小题 请完成");
         homework.setCourseName("Java核心技术（一）");
+        Course course = new Course();
+        course.setId(1);
+        homework.setCourse(course);
         Chapter chapter = new Chapter();
         chapter.setId(1);
         homework.setChapter(chapter);
@@ -53,7 +53,7 @@ class HomeworkMapperTest {
 
     @Test
     void deleteById() {
-        int i = homeworkMapper.deleteById(1);
+        int i = homeworkMapper.deleteById(2);
         System.out.println(i+"条记录受影响");
     }
 
