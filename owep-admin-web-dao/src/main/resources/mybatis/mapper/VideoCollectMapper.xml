@@ -99,7 +99,7 @@
     select 
     <include refid="Base_Column_List" />
     from t_video_collect
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{value,jdbcType=INTEGER}
   </select>
 
   <!--  通过id删除视频收藏  -->
@@ -108,8 +108,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
+  <!--  添加视频收藏  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.VideoCollect" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+    insert into t_video_collect (id)  values (null)
+  </insert>
+
   <!--  保存  -->
-  <insert id="save" parameterType="com.kclm.owep.entity.VideoCollect">
+  <insert id="saveAll" parameterType="com.kclm.owep.entity.VideoCollect">
     insert into t_video_collect (id, fk_student_id, fk_section_id, 
       fk_video_id, course_name, chapter_name, 
       section_name, create_time, last_access_time, 
