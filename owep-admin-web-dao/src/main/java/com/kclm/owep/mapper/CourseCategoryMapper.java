@@ -47,5 +47,8 @@ public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
     int deleteSelect(List<Serializable> idList);
 
     @Override
+    CourseCategory selectById(Serializable id);
+
+    @Override
     List<CourseCategory> selectAll();
 }

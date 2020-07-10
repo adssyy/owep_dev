@@ -8,6 +8,16 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
+    <association property="video"
+                 javaType="com.kclm.owep.entity.Video"
+                 fetchType="eager"
+                 column="fk_video"
+                 select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+    <association property="section"
+                 javaType="com.kclm.owep.entity.Section"
+                 fetchType="eager"
+                 column="fk_section_id"
+                 select="com.kclm.owep.mapper.SectionMapper.selectById"/>
   </resultMap>
 
   <!--所有字段-->

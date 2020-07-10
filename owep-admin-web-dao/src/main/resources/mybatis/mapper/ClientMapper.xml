@@ -19,16 +19,26 @@
         <result column="loan" jdbcType="DOUBLE" property="loan"/>
         <result column="client_state" jdbcType="INTEGER" property="clientState"/>
         <result column="major" jdbcType="VARCHAR" property="major"/>
-        <result column="sign_time" jdbcType="VARCHAR" property="signTime"/>
+        <result column="sign_time" jdbcType="TIMESTAMP" property="signTime"/>
         <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
         <result column="version" jdbcType="INTEGER" property="version"/>
         <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
         <result column="interview_time_start" jdbcType="TIMESTAMP" property="interviewTimeStart"/>
         <result column="interview_time_end" jdbcType="TIMESTAMP" property="interviewTimeEnd"/>
-        <!-- <result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />-->
-        <!--   <result column="interview_time" jdbcType="TIMESTAMP" property="interviewTime" />-->
-        <!-- <result column="fk_channel_id" jdbcType="INTEGER" property="fkChannelId" />-->
-        <!--   <result column="fk_profession_id" jdbcType="INTEGER" property="fkProfessionId" />-->
+        <association property="user"
+                     column="fk_user_id"
+                     javaType="com.kclm.owep.entity.User"
+                     select="com.kclm.owep.mapper.UserMapper.selectById"/>
+        <association property="profession"
+                     column="fk_profession_id"
+                     javaType="com.kclm.owep.entity.Profession"
+                     select="com.kclm.owep.mapper.ProfessionMapper.selectById"
+                     fetchType="eager"/>
+        <association property="channel"
+                     column="fk_channel_id"
+                     javaType="com.kclm.owep.entity.Channel"
+                     fetchType="eager"
+                     select="com.kclm.owep.mapper.ChannelMapper.selectById"/>
     </resultMap>
 
     <!--所有字段-->
@@ -178,7 +188,7 @@
                 #{major,jdbcType=VARCHAR},
             </if>
             <if test="signTime != null">
-                #{signTime,jdbcType=VARCHAR},
+                #{signTime,jdbcType=TIMESTAMP},
             </if>
             <if test="isDelete != null">
                 #{isDelete,jdbcType=INTEGER},

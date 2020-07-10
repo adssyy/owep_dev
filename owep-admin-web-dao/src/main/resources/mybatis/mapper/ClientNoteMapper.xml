@@ -3,11 +3,14 @@
 <mapper namespace="com.kclm.owep.mapper.ClientNoteMapper">
   <resultMap id="BaseResultMap" type="com.kclm.owep.entity.ClientNote">
     <id column="id" jdbcType="INTEGER" property="id" />
-   <!-- <result column="fk_client_id" jdbcType="INTEGER" property="fkClientId" />-->
     <result column="client_state" jdbcType="INTEGER" property="clientState" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association column="fk_client_id"
+                 property="client"
+                 javaType="com.kclm.owep.entity.Client"
+                 select="com.kclm.owep.mapper.ClientMapper.selectById"/>
   </resultMap>
 
   <!--所有字段-->
@@ -97,7 +100,7 @@
     delete from t_client_note where id = #{id}
   </delete>
   
-  <select id="selectAll" resultType="clientNote">
+  <select id="selectAllById" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from t_client_note

@@ -44,7 +44,7 @@ public class CourseCategory implements Serializable {
     /**
      *逻辑删除 0未删除，1已删除
      */
-    private String isDelete;
+    private Integer isDelete;
 
     /**
      *版本
@@ -105,11 +105,11 @@ public class CourseCategory implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getIsDelete() {
+    public Integer getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(String isDelete) {
+    public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
     }
 
