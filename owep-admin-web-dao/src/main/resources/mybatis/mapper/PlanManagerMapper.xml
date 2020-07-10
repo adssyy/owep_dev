@@ -26,17 +26,23 @@
         from t_planmanager
     </select>
 
+    <select id="selectById" resultType="planManager">
+        select
+        <include refid="Base_Column_List"></include>
+         from  t_planmanager where id = #{id}
+    </select>
+
     <!--通过属性查找方案-->
     <select id="selectByField" parameterType="PlanManager" resultType="planManager">
         select
         <include refid="Base_Column_List"/>
-        from t_planmanager
-        <trim suffix="and" prefixOverrides="where">
+        from t_planmanager where
+        <trim  suffixOverrides="and">
             <if test="planName != null">
-                client_state = #{planName,jdbcType=VARCHAR} and
+                plan_name = #{planName,jdbcType=VARCHAR} and
             </if>
             <if test="planNumber != null">
-                fk_user_id = #{planNumber,jdbcType=VARCHAR}
+                plan_number = #{planNumber,jdbcType=VARCHAR}
             </if>
         </trim>
     </select>
@@ -125,11 +131,13 @@
     <!--删除所选-->
     <delete id="deleteSelect">
         delete from t_planmanager where id in
-        <foreach collection="list" separator="," open="(" close=")" item="id"></foreach>
+        <foreach collection="list" separator="," open="(" close=")" item="id">
+            ${id}
+        </foreach>
     </delete>
 
     <!--修改方案-->
-    <update id="updateByPrimaryKeySelective" parameterType="com.kclm.owep.entity.PlanManager">
+    <update id="update" parameterType="PlanManager">
         update t_planmanager
         <set>
             <if test="planNumber != null">

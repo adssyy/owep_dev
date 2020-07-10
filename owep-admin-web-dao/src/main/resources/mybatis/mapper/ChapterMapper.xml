@@ -11,10 +11,14 @@
     <result column="chapter_desc" jdbcType="VARCHAR" property="chapterDesc" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="video_status" jdbcType="INTEGER" property="videoStatus" />
-    <!--<result column="fk_course_id" jdbcType="INTEGER" property="fkCourseId" />-->
     <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="course"
+                 column="fk_course_id"
+                 javaType="com.kclm.owep.entity.Course"
+                 select="com.kclm.owep.mapper.CourseMapper.selectById"
+                 fetchType="eager"/>
   </resultMap>
 
   <!--所有字段-->
@@ -29,7 +33,7 @@
     insert into t_chapter (id, chapter_number, chapter_name,
     chapter_image_url, chapter_status, chapter_desc,
     create_time, video_status, fk_course_id,
-    delete, version, last_access_time
+    is_delete, version, last_access_time
     )
     values (#{id,jdbcType=INTEGER}, #{chapterNumber,jdbcType=VARCHAR}, #{chapterName,jdbcType=VARCHAR},
     #{
@@ -44,9 +48,6 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
   <insert id="save" parameterType="Chapter">
     insert into t_chapter
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="chapterNumber != null">
         chapter_number,
       </if>
@@ -71,14 +72,14 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
       <if test="course.id != null">
         fk_course_id,
       </if>
-      <if test="delete != null">
-        delete,
+      <if test="isDelete != null">
+        is_delete,
       </if>
       <if test="version != null">
         version,
       </if>
       <if test="lastAccessTime != null">
-        last_access_time,
+        last_access_time
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -169,7 +170,9 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
   <delete id="deleteSelect" >
     delete from t_chapter
     where id in
-    <foreach collection="list" separator="," open="(" close=")" item="id"></foreach>
+    <foreach collection="list" separator="," open="(" close=")" item="id">
+      ${id}
+    </foreach>
   </delete>
 
   <!--通过id查询章-->

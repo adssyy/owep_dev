@@ -25,7 +25,7 @@ public interface ClientNoteMapper extends BaseMapper<ClientNote> {
      * @param id
      * @return
      */
-    List<ClientNote> selectAll(Serializable id);
+    List<ClientNote> selectAllById(Serializable id);
 
     @Override
     int save(ClientNote entity);
@@ -36,6 +36,4 @@ public interface ClientNoteMapper extends BaseMapper<ClientNote> {
     @Override
     int deleteById(Serializable id);
 
-    @Override
-    List<ClientNote> selectAll();
 }

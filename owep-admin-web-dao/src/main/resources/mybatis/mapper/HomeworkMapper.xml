@@ -15,7 +15,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
-    <association property="course" javaType="com.kclm.owep.entity.Course" select="com.kclm.owep.mapper.CourseMapper.selectById"/>
+    <association property="course" column="fk_course_id" javaType="com.kclm.owep.entity.Course" select="com.kclm.owep.mapper.CourseMapper.selectById"/>
     <association property="section" column="fk_section_id" javaType="com.kclm.owep.entity.Section" select="com.kclm.owep.mapper.SectionMapper.selectById"/>
     <association property="clazz" column="fk_class_id" javaType="com.kclm.owep.entity.Clazz" select="com.kclm.owep.mapper.ClazzMapper.selectById"/>
     <association property="chapter" column="fk_chapter_id" javaType="com.kclm.owep.entity.Chapter" select="com.kclm.owep.mapper.ChapterMapper.selectById"/>
@@ -78,9 +78,6 @@
     -->
     insert into t_homework
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="workTitle != null">
         work_title,
       </if>
@@ -91,7 +88,7 @@
         fk_course_id,
       </if>
       <if test="chapter != null">
-            fk_chapter_id,
+        fk_chapter_id,
       </if>
       <if test="section != null">
         fk_section_id,

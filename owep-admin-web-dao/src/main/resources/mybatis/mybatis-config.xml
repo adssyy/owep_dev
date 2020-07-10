@@ -27,12 +27,14 @@
 
     <!-- 在其它的映射文件没有修改好的情况下，需要对自己的mapper进行测试时使用，以后会删除掉 -->
     <!--<mappers>
+        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
 
         <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
         <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
 
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
-
         <mapper resource="mybatis/mapper/QuestionMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionReplyMapper.xml"/>
         <mapper resource="mybatis/mapper/ClazzMapper.xml"/>
@@ -55,6 +57,14 @@
         &lt;!&ndash;yejx结束&ndash;&gt;
         <mapper resource="mybatis/mapper/NewsMapper.xml"/>
         <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
-    </mappers>-->
 
+        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+        <mapper resource="mybatis/mapper/ProfessionMapper.xml"/>
+        <mapper resource="mybatis/mapper/HomeworkMapper.xml"/>
+        <mapper resource="mybatis/mapper/NewsMapper.xml"/>
+        <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
+        <mapper resource="mybatis/mapper/StudentMapper.xml"/>
+        <mapper resource="mybatis/mapper/VideoMapper.xml"/>
+    </mappers>-->
 </configuration>

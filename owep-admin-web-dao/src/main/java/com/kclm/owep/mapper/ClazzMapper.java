@@ -68,19 +68,19 @@ public interface ClazzMapper extends BaseMapper<Clazz> {
     @Override
     List<Clazz> selectAll();
 
-    /**
+   /* *//**
      * 多表查询 根据clazzid来查询clazz和对应的resource
      * @param cid
      * @return
-     */
+     *//*
     Clazz selectClazzAndRes(@Param("cid") Serializable cid);
 
-    /***
+    *//***
      * 多表查询 查询所有的clazz并对应的planManage
      * @return
-     */
+     *//*
     Clazz selectClazzAndPlan(@Param("cid") Serializable cid);
-
+*/
     /***
      * 向t_class_resource 中间表中插入数据
      * @param cid
@@ -109,5 +109,26 @@ public interface ClazzMapper extends BaseMapper<Clazz> {
      * @return
      */
     int deleteClazzPlanmanage(@Param("cid") Serializable cid);
+
+    /***
+     * 根据班级编号查询
+     * @param classNum
+     * @return
+     */
+    List<Clazz> selectByNum(String classNum);
+
+    /***
+     * 更加班级名称来查询
+     * @param className
+     * @return
+     */
+    List<Clazz> selectByName(String className);
+
+    /***
+     * 根据专业方向来查询
+     * @param pid
+     * @return
+     */
+    List<Clazz> selectByPro(int pid);
 
 }

@@ -73,6 +73,11 @@ public class VideoCollect implements Serializable {
     public VideoCollect() {
     }
 
+
+    public VideoCollect(Integer id) {
+        this.id = id;
+    }
+
     /***
      * 带参构造
      * @param id

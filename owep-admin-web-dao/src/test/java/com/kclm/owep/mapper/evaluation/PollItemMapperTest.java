@@ -19,7 +19,7 @@ import java.util.List;
  *Author:ZhongLei
  *version:V1.0
  *@Create: 2020/7/8 10:19
- *@Description:
+ *@Description: 考评选项测试类
  ***/
 
 @SpringBootTest(classes = OwepAdminWebDaoApplication.class)

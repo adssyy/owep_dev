@@ -26,12 +26,6 @@ public interface PlanManagerCourseMapper extends BaseMapper<PlanManagerCourse> {
      */
     List<PlanManagerCourse> selectAllById(Serializable id);
 
-    /**
-     * //TODO
-     * 修改方案课程顺序
-     * @param planManagerCourse
-     */
-    void updatePlanManagerCourse(PlanManagerCourse planManagerCourse);
 
     @Override
     int save(PlanManagerCourse entity);
