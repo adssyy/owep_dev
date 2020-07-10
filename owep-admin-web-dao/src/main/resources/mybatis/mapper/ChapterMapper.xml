@@ -176,7 +176,7 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
   </delete>
 
   <!--通过id查询章-->
-  <select id="selectById" resultMap="BaseResultMap">
+  <select id="selectById" resultType="Chapter">
     select
     <include refid="Base_Column_List"/>
     from t_chapter
@@ -189,6 +189,13 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
     <include refid="Base_Column_List"/>
     from t_chapter
   </select>
+
+  <!--通过课程id 查询所有的章-->
+  <select id="selectAllById" resultType="chapter">
+    select <include refid="Base_Column_List"/>
+    from t_chapter where fk_course_id = #{id}
+  </select>
+
 
 
   <!--查询章的总记录数-->

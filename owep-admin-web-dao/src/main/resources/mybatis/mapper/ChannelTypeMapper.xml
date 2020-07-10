@@ -96,7 +96,7 @@
   </select>
 
   <!--查询单个渠道类型-->
-  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="java.lang.Integer" resultType="channelType">
     select
     <include refid="Base_Column_List"/>
     from t_channel_type

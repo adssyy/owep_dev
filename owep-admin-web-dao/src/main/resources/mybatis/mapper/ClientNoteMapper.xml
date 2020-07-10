@@ -106,6 +106,5 @@
     from t_client_note
     where fk_client_id = #{id}
   </select>
-  
 
 </mapper>

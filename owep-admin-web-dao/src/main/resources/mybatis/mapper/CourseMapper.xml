@@ -26,6 +26,10 @@
                  column="fk_courseCategory_id"
                  javaType="com.kclm.owep.entity.CourseCategory"
                  select="com.kclm.owep.mapper.CourseCategoryMapper.selectById"/>
+<!--    <collection property="chapterList"
+                ofType="com.kclm.owep.entity.Chapter"
+                column=""
+                select="com.kclm.owep.mapper.ChapterMapper.selectAllById"/>-->
   </resultMap>
 
   <!--所有字段-->
