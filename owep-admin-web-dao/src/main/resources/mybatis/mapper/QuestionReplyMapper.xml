@@ -51,9 +51,6 @@
   <insert id="save" parameterType="com.kclm.owep.entity.QuestionReply">
     insert into t_question_reply
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="replyContent != null">
         reply_content,
       </if>
@@ -63,9 +60,6 @@
       <if test="replyAuthor != null">
         reply_author,
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time,
-      </if>
       <if test="version != null">
         version,
       </if>
@@ -74,9 +68,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="replyContent != null">
         #{replyContent,jdbcType=VARCHAR},
       </if>
@@ -85,9 +76,6 @@
       </if>
       <if test="replyAuthor != null">
         #{replyAuthor,jdbcType=VARCHAR},
-      </if>
-      <if test="lastAccessTime != null">
-        #{lastAccessTime,jdbcType=TIMESTAMP},
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
@@ -109,18 +97,11 @@
       <if test="replyContent != null">
         reply_content = #{replyContent,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="replyAuthor != null">
         reply_author = #{replyAuthor,jdbcType=VARCHAR},
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+        last_access_time = now(),
+        version = version=1,
       <if test="question != null">
         fk_video_question_id = #{question.id,jdbcType=INTEGER},
       </if>

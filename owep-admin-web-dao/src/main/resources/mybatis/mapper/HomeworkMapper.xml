@@ -111,14 +111,8 @@
       <if test="version != null">
         version,
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="workTitle != null">
         #{workTitle,jdbcType=VARCHAR},
       </if>
@@ -151,9 +145,6 @@
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        #{lastAccessTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -193,15 +184,8 @@
       <if test="courseName != null">
         course_name = #{courseName,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        version = version+1,
+        last_access_time =now(),
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
