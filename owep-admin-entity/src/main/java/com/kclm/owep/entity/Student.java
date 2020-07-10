@@ -32,6 +32,11 @@ public class Student {
     private String stuPwd;
 
     /**
+     * 学号
+     */
+    private String stuNumber;
+
+    /**
      * 学生手机号码
      */
     private String stuPhone;
@@ -169,6 +174,10 @@ public class Student {
     public void setStuPwd(String stuPwd) {
         this.stuPwd = stuPwd;
     }
+
+    public String getStuNumber() { return stuNumber; }
+
+    public void setStuNumber(String stuNumber) { this.stuNumber = stuNumber; }
 
     public String getStuPhone() {
         return stuPhone;

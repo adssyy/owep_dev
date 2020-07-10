@@ -6,6 +6,12 @@
     <!-- 全局设置 -->
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 全局启用或禁用延迟加载。当禁用时, 所有关联对象都会即时加载。 开启延迟加载,设置为true -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 按需加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 配置哪些方法会触发所有延迟加载对象加载 -->
+        <setting name="lazyLoadTriggerMethods" value="clone"/>
         <!-- 在持久层中单元测试时，临时使用，通过控制器启动时，此行需要去掉 -->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
@@ -24,6 +30,11 @@
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
         <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
         <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+
+        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+
+        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionReplyMapper.xml"/>
         <mapper resource="mybatis/mapper/ClazzMapper.xml"/>
@@ -44,8 +55,14 @@
         <mapper resource="mybatis/mapper/SectionMapper.xml"/>
         <mapper resource="mybatis/mapper/SectionVideoMapper.xml"/>
         <!--yejx结束-->
+        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
+        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+        <mapper resource="mybatis/mapper/ProfessionMapper.xml"/>
+        <mapper resource="mybatis/mapper/HomeworkMapper.xml"/>
         <mapper resource="mybatis/mapper/NewsMapper.xml"/>
         <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
+        <mapper resource="mybatis/mapper/StudentMapper.xml"/>
+        <mapper resource="mybatis/mapper/VideoMapper.xml"/>
     </mappers>
 
 </configuration>

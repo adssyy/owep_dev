@@ -66,4 +66,11 @@ public interface HomeworkMapper extends BaseMapper<Homework> {
      */
     @Override
     List<Homework> selectAll();
+
+    /***
+     * 根据课程名查询
+     * @param courseName
+     * @return
+     */
+    List<Homework> selectByCourseName(String courseName);
 }
