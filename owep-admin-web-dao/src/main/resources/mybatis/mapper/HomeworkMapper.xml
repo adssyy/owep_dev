@@ -88,7 +88,7 @@
         fk_course_id,
       </if>
       <if test="chapter != null">
-            fk_chapter_id,
+        fk_chapter_id,
       </if>
       <if test="section != null">
         fk_section_id,
