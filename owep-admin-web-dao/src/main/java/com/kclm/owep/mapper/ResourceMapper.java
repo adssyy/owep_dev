@@ -3,10 +3,10 @@
  */
 package com.kclm.owep.mapper;
 
+import com.kclm.owep.entity.Resource;
 import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-import java.io.Serializable;
-import java.util.List;
 
 /*****
  * @Author WSP
@@ -14,52 +14,7 @@ import java.util.List;
  * @Create 2020/7/6 16:02
  * @Description 文档管理接口
  */
-public interface ResourceMapper extends BaseMapper<ResourceMapper> {
+@Mapper
+public interface ResourceMapper extends BaseMapper<Resource> {
 
-    /**
-     * 新增文档
-     * @param entity
-     * @return
-     */
-    @Override
-    int save(ResourceMapper entity);
-
-    /**
-     * 更新文档管理记录
-     * @param entity
-     * @return
-     */
-    @Override
-    int update(ResourceMapper entity);
-
-    /**
-     * 根据ID删除
-     * @param id
-     * @return
-     */
-    @Override
-    int deleteById(Serializable id);
-
-    /**
-     * 根据所选项删除
-     * @param idList
-     * @return
-     */
-    @Override
-    int deleteSelect(List<Serializable> idList);
-
-    /**
-     * 根据ID查询
-     * @param id
-     * @return
-     */
-    @Override
-    ResourceMapper selectById(Serializable id);
-
-    /**
-     * 查询所有记录
-     * @return
-     */
-    @Override
-    List<ResourceMapper> selectAll();
 }
