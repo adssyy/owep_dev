@@ -65,7 +65,7 @@ class CourseCategoryMapperTest {
 
     @Test
     void deleteById() {
-        courseCategoryMapper.deleteById(10);
+        courseCategoryMapper.deleteById(3);
     }
 
     @Test
