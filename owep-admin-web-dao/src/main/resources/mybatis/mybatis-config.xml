@@ -34,6 +34,9 @@
         <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
         <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
 
+        <mapper resource="mybatis/mapper/ResourceTypeMapper.xml"/>
+        <mapper resource="mybatis/mapper/ResourceMapper.xml"/>
+
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionReplyMapper.xml"/>
