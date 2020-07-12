@@ -7,7 +7,7 @@
     <result column="branch_name" jdbcType="INTEGER" property="branchName" />
     <!--<result column="fk_org_id" jdbcType="INTEGER" property="fkOrgId" />-->
     <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
-    <result column="fk_org_id" jdbcType="INTEGER" property="fkOrgId" />
+    <result column="fk_org_id" jdbcType="INTEGER" property="orgInstitute.id" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
@@ -76,13 +76,13 @@
 
     id, branch_name, fk_org_id, version, create_time, last_access_time
   </sql>-->
- <!-- <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 
-    select
-    <include refid="Base_Column_List" />
-    from t_branch_institute
-    where id = #{id,jdbcType=INTEGER}
-  </select>-->
+     select
+     <include refid="Base_Column_List" />
+     from t_branch_institute
+     where id = #{id,jdbcType=INTEGER}
+   </select>-->
   <sql id="BranchInstitute_column_List">
     id,
     branch_name,
@@ -101,8 +101,9 @@
 
   <!--根据Id查询-->
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
     <include refid="BranchInstitute_column_List"/>
-    form t_branch_institute
+    from t_branch_institute where id = #{id}
   </select>
 
 
@@ -116,14 +117,11 @@
   <insert id="save" parameterType="com.kclm.owep.entity.BranchInstitute">
     insert into t_branch_institute
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="orgInstitute.id != null">
+        fk_org_id,
       </if>
       <if test="branchName != null">
-        branchName,
-      </if>
-      <if test="fkOrgId != null">
-        action_description,
+        branch_name,
       </if>
       <if test="createTime != null">
         create_time,
@@ -136,14 +134,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="orgInstitute.id != null">
+        #{orgInstitute.id,jdbcType=VARCHAR},
       </if>
       <if test="branchName != null">
         #{branchName,jdbcType=VARCHAR,jdbcType=VARCHAR},
-      </if>
-      <if test="fkOrgId != null">
-        #{fkOrgId,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -160,25 +155,26 @@
   <update id="update" parameterType="com.kclm.owep.entity.BranchInstitute">
     update t_branch_institute
     <set>
+      <if test="orgInstitute.id != null">
+        fk_org_id = #{orgInstitute.id,jdbcType=VARCHAR},
+      </if>
       <if test="branchName != null">
-        Branch_Name = #{branchName,jdbcType=VARCHAR},
+        branch_name = #{branchName,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+
+      last_access_time = now(),
+      version = version + 1
+
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <!--根据分支名称，进行模糊搜索-->
-  <select id="findByBranchName" resultMap="BaseResultMap">
+  <select id="findByBranchName"  parameterType="string" resultMap="BaseResultMap">
     select
     <include refid="BranchInstitute_column_List"/>
-    from t_BranchInstitute
+    from t_Branch_Institute
   </select>
 </mapper>

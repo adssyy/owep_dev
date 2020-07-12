@@ -37,7 +37,7 @@ public class OrgInstitute implements Serializable {
     /***
      *创建时间
      */
-    private LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime createTime =LocalDateTime.now();
     /***
      *最后访问时间
      */

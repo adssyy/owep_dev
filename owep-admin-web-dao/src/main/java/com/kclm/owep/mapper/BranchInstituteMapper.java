@@ -17,7 +17,7 @@ import java.util.List;
 public interface BranchInstituteMapper extends BaseMapper<BranchInstitute> {
 
     /*
-     * 根据行为名称进行查询
+     * 根据分支名称进行查询
      * */
-    List<BranchInstitute> findByBranchName(@Param("branchName") String branchName);
+    List<BranchInstitute> findByBranchName( String branchName);
 }
