@@ -48,12 +48,7 @@ class PermissionMapperTest extends ActionMapperTest {
 
     @Test
     void update() {
-        Permission permission = permissionMapper.selectById(5);
-        permission.setCreateTime(LocalDateTime.now());
-        permission.setLastAccessTime(LocalDateTime.now());
-        permission.setPermissionName("权限55");
-        permission.setPermissionDescription("权限55");
-        permission.setVersion(2);
+        Permission permission = permissionMapper.selectById(4);
         permissionMapper.update(permission);
 
     }

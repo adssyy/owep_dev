@@ -112,18 +112,19 @@ class ClientMapperTest {
 
     @Test
     void deleteById() {
-        clientMapper.deleteById(3);
+        clientMapper.deleteById(2);
     }
 
     @Test
     void deleteSelect() {
-        List<Serializable> integers = Arrays.asList(4, 5);
+        List<Serializable> integers = Arrays.asList(2);
         clientMapper.deleteSelect(integers);
     }
 
     @Test
     void selectById() {
-        clientMapper.selectById(1);
+        Client client = clientMapper.selectById(1);
+        System.out.println(client);
     }
 
     @Test

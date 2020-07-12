@@ -22,10 +22,11 @@ class AssignRecordMapperTest {
 
     /**
      * 测试咨询师转出记录
+     * 通过咨询师的id
      */
     @Test
-    void findByFormId() {
-        List<AssignRecord> byFormId = assignRecordMapper.findByFormId(1);
+    void selectByFormId() {
+        List<AssignRecord> byFormId = assignRecordMapper.selectByFormId(1);
         byFormId.forEach(System.out::println);
     }
 
@@ -33,8 +34,8 @@ class AssignRecordMapperTest {
      * 测试咨询师接收的记录
      */
     @Test
-    void findByToId() {
-        List<AssignRecord> byToId = assignRecordMapper.findByToId(2);
+    void selectByToId() {
+        List<AssignRecord> byToId = assignRecordMapper.selectByToId(2);
         byToId.forEach(System.out::println);
     }
 

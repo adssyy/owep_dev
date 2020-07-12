@@ -4,7 +4,7 @@
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Objects;
 
 /*****
  * @Author WSP
@@ -62,7 +62,7 @@ public class Resource {
     /***
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime=LocalDateTime.now();
 
     /***
      * 逻辑删除，1.表示未删除，0表示已删除
@@ -72,22 +72,22 @@ public class Resource {
     /***
     * 节
     */
-    private List<Section> section;
+    private Section section;
 
     /***
      * 章
      */
-    private List<Chapter> chapter;
+    private Chapter chapter;
 
     /***
      * 课程
      */
-    private List<Course> course;
+    private Course course;
 
     /***
      * 资源类型
      */
-    private List<ResourceType> resourceType;
+    private ResourceType resourceType;
 
     /***
      * 旧资源名称
@@ -97,7 +97,7 @@ public class Resource {
     /***
      * 版本号
      */
-    private Integer version;
+    private Integer version=1;
 
     /***
      * 最后一次访问时间
@@ -180,9 +180,6 @@ public class Resource {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
 
     public Integer getIsDelete() {
         return isDelete;
@@ -192,35 +189,35 @@ public class Resource {
         this.isDelete = isDelete;
     }
 
-    public List<Section> getSection() {
+    public Section getSection() {
         return section;
     }
 
-    public void setSection(List<Section> section) {
+    public void setSection(Section section) {
         this.section = section;
     }
 
-    public List<Chapter> getChapter() {
+    public Chapter getChapter() {
         return chapter;
     }
 
-    public void setChapter(List<Chapter> chapter) {
+    public void setChapter(Chapter chapter) {
         this.chapter = chapter;
     }
 
-    public List<Course> getCourse() {
+    public Course getCourse() {
         return course;
     }
 
-    public void setCourse(List<Course> course) {
+    public void setCourse(Course course) {
         this.course = course;
     }
 
-    public List<ResourceType> getResourceType() {
+    public ResourceType getResourceType() {
         return resourceType;
     }
 
-    public void setResourceType(List<ResourceType> resourceType) {
+    public void setResourceType(ResourceType resourceType) {
         this.resourceType = resourceType;
     }
 
@@ -249,6 +246,25 @@ public class Resource {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resource resource = (Resource) o;
+        return Objects.equals(id, resource.id) &&
+                Objects.equals(resourceName, resource.resourceName) &&
+                Objects.equals(type, resource.type) &&
+                Objects.equals(resourceSuffix, resource.resourceSuffix) &&
+                Objects.equals(resourceSize, resource.resourceSize) &&
+                Objects.equals(resourceTitle, resource.resourceTitle) &&
+                Objects.equals(resourcePath, resource.resourcePath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, resourceName, type, resourceSuffix, resourceSize, resourceTitle, resourcePath);
+    }
+
+    @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Resource{");
         sb.append("id=").append(id);
@@ -268,4 +284,5 @@ public class Resource {
         sb.append('}');
         return sb.toString();
     }
+
 }

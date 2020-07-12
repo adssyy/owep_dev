@@ -22,27 +22,17 @@ class ActionMapperTest extends com.kclm.owep.mapper.ActionMapperTest {
      private  ActionMapper actionMapper;
     @Test
     void save() {
-        actionMapper.save(new Action("行为1", "测试行为1", "/action1", "b11", 01000));
-        actionMapper.save(new Action("行为2", "测试行为2", "/action2", "b12", 011));
-        actionMapper.save(new Action("行为3", "测试行为3", "/action3", "b13", 0111));
-        actionMapper.save(new Action("行为4", "测试行为4", "/action4", "b14", 0110));
-        actionMapper.save(new Action("行为5", "测试行为5", "/action5", "b15", 0101));
-        actionMapper.save(new Action("行为6", "测试行为6", "/action6", "b16", 1010));
+        Action action = new Action("行为7", "测试行为7", "/action7", "b17", 111);
+        action.setLastAccessTime(LocalDateTime.now());
+        actionMapper.save(action);
+
 
     }
 
     @Test
     void update() {
-        Action action = actionMapper.selectById(6);
-        action.setActionCode("asd");
-        action.setActionDescription("asd");
-        action.setActionName("asd");
-        action.setActionUrl("asd");
-        action.setActionValue(123);
-        action.setVersion(2);
-        action.setLastAccessTime(LocalDateTime.now());
-
-
+        Action action = actionMapper.selectById(7);
+        actionMapper.update(action);
     }
 
     @Test

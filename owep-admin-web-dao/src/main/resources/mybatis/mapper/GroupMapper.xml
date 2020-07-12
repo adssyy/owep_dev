@@ -42,8 +42,41 @@
         where id = #{id}
     </select>
     <insert id="save" keyProperty="id" parameterType="Group">
-        insert t_group(id, group_name, group_description, create_time, last_access_time, version, max_count)
-        values (#{id}, #{groupName}, #{groupDescription}, #{createTime}, #{lastAccessTime}, #{version}, #{maxCount})
+        insert into t_group
+        <trim suffix=")" prefix="(" suffixOverrides=",">
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="groupDescription != null">
+                group_description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="maxCount != null">
+                max_count
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">
+                #{groupName},
+            </if>
+            <if test="groupDescription != null">
+                #{groupDescription},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="maxCount != null">
+                #{maxCount}
+            </if>
+        </trim>
     </insert>
     <!--更新-->
     <update id="update" parameterType="Group">
@@ -55,15 +88,8 @@
             <if test="groupDescription != null">
                 group_description=#{groupDescription},
             </if>
-            <if test="createTime != null">
-                create_time=#{createTime},
-            </if>
-            <if test="lastAccessTime != null">
-                last_access_time=#{lastAccessTime},
-            </if>
-            <if test="version != null">
-                version=#{version},
-            </if>
+            last_access_time=now(),
+            version=version + 1,
             <if test="maxCount != null">
                 max_count=#{maxCount},
             </if>
