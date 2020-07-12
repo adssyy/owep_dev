@@ -34,14 +34,14 @@
     where is_delete=1
   </select>
   <!--根据id来删除一条记录-->
-  <delete id="deleteById" parameterType="java.lang.Integer">
+  <update id="deleteById" parameterType="java.lang.Integer">
    <!--实际上是将delete改为0-->
     update t_profession
     set is_delete=0
     where id=#{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <!--删除多条记录-->
-  <delete id="deleteSelect">
+  <update id="deleteSelect">
    <!--实际上是将delete改为0-->
     update t_profession
     set is_delete=0
@@ -50,15 +50,12 @@
       #{list}
     </foreach>
 
-  </delete>
+  </update>
 
   <!--插入一条记录-->
   <insert id="save" parameterType="com.kclm.owep.entity.Profession">
     insert into t_profession
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="profName != null">
         prof_name,
       </if>
@@ -86,14 +83,8 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="profName != null">
         #{profName,jdbcType=VARCHAR},
       </if>
@@ -121,9 +112,6 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastAccessTime != null">
-        #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
     </trim>
   </insert>
 
@@ -149,18 +137,12 @@
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
-      <if test="orderProfeName != null">
-        order_profe_name = #{orderProfeName,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+        order_profe_name = prof_name,
+        version = version+1,
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        last_access_time = now(),
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

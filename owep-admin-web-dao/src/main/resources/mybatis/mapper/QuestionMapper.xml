@@ -67,9 +67,6 @@
       <if test="favourCount != null">
         favour_count,
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time,
-      </if>
       <if test="version != null">
         version,
       </if>
@@ -84,9 +81,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -101,9 +95,6 @@
       </if>
       <if test="favourCount != null">
         #{favourCount,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        #{lastAccessTime,jdbcType=TIMESTAMP},
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
@@ -124,9 +115,6 @@
   <update id="update" parameterType="com.kclm.owep.entity.Question">
     update t_question
     <set>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=VARCHAR},
-      </if>
       <if test="questionContent != null">
         question_content = #{questionContent,jdbcType=VARCHAR},
       </if>
@@ -139,12 +127,8 @@
       <if test="favourCount != null">
         favour_count = #{favourCount,jdbcType=INTEGER},
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+        last_access_time = now(),
+        version = version+1,
       <if test="video != null">
         fk_video_id = #{video.id,jdbcType=INTEGER},
       </if>

@@ -47,7 +47,7 @@ class ClazzMapperTest {
     @Test
     void update() {
         Clazz clazz = new Clazz();
-        clazz.setId(1);
+        clazz.setId(2);
         clazz.setClassName("updateClassName");
         clazzMapper.update(clazz);
     }
