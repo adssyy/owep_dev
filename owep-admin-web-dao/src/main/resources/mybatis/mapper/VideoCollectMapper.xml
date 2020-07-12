@@ -121,8 +121,7 @@
       version)
     values (#{id,jdbcType=INTEGER}, #{fkStudentId,jdbcType=INTEGER}, #{fkSectionId,jdbcType=INTEGER}, 
       #{fkVideoId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, #{chapterName,jdbcType=VARCHAR}, 
-      #{sectionName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=INTEGER})
+      #{sectionName,jdbcType=VARCHAR}, now(), null , 1)
   </insert>
 
   <!--<insert id="insertSelective" parameterType="com.kclm.owep.entity.VideoCollect">
@@ -219,15 +218,8 @@
       <if test="sectionName != null">
         section_name = #{sectionName,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+      last_access_time = now(),
+      version  = version + 1
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

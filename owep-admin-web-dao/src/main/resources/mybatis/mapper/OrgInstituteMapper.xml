@@ -6,76 +6,17 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="institute_name" jdbcType="VARCHAR" property="instituteName"/>
         <result column="institute_type" jdbcType="INTEGER" property="instituteType"/>
-        <result column="delete" jdbcType="INTEGER" property="delete"/>
+        <result column="is_delete" jdbcType="INTEGER" property="delete"/>
         <result column="version" jdbcType="INTEGER" property="version"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
     </resultMap>
-    <!--<sql id="Example_Where_Clause">
 
-      <where>
-        <foreach collection="oredCriteria" item="criteria" separator="or">
-          <if test="criteria.valid">
-            <trim prefix="(" prefixOverrides="and" suffix=")">
-              <foreach collection="criteria.criteria" item="criterion">
-                <choose>
-                  <when test="criterion.noValue">
-                    and ${criterion.condition}
-                  </when>
-                  <when test="criterion.singleValue">
-                    and ${criterion.condition} #{criterion.value}
-                  </when>
-                  <when test="criterion.betweenValue">
-                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                  </when>
-                  <when test="criterion.listValue">
-                    and ${criterion.condition}
-                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                      #{listItem}
-                    </foreach>
-                  </when>
-                </choose>
-              </foreach>
-            </trim>
-          </if>
-        </foreach>
-      </where>
-    </sql>
-    <sql id="Update_By_Example_Where_Clause">
-
-      <where>
-        <foreach collection="example.oredCriteria" item="criteria" separator="or">
-          <if test="criteria.valid">
-            <trim prefix="(" prefixOverrides="and" suffix=")">
-              <foreach collection="criteria.criteria" item="criterion">
-                <choose>
-                  <when test="criterion.noValue">
-                    and ${criterion.condition}
-                  </when>
-                  <when test="criterion.singleValue">
-                    and ${criterion.condition} #{criterion.value}
-                  </when>
-                  <when test="criterion.betweenValue">
-                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                  </when>
-                  <when test="criterion.listValue">
-                    and ${criterion.condition}
-                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                      #{listItem}
-                    </foreach>
-                  </when>
-                </choose>
-              </foreach>
-            </trim>
-          </if>
-        </foreach>
-      </where>
-    </sql>-->
     <sql id="OrgInstitute_column_List">
     id,
     institute_name,
     institute_type,
-    `delete` ,
+    is_delete ,
     version,
     create_time,
     last_access_time
@@ -106,7 +47,7 @@
             <if test="instituteType != null">
                 institute_type,
             </if>
-            <if test="isDelete != null">
+            <if test="delete != null">
                 is_delete,
             </if>
             <if test="createTime != null">
@@ -129,8 +70,8 @@
             <if test="instituteType != null">
                 #{instituteType,jdbcType=VARCHAR},
             </if>
-            <if test="isDelete != null">
-                #{isDelete,jdbcType=VARCHAR},
+            <if test="delete != null">
+                #{delete,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -143,28 +84,22 @@
             </if>
         </trim>
     </insert>
+
     <!--更新行为表-->
     <update id="update" parameterType="com.kclm.owep.entity.OrgInstitute">
         update t_org_institute
         <set>
             <if test="instituteName != null">
-                instituteName = #{instituteName,jdbcType=VARCHAR},
+                institute_name = #{instituteName,jdbcType=VARCHAR},
             </if>
             <if test="instituteType != null">
-                instituteType = #{instituteType,jdbcType=VARCHAR},
+                institute_type = #{instituteType,jdbcType=VARCHAR},
             </if>
             <if test="delete != null">
-                `delete`= #{delete,jdbcType=VARCHAR},
+                is_delete= #{delete,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastAccessTime != null">
-                last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="version != null">
-                version = #{version,jdbcType=INTEGER},
-            </if>
+            last_access_time = now(),
+           version = version + 1
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -175,134 +110,5 @@
         from t_org_institute
         where institute_name like concat('%', #{instituteName}, '%')
     </select>
-    <!--<insert id="insertSelective" parameterType="com.kclm.owep.entity.OrgInstitute">
-      &lt;!&ndash;
-        WARNING - @mbg.generated
-        This element is automatically generated by MyBatis Generator, do not modify.
-      &ndash;&gt;
-      insert into t_org_institute
-      <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="id != null">
-          id,
-        </if>
-        <if test="instituteName != null">
-          institute_name,
-        </if>
-        <if test="instituteType != null">
-          institute_type,
-        </if>
-        <if test="delete != null">
-          delete,
-        </if>
-        <if test="version != null">
-          version,
-        </if>
-        <if test="createTime != null">
-          create_time,
-        </if>
-        <if test="lastAccessTime != null">
-          last_access_time,
-        </if>
-      </trim>
-      <trim prefix="values (" suffix=")" suffixOverrides=",">
-        <if test="id != null">
-          #{id,jdbcType=INTEGER},
-        </if>
-        <if test="instituteName != null">
-          #{instituteName,jdbcType=VARCHAR},
-        </if>
-        <if test="instituteType != null">
-          #{instituteType,jdbcType=INTEGER},
-        </if>
-        <if test="delete != null">
-          #{delete,jdbcType=INTEGER},
-        </if>
-        <if test="version != null">
-          #{version,jdbcType=INTEGER},
-        </if>
-        <if test="createTime != null">
-          #{createTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="lastAccessTime != null">
-          #{lastAccessTime,jdbcType=TIMESTAMP},
-        </if>
-      </trim>
-    </insert>-->
-
-    <!--<update id="updateByExampleSelective" parameterType="map">
-
-      update t_org_institute
-      <set>
-        <if test="record.id != null">
-          id = #{record.id,jdbcType=INTEGER},
-        </if>
-        <if test="record.instituteName != null">
-          institute_name = #{record.instituteName,jdbcType=VARCHAR},
-        </if>
-        <if test="record.instituteType != null">
-          institute_type = #{record.instituteType,jdbcType=INTEGER},
-        </if>
-        <if test="record.delete != null">
-          delete = #{record.delete,jdbcType=INTEGER},
-        </if>
-        <if test="record.version != null">
-          version = #{record.version,jdbcType=INTEGER},
-        </if>
-        <if test="record.createTime != null">
-          create_time = #{record.createTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="record.lastAccessTime != null">
-          last_access_time = #{record.lastAccessTime,jdbcType=TIMESTAMP},
-        </if>
-      </set>
-      <if test="_parameter != null">
-        <include refid="Update_By_Example_Where_Clause" />
-      </if>
-    </update>
-    <update id="updateByExample" parameterType="map">
-      &lt;!&ndash;
-        WARNING - @mbg.generated
-        This element is automatically generated by MyBatis Generator, do not modify.
-      &ndash;&gt;
-      update t_org_institute
-      set id = #{record.id,jdbcType=INTEGER},
-        institute_name = #{record.instituteName,jdbcType=VARCHAR},
-        institute_type = #{record.instituteType,jdbcType=INTEGER},
-        delete = #{record.delete,jdbcType=INTEGER},
-        version = #{record.version,jdbcType=INTEGER},
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-        last_access_time = #{record.lastAccessTime,jdbcType=TIMESTAMP}
-      <if test="_parameter != null">
-        <include refid="Update_By_Example_Where_Clause" />
-      </if>
-    </update>-->
-    <!-- <update id="updateByPrimaryKeySelective" parameterType="com.kclm.owep.entity.OrgInstitute">
-       &lt;!&ndash;
-         WARNING - @mbg.generated
-         This element is automatically generated by MyBatis Generator, do not modify.
-       &ndash;&gt;
-       update t_org_institute
-       <set>
-         <if test="instituteName != null">
-           institute_name = #{instituteName,jdbcType=VARCHAR},
-         </if>
-         <if test="instituteType != null">
-           institute_type = #{instituteType,jdbcType=INTEGER},
-         </if>
-         <if test="delete != null">
-           delete = #{delete,jdbcType=INTEGER},
-         </if>
-         <if test="version != null">
-           version = #{version,jdbcType=INTEGER},
-         </if>
-         <if test="createTime != null">
-           create_time = #{createTime,jdbcType=TIMESTAMP},
-         </if>
-         <if test="lastAccessTime != null">
-           last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-         </if>
-       </set>
-       where id = #{id,jdbcType=INTEGER}
-     </update>-->
 
 </mapper>

@@ -26,30 +26,21 @@ public class BranchInstitute implements Serializable {
     /***
      *组织机构id（外键）
      */
-    private List<OrgInstitute> fkOrgId;
+    private OrgInstitute orgInstitute;
     /***
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
     /***
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
     /***
      *最后访问时间
      */
-    private LocalDateTime lastAccessTime;
+    private LocalDateTime lastAccessTime = LocalDateTime.now();
 
     public BranchInstitute() {
-    }
-
-    public BranchInstitute(Integer id, String branchName, List<OrgInstitute> fkOrgId, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
-        this.id = id;
-        this.branchName = branchName;
-        this.fkOrgId = fkOrgId;
-        this.version = version;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
     }
 
     @Override
@@ -57,7 +48,7 @@ public class BranchInstitute implements Serializable {
         return "BranchInstitute{" +
                 "id=" + id +
                 ", branchName='" + branchName + '\'' +
-                ", fkOrgId=" + fkOrgId +
+                ", orgInstitute=" + orgInstitute +
                 ", version=" + version +
                 ", createTime=" + createTime +
                 ", lastAccessTime=" + lastAccessTime +
@@ -71,13 +62,15 @@ public class BranchInstitute implements Serializable {
         BranchInstitute that = (BranchInstitute) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(branchName, that.branchName) &&
-                Objects.equals(fkOrgId, that.fkOrgId) &&
-                Objects.equals(version, that.version);
+                Objects.equals(orgInstitute, that.orgInstitute) &&
+                Objects.equals(version, that.version) &&
+                Objects.equals(createTime, that.createTime) &&
+                Objects.equals(lastAccessTime, that.lastAccessTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, branchName, fkOrgId, version);
+        return Objects.hash(id, branchName, orgInstitute, version, createTime, lastAccessTime);
     }
 
     public Integer getId() {
@@ -96,12 +89,12 @@ public class BranchInstitute implements Serializable {
         this.branchName = branchName;
     }
 
-    public List<OrgInstitute> getFkOrgId() {
-        return fkOrgId;
+    public OrgInstitute getOrgInstitute() {
+        return orgInstitute;
     }
 
-    public void setFkOrgId(List<OrgInstitute> fkOrgId) {
-        this.fkOrgId = fkOrgId;
+    public void setOrgInstitute(OrgInstitute orgInstitute) {
+        this.orgInstitute = orgInstitute;
     }
 
     public Integer getVersion() {
@@ -125,6 +118,15 @@ public class BranchInstitute implements Serializable {
     }
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
+
+    public BranchInstitute(Integer id, String branchName, OrgInstitute orgInstitute, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
+        this.id = id;
+        this.branchName = branchName;
+        this.orgInstitute = orgInstitute;
+        this.version = version;
+        this.createTime = createTime;
         this.lastAccessTime = lastAccessTime;
     }
 }

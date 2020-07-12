@@ -3,8 +3,6 @@
 <mapper namespace="com.kclm.owep.mapper.SectionVideoMapper">
   <resultMap id="BaseResultMap" type="com.kclm.owep.entity.SectionVideo">
     <id column="id" jdbcType="INTEGER" property="id" />
-<!--    <result column="fk_section_id" jdbcType="INTEGER" property="fkSectionId" />
-    <result column="fk_video_id" jdbcType="INTEGER" property="fkVideoId" />-->
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="version" jdbcType="INTEGER" property="version" />

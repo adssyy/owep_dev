@@ -11,10 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /************
- *@Author yejx
  *@version v1.0
- *@create 2020/7/6 14:04
- *@Description 持久层接口ChapterMapper
  *
  */
 @Mapper
@@ -26,6 +23,12 @@ public interface ChapterMapper extends BaseMapper<Chapter> {
      * @return
      */
     long rowTotal();
+
+    /**
+     * 通过课程id获取所有的章
+     * @return
+     */
+    List<Chapter> selectAllById();
 
     @Override
     int save(Chapter entity);

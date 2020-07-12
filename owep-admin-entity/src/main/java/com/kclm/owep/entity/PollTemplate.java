@@ -5,6 +5,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /*********************
@@ -55,6 +56,11 @@ public class PollTemplate implements Serializable {
      * 最后访问时间
      */
     private LocalDateTime lastAccessTime;
+
+    /***
+     * 考评选项
+     */
+    private List<PollItem> pollItemList;
 
     /***
      * 空参构造
@@ -175,6 +181,14 @@ public class PollTemplate implements Serializable {
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
+    }
+
+    public List<PollItem> getPollItemList() {
+        return pollItemList;
+    }
+
+    public void setPollItemList(List<PollItem> pollItemList) {
+        this.pollItemList = pollItemList;
     }
 
     @Override
