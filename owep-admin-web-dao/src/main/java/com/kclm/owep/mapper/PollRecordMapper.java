@@ -21,7 +21,7 @@ public interface PollRecordMapper extends BaseMapper<PollRecord> {
 
     /***
      * 统计考评记录数量
-     * @param pollRecord
+     * @param
      * @return
      */
     int countPollRecord();

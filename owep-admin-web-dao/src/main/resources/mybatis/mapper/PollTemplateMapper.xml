@@ -19,11 +19,20 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <collection property="pollItemList" ofType="com.kclm.owep.entity.PollItem">
+      <id column="id" javaType="integer" property="id"/>
+      <result column="poll_num" property="pollNum"/>
+      <result column="poll_content" property="pollContent"/>
+      <result column="poll_status" property="pollStatus"/>
+      <result column="create_time" property="createTime"/>
+      <result column="version" property="version"/>
+      <result column="last_access_time" property="lastAccessTime"/>
+    </collection>
   </resultMap>
 
   <!--  通过id删除考评模板  -->
   <delete id="deleteById" parameterType="java.lang.Integer">
-    delete from t_poll_template where id = #{value}
+    delete from t_poll_template where id = #{id}
   </delete>
 
   <!--  通过id删除多个考评模板  -->
@@ -37,20 +46,11 @@
   <!--  添加考评模板  -->
   <insert id="save" parameterType="com.kclm.owep.entity.PollTemplate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into t_poll_template (id, template_content, template_name, 
-      template_num, template_status)
+      template_num, template_status,create_time,version,last_access_time)
     values (null,#{templateContent,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR},
-      #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER})
+      #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER},now(),1,null)
   </insert>
 
-  <!--&lt;!&ndash;  添加考评模板  &ndash;&gt;
-  <insert id="save" parameterType="com.kclm.owep.entity.PollTemplate">
-    insert into t_poll_template (id, template_content, template_name,
-    template_num, template_status, create_time,
-    version, last_access_time)
-    values (#{id,jdbcType=INTEGER}, #{templateContent,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR},
-    #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
-    #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP})
-  </insert>-->
 
   <!--&lt;!&ndash;  添加考评模板  &ndash;&gt;
   <insert id="insertSelective" parameterType="com.kclm.owep.entity.PollTemplate">
@@ -130,34 +130,36 @@
       <if test="templateStatus != null">
         template_status = #{templateStatus,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+      version = version + 1,
+      last_access_time = now()
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
 
 
   <!--  通过关键字查找  -->
-  <select id="findByKeywords" resultType="PollTemplate" parameterType="string">
+  <select id="findByKeywords" resultMap="BaseResultMap" parameterType="string">
     select * from t_poll_template
     where template_name like concat('%',#{keyword},'%')
   </select>
 
   <!--  通过id查找  -->
-  <select id="selectById" parameterType="integer" resultType="PollTemplate">
-    select * from t_poll_template
-    where id = #{value}
+  <select id="selectById" parameterType="integer" resultMap="BaseResultMap">
+    select * from t_poll_template pt left join t_template_item tti on pt.id = tti.template_id
+    left join t_poll_ltem tpl on tti.poll_id = tpl.id
+    where pt.id = #{id}
   </select>
 
-  <select id="selectAll" resultType="PollTemplate">
+  <select id="selectAll" resultMap="BaseResultMap">
     select * from t_poll_template
   </select>
+
+  <insert id="saveTemplateItem">
+    insert into t_template_item values (#{pid},#{tid})
+  </insert>
+
+  <delete id="deleteTemplateItem">
+    delete from t_template_item where poll_id = #{pid}
+  </delete>
 
 </mapper>

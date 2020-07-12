@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +31,22 @@ public class PollItemMapperTest {
 
     @Test
     void testSave(){
-        final PollItem pollItem = new PollItem("1", "这是测试", 1);
-        final PollItem pollItem1 = new PollItem("2", "测试选项2", 1);
-        final int test1 = pollItemMapper.save(pollItem);
-        final int test2 = pollItemMapper.save(pollItem1);
-        System.out.println(test1+test2);
+        final PollItem pollItem = new PollItem();
+        pollItem.setPollNum("3");
+        pollItem.setPollContent("测试用例");
+        pollItem.setPollStatus(1);
+        pollItem.setCreateTime(LocalDateTime.now());
+        pollItem.setVersion(1);
+        pollItem.setLastAccessTime(LocalDateTime.now());
+        pollItemMapper.save(pollItem);
+        System.out.println("==========>"+pollItem);
     }
 
     @Test
     void testUpdate(){
-        final PollItem pollItem = pollItemMapper.selectById(1);
-        pollItem.setPollContent("修改后的测试用例");
-        final int update = pollItemMapper.update(pollItem);
-        System.out.println(update);
+        final PollItem pollItem = pollItemMapper.selectById(10);
+        pollItem.setPollContent("修改后的考评内容");
+        pollItemMapper.update(pollItem);
     }
 
     @Test

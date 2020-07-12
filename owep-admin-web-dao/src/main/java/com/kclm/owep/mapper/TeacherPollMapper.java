@@ -4,6 +4,8 @@ import com.kclm.owep.entity.TeacherPoll;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -23,10 +25,9 @@ public interface TeacherPollMapper extends BaseMapper<TeacherPoll> {
     int countTeacherPoll();
 
     /***
-     * 根据关键字查找教师考评记录
-     * @param keyword
+     * 根据classid和教师名称查找教师考评记录
      * @return
      */
-    List<TeacherPoll> findByKeywords(@Param("keyword")String keyword);
+    List<TeacherPoll> findByKeywords(@Param("cid")Serializable id);
 
 }

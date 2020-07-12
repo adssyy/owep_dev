@@ -8,6 +8,8 @@ import com.kclm.owep.entity.PollTemplate;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -33,4 +35,21 @@ public interface PollTemplateMapper extends BaseMapper<PollTemplate> {
      */
     List<PollTemplate> findByKeywords(@Param("keyword") String keyword);
 
+    /***
+     * 向t_template_item插入数据
+     * @param pollId
+     * @param templateId
+     * @return
+     */
+    int saveTemplateItem(@Param("pid") Serializable pollId,@Param("tid") Serializable templateId);
+
+    /***
+     * t_template_item删除数据
+     * @param pollId
+     * @param templateId
+     */
+    int deleteTemplateItem(@Param("pid") Serializable pollId,@Param("tid") Serializable templateId);
+
+    @Override
+    PollTemplate selectById(@Param("id") Serializable id);
 }

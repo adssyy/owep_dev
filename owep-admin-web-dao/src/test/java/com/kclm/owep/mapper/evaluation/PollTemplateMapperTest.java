@@ -78,4 +78,11 @@ public class PollTemplateMapperTest {
         final int i = pollTemplateMapper.countPollTemplate();
         System.out.println("共有"+i+"条模板");
     }
+
+    @Test
+    void findbyId(){
+        PollTemplate pollTemplate = pollTemplateMapper.selectById(4);
+        System.out.println(pollTemplate);
+        pollTemplate.getPollItemList().forEach(System.out::println);
+    }
 }

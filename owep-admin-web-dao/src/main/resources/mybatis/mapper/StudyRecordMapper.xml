@@ -36,23 +36,19 @@
     where id = #{value}
   </delete>
 
-  <insert id="save" parameterType="com.kclm.owep.entity.StudyRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    insert into t_studyrecord (id, progress_status,fk_student_id, course_name)
-    values (null, #{progressStatus,jdbcType=INTEGER}, #{fkStudentId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR})
-  </insert>
 
-  <!--<insert id="saveAll" parameterType="com.kclm.owep.entity.StudyRecord">
+
+  <insert id="save" parameterType="com.kclm.owep.entity.StudyRecord">
     insert into t_studyrecord (id, progress_status, create_time, 
       fk_student_id, fk_section_id, course_name, 
       chapter_name, section_name, video_rate, 
       video_length, version, last_access_time
       )
-    values (#{id,jdbcType=INTEGER}, #{progressStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{progressStatus,jdbcType=INTEGER}, now(),
       #{fkStudentId,jdbcType=INTEGER}, #{fkSectionId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, 
       #{chapterName,jdbcType=VARCHAR}, #{sectionName,jdbcType=VARCHAR}, #{videoRate,jdbcType=DOUBLE}, 
-      #{videoLength,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}
-      )
-  </insert>-->
+      #{videoLength,jdbcType=INTEGER}, 1, null )
+  </insert>
 
   <!--<insert id="insertSelective" parameterType="com.kclm.owep.entity.StudyRecord">
     insert into t_studyrecord
@@ -140,9 +136,6 @@
       <if test="progressStatus != null">
         progress_status = #{progressStatus,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="fkStudentId != null">
         fk_student_id = #{fkStudentId,jdbcType=INTEGER},
       </if>
@@ -164,12 +157,8 @@
       <if test="videoLength != null">
         video_length = #{videoLength,jdbcType=INTEGER},
       </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+      version = version + 1,
+      last_access_time = now()
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
