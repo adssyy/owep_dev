@@ -13,6 +13,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/************
+ *@Author chenxin
+ *@Version v1.0
+ *@Create 2020/7/13 10:02
+ *@Description 系统信息测试类
+ */
+
 @SpringBootTest(classes = OwepAdminWebDaoApplication.class)
 class SystemConfigMapperTest {
 
@@ -34,9 +42,6 @@ class SystemConfigMapperTest {
     public  void update(){
         SystemConfig systemConfig=new SystemConfig();
         systemConfig.setId(1);
-        systemConfig.setCreateTime(LocalDateTime.now());
-        systemConfig.setLastAccessTime(LocalDateTime.now());
-        systemConfig.setVersion(2);
         this.systemConfigMapper.update(systemConfig);
         System.out.println(systemConfig);
     }
