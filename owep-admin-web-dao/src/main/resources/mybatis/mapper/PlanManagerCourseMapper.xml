@@ -84,9 +84,14 @@
   </insert>
 
   <!--通过id 删除设置方案-->
-  <delete id="deleteById" parameterType="Integer">
+  <!--<delete id="deleteById1" parameterType="Integer">
     delete from t_planmanager_course where id = #{id}
-  </delete>
+  </delete>-->
+
+  <!--通过id 删除设置方案 逻辑删除-->
+  <update id="deleteById">
+    update t_planmanager_course set is_delete = 0 where id = #{id}
+  </update>
 
   <!--修改设置方案-->
   <update id="update" parameterType="PlanManagerCourse">
@@ -107,15 +112,7 @@
       <if test="courseOrder != null">
         course_order = #{courseOrder,jdbcType=INTEGER},
       </if>
-      <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+        version = version + 1,
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -230,9 +230,6 @@
             <if test="advancePay != null">
                 advance_pay = #{advancePay,jdbcType=DOUBLE},
             </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="totalPay != null">
                 total_pay = #{totalPay,jdbcType=DOUBLE},
             </if>
@@ -260,9 +257,6 @@
             <if test="interviewTimeEnd != null">
                 interview_time_end = #{interviewTimeEnd,jdbcType=TIMESTAMP},
             </if>
-            <if test="clientState != null">
-                client_state = #{clientState,jdbcType=INTEGER},
-            </if>
             <if test="profession.id != null">
                 fk_profession_id = #{profession.id,jdbcType=INTEGER},
             </if>
@@ -270,7 +264,7 @@
                 major = #{major,jdbcType=VARCHAR},
             </if>
             <if test="signTime != null">
-                sign_time = #{signTime,jdbcType=VARCHAR},
+                sign_time = #{signTime,jdbcType=TIMESTAMP},
             </if>
             <if test="isDelete != null">
                 is_delete = #{isDelete,jdbcType=INTEGER},
@@ -278,12 +272,8 @@
             <if test="channel.id != null">
                 fk_channel_id = #{channel.id,jdbcType=INTEGER},
             </if>
-            <if test="version != null">
-                version = #{version,jdbcType=INTEGER},
-            </if>
-            <if test="lastAccessTime != null">
-                last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-            </if>
+                version =  version + 1,
+                last_access_time = now(),
             <if test="user.id != null">
                 fk_user_id = #{user.id,jdbcType=INTEGER},
             </if>
@@ -291,20 +281,21 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
-    <!--删除单个客户-->
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        delete from t_client
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
 
-    <!--删除所选客户-->
-    <delete id="deleteSelect" parameterType="list">
-        delete from t_client
-        where id in
+    <!--删除单个客户 逻辑删除-->
+    <update id="deleteById">
+        update t_client set is_delete = 0 where id = #{id}
+    </update>
+
+
+
+    <!--删除所选客户 逻辑删除-->
+    <update id="deleteSelect">
+        update t_client set is_delete = 0 where id in
         <foreach collection="list" item="id" open="(" close=")" separator=",">
             ${id}
         </foreach>
-    </delete>
+    </update>
 
     <!--通过id 查询客户-->
     <select id="selectById" parameterType="Integer" resultType="client">

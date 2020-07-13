@@ -32,9 +32,6 @@
             <if test="createTime != null">
                 create_time,
             </if>
-            <if test="lastAccessTime != null">
-                last_access_time,
-            </if>
             <if test="version != null">
                 version,
             </if>
@@ -51,9 +48,6 @@
             </if>
             <if test="createTime != null">
                 #{createTime},
-            </if>
-            <if test="lastAccessTime != null">
-                #{lastAccessTime},
             </if>
             <if test="version != null">
                 #{version},
@@ -73,16 +67,9 @@
             <if test="roleDescription != null">
                 role_description=#{roleDescription},
             </if>
-            <if test="createTime != null">
-                create_time=#{createTime},
-            </if>
-            <if test="lastAccessTime != null">
-                last_access_time=#{lastAccessTime},
-            </if>
-            <if test="version != null">
-                version=#{version},
-            </if>
-            <if test="parent.id != null">
+                last_access_time=now(),
+                version=version+1,
+            <if test="parent!= null">
                 fk_parent_id=#{parent.id}
             </if>
         </set>

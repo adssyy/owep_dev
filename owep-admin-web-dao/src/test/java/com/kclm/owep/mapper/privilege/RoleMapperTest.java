@@ -49,6 +49,11 @@ class RoleMapperTest extends ActionMapperTest {
         roleMapper.update(role4);
 
     }
+    @Test
+    void update(){
+        Role role = roleMapper.selectById(1);
+        roleMapper.update(role);
+    }
 
     @Test
     void delRoleById() {

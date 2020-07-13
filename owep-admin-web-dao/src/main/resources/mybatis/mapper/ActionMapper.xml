@@ -12,64 +12,6 @@
         <result column="action_code" jdbcType="VARCHAR" property="actionCode"/>
         <result column="action_value" jdbcType="INTEGER" property="actionValue"/>
     </resultMap>
-    <!--  <sql id="Example_Where_Clause">
-        <where>
-          <foreach collection="oredCriteria" item="criteria" separator="or">
-            <if test="criteria.valid">
-              <trim prefix="(" prefixOverrides="and" suffix=")">
-                <foreach collection="criteria.criteria" item="criterion">
-                  <choose>
-                    <when test="criterion.noValue">
-                      and ${criterion.condition}
-                    </when>
-                    <when test="criterion.singleValue">
-                      and ${criterion.condition} #{criterion.value}
-                    </when>
-                    <when test="criterion.betweenValue">
-                      and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                    </when>
-                    <when test="criterion.listValue">
-                      and ${criterion.condition}
-                      <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                        #{listItem}
-                      </foreach>
-                    </when>
-                  </choose>
-                </foreach>
-              </trim>
-            </if>
-          </foreach>
-        </where>
-      </sql>
-      <sql id="Update_By_Example_Where_Clause">
-        <where>
-          <foreach collection="example.oredCriteria" item="criteria" separator="or">
-            <if test="criteria.valid">
-              <trim prefix="(" prefixOverrides="and" suffix=")">
-                <foreach collection="criteria.criteria" item="criterion">
-                  <choose>
-                    <when test="criterion.noValue">
-                      and ${criterion.condition}
-                    </when>
-                    <when test="criterion.singleValue">
-                      and ${criterion.condition} #{criterion.value}
-                    </when>
-                    <when test="criterion.betweenValue">
-                      and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                    </when>
-                    <when test="criterion.listValue">
-                      and ${criterion.condition}
-                      <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                        #{listItem}
-                      </foreach>
-                    </when>
-                  </choose>
-                </foreach>
-              </trim>
-            </if>
-          </foreach>
-        </where>
-      </sql>-->
     <sql id="Base_Column_List">
         id,
         action_name,
@@ -113,9 +55,6 @@
     <insert id="save" parameterType="com.kclm.owep.entity.Action">
         insert into t_action
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="actionName != null">
                 action_name,
             </if>
@@ -128,9 +67,6 @@
             <if test="createTime != null">
                 create_time,
             </if>
-            <if test="lastAccessTime != null">
-                last_access_time,
-            </if>
             <if test="version != null">
                 version,
             </if>
@@ -142,9 +78,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="actionName != null">
                 #{actionName,jdbcType=VARCHAR},
             </if>
@@ -156,9 +89,6 @@
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastAccessTime != null">
-                #{lastAccessTime,jdbcType=TIMESTAMP},
             </if>
             <if test="version != null">
                 #{version,jdbcType=INTEGER},
@@ -184,15 +114,8 @@
             <if test="actionUrl != null">
                 action_url = #{actionUrl,jdbcType=VARCHAR},
             </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastAccessTime != null">
-                last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="version != null">
-                version = #{version,jdbcType=INTEGER},
-            </if>
+                last_access_time = now(),
+                version = version+1,
             <if test="actionCode != null">
                 action_code = #{actionCode,jdbcType=VARCHAR},
             </if>

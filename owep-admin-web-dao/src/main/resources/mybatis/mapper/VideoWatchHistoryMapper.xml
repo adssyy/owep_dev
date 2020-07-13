@@ -27,10 +27,6 @@
     where id = #{value}
   </select>
 
-  <!--  添加视频观看历史记录  -->
-  <insert id="save" parameterType="com.kclm.owep.entity.VideoWatchHistory">
-    insert into t_videowatch_history (id) values (null)
-  </insert>
 
   <!--  通过id删除视频观看历史记录  -->
   <delete id="deleteById" parameterType="java.lang.Integer">
@@ -38,15 +34,14 @@
     where id = #{value}
   </delete>
 
-  <!--&lt;!&ndash;  添加视频观看历史记录  &ndash;&gt;
+  <!--  添加视频观看历史记录  -->
   <insert id="save" parameterType="com.kclm.owep.entity.VideoWatchHistory">
     insert into t_videowatch_history (id, fk_study_record_id, watch_position,
       create_time, last_access_time, version
       )
     values (#{id,jdbcType=INTEGER}, #{fkStudyRecordId,jdbcType=INTEGER}, #{watchPosition,jdbcType=DOUBLE},
-      #{createTime,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}
-      )
-  </insert>-->
+      now(), null, 1)
+  </insert>
 
   <!--&lt;!&ndash;  添加视频观看历史记录  &ndash;&gt;
   <insert id="insertSelective" parameterType="com.kclm.owep.entity.VideoWatchHistory">
@@ -103,15 +98,8 @@
       <if test="watchPosition != null">
         watch_position = #{watchPosition,jdbcType=DOUBLE},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+      last_access_time = now(),
+      version = version + 1
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -14,16 +14,12 @@
 
 <mapper namespace="com.kclm.owep.mapper.PollItemMapper">
 
+
     <!--  添加考评选项  -->
     <insert id="save" parameterType="PollItem" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into t_poll_ltem(id,poll_num,poll_content,poll_status)
-        values (null,#{pollNum},#{pollContent},#{pollStatus})
-    </insert>
-
-   <!-- <insert id="saveAll" parameterType="PollItem" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into t_poll_ltem(id,poll_num,poll_content,poll_status,create_time,version,last_access_time)
-        values (#{id},#{pollNum},#{pollContent},#{pollStatus},#{createTime},#{version},#{lastAccessTime})
-    </insert>-->
+        values (null,#{pollNum},#{pollContent},#{pollStatus},now(),1,null)
+    </insert>
 
     <!--  通过id删除考评选项  -->
     <delete id="deleteById" parameterType="integer">
@@ -56,9 +52,8 @@
             <if test="pollNum != null">poll_num = #{pollNum},</if>
             <if test="pollContent != null">poll_content = #{pollContent},</if>
             <if test="pollStatus != null">poll_status = #{pollStatus},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="version != null">version = #{version},</if>
-            <if test="lastAccessTime != null">last_access_time = #{lastAccessTime},</if>
+            version = version + 1,
+            last_access_time = now()
         </set>
         where id = #{id}
     </update>

@@ -112,34 +112,15 @@
       <if test="client.id != null">
         fk_client_id = #{client.id,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="reason != null">
         reason = #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+        last_access_time = now(),
+        version = version + 1
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--更新-->
-  <update id="updateAllFiled" parameterType="AssignRecord">
-    update t_assign_record
-    set fk_from_user_id = #{fromUser.id,jdbcType=INTEGER},
-    fk_to_user_id = #{toUser.id,jdbcType=INTEGER},
-    fk_client_id = #{client.id,jdbcType=INTEGER},
-    create_time = #{createTime,jdbcType=TIMESTAMP},
-    reason = #{reason,jdbcType=VARCHAR},
-    last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-    version = #{version,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 
   <!--通过id删除记录 分配记录-->
   <delete id="delete" parameterType="Integer">
@@ -164,7 +145,7 @@
   </select>
 
   <!--查询该咨询师转出的记录-->
-  <select id="findByFormId" parameterType="Integer" resultType="AssignRecord">
+  <select id="selectByFormId" parameterType="Integer" resultType="AssignRecord">
     select
     <include refid="Base_Column_List" />
     from t_assign_record
@@ -172,7 +153,7 @@
   </select>
 
   <!--查询该咨询师接收的记录-->
-  <select id="findByToId" parameterType="Integer" resultMap="BaseResultMap">
+  <select id="selectByToId" parameterType="Integer" resultType="AssignRecord">
     select
     <include refid="Base_Column_List" />
     from t_assign_record
