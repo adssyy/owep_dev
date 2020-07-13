@@ -2,23 +2,20 @@
  * 2018 - 2021 版权所有 CopyRight(c) 快程乐码信息科技有限公司所有, 未经授权，不得复制、转发
  */
 
-package com.kclm.owep.entity;
+package com.kclm.owep.dto;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /******************
  * @Author yejf
  * @Version v1.0
- * @Create 2020-07-07 23:02
- * @Description 系统统计表对应的实体类
+ * @Create 2020-07-13 16:57
+ * @Description 系统统计信息 DTO 类
  */
-public class SysStatistics {
+public class SysStatisticsDTO {
 
     /** 主键 */
     private Integer id;
-    /** 统计此条记录的时间，通过时间线来记录这个数据，将来可以按年、月、日、周、小时 来统计图表 */
-    private LocalDateTime createTime;
     /** 在某个时间统计点上的 在线人数 */
     private int onlineCount;
     /** 在某个时间统计点上的 访问人数 */
@@ -43,29 +40,23 @@ public class SysStatistics {
     /** 分组统计所需的非表中属性 */
     private String type;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public SysStatistics() {
-    }
-
-    public SysStatistics(LocalDateTime createTime, int onlineCount, int accessCount, int clazzCount, int studentCount, int planCount, int courseCount, int videoCount, int docCount, int examCount, int testItemCount) {
-        this.createTime = createTime;
-        this.onlineCount = onlineCount;
-        this.accessCount = accessCount;
-        this.clazzCount = clazzCount;
-        this.studentCount = studentCount;
-        this.planCount = planCount;
-        this.courseCount = courseCount;
-        this.videoCount = videoCount;
-        this.docCount = docCount;
-        this.examCount = examCount;
-        this.testItemCount = testItemCount;
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("SysStatisticsDTO{");
+        sb.append("id=").append(id);
+        sb.append(", onlineCount=").append(onlineCount);
+        sb.append(", accessCount=").append(accessCount);
+        sb.append(", clazzCount=").append(clazzCount);
+        sb.append(", studentCount=").append(studentCount);
+        sb.append(", planCount=").append(planCount);
+        sb.append(", courseCount=").append(courseCount);
+        sb.append(", videoCount=").append(videoCount);
+        sb.append(", docCount=").append(docCount);
+        sb.append(", examCount=").append(examCount);
+        sb.append(", testItemCount=").append(testItemCount);
+        sb.append(", type='").append(type).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
     public Integer getId() {
@@ -74,14 +65,6 @@ public class SysStatistics {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
     }
 
     public int getOnlineCount() {
@@ -164,36 +147,11 @@ public class SysStatistics {
         this.testItemCount = testItemCount;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("SysStatistics{");
-        sb.append("id=").append(id);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", onlineCount=").append(onlineCount);
-        sb.append(", accessCount=").append(accessCount);
-        sb.append(", clazzCount=").append(clazzCount);
-        sb.append(", studentCount=").append(studentCount);
-        sb.append(", planCount=").append(planCount);
-        sb.append(", courseCount=").append(courseCount);
-        sb.append(", videoCount=").append(videoCount);
-        sb.append(", docCount=").append(docCount);
-        sb.append(", examCount=").append(examCount);
-        sb.append(", testItemCount=").append(testItemCount);
-        sb.append('}');
-        return sb.toString();
+    public String getType() {
+        return type;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SysStatistics that = (SysStatistics) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(createTime, that.createTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, createTime);
+    public void setType(String type) {
+        this.type = type;
     }
 }
