@@ -4,7 +4,7 @@
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 /*********************
  * @Auther shentr
@@ -20,23 +20,23 @@ public class Leave implements Serializable {
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
     /**
      *创建时间
      */
-    private LocalDate createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
     /**
      *最后修改时间
      */
-    private LocalDate lastAccessTime;
+    private LocalDateTime lastAccessTime;
     /**
      *请假时间
      */
-    private LocalDate leaveTime;
+    private LocalDateTime leaveTime;
     /**
      *结束时间
      */
-    private LocalDate endTime;
+    private LocalDateTime endTime;
     /**
      *请假事由
      */
@@ -50,9 +50,9 @@ public class Leave implements Serializable {
      */
     private Student student;
     /**
-     *class_id
+     *fk_class_id
      */
-    private Integer classId;
+    private Clazz clazz;
     /**
      *意见
      */
@@ -70,39 +70,64 @@ public class Leave implements Serializable {
      */
     private Integer serialNumber;
 
+    public Leave() {
+    }
+
+    public Leave(Integer id, LocalDateTime leaveTime, LocalDateTime endTime, String studentName) {
+        this.id = id;
+        this.leaveTime = leaveTime;
+        this.endTime = endTime;
+        this.studentName = studentName;
+    }
+
+    public Leave(Integer id, LocalDateTime leaveTime, LocalDateTime endTime, Student student, Clazz clazz, String studentName) {
+        this.id = id;
+        this.leaveTime = leaveTime;
+        this.endTime = endTime;
+        this.student = student;
+        this.clazz = clazz;
+        this.studentName = studentName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Leave leave = (Leave) o;
         return Objects.equals(id, leave.id) &&
-                Objects.equals(version, leave.version) &&
-                Objects.equals(createTime, leave.createTime) &&
-                Objects.equals(lastAccessTime, leave.lastAccessTime) &&
                 Objects.equals(leaveTime, leave.leaveTime) &&
                 Objects.equals(endTime, leave.endTime) &&
-                Objects.equals(reasonLeave, leave.reasonLeave) &&
-                Objects.equals(approvalStatus, leave.approvalStatus) &&
-                Objects.equals(student, leave.student) &&
-                Objects.equals(classId, leave.classId) &&
-                Objects.equals(option, leave.option) &&
-                Objects.equals(studentName, leave.studentName) &&
-                Objects.equals(leaveType, leave.leaveType) &&
-                Objects.equals(serialNumber, leave.serialNumber);
+                Objects.equals(studentName, leave.studentName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, leaveTime, endTime, reasonLeave, approvalStatus, student, classId, option, studentName, leaveType, serialNumber);
+        return Objects.hash(id, leaveTime, endTime, studentName);
     }
 
-    public Integer getClassId() {
-        return classId;
+    @Override
+    public String toString() {
+        return "Leave{" +
+                "id=" + id +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", leaveTime=" + leaveTime +
+                ", endTime=" + endTime +
+                ", reasonLeave='" + reasonLeave + '\'' +
+                ", approvalStatus=" + approvalStatus +
+                ", student=" + student +
+                ", clazz=" + clazz +
+                ", option='" + option + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", leaveType='" + leaveType + '\'' +
+                ", serialNumber=" + serialNumber +
+                '}';
     }
 
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
+    public Clazz getClazz() { return clazz; }
+
+    public void setClazz(Clazz clazz) { this.clazz = clazz; }
 
     public Integer getId() {
         return id;
@@ -120,35 +145,35 @@ public class Leave implements Serializable {
         this.version = version;
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDate getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(LocalDate lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 
-    public LocalDate getLeaveTime() {
+    public LocalDateTime getLeaveTime() {
         return leaveTime;
     }
 
-    public void setLeaveTime(LocalDate leaveTime) {
+    public void setLeaveTime(LocalDateTime leaveTime) {
         this.leaveTime = leaveTime;
     }
 
-    public LocalDate getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDate endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 

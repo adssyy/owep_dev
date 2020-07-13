@@ -1,7 +1,11 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /*********************
@@ -13,28 +17,50 @@ import java.util.Objects;
 
 public class PollTemplate implements Serializable {
 
+    /***
+     * 主键
+     */
     private Integer id;
 
-    //模板内容
+    /***
+     * 模板内容
+     */
     private String templateContent;
 
-    //模板名称
+    /***
+     * 模板名称
+     */
     private String templateName;
 
-    //模板编号
+    /***
+     * 模板编号
+     */
     private String templateNum;
 
-    //模板状态  1.启用2.未启用
+    /***
+     * 模板状态  1.启用 0.未启用
+     */
     private Integer templateStatus;
 
-    //创建时间
+    /***
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    //版本
+    /***
+     * 版本
+     */
     private Integer version;
 
-    //最后访问时间
+    /***
+     * 最后访问时间
+     */
     private LocalDateTime lastAccessTime;
+
+    /***
+     * 考评选项
+     */
+    private List<PollItem> pollItemList;
 
     /***
      * 空参构造
@@ -43,8 +69,29 @@ public class PollTemplate implements Serializable {
     }
 
     /***
-     * 带参构造
-     * @return
+     * 有参构造
+     * @param templateContent
+     * @param templateName
+     * @param templateNum
+     * @param templateStatus
+     */
+    public PollTemplate(String templateContent, String templateName, String templateNum, Integer templateStatus) {
+        this.templateContent = templateContent;
+        this.templateName = templateName;
+        this.templateNum = templateNum;
+        this.templateStatus = templateStatus;
+    }
+
+    /***
+     * 全参构造
+     * @param id
+     * @param templateContent
+     * @param templateName
+     * @param templateNum
+     * @param templateStatus
+     * @param createTime
+     * @param version
+     * @param lastAccessTime
      */
     public PollTemplate(Integer id, String templateContent, String templateName, String templateNum, Integer templateStatus, LocalDateTime createTime, Integer version, LocalDateTime lastAccessTime) {
         this.id = id;
@@ -134,6 +181,14 @@ public class PollTemplate implements Serializable {
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
+    }
+
+    public List<PollItem> getPollItemList() {
+        return pollItemList;
+    }
+
+    public void setPollItemList(List<PollItem> pollItemList) {
+        this.pollItemList = pollItemList;
     }
 
     @Override

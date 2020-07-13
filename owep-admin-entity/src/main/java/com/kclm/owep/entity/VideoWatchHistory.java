@@ -1,3 +1,6 @@
+/******************
+ * 2018-2020 版权所有 Copyright(c)  快程乐码信息科技有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
@@ -13,27 +16,44 @@ import java.util.Objects;
 
 public class VideoWatchHistory implements Serializable {
 
+    /***
+     * 主键
+     */
     private Integer id;
 
-    //学员id
+    /***
+     * 学员id
+     */
     private Integer fkStudyRecordId;
 
-    //已观看时间（单位：秒）
+    /***
+     * 已观看时间（单位：秒）
+     */
     private Double watchPosition;
 
-    //创建时间
+    /***
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    //最后访问时间
+    /***
+     * 最后访问时间
+     */
     private LocalDateTime lastAccessTime;
 
-    //版本
+    /***
+     * 版本
+     */
     private Integer version;
 
     /***
      * 空参构造
      */
     public VideoWatchHistory() {
+    }
+
+    public VideoWatchHistory(Integer id) {
+        this.id = id;
     }
 
     /***

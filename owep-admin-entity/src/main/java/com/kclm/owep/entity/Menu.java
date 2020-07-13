@@ -24,9 +24,9 @@ public class Menu implements Serializable {
     private String menuUrl;/** 菜单URL*/
     private String menuDescription;/** 菜单描述*/
     private String menuCode;/** 菜单代号*/
-    private LocalDateTime createTime;/** 菜单创建时间*/
+    private LocalDateTime createTime=LocalDateTime.now();/** 菜单创建时间*/
     private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
-    private Integer version;/** 版本号*/
+    private Integer version=1;/** 版本号*/
     private List<Menu> childMenus;/** 子菜单*/
     private List<Permission> permissions;/** 关联权限*/
     private List<Action> actions;/** 关联行为表*/
@@ -34,42 +34,19 @@ public class Menu implements Serializable {
     public Menu() {
     }
 
-    public Menu(Integer id, Menu parent, String menuName, String menuUrl, String menuDescription, String menuCode, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version) {
-        this.id = id;
-        this.parent = parent;
+    public Menu(String menuName, String menuUrl, String menuDescription, String menuCode) {
         this.menuName = menuName;
         this.menuUrl = menuUrl;
         this.menuDescription = menuDescription;
         this.menuCode = menuCode;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
     }
 
-    public Menu(Menu parent, String menuName, String menuUrl, String menuDescription, String menuCode, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version) {
-        this.parent = parent;
+    public Menu(String menuName, String menuUrl, String menuDescription, String menuCode, LocalDateTime lastAccessTime) {
         this.menuName = menuName;
         this.menuUrl = menuUrl;
         this.menuDescription = menuDescription;
         this.menuCode = menuCode;
-        this.createTime = createTime;
         this.lastAccessTime = lastAccessTime;
-        this.version = version;
-    }
-
-    public Menu(Integer id, Menu parent, String menuName, String menuUrl, String menuDescription, String menuCode, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, List<Menu> childMenus, List<Permission> permissions, List<Action> actions) {
-        this.id = id;
-        this.parent = parent;
-        this.menuName = menuName;
-        this.menuUrl = menuUrl;
-        this.menuDescription = menuDescription;
-        this.menuCode = menuCode;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.childMenus = childMenus;
-        this.permissions = permissions;
-        this.actions = actions;
     }
 
     @Override

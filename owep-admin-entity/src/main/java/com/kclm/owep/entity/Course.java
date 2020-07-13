@@ -7,6 +7,7 @@ package com.kclm.owep.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /************
@@ -50,12 +51,12 @@ public class Course implements Serializable {
     /**
      *课程是否免费：0表示不免费、1 表示免费
      */
-    private Boolean free;
+    private Integer free;
 
     /**
      *课程状态 0未启用、1启用
      */
-    private String courseStatus;
+    private Integer courseStatus;
 
     /**
      *课程图片
@@ -70,7 +71,7 @@ public class Course implements Serializable {
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *视频公开状态：0私有视频、1公开视频
@@ -110,17 +111,27 @@ public class Course implements Serializable {
     /**
      *逻辑删除 0:未删除 1:已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
      */
     private LocalDateTime lastAccessTime;
+
+    private List<Chapter> chapterList;
+
+    public List<Chapter> getChapterList() {
+        return chapterList;
+    }
+
+    public void setChapterList(List<Chapter> chapterList) {
+        this.chapterList = chapterList;
+    }
 
     public Course() {
     }
@@ -173,19 +184,19 @@ public class Course implements Serializable {
         this.coursePeriod = coursePeriod;
     }
 
-    public Boolean getFree() {
+    public Integer getFree() {
         return free;
     }
 
-    public void setFree(Boolean free) {
+    public void setFree(Integer free) {
         this.free = free;
     }
 
-    public String getCourseStatus() {
+    public Integer getCourseStatus() {
         return courseStatus;
     }
 
-    public void setCourseStatus(String courseStatus) {
+    public void setCourseStatus(Integer courseStatus) {
         this.courseStatus = courseStatus;
     }
 
@@ -269,12 +280,12 @@ public class Course implements Serializable {
         this.courseSendType = courseSendType;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Integer getVersion() {
@@ -313,7 +324,7 @@ public class Course implements Serializable {
         sb.append(", listener=").append(listener);
         sb.append(", courseType='").append(courseType).append('\'');
         sb.append(", courseSendType='").append(courseSendType).append('\'');
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');

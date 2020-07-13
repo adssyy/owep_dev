@@ -4,6 +4,7 @@
 
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
  * @Create: 2020年7月03日 上午10:10:40
  * @Description 班级作业
  */
-public class Homework {
+public class Homework implements Serializable {
     private Integer id;  //作业id
 
     private String workTitle;   //作业标题
@@ -24,6 +25,8 @@ public class Homework {
 
     private Section section; //课程列表中的节表
 
+    private Course course;   //课程
+
     private Clazz clazz; //班级
 
     private String workFileName; //作业文件
@@ -32,13 +35,21 @@ public class Homework {
 
     private String courseName;  //所属课程名
 
-    private LocalDateTime createTime;    //创建时间
+    private LocalDateTime createTime=LocalDateTime.now();    //创建时间
 
-    private Integer version;    //版本号
+    private Integer version=1;    //版本号
 
     private LocalDateTime lastAccessTime;    //最后一次访问时间
 
+    public Homework() {
+    }
 
+    public Homework(String workTitle, String workContent, Chapter chapter, Section section) {
+        this.workTitle = workTitle;
+        this.workContent = workContent;
+        this.chapter = chapter;
+        this.section = section;
+    }
 
     public Integer getId() {
         return id;
@@ -70,6 +81,14 @@ public class Homework {
 
     public void setChapter(Chapter chapter) {
         this.chapter = chapter;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public Section getSection() {

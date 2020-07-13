@@ -22,76 +22,110 @@
         from t_group
     </select>
     <!--全部查询-->
-    <select id="findByAll" resultType="Group">
+    <select id="selectAll" resultType="Group">
         select
         <include refid="base_column_list"/>
         from t_group;
     </select>
     <!--根据组名查询-->
-    <select id="findByGroupName" resultType="Group">
+    <select id="selectByGroupName" resultType="Group">
         select
         <include refid="base_column_list"/>
         from t_group
-        where group_name = #{groupName}
+        where group_name like concat('%', #{groupName}, '%')
     </select>
     <!--根据ID查询-->
-    <select id="findByGroupId" resultType="Group">
+    <select id="selectById" resultType="Group">
         select
         <include refid="base_column_list"/>
         from t_group
         where id = #{id}
     </select>
-    <insert id="saveGroup" keyProperty="id" parameterType="Group">
-        insert t_group(<include refid="base_column_list"/>)
-            values (#{id}, #{groupName}, #{groupDescription}, #{createTime}, #{lastAccessTime}, #{version}, #{maxCount})
+    <insert id="save" keyProperty="id" parameterType="Group">
+        insert into t_group
+        <trim suffix=")" prefix="(" suffixOverrides=",">
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="groupDescription != null">
+                group_description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="maxCount != null">
+                max_count
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">
+                #{groupName},
+            </if>
+            <if test="groupDescription != null">
+                #{groupDescription},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="maxCount != null">
+                #{maxCount}
+            </if>
+        </trim>
     </insert>
     <!--更新-->
-    <update id="updateGroup" parameterType="Group">
+    <update id="update" parameterType="Group">
         update t_group
         <set>
             <if test="groupName != null">
-                group_name=#{groupName}
+                group_name=#{groupName},
             </if>
             <if test="groupDescription != null">
-                group_description=#{groupDescription}
+                group_description=#{groupDescription},
             </if>
-            <if test="createTime != null">
-                create_time=#{createTime}
-            </if>
-            <if test="lastAccessTime != null">
-                last_access_time=#{lastAccessTime}
-            </if>
-            <if test="version != null">
-                version=#{version}
-            </if>
+            last_access_time=now(),
+            version=version + 1,
             <if test="maxCount != null">
-                max_count=#{maxCount}
+                max_count=#{maxCount},
             </if>
         </set>
-        where id=#{id}
+        where id = #{id}
     </update>
-    <!--根据ID进行删除-->
-    <delete id="deleteByIds">
+    <!--根据ID进行批量删除-->
+    <delete id="deleteSelect">
         delete
         from t_group
-        <foreach collection="list" item="item" separator=",">
-            where id = #{item}
+                where  id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
         </foreach>
     </delete>
+
+    <!--根据ID进行批量删除-->
+    <delete id="deleteById">
+        delete
+        from t_group
+        where id = #{id}
+    </delete>
     <!--向用合组和角色的中间表中添加数据-->
-    <insert id="saveRoleForGroup">
+    <insert id="assignRoleToGroup">
         insert t_group_role(group_id, role_id) VALUE (#{groupId}, #{roleId})
     </insert>
     <!--删除某组分配的角色-->
-    <delete id="deleteByGroupId">
+    <delete id="deleteByGroupIdInGR">
         delete
         from t_group_role
         <foreach collection="list" item="item" separator=",">
             where group_id = #{item}
         </foreach>
     </delete>
-    <!--外联查询 用户组中分配的角色-->
-    <select id="findRolesByGroupId" resultMap="GroupRole">
+    <!--外联查询 根据用户组的iD查看分配的角色-->
+    <select id="selectRolesByGroupId" resultMap="GroupRole">
         select g.id               gid,
                group_name,
                group_description,
@@ -109,15 +143,24 @@
         from t_group g
                      left join t_group_role gr on g.id = gr.group_id
                      left join t_role r on gr.role_id = r.id
-        where gid = #{groupId}
+        <where>
+            <if test="_parameter != 0">
+                g.id = #{groupId}
+            </if>
+        </where>
     </select>
     <resultMap id="GroupRole" type="Group">
         <id property="id" column="gid"/>
+        <result property="groupName" column="group_name"/>
+        <result property="groupDescription" column="group_description"/>
+        <result property="maxCount" column="max_count"/>
         <result property="createTime" column="gcreate_time"/>
         <result property="lastAccessTime" column="glast_access_time"/>
         <result property="version" column="gv"/>
         <collection property="roles" ofType="Role">
             <id property="id" column="rid"/>
+            <result property="roleName" column="role_name"/>
+            <result property="roleDescription" column="role_description"/>
             <result property="version" column="rv"/>
             <result property="createTime" column="rcreate_time"/>
             <result property="lastAccessTime" column="rlast_access_time"/>
@@ -127,17 +170,21 @@
     <select id="countRolesByGroupId" resultType="int">
         select count(role_id)
         from t_group_role
-        where group_id = #{groupId}
+        <where>
+            <if test="_parameter != 0">
+                group_id = #{groupId}
+            </if>
+        </where>
     </select>
     <!--删除某个组下的某个角色 可于删除某个组下的所有角色合并-->
-    <delete id="delByGroupIdAndRoleId">
+    <delete id="deleteByGroupIdAndRoleId">
         delete
         from t_group_role
         where group_id = #{groupId}
           and role_id = #{roleId}
     </delete>
     <!--查询某个组中所分配的所有用户-->
-    <select id="findUserInGroup" resultMap="GroupInUser">
+    <select id="selectUserInGroup" resultMap="GroupInUser">
         select g.id                gid,
                g.group_name        gname,
                g.group_description gdesc,
@@ -169,7 +216,11 @@
         from t_group g
                      left join t_user_group ug on ug.group_id = g.id
                      left join t_user u on u.id = ug.user_id
-        where g.id = #{groupId}
+        <where>
+            <if test="_parameter != 0">
+                g.id = #{groupId}
+            </if>
+        </where>
     </select>
     <resultMap id="GroupInUser" type="Group">
         <id property="id" column="gid"/>

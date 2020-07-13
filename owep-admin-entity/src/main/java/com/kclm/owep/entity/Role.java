@@ -19,9 +19,9 @@ public class Role implements Serializable {
     private Integer id;
     private String roleName;/** 角色名*/
     private String roleDescription;/** 角色描述*/
-    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime createTime=LocalDateTime.now();/** 创建时间*/
     private LocalDateTime lastAccessTime;/** 最后一次访问时间*/
-    private Integer version;/** 版本号*/
+    private Integer version=1;/** 版本号*/
     private Role parent;/** 父角色*/
     private List<Role> childRoles;/** 子角色*/
     private List<Group> groups;/** 关联用户组*/
@@ -30,36 +30,15 @@ public class Role implements Serializable {
     public Role() {
     }
 
-    public Role(Integer id, String roleName, String roleDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, Role parent) {
-        this.id = id;
+    public Role(String roleName, String roleDescription) {
         this.roleName = roleName;
         this.roleDescription = roleDescription;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.parent = parent;
     }
 
-    public Role(String roleName, String roleDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, Role parent) {
+    public Role(String roleName, String roleDescription, LocalDateTime lastAccessTime) {
         this.roleName = roleName;
         this.roleDescription = roleDescription;
-        this.createTime = createTime;
         this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.parent = parent;
-    }
-
-    public Role(Integer id, String roleName, String roleDescription, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, Role parent, List<Role> childRoles, List<Group> groups, List<Permission> permissions) {
-        this.id = id;
-        this.roleName = roleName;
-        this.roleDescription = roleDescription;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.parent = parent;
-        this.childRoles = childRoles;
-        this.groups = groups;
-        this.permissions = permissions;
     }
 
     @Override
@@ -71,7 +50,6 @@ public class Role implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append(", version=").append(version);
-        sb.append(", parent=").append(parent.id);
         sb.append('}');
         return sb.toString();
     }

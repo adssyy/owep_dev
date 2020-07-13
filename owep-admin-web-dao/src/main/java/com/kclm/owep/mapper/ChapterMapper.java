@@ -4,59 +4,47 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Chapter;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
 
 /************
- *@Author yejx
  *@version v1.0
- *@create 2020/7/6 14:04
- *@Description 持久层接口ChapterMapper
  *
  */
-public interface ChapterMapper {
+@Mapper
+public interface ChapterMapper extends BaseMapper<Chapter> {
 
 
     /**
-     * 查询所有的章
+     * 查询记录数
      * @return
      */
-    List<Chapter> findAll();
+    long rowTotal();
 
     /**
-     * 分页查询部分章
-     * @param offset
-     * @param limit
+     * 通过课程id获取所有的章
      * @return
      */
-    List<Chapter> findChapterLimit(int offset, int limit);
+    List<Chapter> selectAllById();
 
+    @Override
+    int save(Chapter entity);
 
-    /**
-     * 通过章的id来查询章
-     * @param id
-     * @return
-     */
-    Chapter findById(Serializable id);
+    @Override
+    int update(Chapter entity);
 
-    /**
-     * 通过章的id删除章
-     * @param id
-     */
-    void deleteById(Serializable id);
+    @Override
+    int deleteById(Serializable id);
 
-    /**
-     * 修改章的信息
-     * @param chapter
-     */
-    void updateByField(Chapter chapter);
+    @Override
+    int deleteSelect(List<Serializable> idList);
 
-    /**
-     * 添加章
-     * @param chapter
-     */
-    void saveChapter(Chapter chapter);
+    @Override
+    Chapter selectById(Serializable id);
 
-
+    @Override
+    List<Chapter> selectAll();
 }

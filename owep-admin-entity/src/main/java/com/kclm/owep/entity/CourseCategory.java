@@ -32,29 +32,38 @@ public class CourseCategory implements Serializable {
     private String categoryDesc;
 
     /**
-     *自关联  下级分类对象
+     *自关联 上级id
      */
-    private List<CourseCategory> courseCategoryList;
+    private CourseCategory courseCategory;
 
     /**
      *创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      *逻辑删除 0未删除，1已删除
      */
-    private String delete;
+    private Integer isDelete;
 
     /**
      *版本
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      *最后一次访问时间
      */
     private LocalDateTime lastAccessTime;
+
+    public CourseCategory() {
+    }
+
+    public CourseCategory(String categoryName, String categoryDesc, CourseCategory courseCategory) {
+        this.categoryName = categoryName;
+        this.categoryDesc = categoryDesc;
+        this.courseCategory = courseCategory;
+    }
 
     public String getCategoryName() {
         return categoryName;
@@ -72,12 +81,20 @@ public class CourseCategory implements Serializable {
         this.categoryDesc = categoryDesc;
     }
 
-    public List<CourseCategory> getCourseCategoryList() {
-        return courseCategoryList;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCourseCategoryList(List<CourseCategory> courseCategoryList) {
-        this.courseCategoryList = courseCategoryList;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public CourseCategory getCourseCategory() {
+        return courseCategory;
+    }
+
+    public void setCourseCategory(CourseCategory courseCategory) {
+        this.courseCategory = courseCategory;
     }
 
     public LocalDateTime getCreateTime() {
@@ -88,12 +105,12 @@ public class CourseCategory implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(String delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Integer getVersion() {
@@ -119,7 +136,7 @@ public class CourseCategory implements Serializable {
         sb.append(", categoryName='").append(categoryName).append('\'');
         sb.append(", categoryDesc='").append(categoryDesc).append('\'');
         sb.append(", createTime=").append(createTime);
-        sb.append(", delete='").append(delete).append('\'');
+        sb.append(", isDelete='").append(isDelete).append('\'');
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');

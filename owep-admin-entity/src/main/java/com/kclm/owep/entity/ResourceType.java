@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /*****
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
  * @Create 2020/7/6 16:33
  * @Description 资源类型实体类
  */
-public class ResourceType {
+public class ResourceType implements Serializable {
 
     /***
      * 主键ID
@@ -31,17 +32,17 @@ public class ResourceType {
     /***
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /***
      * 逻辑删除，1表示未删除，0表示已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /***
      * 版本数
      */
-    private Integer version;
+    private Integer version =1;
 
     /***
      * 最后一次访问时间
@@ -80,12 +81,12 @@ public class ResourceType {
         this.createTime = createTime;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Integer getVersion() {
@@ -111,7 +112,7 @@ public class ResourceType {
         sb.append(", typeName='").append(typeName).append('\'');
         sb.append(", typeDesc='").append(typeDesc).append('\'');
         sb.append(", createTime=").append(createTime);
-        sb.append(", delete=").append(delete);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", version=").append(version);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append('}');

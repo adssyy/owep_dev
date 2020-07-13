@@ -6,11 +6,10 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * author：ZhangQi
+ * author：ZhangqQi
  * module：privilege
  * description:行为实体,关联权限和菜单
  * version：v0.1
@@ -21,52 +20,30 @@ public class Action implements Serializable {
     private String actionName;/** 行为名*/
     private String actionDescription;/** 行为描述*/
     private String actionUrl;/** 行为URL*/
-    private LocalDateTime createTime;/** 创建时间*/
+    private LocalDateTime createTime=LocalDateTime.now();/** 创建时间*/
     private LocalDateTime lastAccessTime;/**最后一次访问时间*/
-    private Integer version;/** 版本号*/
+    private Integer version=1;/** 版本号*/
     private String actionCode;/** 行为代号*/
     private Integer actionValue;/** 用二进制值来代表行为*/
-    private List<Menu> menuList;/** 关联菜单*/
-    private List<Permission> permissions;/** 关联权限*/
 
     public Action() {
     }
 
-    public Action(Integer id, String actionName, String actionDescription, String actionUrl, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, String actionCode, Integer actionValue) {
-        this.id = id;
+    public Action(String actionName, String actionDescription, String actionUrl, String actionCode, Integer actionValue) {
         this.actionName = actionName;
         this.actionDescription = actionDescription;
         this.actionUrl = actionUrl;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
         this.actionCode = actionCode;
         this.actionValue = actionValue;
     }
 
-    public Action(String actionName, String actionDescription, String actionUrl, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, String actionCode, Integer actionValue) {
+    public Action(String actionName, String actionDescription, String actionUrl, LocalDateTime lastAccessTime, String actionCode, Integer actionValue) {
         this.actionName = actionName;
         this.actionDescription = actionDescription;
         this.actionUrl = actionUrl;
-        this.createTime = createTime;
         this.lastAccessTime = lastAccessTime;
-        this.version = version;
         this.actionCode = actionCode;
         this.actionValue = actionValue;
-    }
-
-    public Action(Integer id, String actionName, String actionDescription, String actionUrl, LocalDateTime createTime, LocalDateTime lastAccessTime, Integer version, String actionCode, Integer actionValue, List<Menu> menuList, List<Permission> permissions) {
-        this.id = id;
-        this.actionName = actionName;
-        this.actionDescription = actionDescription;
-        this.actionUrl = actionUrl;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
-        this.version = version;
-        this.actionCode = actionCode;
-        this.actionValue = actionValue;
-        this.menuList = menuList;
-        this.permissions = permissions;
     }
 
     @Override
@@ -170,21 +147,5 @@ public class Action implements Serializable {
 
     public void setActionValue(Integer actionValue) {
         this.actionValue = actionValue;
-    }
-
-    public List<Menu> getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
-    }
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
     }
 }

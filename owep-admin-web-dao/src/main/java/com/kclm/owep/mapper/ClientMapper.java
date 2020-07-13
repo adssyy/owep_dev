@@ -4,30 +4,21 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Client;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
 
 /************
+ *@Author yejx
  *@version v1.0
+ *@create 2020/7/6 14:04
+ *@Description 持久层接口ClientMapper
  *
  */
-public interface ClientMapper {
-
-
-    /**
-     * 查询所有的客户
-     * @return
-     */
-    List<Client> findAll();
-
-    /**
-     * 分页查询部分客户
-     * @param offset
-     * @param limit
-     * @return
-     */
-    List<Client> findClientLimit(int offset, int limit);
+@Mapper
+public interface ClientMapper extends BaseMapper<Client> {
 
 
     /**
@@ -36,31 +27,27 @@ public interface ClientMapper {
      */
     List<Client> findByField(Client client);
 
-
     /**
-     * 添加客户
-     * @param client
+     * 查询客户总数量
+     * @return
      */
-    void saveClient(Client client);
+    long rowTotal();
 
-    /**
-     * 删除多个客户
-     * @param integerList
-     */
-    void deleteByIds(List<Integer> integerList);
+    @Override
+    int save(Client entity);
 
-    /**
-     * 通过客户id 删除客户
-     * @param id
-     */
-    void deleteById(Serializable id);
+    @Override
+    int update(Client entity);
 
-    /**
-     * 更新客户信息
-     * @param client
-     */
-    void updateClient(Client client);
+    @Override
+    int deleteById(Serializable id);
 
+    @Override
+    int deleteSelect(List<Serializable> idList);
 
+    @Override
+    Client selectById(Serializable id);
 
+    @Override
+    List<Client> selectAll();
 }

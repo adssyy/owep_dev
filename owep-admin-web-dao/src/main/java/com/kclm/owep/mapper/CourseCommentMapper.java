@@ -4,6 +4,8 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.CourseComment;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +17,8 @@ import java.util.List;
  *@Description 持久层接口CourseCommentMapper
  *
  */
-public interface CourseCommentMapper {
+@Mapper
+public interface CourseCommentMapper extends BaseMapper<CourseComment> {
 
 
     /**
@@ -24,32 +27,24 @@ public interface CourseCommentMapper {
      * @param courseId
      * @return
      */
-    List<CourseComment> findByStuIdAndCourseId(Serializable studentId,Serializable courseId);
+    List<CourseComment> selectByStuIdAndCourseId(Serializable studentId,Serializable courseId);
 
     /**
      * 通过学生id,查询单个学生对所有课程的评价
      * @param studentId
      * @return
      */
-    List<CourseComment> findByStudentId(Serializable studentId);
+    List<CourseComment> selectByStudentId(Serializable studentId);
 
     /**
      * 通过课程id,查询所有学生对课程的评价
      * @param CourseId
      * @return
      */
-    List<CourseComment> findByCourseId(Serializable CourseId);
+    List<CourseComment> selectByCourseId(Serializable CourseId);
 
-    /**
-     * 添加课程评价
-     * @param courseComment
-     */
-    void saveCourseComment(CourseComment courseComment);
+    @Override
+    int save(CourseComment entity);
 
-    /**
-     * 删除单个学生对单个课程的评价
-     * @param courseComment
-     */
-    void deleteCourseComment(CourseComment courseComment);
 
 }

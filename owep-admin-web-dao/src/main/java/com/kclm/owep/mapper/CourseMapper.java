@@ -4,6 +4,8 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Course;
+import com.kclm.owep.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,19 +17,8 @@ import java.util.List;
  *@Description 持久层接口CourseMapper
  *
  */
-public interface CourseMapper {
-
-    /**
-     * 查询所有课程
-     * @return
-     */
-    List<Course> findAll();
-
-    /**
-     * 通过分页查询部分
-     * @return
-     */
-    List<Course> findCourseLimit(int offset, int limit);
+@Mapper
+public interface CourseMapper extends BaseMapper<Course> {
 
 
     /**
@@ -35,30 +26,23 @@ public interface CourseMapper {
      * @param CourseName
      * @return
      */
-    List<Course> findByCourseName(String CourseName);
+    List<Course> selectByCourseName(String CourseName);
 
-    /**
-     * 添加课程
-     * @param course
-     */
-    void saveCourse(Course course);
+    @Override
+    int save(Course entity);
 
-    /**
-     * 通过课程id 删除多个课程
-     * @param integerList
-     */
-    void deleteCourse(List<Integer> integerList);
+    @Override
+    int update(Course entity);
 
-    /**
-     * 通过课程id 删除单个课程
-     * @param id
-     */
-    void deleteById(Serializable id);
+    @Override
+    int deleteById(Serializable id);
 
-    /**
-     * 修改课程信息
-     * @param course
-     */
-    void updateCourse(Course course);
+    @Override
+    int deleteSelect(List<Serializable> idList);
 
+    @Override
+    Course selectById(Serializable id);
+
+    @Override
+    List<Course> selectAll();
 }

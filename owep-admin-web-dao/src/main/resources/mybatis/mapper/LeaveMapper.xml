@@ -10,7 +10,7 @@
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
-    <result column="fk_class_id" jdbcType="INTEGER" property="fkClassId" />
+    <!--<result column="fk_class_id" jdbcType="INTEGER" property="fkClassId" />-->
     <result column="leave_time" jdbcType="TIMESTAMP" property="leaveTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="reason_leave" jdbcType="VARCHAR" property="reasonLeave" />
@@ -20,12 +20,52 @@
     <result column="student_name" jdbcType="VARCHAR" property="studentName" />
     <result column="leave_type" jdbcType="VARCHAR" property="leaveType" />
     <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
+    <association property="student" column="fk_student_id" javaType="com.kclm.owep.entity.Student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
   </resultMap>
-  <select id="selectByClassId" resultMap="BaseResultMap">
-    select * from t_leave where class_id = {#value}
+  <sql id="Base_Column_List">
+    id,version,create_time,last_access_time,fk_class_id,leave_time,end_time,reason_leave,
+    approval_status,`option`,student_name,leave_type,leave_type,serial_number
+  </sql>
+  <!--通过班级id查找请假处理的数据-->
+  <select id="selectByClassId" parameterType="integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_leave where fk_class_id = #{classId}
   </select>
-  <update id="leaveApproveById" parameterType="integer">
-    update t_leave set approval_status = {#approvalStatus} where id = {#id}
+
+  <!--请假审批修改审批状态-->
+  <update id="update" parameterType="com.kclm.owep.entity.Leave">
+    update t_leave set approval_status = #{approvalStatus},version = version+1,last_access_time = now() where id = #{id}
   </update>
 
+
+  <!--以下为没用到的方法-->
+  <!--插入数据-->
+  <insert id="save" parameterType="com.kclm.owep.entity.Leave">
+    insert into t_leave(version,create_time,last_access_time,fk_class_id,leave_time,end_time,
+    reason_leave,approval_status,fk_student_id,`option`,student_name,leave_type,serial_number)
+    values (#{version},#{createTime},#{lastAccessTime},#{clazz.id},#{leaveTime},#{endTime}
+    ,#{reasonLeave},#{approvalStatus},#{student.id},#{option},#{studentName},#{leaveType},#{serialNumber})
+  </insert>
+
+  <!--查找全部数据-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_leave
+  </select>
+
+  <!--通过id查找数据-->
+  <select id="selectById" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_leave where id = #{id}
+  </select>
+
+  <!--通过id删除数据-->
+  <delete id="deleteById" parameterType="int">
+    delete from t_leave where id = #{id}
+  </delete>
+
+  <!--删除选中的数据-->
+  <delete id="deleteSelect" parameterType="List">
+    delete from t_leave where id in
+    <foreach collection="list" item="list" open="(" separator="," close=")">
+    #{list}
+    </foreach>
+  </delete>
 </mapper>

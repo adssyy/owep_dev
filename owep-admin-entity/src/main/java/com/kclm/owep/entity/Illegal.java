@@ -4,7 +4,7 @@
 package com.kclm.owep.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 /*********************
  * @Auther shentr
@@ -17,19 +17,18 @@ public class Illegal implements Serializable {
      *主键
      */
     private Integer id;
-    //版本
     /**
-     *视频观看状态：0不允许观看、1允许观看
+     *版本
      */
-    private Integer version;
+    private Integer version = 1;
     /**
      *创建时间
      */
-    private LocalDate createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
     /**
      *最后修改时间
      */
-    private LocalDate lastAccessTime;
+    private LocalDateTime lastAccessTime;
     /**
      *老师外键
      */
@@ -40,9 +39,9 @@ public class Illegal implements Serializable {
      */
     private Student student;
     /**
-     *class_id
+     *fk_class_id
      */
-    private Integer class_id;
+    private Clazz clazz;
     /**
      *违纪学生姓名
      */
@@ -50,7 +49,7 @@ public class Illegal implements Serializable {
     /**
      *违规时间
      */
-    private LocalDate disciplineTime;
+    private LocalDateTime disciplineTime;
     /**
      *情况说明
      */
@@ -60,36 +59,59 @@ public class Illegal implements Serializable {
      */
     private String attachment;
 
+    public Illegal() {
+    }
+
+    public Illegal(Integer id, String studentName, LocalDateTime disciplineTime) {
+        this.id = id;
+        this.studentName = studentName;
+        this.disciplineTime = disciplineTime;
+    }
+
+    public Illegal(Integer id, User user, Student student, Clazz clazz, String studentName, LocalDateTime disciplineTime) {
+        this.id = id;
+        this.user = user;
+        this.student = student;
+        this.clazz = clazz;
+        this.studentName = studentName;
+        this.disciplineTime = disciplineTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Illegal illegal = (Illegal) o;
         return Objects.equals(id, illegal.id) &&
-                Objects.equals(version, illegal.version) &&
-                Objects.equals(createTime, illegal.createTime) &&
-                Objects.equals(lastAccessTime, illegal.lastAccessTime) &&
-                Objects.equals(user, illegal.user) &&
-                Objects.equals(student, illegal.student) &&
-                Objects.equals(class_id, illegal.class_id) &&
                 Objects.equals(studentName, illegal.studentName) &&
-                Objects.equals(disciplineTime, illegal.disciplineTime) &&
-                Objects.equals(presentationCondition, illegal.presentationCondition) &&
-                Objects.equals(attachment, illegal.attachment);
+                Objects.equals(disciplineTime, illegal.disciplineTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, createTime, lastAccessTime, user, student, class_id, studentName, disciplineTime, presentationCondition, attachment);
+        return Objects.hash(id, studentName, disciplineTime);
     }
 
-    public Integer getClass_id() {
-        return class_id;
+    @Override
+    public String toString() {
+        return "Illegal{" +
+                "id=" + id +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", user=" + user +
+                ", student=" + student +
+                ", clazz=" + clazz +
+                ", studentName='" + studentName + '\'' +
+                ", disciplineTime=" + disciplineTime +
+                ", presentationCondition='" + presentationCondition + '\'' +
+                ", attachment='" + attachment + '\'' +
+                '}';
     }
 
-    public void setClass_id(Integer class_id) {
-        this.class_id = class_id;
-    }
+    public Clazz getClazz() { return clazz; }
+
+    public void setClazz(Clazz clazz) { this.clazz = clazz; }
 
     public Integer getId() {
         return id;
@@ -107,19 +129,19 @@ public class Illegal implements Serializable {
         this.version = version;
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDate getLastAccessTime() {
+    public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(LocalDate lastAccessTime) {
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 
@@ -147,11 +169,11 @@ public class Illegal implements Serializable {
         this.studentName = studentName == null ? null : studentName.trim();
     }
 
-    public LocalDate getDisciplineTime() {
+    public LocalDateTime getDisciplineTime() {
         return disciplineTime;
     }
 
-    public void setDisciplineTime(LocalDate disciplineTime) {
+    public void setDisciplineTime(LocalDateTime disciplineTime) {
         this.disciplineTime = disciplineTime;
     }
 

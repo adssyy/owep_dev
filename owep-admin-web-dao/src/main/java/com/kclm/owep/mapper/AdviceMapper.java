@@ -1,9 +1,13 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Advice;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.io.Serializable;
 import java.util.List;
 
-public interface AdviceMapper {
+@Mapper
+public interface AdviceMapper{
 
     /**
      * 根据所选项删除
@@ -15,7 +19,7 @@ public interface AdviceMapper {
      * 根据id删除
      * @mbg.generated
      */
-    int deleteById(Integer id);
+    int deleteById(Serializable id);
 
     /**
      * 新增新闻纪录
@@ -28,13 +32,13 @@ public interface AdviceMapper {
      * 前端已有bookstrap自带的查询共=功能，但是只能查询页面上显示的记录，无法查询后端的数据
      * @mbg.generated
      */
-    List<Advice> selectByName(Advice advice);
+    List<Advice> selectAll();
 
     /**
      * 根据id查询
      * @mbg.generated
      */
-    Advice selectById(Integer id);
+    Advice selectById(Serializable id);
 
     /**
      * 更新新闻纪录
