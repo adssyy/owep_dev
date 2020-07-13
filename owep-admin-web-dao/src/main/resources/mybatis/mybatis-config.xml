@@ -96,6 +96,10 @@
         <mapper resource="mybatis/mapper/StudentMapper.xml"/>
         <mapper resource="mybatis/mapper/VideoMapper.xml"/>
 
-        <mapper resource="mybatis/mapper/UserMapper.xml">
+        <mapper resource="mybatis/mapper/UserMapper.xml"/>
+
+        <mapper resource="mybatis/mapper/DbCopyMapper.xml"/>
+        <mapper resource="mybatis/mapper/SystemConfigMapper.xml"/>
+        <mapper resource="mybatis/mapper/SystLogMapper.xml"/>
     </mappers>
 </configuration>
