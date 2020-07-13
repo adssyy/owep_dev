@@ -1,14 +1,5 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--/
-*******************
- *Author:ZhongLei
- *version:V1.0
- *@Create: 2020/7/6 14:07
- *@Description:视频观看历史映射文件
- ***
- /-->
 
 <mapper namespace="com.kclm.owep.mapper.VideoWatchHistoryMapper">
   <resultMap id="BaseResultMap" type="com.kclm.owep.entity.VideoWatchHistory">

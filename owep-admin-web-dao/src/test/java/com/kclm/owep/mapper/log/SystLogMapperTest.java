@@ -12,6 +12,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+/************
+ *@Author chenxin
+ *@Version v1.0
+ *@Create 2020/7/13 9:59
+ *@Description 系统日志测试类
+ */
 @SpringBootTest
 class SystLogMapperTest {
 
@@ -39,22 +45,19 @@ class SystLogMapperTest {
     @Test
     void update(){
         SystLog systLog=new SystLog();
-        systLog.setLoginUserName("admin");
-        systLog.setId(5);
+        systLog.setLoginUserName("测试update");
+        systLog.setId(1);
         this.systLogMapper.update(systLog);
         System.out.println(systLog);
-
     }
     @Test
     void  deleteById(){
         System.out.println(this.systLogMapper.deleteById(9));
-
     }
     @Test
     void  deleteSelect(){
         final List<Serializable> idList= Arrays.asList(7,8);
         System.out.println(this.systLogMapper.deleteSelect(idList));
-
     }
     @Test
     void  selectById(){
