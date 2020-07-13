@@ -28,7 +28,20 @@
     更新评价内容
   -->
   <update id="update" parameterType="com.kclm.owep.entity.Evaluate">
-    update t_evaluate set evaluate = #{evaluate},version = version+1,last_access_time = now() where id = #{id}
+    update t_evaluate
+    <set>
+      <if test="studentName != null">
+        student_name = #{studentName},
+      </if>
+      <if test="evaluateStatus != null">
+        evaluate_status = #{evaluateStatus},
+      </if>
+      <if test="evaluate != null">
+        evaluate = #{evaluate},
+      </if>
+      version = version + 1,last_access_time = now()
+    </set>
+    where id = #{id}
   </update>
 
 

@@ -96,6 +96,12 @@
         <mapper resource="mybatis/mapper/StudentMapper.xml"/>
         <mapper resource="mybatis/mapper/VideoMapper.xml"/>
 
+        <mapper resource="mybatis/mapper/EvaluateMapper.xml"/>
+        <mapper resource="mybatis/mapper/HomeworkAnswerMapper.xml"/>
+        <mapper resource="mybatis/mapper/LeaveMapper.xml"/>
+        <mapper resource="mybatis/mapper/IllegalMapper.xml"/>
+
+        <mapper resource="mybatis/mapper/UserMapper.xml"/>
         <mapper resource="mybatis/mapper/UserMapper.xml"/>
 
         <mapper resource="mybatis/mapper/DbCopyMapper.xml"/>

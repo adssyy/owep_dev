@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.TeachingDTO;
 import com.kclm.owep.entity.*;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.List;
  * @Auther shentr
  * @Version V1.0
  * @Create 2020/7/10 16:58
- * @Description TODO
+ * @Description 授课管理业务层接口
  */
 public interface ITeachingService {
     /**
@@ -24,12 +25,13 @@ public interface ITeachingService {
     /**
      * 根据条件，获取班级数据
      */
-    List<Clazz> findClassByConditions(String classNumber,String className,String instituteName,String branchName,String profession );
+    List<Clazz> findClassByConditions(String classNumber,String className,String instituteName,
+                                      String branchName,String profession );
 
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
-    List<TeachingDto> getTeachingDto(Serializable classId);
+    List<TeachingDTO> getTeachingDto(Serializable classId);
 
     /**
      * 根据资源名称查询资源
@@ -100,4 +102,10 @@ public interface ITeachingService {
      * 添加违纪数据
      */
     int saveIllegal(Illegal illegal);
+
+    /**
+     * 获取课程章节数据
+     */
+    List<Chapter> findChapter();
+
 }
