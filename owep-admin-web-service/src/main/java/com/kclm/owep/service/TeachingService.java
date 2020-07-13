@@ -16,7 +16,7 @@ import java.util.List;
  * @Create 2020/7/10 16:58
  * @Description 授课管理业务层接口
  */
-public interface ITeachingService {
+public interface TeachingService {
     /**
      * 获取班级数据
      */
@@ -26,7 +26,7 @@ public interface ITeachingService {
      * 根据条件，获取班级数据
      */
     List<Clazz> findClassByConditions(String classNumber,String className,String instituteName,
-                                      String branchName,String profession );
+                                      String branchName,String profession);
 
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
