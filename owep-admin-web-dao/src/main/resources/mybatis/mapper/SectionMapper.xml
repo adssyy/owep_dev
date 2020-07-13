@@ -24,8 +24,7 @@
 
   <!--所有字段-->
   <sql id="Base_Column_List">
-    id,
-    section_name, section_number, section_desc, create_time, video_status, fk_chapter_id,
+    id,section_name, section_number, section_desc, create_time, video_status, fk_chapter_id,
     is_delete, experiment_ducument_file, experiment_environment_addr, experiment, look_video_status,
     version, last_access_time
   </sql>
@@ -130,7 +129,7 @@
   </select>
 
   <select id="selectById"  resultType="section">
-    select <include refid="Base_Column_List"/> from t_section where id = #{id}
+    select <include refid="Base_Column_List"/> from t_section where id = #{id} and is_delete = 1
   </select>
 
   <!--修改节-->
@@ -146,17 +145,11 @@
       <if test="sectionDesc != null">
         section_desc = #{sectionDesc,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="videoStatus != null">
         video_status = #{videoStatus,jdbcType=INTEGER},
       </if>
       <if test="chapter.id != null">
         fk_chapter_id = #{chapter.id,jdbcType=INTEGER},
-      </if>
-      <if test="isDelete != null">
-        delete = #{isDelete,jdbcType=INTEGER},
       </if>
       <if test="experimentDucumentFile != null">
         experiment_ducument_file = #{experimentDucumentFile,jdbcType=VARCHAR},
@@ -170,12 +163,8 @@
       <if test="lookVideoStatus != null">
         look_video_status = #{lookVideoStatus,jdbcType=INTEGER},
       </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        version = version + 1,
+        last_access_time = now(),
       <if test="experimentInstrusction != null">
         experiment_instrusction = #{experimentInstrusction,jdbcType=LONGVARCHAR},
       </if>

@@ -42,9 +42,6 @@
   <insert id="save" parameterType="CourseReport">
     insert into t_course_report
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="courseLearnCount != null">
         course_learn_count,
       </if>
@@ -98,9 +95,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="courseLearnCount != null">
         #{courseLearnCount,jdbcType=INTEGER},
       </if>
@@ -183,9 +177,6 @@
       <if test="testCount != null">
         test_count = #{testCount,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="homeworkCount != null">
         homework_count = #{homeworkCount,jdbcType=INTEGER},
       </if>
@@ -204,12 +195,8 @@
       <if test="course.id != null">
         fk_course_id = #{course.id,jdbcType=INTEGER},
       </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        version = version + 1,
+        last_access_time = now(),
     </set>
     where id = #{id,jdbcType=INTEGER} and fk_student_id = #{student.id} and fk_course_id = #{course.id}
   </update>

@@ -7,6 +7,7 @@ package com.kclm.owep.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /************
@@ -121,6 +122,16 @@ public class Course implements Serializable {
      *最后一次访问时间
      */
     private LocalDateTime lastAccessTime;
+
+    private List<Chapter> chapterList;
+
+    public List<Chapter> getChapterList() {
+        return chapterList;
+    }
+
+    public void setChapterList(List<Chapter> chapterList) {
+        this.chapterList = chapterList;
+    }
 
     public Course() {
     }

@@ -25,14 +25,14 @@ public interface AssignRecordMapper extends BaseMapper<AssignRecord> {
      * @param id
      * @return
      */
-    List<AssignRecord> findByFormId(Serializable id);
+    List<AssignRecord> selectByFormId(Serializable id);
 
     /**
      * 查询咨询师接收的记录
      * @param id
      * @return
      */
-    List<AssignRecord> findByToId(Serializable id);
+    List<AssignRecord> selectByToId(Serializable id);
 
 
 

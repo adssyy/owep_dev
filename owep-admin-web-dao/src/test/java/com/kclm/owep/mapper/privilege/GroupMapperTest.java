@@ -54,7 +54,6 @@ private GroupMapper groupMapper;
     @Test
     void updateGroup() {
         Group group = groupMapper.selectById(1);
-        group.setLastAccessTime(LocalDateTime.now());
         groupMapper.update(group);
     }
 

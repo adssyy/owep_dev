@@ -201,20 +201,20 @@
     and c.id=#{cid,jdbcType=INTEGER}
   </select>-->
   <!--根据id来删除一条记录-->
-  <delete id="deleteById" parameterType="java.lang.Integer">
+  <update id="deleteById" parameterType="java.lang.Integer">
     <!--不是真正意义上的删除 将delete字段该为0-->
-    update t_class set is_delete=0
+    update t_class set is_delete=0,last_access_time=now()
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <!--删除多条记录-->
-  <delete id="deleteSelect">
+  <update id="deleteSelect">
     <!--删除多条记录 其实是将delete状态 改为0-->
-    update t_class set is_delete=0 where id in
+    update t_class set is_delete=0,last_access_time=now() where id in
     <foreach collection="idList" item="list" open="(" separator="," close=")">
       #{list}
     </foreach>
 
-  </delete>
+  </update>
 <!--  &lt;!&ndash;插入一条记录&ndash;&gt;
   <insert id="save" parameterType="clazz">
     &lt;!&ndash;
@@ -238,9 +238,6 @@
   <insert id="save" parameterType="clazz">
     insert into t_class
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="classNumber != null">
         class_number,
       </if>
@@ -280,20 +277,8 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time,
-      </if>
-      <if test="oldClassName != null">
-        old_class_name,
-      </if>
-      <if test="oldClassNum != null">
-        old_class_num,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="classNumber != null">
         #{classNumber,jdbcType=VARCHAR},
       </if>
@@ -332,15 +317,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastAccessTime != null">
-        #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="oldClassName != null">
-        #{oldClassName,jdbcType=VARCHAR},
-      </if>
-      <if test="oldClassNum != null">
-        #{oldClassNum,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -411,21 +387,10 @@
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="oldClassName != null">
-        old_class_name = #{oldClassName,jdbcType=VARCHAR},
-      </if>
-      <if test="oldClassNum != null">
-        old_class_num = #{oldClassNum,jdbcType=VARCHAR},
-      </if>
+        version =version+1,
+        last_access_time =now(),
+        old_class_name = class_name,
+        old_class_num = class_number,
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

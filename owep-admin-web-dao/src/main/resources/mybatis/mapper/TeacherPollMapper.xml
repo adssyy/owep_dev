@@ -33,6 +33,33 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <collection property="pollRecordList" ofType="com.kclm.owep.entity.PollRecord">
+      <id column="id" property="id"/>
+      <result column="ip_address" property="ipAddress" />
+      <result column="poll_score" property="pollScore" />
+      <result column="poll_count" property="pollCount" />
+      <result column="poll_suggest" property="pollSuggest" />
+      <result column="last_access_time" property="lastAccessTime" />
+      <result column="version" property="version" />
+      <result column="create_time" property="createTime" />
+      <result column="poll_status" property="pollStatus" />
+      <result column="fk_teacher_poll_id"  property="fkTeacherPollId" />
+      <result column="poll_item_1"  property="pollItem1" />
+      <result column="poll_item_2"  property="pollItem2" />
+      <result column="poll_item_3"  property="pollItem3" />
+      <result column="poll_item_4"  property="pollItem4" />
+      <result column="poll_item_5"  property="pollItem5" />
+      <result column="poll_item_6"  property="pollItem6" />
+      <result column="poll_item_7"  property="pollItem7" />
+      <result column="poll_item_8"  property="pollItem8" />
+      <result column="poll_item_9"  property="pollItem9" />
+      <result column="poll_item_10"  property="pollItem10" />
+      <result column="poll_item_11"  property="pollItem11" />
+      <result column="poll_item_12"  property="pollItem12" />
+      <result column="poll_item_13"  property="pollItem13" />
+      <result column="poll_item_14"  property="pollItem14" />
+      <result column="poll_item_15"  property="pollItem15" />
+    </collection>
   </resultMap>
 
   <!--  通过id删除教师考评记录  -->
@@ -42,19 +69,7 @@
   </delete>
 
   <!--  添加教师考评记录  -->
-  <insert id="save" parameterType="com.kclm.owep.entity.TeacherPoll" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-    insert into t_teacher_poll (id, teacher_name, class_name,poll_address, poll_grade, effective_time,poll_count, poll_suggest,
-    fk_template_id, fk_user_id, fk_class_id,allow_ip, start_time,end_time)
-    values (null, #{teacherName,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR},
-    #{pollAddress,jdbcType=VARCHAR}, #{pollGrade,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP},
-     #{pollCount,jdbcType=INTEGER}, #{pollSuggest,jdbcType=VARCHAR},
-    #{fkTemplateId,jdbcType=INTEGER}, #{fkUserId,jdbcType=INTEGER}, #{fkClassId,jdbcType=INTEGER},
-    #{allowIp,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
-    #{endTime,jdbcType=TIMESTAMP})
-  </insert>
-
- <!-- &lt;!&ndash;  添加教师考评记录  &ndash;&gt;
-  <insert id="saveAll" parameterType="com.kclm.owep.entity.TeacherPoll">
+  <insert id="save" parameterType="com.kclm.owep.entity.TeacherPoll">
     insert into t_teacher_poll (id, teacher_name, class_name, 
       poll_address, poll_grade, effective_time, 
       poll_status, poll_count, poll_suggest, 
@@ -67,9 +82,8 @@
       #{pollStatus,jdbcType=VARCHAR}, #{pollCount,jdbcType=INTEGER}, #{pollSuggest,jdbcType=VARCHAR}, 
       #{fkTemplateId,jdbcType=INTEGER}, #{fkUserId,jdbcType=INTEGER}, #{fkClassId,jdbcType=INTEGER}, 
       #{allowIp,jdbcType=VARCHAR}, #{ipLimit,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}, 
-      #{lastAccessTime,jdbcType=TIMESTAMP})
-  </insert>-->
+      #{endTime,jdbcType=TIMESTAMP}, now(), 1,null)
+  </insert>
 
   <!-- 添加教师考评记录 -->
   <insert id="insertSelective" parameterType="com.kclm.owep.entity.TeacherPoll">
@@ -247,24 +261,17 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        version = version + 1,
+        last_access_time = now()
     </trim>
     where id = #{id}
   </update>
 
-  <!--  通过关键字查找  -->
-  <select id="findByKeywords" resultType="TeacherPoll" parameterType="string">
-        //TODO
-        select
-  </select>
+<!--    通过关键字查找  -->
+ <!-- <select id="findByKeywords" resultType="TeacherPoll" parameterType="integer">
+    select * from t_teacher_poll t left join t_class tc on t.fk_class_id = tc.id
+    where t.id = #{value}
+  </select>-->
 
   <!--  通过id批量删除  -->
   <delete id="deleteSelect" parameterType="list">
@@ -274,11 +281,12 @@
     </foreach>
   </delete>
 
-  <select id="selectById" parameterType="integer" resultType="teacherPoll">
-    select * from t_teacher_poll where id = #{value}
+  <select id="selectById" parameterType="integer" resultMap="BaseResultMap">
+    select * from t_teacher_poll ttp left join t_poll_record tpr on ttp.id = tpr.fk_teacher_poll_id
+    where ttp.id = #{value}
   </select>
 
-  <select id="selectAll" resultType="teacherPoll">
+  <select id="selectAll" resultMap="BaseResultMap">
     select * from t_teacher_poll
   </select>
 

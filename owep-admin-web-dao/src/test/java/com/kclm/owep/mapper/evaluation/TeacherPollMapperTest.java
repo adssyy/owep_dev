@@ -32,14 +32,25 @@ public class TeacherPollMapperTest {
 
     @Test
     void testSave(){
-        final TeacherPoll teacherPoll = new TeacherPoll("张三丰", "Java开发", "192.168.127.93", "优",
-                LocalDateTime.now(), 20, "少吃零食多睡觉", 4, 1, 1, "1212312", LocalDateTime.now(), LocalDateTime.now());
+        final TeacherPoll teacherPoll = new TeacherPoll();
+        teacherPoll.setTeacherName("zang");
+        teacherPoll.setClassName("snidan");
+        teacherPoll.setPollAddress("djkajda");
+        teacherPoll.setPollGrade("sdjakjod");
+        teacherPoll.setPollCount(1);
+        teacherPoll.setPollSuggest("张三");
+        teacherPoll.setFkTemplateId(4);
+        teacherPoll.setFkUserId(1);
+        teacherPoll.setFkClassId(1);
+        teacherPoll.setAllowIp("hdjkahjkdkja");
+        teacherPoll.setStartTime(LocalDateTime.now());
+        teacherPoll.setEndTime(LocalDateTime.now());
         teacherPollMapper.save(teacherPoll);
     }
 
     @Test
     void testUpdate(){
-        TeacherPoll teacherPoll = teacherPollMapper.selectById(5);
+        TeacherPoll teacherPoll = teacherPollMapper.selectById(8);
         teacherPoll.setTeacherName("张无忌");
         teacherPoll.setClassName("web前端开发");
         teacherPollMapper.update(teacherPoll);
@@ -72,8 +83,9 @@ public class TeacherPollMapperTest {
 
    @Test
     void testFindByKeywords(){
-        //TODO
-    }
+       final List<TeacherPoll> byKeywords = teacherPollMapper.findByKeywords(5);
+       System.out.println("============>"+byKeywords);
+   }
 
     @Test
     void testCountPollItem(){

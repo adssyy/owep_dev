@@ -43,7 +43,11 @@ class MenuMapperTest extends ActionMapperTest {
         menuMapper.update(menu4);
 
     }
+    @Test
+    void updateTest() {
+        menuMapper.update(menuMapper.selectById(1));
 
+    }
     @Test
     void findAll() {
         List<Menu> menus = menuMapper.selectAll();

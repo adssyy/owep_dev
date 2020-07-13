@@ -24,9 +24,6 @@
   <insert id="save" parameterType="Channel">
     insert into t_channel
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="channelName != null">
         channel_name,
       </if>
@@ -44,9 +41,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="channelName != null">
         #{channelName,jdbcType=VARCHAR},
       </if>
@@ -82,15 +76,8 @@
       <if test="channelName != null">
         channel_name = #{channelName,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        version = version + 1,
+        last_access_time = now(),
       <if test="channelType.id != null">
         fk_channeltype_id = #{channelType.id,jdbcType=INTEGER},
       </if>
