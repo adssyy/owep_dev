@@ -31,7 +31,11 @@ public interface ITeachingService {
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
+<<<<<<< HEAD
+//    List<TeachingDto> getTeachingDto(Serializable classId);
+=======
     List<TeachingDTO> getTeachingDto(Serializable classId);
+>>>>>>> 9bb64b4337c49245b737e3baf55598805a32c1d9
 
     /**
      * 根据资源名称查询资源
