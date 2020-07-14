@@ -52,7 +52,7 @@ public interface IProfessionService{
      * @param id
      * @return
      */
-    Profession selectById(Serializable id);
+    ProfessionDTO selectById(Serializable id);
 
     /***
      * 查询所有的记录

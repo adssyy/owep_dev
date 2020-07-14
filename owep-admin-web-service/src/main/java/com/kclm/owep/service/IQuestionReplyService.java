@@ -4,6 +4,11 @@
 
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.QuestionReplyDTO;
+import com.kclm.owep.entity.QuestionReply;
+import java.io.Serializable;
+import java.util.List;
+
 /*****************
  *
  * @author tanj
@@ -13,4 +18,37 @@ package com.kclm.owep.service;
  *
  */
 public interface IQuestionReplyService {
+    /***
+     * 保存一条记录
+     * @param entity
+     * @return
+     */
+    int save(QuestionReply entity);
+
+    /***
+     * 更新一条记录
+     * @param entity
+     * @return
+     */
+    int update(QuestionReply entity);
+
+    /***
+     * 根据id来删除一条记录
+     * @param id
+     * @return
+     */
+    int deleteById(Serializable id);
+
+    /***
+     * 根据id来查询一条记录
+     * @param id
+     * @return
+     */
+    QuestionReplyDTO selectById(Serializable id);
+
+    /***
+     * 查询所有的记录
+     * @return
+     */
+    List<QuestionReplyDTO> selectAll();
 }

@@ -4,6 +4,11 @@
 
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.HomeworkDTO;
+import com.kclm.owep.entity.Homework;
+import java.io.Serializable;
+import java.util.List;
+
 /*****************
  *
  * @author tanj
@@ -13,4 +18,51 @@ package com.kclm.owep.service;
  *
  */
 public interface IHomeworkService {
+    /***
+     * 保存一条记录
+     * @param entity
+     * @return
+     */
+    int save(Homework entity);
+
+    /***
+     * 更新一条记录
+     * @param entity
+     * @return
+     */
+    int update(Homework entity);
+
+    /***
+     * 根据id来删除一条记录
+     * @param id
+     * @return
+     */
+    int deleteById(Serializable id);
+
+    /***
+     * 删除多条记录
+     * @param idList
+     * @return
+     */
+    int deleteSelect(List<Serializable> idList);
+
+    /***
+     * 根据id来查询一条记录
+     * @param id
+     * @return
+     */
+    HomeworkDTO selectById(Serializable id);
+
+    /***
+     * 查询所有的记录
+     * @return
+     */
+    List<HomeworkDTO> selectAll();
+
+    /***
+     * 根据课程名查询
+     * @param courseName
+     * @return
+     */
+    List<HomeworkDTO> selectByCourseName(String courseName);
 }
