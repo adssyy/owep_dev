@@ -10,12 +10,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+/************
+ *@Author chenxin
+ *@Version v1.0
+ *@Create 2020/7/13 9:57
+ *@Description 数据库备份测试类
+ */
+
 @SpringBootTest(classes = OwepAdminWebDaoApplication.class)
 class DbCopyMapperTest {
 
@@ -27,7 +32,7 @@ class DbCopyMapperTest {
         DbCopy dbCopy=new DbCopy();
 
         //dbCopy.setCreateTime(LocalDateTime.now());
-        dbCopy.setFileName("new1");
+        dbCopy.setFileName("数据库测试");
         dbCopy.setFilePath("hello/hello");
         dbCopy.setLastAccessTime(LocalDateTime.now());
         dbCopy.setStatus(true);
@@ -40,11 +45,11 @@ class DbCopyMapperTest {
     @Test
     public void update(){
         DbCopy dbCopy=new DbCopy();
-        dbCopy.setId(1009);
+        dbCopy.setId(1001);
         dbCopy.setFileName("new1_update");
-        dbCopy.setVersion(2);
+        //dbCopy.setVersion(2);
         dbCopy.setStatus(true);
-        dbCopy.setLastAccessTime(LocalDateTime.now());
+        //dbCopy.setLastAccessTime(LocalDateTime.now());
         //dbCopy.setCreateTime(LocalDateTime.now());
         this.dbCopyMapper.update(dbCopy);
         System.out.println(dbCopy);

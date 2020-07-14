@@ -81,11 +81,11 @@ public class TeacherPollMapperTest {
         teacherPollMapper.deleteSelect(list);
     }
 
-   @Test
+/*   @Test
     void testFindByKeywords(){
        final List<TeacherPoll> byKeywords = teacherPollMapper.findByKeywords(5);
        System.out.println("============>"+byKeywords);
-   }
+   }*/
 
     @Test
     void testCountPollItem(){

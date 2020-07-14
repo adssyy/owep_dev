@@ -24,10 +24,5 @@ public interface TeacherPollMapper extends BaseMapper<TeacherPoll> {
      */
     int countTeacherPoll();
 
-    /***
-     * 根据classid和教师名称查找教师考评记录
-     * @return
-     */
-    List<TeacherPoll> findByKeywords(@Param("cid")Serializable id);
 
 }
