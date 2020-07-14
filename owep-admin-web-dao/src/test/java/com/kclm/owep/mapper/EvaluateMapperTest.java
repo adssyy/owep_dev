@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +44,27 @@ public class EvaluateMapperTest {
     /*测试根据id查询学生评价实体*/
     @Test
     void test9() {
-        //int i  = evaluateMapper.save(new Evaluate(3,new User(),new Student(),new Clazz(),
-         //       "shen",0));
-        Evaluate e = evaluateMapper.selectById(3);
-        System.out.println(e);
+        //for(int i=0;i<5;i++) {
+        //    int j = evaluateMapper.save(new Evaluate(3, new User(), new Student(), new Clazz(),
+        //            "shen", 0));
+        //}
+        //Evaluate e = evaluateMapper.selectById(3);
+        //List<Evaluate> evaluateList = evaluateMapper.selectAll();
+        //System.out.println(evaluateList.get(0));
+        //System.out.println(e);
+        //evaluateMapper.deleteById(1);
+        List<Serializable> l = new ArrayList<>();
+        l.add(4);
+        l.add(2);
+        evaluateMapper.deleteSelect(l);
     }
 
     /*测试更新学生评价的评价内容*/
     @Test
     void test2() {
         Evaluate e = new Evaluate();
-        e.setId(2);
-        e.setEvaluate("不错");
+        e.setId(3);
+        e.setEvaluate("干的漂亮");
         int update = evaluateMapper.update(e);
         System.out.println(update);
     }
@@ -77,9 +87,12 @@ public class EvaluateMapperTest {
     /*测试违规处理的，通过classid获取违规处理的全部数据*/
     @Test
     void test4() {
-        List<Illegal> illegalList = illegalMapper.selectByClassId(1);
-        System.out.println(illegalList.size());
-        System.out.println(illegalList.get(0).getStudent());
+        //List<Illegal> illegalList = illegalMapper.selectByClassId(1);
+        Illegal illegal = illegalMapper.selectById(1);
+        //List<Illegal> illegalList = illegalMapper.selectAll();
+        //System.out.println(illegalList.size());
+        //System.out.println(illegalList.get(0).getStudent());
+        System.out.println(illegal);
     }
 
     /*测试违规处理的，根据条件查询*/
@@ -120,17 +133,25 @@ public class EvaluateMapperTest {
     /*测试请假处理 根据classid查找数据*/
     @Test
     void test7() {
-        List<Leave> leaveList = leaveMapper.selectByClassId(1);
-        System.out.println(leaveList.size());
-        System.out.println(leaveList.get(0));
-        System.out.println(leaveList.get(0).getStudent());
+        //List<Leave> leaveList = leaveMapper.selectByClassId(1);
+        //Leave leave = leaveMapper.selectById(1);
+        //List<Leave> leaveList = leaveMapper.selectAll();
+        //System.out.println(leaveList.size());
+        //System.out.println(leaveList.get(0));
+        //System.out.println(leaveList.get(0).getStudent());
+        //System.out.println(leave);
+        //leaveMapper.deleteById(2);
+        List<Serializable> l = new ArrayList();
+        l.add(7);
+        l.add(4);
+        leaveMapper.deleteSelect(l);
     }
 
     /*测试请假处理，更新请假的审批状态*/
     @Test
     void test8() {
         Leave l = new Leave();
-        l.setId(1);
+        l.setId(4);
         l.setApprovalStatus(1);
         int update = leaveMapper.update(l);
         System.out.println(update);
@@ -140,9 +161,11 @@ public class EvaluateMapperTest {
     /*测试请假处理 的插入数据*/
     @Test
     void test10() {
-        int update = leaveMapper.save(new Leave(3,LocalDateTime.now(),LocalDateTime.now()
-        ,new Student(),new Clazz(),"shen"));
-        System.out.println(update);
+        for(int i=0;i<5;i++){
+            int update = leaveMapper.save(new Leave(3,LocalDateTime.now(),LocalDateTime.now()
+                    ,new Student(),new Clazz(),"shen"));
+        }
+        //System.out.println(update);
     }
 
 }

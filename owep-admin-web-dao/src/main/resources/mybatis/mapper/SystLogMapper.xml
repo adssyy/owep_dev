@@ -198,15 +198,11 @@
       <if test="loginUserName != null">
         login_user_name = #{loginUserName,jdbcType=VARCHAR},
       </if>
-      <if test="lastAccessTime != null">
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
+      version = version + 1,
+      last_access_time = now()
     </set>
     where  id=#{id,jdbcType=INTEGER}
   </update>
