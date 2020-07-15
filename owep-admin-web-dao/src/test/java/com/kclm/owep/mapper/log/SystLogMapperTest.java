@@ -26,9 +26,12 @@ class SystLogMapperTest {
 
     @Test
     void findByTime() {
-        String username="admin";
-        LocalDateTime start=LocalDateTime.of(2020,7,8,9,42,51);
-        LocalDateTime end=LocalDateTime.of(2020,7,9,11,26,33);
+       // String username="admin";
+        String username="tomcat";
+        LocalDateTime start=LocalDateTime.of(2020,7,9,0,0,0);
+        //LocalDateTime start=null;
+        LocalDateTime end=LocalDateTime.of(2020,7,10,0,0,0);
+        //LocalDateTime end=null;
         // 2020-07-09 11:26:30
         this.systLogMapper.findByTime(username,start,end);
     }

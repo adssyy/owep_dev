@@ -83,8 +83,19 @@
     select
     <include refid="Base_Column_List"/>
     from t_syslog
-    where login_user_name=#{username}
-    and (create_time between #{start} and #{end})
+    <where>
+        <if test="login_user_name!='%null '">
+          login_user_name like #{login_user_name}
+        </if>
+        <if test="start!=null ">
+          and create_time &gt;= #{start}
+        </if>
+      <if test="end!=null ">
+         and create_time &lt;= #{end}
+      </if>
+    </where>
+   <!-- login_user_name=#{username}
+    and (create_time between #{start} and #{end})-->
   </select>
   <!--BaseMapper-->
   <!--持久化一个实体对象-->
