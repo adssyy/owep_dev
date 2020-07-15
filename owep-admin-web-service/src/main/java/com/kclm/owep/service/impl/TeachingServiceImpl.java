@@ -149,7 +149,7 @@ public class TeachingServiceImpl implements TeachingService {
     public TeachingDTO findQuestionById(Serializable questionId) {
         Question question = questionMapper.selectById(questionId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        return mapperFacade.map(Question.class,TeachingDTO.class);
+        return mapperFacade.map(question,TeachingDTO.class);
     }
 
     /**
