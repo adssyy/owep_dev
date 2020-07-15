@@ -32,6 +32,7 @@ public interface TeachingService {
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
+    TeachingDTO classTeachingDto(Serializable id);
     List<TeachingDTO> evaluateTeachingDto(Serializable classId,int pageNumber,int pageSize);
     List<TeachingDTO> leaveTeachingDto(Serializable classId,int pageNumber,int pageSize);
     List<TeachingDTO> illegalTeachingDto(Serializable classId,int pageNumber,int pageSize);
@@ -94,7 +95,8 @@ public interface TeachingService {
     /**
      *  根据条件查找违纪数据
      */
-    List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,LocalDateTime endTime);
+    List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,
+                                              LocalDateTime endTime,int pageNumber,int pageSize);
 
     /**
      * 根据id删除违纪数据

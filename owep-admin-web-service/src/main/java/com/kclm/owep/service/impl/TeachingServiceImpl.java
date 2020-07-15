@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /*********************
@@ -65,6 +63,14 @@ public class TeachingServiceImpl implements TeachingService {
         return null;
     }
 
+    @Override
+    public TeachingDTO classTeachingDto(Serializable id) {
+        Clazz clazz = clazzMapper.selectById(id);
+        MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
+        TeachingDTO teach = mapperFacade.map(clazz, TeachingDTO.class);
+        return teach;
+    }
+
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
@@ -96,6 +102,8 @@ public class TeachingServiceImpl implements TeachingService {
         PageHelper.startPage(pageNumber,pageSize);
         List<Leave> leaveList = leaveMapper.selectByClassId(classId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
+        mapperFactory.classMap(Leave.class,TeachingDTO.class).
+                field("endTime","leaveEndTime").byDefault().register();
         List<TeachingDTO> teachingLeave = mapperFacade.mapAsList(leaveList, TeachingDTO.class);
         return teachingLeave;
     }
@@ -198,7 +206,9 @@ public class TeachingServiceImpl implements TeachingService {
      *  根据条件查找违纪数据
      */
     @Override
-    public List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime, LocalDateTime endTime) {
+    public List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,
+                                                     LocalDateTime endTime,int pageNumber,int pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
         List<Illegal> illegals = illegalMapper.selectByCondition(stuNumber, stuName, startTime, endTime);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
         return mapperFacade.mapAsList(illegals, TeachingDTO.class);
