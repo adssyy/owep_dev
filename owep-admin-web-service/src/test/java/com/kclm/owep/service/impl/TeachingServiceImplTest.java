@@ -30,16 +30,16 @@ public class TeachingServiceImplTest {
 
     @Test
     void testFindClass(){
-        final List<ClassDTO> allClass = teachingService.findAllClass();
+        final List<ClassDTO> allClass = teachingService.findAllClass(1,5);
         allClass.forEach(System.out::println);
     }
 
     @Test
     void testTeachingDto(){
-        //List<TeachingDTO> teachingDto = teachingService.evaluateTeachingDto(1);
-        List<TeachingDTO> teachingDto1 = teachingService.leaveTeachingDto(1);
+        List<TeachingDTO> teachingDto = teachingService.evaluateTeachingDto(1,2,5);
+        //List<TeachingDTO> teachingDto1 = teachingService.leaveTeachingDto(1);
         //List<TeachingDTO> teachingDto2 = teachingService.illegalTeachingDto(1);
-        teachingDto1.forEach(System.out::println);
+        teachingDto.forEach(System.out::println);
     }
 
     @Test
