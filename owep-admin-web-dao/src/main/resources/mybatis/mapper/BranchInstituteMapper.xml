@@ -105,7 +105,14 @@
     <include refid="BranchInstitute_column_List"/>
     from t_branch_institute where id = #{id}
   </select>
-
+  <!--删除多个-->
+  <delete id="deleteSelect">
+  delete from t_branch_institute
+  where id in
+  <foreach collection="list" item="id" open="(" separator="," close=")">
+    #{id}
+  </foreach>
+  </delete>
 
   <!--根据id去删除-->
   <delete id="deleteById" parameterType="java.lang.Integer">
@@ -171,10 +178,20 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <!--根据分支名称，进行模糊搜索-->
-  <select id="findByBranchName"  parameterType="string" resultMap="BaseResultMap">
+  <!--根据分支名称 ，所属机构自定义查询-->
+  <select id="findByBranchNameAndinstitute" parameterType="BranchInstitute" resultType="BranchInstitute">
     select
     <include refid="BranchInstitute_column_List"/>
-    from t_Branch_Institute
+    from t_branch_institute
+    where
+    <trim suffixOverrides="and">
+      <if test=" branchName!= null">
+        branch_name = #{branchName,jdbcType=VARCHAR} and
+      </if>
+      <if test="orgInstitute.id != null">
+        fk_org_id = #{orgInstitute.id,jdbcType=VARCHAR}
+      </if>
+
+    </trim>
   </select>
 </mapper>

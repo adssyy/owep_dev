@@ -32,7 +32,7 @@ class DbCopyMapperTest {
         DbCopy dbCopy=new DbCopy();
 
         //dbCopy.setCreateTime(LocalDateTime.now());
-        dbCopy.setFileName("数据库测试");
+        dbCopy.setFileName("数据库测试1");
         dbCopy.setFilePath("hello/hello");
         dbCopy.setLastAccessTime(LocalDateTime.now());
         dbCopy.setStatus(true);
@@ -84,8 +84,10 @@ class DbCopyMapperTest {
     }
     @Test
     void findByTime(){
-        LocalDateTime start= LocalDateTime.of(2018,1,13,9,43,46);
-        LocalDateTime end=LocalDateTime.now();
+        //LocalDateTime start= LocalDateTime.of(2020,7,8,0,0,0);
+        LocalDateTime end=LocalDateTime.of(2020,7,9,0,0,0);
+        LocalDateTime start=null;
+        //LocalDateTime end=null;
         this.dbCopyMapper.findByTime(start,end);
 
     }

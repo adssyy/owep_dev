@@ -17,7 +17,7 @@ import java.util.List;
  * @description 班级
  *
  */
-public interface IClazzService {
+public interface ClazzService {
     /***
      * 增
      * @param entity

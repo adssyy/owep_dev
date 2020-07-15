@@ -4,8 +4,10 @@
 
 package com.kclm.owep.service;
 
-import com.kclm.owep.dto.HomeworkDTO;
-import com.kclm.owep.entity.Homework;
+import com.kclm.owep.dto.QuestionDTO;
+import com.kclm.owep.entity.Question;
+import org.apache.ibatis.annotations.Param;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,32 +16,32 @@ import java.util.List;
  * @author tanj
  * @date 2020/7/13 11:50
  * @version v1.0
- * @description 班级作业
+ * @description 班级问题
  *
  */
-public interface IHomeworkService {
+public interface QuestionService {
     /***
-     * 保存一条记录
+     * 增加一条记录
      * @param entity
      * @return
      */
-    int save(Homework entity);
+    int save(Question entity);
 
     /***
      * 更新一条记录
      * @param entity
      * @return
      */
-    int update(Homework entity);
+    int update(Question entity);
 
     /***
-     * 根据id来删除一条记录
+     * 删除一条记录
      * @param id
      * @return
      */
     int deleteById(Serializable id);
 
-    /***
+    /**
      * 删除多条记录
      * @param idList
      * @return
@@ -47,22 +49,21 @@ public interface IHomeworkService {
     int deleteSelect(List<Serializable> idList);
 
     /***
-     * 根据id来查询一条记录
+     * 查询一条记录
      * @param id
      * @return
      */
-    HomeworkDTO selectById(Serializable id);
+    QuestionDTO selectById(Serializable id);
 
     /***
-     * 查询所有的记录
+     * 查询所有
      * @return
      */
-    List<HomeworkDTO> selectAll();
+    List<QuestionDTO> selectAll();
 
     /***
-     * 根据课程名查询
-     * @param courseName
+     * 根据专业名称来查询
      * @return
      */
-    List<HomeworkDTO> selectByCourseName(String courseName);
+    List<QuestionDTO> selectByName();
 }

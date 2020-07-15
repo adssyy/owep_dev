@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.ClassDTO;
 import com.kclm.owep.dto.TeachingDTO;
 import com.kclm.owep.entity.*;
 
@@ -16,27 +17,30 @@ import java.util.List;
  * @Create 2020/7/10 16:58
  * @Description 授课管理业务层接口
  */
-public interface ITeachingService {
+public interface TeachingService {
     /**
      * 获取班级数据
      */
-    List<Clazz> findAllClass();
+    List<ClassDTO> findAllClass();
 
     /**
      * 根据条件，获取班级数据
      */
-    List<Clazz> findClassByConditions(String classNumber,String className,String instituteName,
-                                      String branchName,String profession );
+    List<ClassDTO> findClassByConditions(String classNumber,String className,String instituteName,
+                                      String branchName,String profession);
 
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
     List<TeachingDTO> getTeachingDto(Serializable classId);
+    List<TeachingDTO> evaluateTeachingDto(Serializable classId);
+    List<TeachingDTO> leaveTeachingDto(Serializable classId);
+    List<TeachingDTO> illegalTeachingDto(Serializable classId);
 
     /**
      * 根据资源名称查询资源
      */
-    List<Resource> findResourceByName(String resourceName);
+    List<TeachingDTO> findResourceByName(String resourceName);
 
     /**
      * 根据id删除资源
@@ -56,42 +60,42 @@ public interface ITeachingService {
     /**
      * 根据id获取问题详情
      */
-    Question findQuestionById(Serializable questionId);
+    TeachingDTO findQuestionById(Serializable questionId);
 
     /**
-     * 更新问题  ??
+     * 更新问题
      */
     int updateQuestion(Question question);
 
     /**
      * 根据id获取作业详情
      */
-    Homework findHomeworkById(Serializable homeworkId);
+    TeachingDTO findHomeworkById(Serializable homeworkId);
 
     /**
-     * 更新作业 审批内容  ??
+     * 更新作业 审批内容
      */
     int updateHomework(Homework homework);
 
     /**
      * 根据id获取学生评价详情
      */
-    Evaluate findEvaluateById(Serializable evaluateId);
+    TeachingDTO findEvaluateById(Serializable evaluateId);
 
     /**
-     * 更新评价内容  ??
+     * 更新评价内容
      */
     int updateEvaluate(Evaluate evaluate);
 
     /**
-     *审批请假数据  ??
+     *审批请假数据
      */
-    int updateApprovalStatus(Integer approvalStatus);
+    int updateApprovalStatus(Leave leave);
 
     /**
      *  根据条件查找违纪数据
      */
-    List<Illegal> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,LocalDateTime endTime);
+    List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,LocalDateTime endTime);
 
     /**
      * 根据id删除违纪数据
@@ -106,6 +110,7 @@ public interface ITeachingService {
     /**
      * 获取课程章节数据
      */
-    List<Chapter> findChapter();
+    //List<Chapter> findChapter();
+
 
 }

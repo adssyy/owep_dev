@@ -17,7 +17,7 @@ import java.util.List;
  * @description 问题回答
  *
  */
-public interface IQuestionReplyService {
+public interface QuestionReplyService {
     /***
      * 保存一条记录
      * @param entity

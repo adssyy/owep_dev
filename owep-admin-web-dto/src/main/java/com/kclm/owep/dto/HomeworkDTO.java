@@ -42,19 +42,6 @@ public class HomeworkDTO {
      */
     private LocalDateTime createTime;
 
-    public HomeworkDTO() {
-    }
-
-    public HomeworkDTO(Integer id, String workTitle, String workContent, String workFileName, String courseName, String className, LocalDateTime createTime) {
-        this.id = id;
-        this.workTitle = workTitle;
-        this.workContent = workContent;
-        this.workFileName = workFileName;
-        this.courseName = courseName;
-        this.className = className;
-        this.createTime = createTime;
-    }
-
     public Integer getId() {
         return id;
     }

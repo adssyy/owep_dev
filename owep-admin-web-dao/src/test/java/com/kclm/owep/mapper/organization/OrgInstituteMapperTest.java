@@ -1,16 +1,22 @@
-package com.kclm.owep.organization;
+package com.kclm.owep.mapper.organization;
 
 import com.kclm.owep.OwepAdminWebDaoApplication;
-import com.kclm.owep.entity.BranchInstitute;
 import com.kclm.owep.entity.OrgInstitute;
 import com.kclm.owep.mapper.OrgInstituteMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
-
+/*******
+ * @Author yangwr
+ * @Version v1.0
+ * @Create 2020/7/6 16:34
+ * @Description 组织机构测试类
+ */
 @SpringBootTest(classes = OwepAdminWebDaoApplication.class)
 public class OrgInstituteMapperTest {
 
@@ -29,13 +35,15 @@ public class OrgInstituteMapperTest {
     }
 
     /***
-     * 根据机构名称查找数据
+     * 根据机构名称 机构类型查找数据
      */
     @Test
     void findByinstituteName() {
+        OrgInstitute orgInstitute = new OrgInstitute();
+        orgInstitute.setInstituteName("萍乡学院");
+        orgInstitute.setInstituteType(1);
+        this.orgInstituteMapper.findByinstituteNameAndType(orgInstitute);
 
-        List<OrgInstitute> orgInstitute = orgInstituteMapper.findByinstituteName("快程乐码");
-        orgInstitute.forEach(System.out::println);
 
     }
 
@@ -58,10 +66,18 @@ public class OrgInstituteMapperTest {
         OrgInstitute orgInstitute = this.orgInstituteMapper.selectById(2);
         System.out.println(orgInstitute);
     }
+
+    /***
+     * 根据id删除
+     */
     @Test
     public void  deleteById(){
 
        this.orgInstituteMapper.deleteById(3);
     }
-
+    @Test
+    public void deleteSelect(){
+        List<Serializable> asList = Arrays.asList( 6,7);
+        this.orgInstituteMapper.deleteSelect(asList);
+    }
  }

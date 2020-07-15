@@ -4,34 +4,33 @@
 
 package com.kclm.owep.service;
 
-import com.kclm.owep.dto.ProfessionDTO;
-import com.kclm.owep.entity.Profession;
+import com.kclm.owep.dto.HomeworkDTO;
+import com.kclm.owep.entity.Homework;
 import java.io.Serializable;
 import java.util.List;
 
 /*****************
  *
  * @author tanj
- * @date 2020/7/13 10:17
+ * @date 2020/7/13 11:50
  * @version v1.0
- * @description 专业
+ * @description 班级作业
  *
  */
-public interface IProfessionService{
-
+public interface HomeworkService {
     /***
      * 保存一条记录
      * @param entity
      * @return
      */
-    int save(Profession entity);
+    int save(Homework entity);
 
     /***
      * 更新一条记录
      * @param entity
      * @return
      */
-    int update(Profession entity);
+    int update(Homework entity);
 
     /***
      * 根据id来删除一条记录
@@ -48,27 +47,22 @@ public interface IProfessionService{
     int deleteSelect(List<Serializable> idList);
 
     /***
-     * 查询一条记录
+     * 根据id来查询一条记录
      * @param id
      * @return
      */
-    ProfessionDTO selectById(Serializable id);
+    HomeworkDTO selectById(Serializable id);
 
     /***
      * 查询所有的记录
      * @return
      */
-    List<ProfessionDTO> selectAll();
+    List<HomeworkDTO> selectAll();
 
     /***
-     * 根据专业名称来查询
+     * 根据课程名查询
+     * @param courseName
      * @return
      */
-    List<ProfessionDTO> selectByProName(String proName);
-
-    /***
-     * 根据分支类查询
-     * @return
-     */
-    List<ProfessionDTO> selectByBranchName(String branName);
+    List<HomeworkDTO> selectByCourseName(String courseName);
 }

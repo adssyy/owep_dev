@@ -80,9 +80,6 @@ public class ClazzDTO{
      */
     private List<PlanManager> planManagerList;
 
-    public ClazzDTO() {
-    }
-
     public Integer getId() {
         return id;
     }
