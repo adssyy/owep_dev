@@ -59,7 +59,7 @@
   </select>
 
   <!--通过id查找数据-->
-  <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="Integer" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from t_evaluate where id = #{id}
   </select>
   <!--通过id删除数据-->

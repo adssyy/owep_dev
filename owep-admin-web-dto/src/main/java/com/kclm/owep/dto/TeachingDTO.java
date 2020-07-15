@@ -3,7 +3,11 @@
  */
 package com.kclm.owep.dto;
 
+import com.kclm.owep.entity.Resource;
+import com.kclm.owep.entity.Student;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 /*********************
  * @Auther shentr
@@ -12,82 +16,27 @@ import java.time.LocalDateTime;
  * @Description 授课管理的dto
  */
 public class TeachingDTO {
+
     /**
+     * id
+     */
+    private Integer id;
+    /***
      * 班级描述
      */
     private String classDesc;
-    /**
-     * 资源名称
+    /***
+     * 资源管理
      */
-    private String resourceName;
+    private List<Resource> resourceList;
     /**
-     * 资源类型，0.表示课程资源，1.表示公共资源
+     *学员外键
      */
-    private Integer type;
-    /**
-     * 资源大小
-     */
-    private Integer resourceSize;
-    /**
-     * 问答时间
-     */
-    private LocalDateTime createTime;
-    /**
-     * 问答内容
-     */
-    private String questionContent;
-    /**
-     * 提问者
-     */
-    private String questionAuthor;
-    /**
-     * 作业标题
-     */
-    private String workTitle;
-    /**
-     * 作业内容
-     */
-    private String workContent;
-    /**
-     *答案内容
-     */
-    private String answerContent;
-    /**
-     *学号
-     */
-    private String stuNumber;
-    /**
-     *姓名
-     */
-    private String studentName;
-    /**
-     *性别
-     */
-    private Integer gender;
-    /**
-     *手机
-     */
-    private String stuPhone;
-    /**
-     *邮箱
-     */
-    private String stuEmail;
-    /**
-     *有效日期
-     */
-    private LocalDateTime effectiveDate;
-    /**
-     *状态
-     */
-    private Integer evaluateStatus;
+    private Student student;
     /**
      *评价内容
      */
     private String evaluate;
-    /**
-     *序号
-     */
-    private Integer serialNumber;
     /**
      *请假时间
      */
@@ -112,105 +61,37 @@ public class TeachingDTO {
      *情况说明
      */
     private String presentationCondition;
-    /**
-     *证据文件，以学员名#id.扩展名 命名
-     */
-    private String attachment;
 
-    public String getClassDesc() { return classDesc; }
-
-    public void setClassDesc(String classDesc) { this.classDesc = classDesc; }
-
-    public String getResourceName() { return resourceName; }
-
-    public void setResourceName(String resourceName) { this.resourceName = resourceName; }
-
-    public Integer getType() { return type; }
-
-    public void setType(Integer type) { this.type = type; }
-
-    public Integer getResourceSize() { return resourceSize; }
-
-    public void setResourceSize(Integer resourceSize) { this.resourceSize = resourceSize; }
-
-    public LocalDateTime getCreateTime() { return createTime; }
-
-    public void setCreateTime(LocalDateTime createTime) { this.createTime = createTime; }
-
-    public String getQuestionContent() { return questionContent; }
-
-    public void setQuestionContent(String questionContent) { this.questionContent = questionContent; }
-
-    public String getQuestionAuthor() { return questionAuthor; }
-
-    public void setQuestionAuthor(String questionAuthor) { this.questionAuthor = questionAuthor; }
-
-    public String getWorkTitle() { return workTitle; }
-
-    public void setWorkTitle(String workTitle) { this.workTitle = workTitle; }
-
-    public String getWorkContent() { return workContent; }
-
-    public void setWorkContent(String workContent) { this.workContent = workContent; }
-
-    public String getAnswerContent() { return answerContent; }
-
-    public void setAnswerContent(String answerContent) { this.answerContent = answerContent; }
-
-    public String getStuNumber() {
-        return stuNumber;
+    public Integer getId() {
+        return id;
     }
 
-    public void setStuNumber(String stuNumber) {
-        this.stuNumber = stuNumber;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public String getClassDesc() {
+        return classDesc;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setClassDesc(String classDesc) {
+        this.classDesc = classDesc;
     }
 
-    public Integer getGender() {
-        return gender;
+    public List<Resource> getResourceList() {
+        return resourceList;
     }
 
-    public void setGender(Integer gender) {
-        this.gender = gender;
+    public void setResourceList(List<Resource> resourceList) {
+        this.resourceList = resourceList;
     }
 
-    public String getStuPhone() {
-        return stuPhone;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStuPhone(String stuPhone) {
-        this.stuPhone = stuPhone;
-    }
-
-    public String getStuEmail() {
-        return stuEmail;
-    }
-
-    public void setStuEmail(String stuEmail) {
-        this.stuEmail = stuEmail;
-    }
-
-    public LocalDateTime getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(LocalDateTime effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    public Integer getEvaluateStatus() {
-        return evaluateStatus;
-    }
-
-    public void setEvaluateStatus(Integer evaluateStatus) {
-        this.evaluateStatus = evaluateStatus;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public String getEvaluate() {
@@ -219,14 +100,6 @@ public class TeachingDTO {
 
     public void setEvaluate(String evaluate) {
         this.evaluate = evaluate;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public LocalDateTime getLeaveTime() {
@@ -273,13 +146,24 @@ public class TeachingDTO {
         return presentationCondition;
     }
 
-    public void setPresentationCondition(String presentationCondition) { this.presentationCondition = presentationCondition; }
-
-    public String getAttachment() {
-        return attachment;
+    public void setPresentationCondition(String presentationCondition) {
+        this.presentationCondition = presentationCondition;
     }
 
-    public void setAttachment(String attachment) {
-        this.attachment = attachment;
+    @Override
+    public String toString() {
+        return "TeachingDTO{" +
+                "id=" + id +
+                ", classDesc='" + classDesc + '\'' +
+                ", resourceList=" + resourceList +
+                ", student=" + student +
+                ", evaluate='" + evaluate + '\'' +
+                ", leaveTime=" + leaveTime +
+                ", endTime=" + endTime +
+                ", reasonLeave='" + reasonLeave + '\'' +
+                ", approvalStatus=" + approvalStatus +
+                ", disciplineTime=" + disciplineTime +
+                ", presentationCondition='" + presentationCondition + '\'' +
+                '}';
     }
 }
