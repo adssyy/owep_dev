@@ -57,6 +57,11 @@ public class Question implements Serializable {
      */
     private Clazz clazz;
 
+    /**
+     * 课程
+     */
+    private Course course;
+
     public Question() {
     }
 
@@ -147,6 +152,14 @@ public class Question implements Serializable {
 
     public void setClazz(Clazz clazz) {
         this.clazz = clazz;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
  * @Author: tanj
  * @Version : v1.0
  * @Create: 2020年7月07日 下午16:10:40
- * @Description 班级
+ * @Description 班级问题
  */
 @Mapper
 public interface QuestionMapper extends BaseMapper<Question> {
