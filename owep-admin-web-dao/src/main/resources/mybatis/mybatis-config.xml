@@ -38,6 +38,7 @@
         <mapper resource="mybatis/mapper/MenuMapper.xml"/>
         &lt;!&ndash;End&ndash;&gt;
 
+
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
 
         <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
@@ -47,6 +48,7 @@
 
         <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
         <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
+
 
 
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
@@ -55,6 +57,7 @@
 
         <mapper resource="mybatis/mapper/ResourceTypeMapper.xml"/>
         <mapper resource="mybatis/mapper/ResourceMapper.xml"/>
+
 
         <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
         <mapper resource="mybatis/mapper/QuestionMapper.xml"/>
@@ -88,6 +91,7 @@
 
         <mapper resource="mybatis/mapper/OrgInstituteMapper.xml"/>
         <mapper resource="mybatis/mapper/BranchInstituteMapper.xml"/>
+
         <mapper resource="mybatis/mapper/ProfessionMapper.xml"/>
         <mapper resource="mybatis/mapper/HomeworkMapper.xml"/>
 
