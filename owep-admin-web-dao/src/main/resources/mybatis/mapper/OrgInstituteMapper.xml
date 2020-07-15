@@ -11,7 +11,6 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
     </resultMap>
-
     <sql id="OrgInstitute_column_List">
     id,
     institute_name,
@@ -29,6 +28,15 @@
         from t_org_institute
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <!--删除多个-->
+    <delete id="deleteSelect">
+        delete from t_org_institute
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
     <!--根据Id删除-->
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from t_org_institute
@@ -103,12 +111,20 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <!--根据机构名称 进行模糊查询-->
-    <select id="findByinstituteName" parameterType="String" resultType="orginstitute">
+    <!--根据机构名称 机构类型自定义查询 -->
+    <select id="findByinstituteNameAndType" parameterType="OrgInstitute" resultType="OrgInstitute">
         select
         <include refid="OrgInstitute_column_List"/>
         from t_org_institute
-        where institute_name like concat('%', #{instituteName}, '%')
+        where
+        <trim suffixOverrides="and">
+            <if test="instituteName != null">
+                institute_name = #{instituteName,jdbcType=VARCHAR} and
+            </if>
+            <if test="instituteType != null">
+                institute_type = #{instituteType,jdbcType=VARCHAR}
+            </if>
+        </trim>
     </select>
 
 </mapper>
