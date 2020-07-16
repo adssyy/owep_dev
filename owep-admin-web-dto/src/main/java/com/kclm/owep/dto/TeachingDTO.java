@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.dto;
 
+import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.Resource;
 import com.kclm.owep.entity.Student;
 
@@ -29,6 +30,10 @@ public class TeachingDTO {
      * 资源管理
      */
     private List<Resource> resourceList;
+    /***
+     * 方案
+     */
+    private List<PlanManager> planManagerList;
     /**
      *学员外键
      */
@@ -44,7 +49,7 @@ public class TeachingDTO {
     /**
      *结束时间
      */
-    private LocalDateTime endTime;
+    private LocalDateTime leaveEndTime;
     /**
      *请假事由
      */
@@ -110,12 +115,12 @@ public class TeachingDTO {
         this.leaveTime = leaveTime;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getLeaveEndTime() {
+        return leaveEndTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setLeaveEndTime(LocalDateTime leaveEndTime) {
+        this.leaveEndTime = leaveEndTime;
     }
 
     public String getReasonLeave() {
@@ -150,16 +155,25 @@ public class TeachingDTO {
         this.presentationCondition = presentationCondition;
     }
 
+    public List<PlanManager> getPlanManagerList() {
+        return planManagerList;
+    }
+
+    public void setPlanManagerList(List<PlanManager> planManagerList) {
+        this.planManagerList = planManagerList;
+    }
+
     @Override
     public String toString() {
         return "TeachingDTO{" +
                 "id=" + id +
                 ", classDesc='" + classDesc + '\'' +
                 ", resourceList=" + resourceList +
+                ", planManagerList=" + planManagerList +
                 ", student=" + student +
                 ", evaluate='" + evaluate + '\'' +
                 ", leaveTime=" + leaveTime +
-                ", endTime=" + endTime +
+                ", leaveEndTime=" + leaveEndTime +
                 ", reasonLeave='" + reasonLeave + '\'' +
                 ", approvalStatus=" + approvalStatus +
                 ", disciplineTime=" + disciplineTime +
