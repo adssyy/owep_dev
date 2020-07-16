@@ -93,6 +93,29 @@
     update t_planmanager_course set is_delete = 0 where id = #{id}
   </update>
 
+  <!--课程上移-->
+  <update id="courseMoveUp" parameterType="PlanManagerCourse">
+    update t_planmanager_course
+    <set>
+      <if test="courseOrder != null">
+        course_order = course_order - 1,
+      </if>
+        version = version + 1,
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--课程下移-->
+  <update id="courseMoveDown" parameterType="PlanManagerCourse">
+    update t_planmanager_course
+    <set>
+      <if test="courseOrder != null">
+        course_order = course_order + 1,
+      </if>
+        version = version + 1,
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
   <!--修改设置方案-->
   <update id="update" parameterType="PlanManagerCourse">
     update t_planmanager_course
@@ -112,7 +135,7 @@
       <if test="courseOrder != null">
         course_order = #{courseOrder,jdbcType=INTEGER},
       </if>
-        version = version + 1,
+      version = version + 1,
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
