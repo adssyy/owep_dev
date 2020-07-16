@@ -62,4 +62,10 @@
         where
         is_delete=1
     </select>
+    <!--通过关键字查询-->
+     <select id="findByKeywords" resultType="com.kclm.owep.entity.ResourceType" parameterType="string">
+        select * from t_resource_type
+        where
+        is_delete=1
+    </select>
 </mapper>

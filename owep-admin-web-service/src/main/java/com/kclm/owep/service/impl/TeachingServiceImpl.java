@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /*********************
@@ -49,8 +47,8 @@ public class TeachingServiceImpl implements TeachingService {
      * 获取班级数据
      */
     @Override
-    public List<ClassDTO> findAllClass() {
-        //PageHelper.startPage(1,5);
+    public List<ClassDTO> findAllClass(int pageNumber,int pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
         List<Clazz> clazzList = clazzMapper.selectAll();
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
         List<ClassDTO> classDTOS = mapperFacade.mapAsList(clazzList, ClassDTO.class);
@@ -65,11 +63,20 @@ public class TeachingServiceImpl implements TeachingService {
         return null;
     }
 
+    @Override
+    public TeachingDTO classTeachingDto(Serializable id) {
+        Clazz clazz = clazzMapper.selectById(id);
+        MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
+        TeachingDTO teach = mapperFacade.map(clazz, TeachingDTO.class);
+        return teach;
+    }
+
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
     @Override
-    public List<TeachingDTO> evaluateTeachingDto(Serializable classId) {
+    public List<TeachingDTO> evaluateTeachingDto(Serializable classId,int pageNumber,int pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
         List<Evaluate> evaluateList = evaluateMapper.selectByClassId(classId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
         List<TeachingDTO> teachingEvaluate = mapperFacade.mapAsList(evaluateList, TeachingDTO.class);
@@ -91,15 +98,19 @@ public class TeachingServiceImpl implements TeachingService {
     }
 
     @Override
-    public List<TeachingDTO> leaveTeachingDto(Serializable classId) {
+    public List<TeachingDTO> leaveTeachingDto(Serializable classId,int pageNumber,int pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
         List<Leave> leaveList = leaveMapper.selectByClassId(classId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
+        mapperFactory.classMap(Leave.class,TeachingDTO.class).
+                field("endTime","leaveEndTime").byDefault().register();
         List<TeachingDTO> teachingLeave = mapperFacade.mapAsList(leaveList, TeachingDTO.class);
         return teachingLeave;
     }
 
     @Override
-    public List<TeachingDTO> illegalTeachingDto(Serializable classId) {
+    public List<TeachingDTO> illegalTeachingDto(Serializable classId,int pageNumber,int pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
         List<Illegal> illegalList = illegalMapper.selectByClassId(classId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
         List<TeachingDTO> teachingIllegal = mapperFacade.mapAsList(illegalList, TeachingDTO.class);
@@ -138,7 +149,7 @@ public class TeachingServiceImpl implements TeachingService {
     public TeachingDTO findQuestionById(Serializable questionId) {
         Question question = questionMapper.selectById(questionId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        return mapperFacade.map(Question.class,TeachingDTO.class);
+        return mapperFacade.map(question,TeachingDTO.class);
     }
 
     /**
@@ -195,7 +206,9 @@ public class TeachingServiceImpl implements TeachingService {
      *  根据条件查找违纪数据
      */
     @Override
-    public List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime, LocalDateTime endTime) {
+    public List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,
+                                                     LocalDateTime endTime,int pageNumber,int pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
         List<Illegal> illegals = illegalMapper.selectByCondition(stuNumber, stuName, startTime, endTime);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
         return mapperFacade.mapAsList(illegals, TeachingDTO.class);

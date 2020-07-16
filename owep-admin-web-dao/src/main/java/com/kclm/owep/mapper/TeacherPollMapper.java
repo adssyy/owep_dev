@@ -5,7 +5,6 @@ import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -24,5 +23,12 @@ public interface TeacherPollMapper extends BaseMapper<TeacherPoll> {
      */
     int countTeacherPoll();
 
-
+    /***
+     * 根据搜索框条件查询
+     * @param className
+     * @param teacherName
+     * @param profName
+     * @return
+     */
+    List<TeacherPoll> selectByCondition(@Param("className") String className,@Param("profName") String profName,@Param("teacherName") String teacherName);
 }

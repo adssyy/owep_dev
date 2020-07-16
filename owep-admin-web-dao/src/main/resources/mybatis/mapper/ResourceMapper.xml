@@ -109,5 +109,6 @@
  from t_resource
  where
  is_delete=1
+<!--修改-->
 </select>
 </mapper>

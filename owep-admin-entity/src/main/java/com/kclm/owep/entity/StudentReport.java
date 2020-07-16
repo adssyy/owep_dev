@@ -4,6 +4,7 @@
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /*****
  * @Author WSP
@@ -227,5 +228,36 @@ public class StudentReport {
         sb.append(", version=").append(version);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        StudentReport that = (StudentReport) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(createTime, that.createTime) &&
+                Objects.equals(courseName, that.courseName) &&
+                Objects.equals(chapterName, that.chapterName) &&
+                Objects.equals(sectionName, that.sectionName) &&
+                Objects.equals(videoStudyTime, that.videoStudyTime) &&
+                Objects.equals(homeworkCount, that.homeworkCount) &&
+                Objects.equals(questionCount, that.questionCount) &&
+                Objects.equals(leaveCount, that.leaveCount) &&
+                Objects.equals(illegalCount, that.illegalCount) &&
+                Objects.equals(noteCount, that.noteCount) &&
+                Objects.equals(examCount, that.examCount) &&
+                Objects.equals(fkStudent, that.fkStudent) &&
+                Objects.equals(lastAccessTime, that.lastAccessTime) &&
+                Objects.equals(version, that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, createTime, courseName, chapterName, sectionName, videoStudyTime, homeworkCount, questionCount, leaveCount, illegalCount, noteCount, examCount, fkStudent, lastAccessTime, version);
     }
 }

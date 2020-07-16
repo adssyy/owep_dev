@@ -73,4 +73,17 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @return
      */
     List<Question> selectByName();
+
+    /***
+     * 根据班级id来查询班级问题
+     * @return
+     */
+    List<Question> selectByClassId(@Param("id") Serializable id);
+
+    /***
+     * 根据课程id来查询班级问题
+     * @param id
+     * @return
+     */
+    List<Question> selectByCourseId(@Param("id") Serializable id);
 }

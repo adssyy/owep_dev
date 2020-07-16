@@ -20,17 +20,20 @@ public interface TeacherPollService {
 
     /***
      * 多条件查询
-     * @param classId
+     * @param className
+     * @param profName
      * @param teacherName
      * @return
      */
-    List<TeacherPollDTO> findByCondition(Serializable classId, String teacherName);
+    List<TeacherPollDTO> findByCondition(String className,String profName,String teacherName,int page,int pageSize);
 
     /***
      * 获取所有的教师考评记录
+     * @param page
+     * @param pageSize
      * @return
      */
-    List<TeacherPollDTO> findAllTeacherPoll();
+    List<TeacherPollDTO> findAllTeacherPoll(int page,int pageSize);
 
     /***
      * 根据id获取教师考评记录
@@ -59,4 +62,11 @@ public interface TeacherPollService {
      * @return
      */
     int deleteTeacherPoll(Serializable id);
+
+    /***
+     * 添加教师考评
+     * @param teacherPoll
+     * @return
+     */
+    int addTeacherPoll(TeacherPoll teacherPoll);
 }

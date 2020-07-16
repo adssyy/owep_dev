@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 /*********************
- * @Author: Zhangsw
+ * @Author: ZhangShaowei
  * @Version : v1.0
  * @Create: 2020年7月06日
  * @Description 用户实体类类

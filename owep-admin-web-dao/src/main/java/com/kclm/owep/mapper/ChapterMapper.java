@@ -28,7 +28,7 @@ public interface ChapterMapper extends BaseMapper<Chapter> {
      * 通过课程id获取所有的章
      * @return
      */
-    List<Chapter> selectAllById();
+    List<Chapter> selectAllById(Serializable id);
 
     @Override
     int save(Chapter entity);
