@@ -53,9 +53,9 @@ public interface BranchInstituteService {
     int updateBranchInst(BranchInstitute branchInstitute);
 
     /***
-     * 根据分支名称删除资源
-     * @param instituteName
+     * 根据id删除资源
+     * @param branchId
      * @return
      */
-    int deleteBranchInstituteByName(Serializable instituteName);
+    int deleteBranchInstituteById(Serializable branchId);
 }

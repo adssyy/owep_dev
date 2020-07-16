@@ -6,6 +6,7 @@ package com.kclm.owep.mapper;
 import com.kclm.owep.entity.Client;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,6 +27,14 @@ public interface ClientMapper extends BaseMapper<Client> {
      * @return
      */
     List<Client> findByField(Client client);
+
+    /**
+     * 分配客户
+     * @param ids
+     * @param id
+     * @return
+     */
+    int assigningClient(@Param("list") List<Serializable> ids,@Param("id") Serializable id);
 
     /**
      * 查询客户总数量
@@ -50,4 +59,11 @@ public interface ClientMapper extends BaseMapper<Client> {
 
     @Override
     List<Client> selectAll();
+
+    /**
+     * 签约客户
+     * @param client
+     * @return
+     */
+    int signClient(Client client);
 }

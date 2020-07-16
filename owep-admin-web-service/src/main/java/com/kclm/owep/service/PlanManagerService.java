@@ -3,6 +3,8 @@
  */
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.PlanManagerCourseDTO;
+import com.kclm.owep.dto.PlanManagerDTO;
 import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.PlanManagerCourse;
 
@@ -20,48 +22,81 @@ public interface PlanManagerService {
 
     /**
      * 查询所有的方案
+     * @return
      */
-    List<PlanManager> findAllPlanManager();
+    List<PlanManagerDTO> findAllPlanManager();
+
+    /**
+     * 分页查询     培养方案
+     * @param page
+     * @param size
+     * @return
+     */
+    List<PlanManagerDTO> findAllPlanManagerByPaging(int page, int size);
 
     /**
      * 通过方案名称或编号查询方案
+     * @param planManager
+     * @return
      */
-    List<PlanManager> findPlanManagerByField(PlanManager planManager);
+    List<PlanManagerDTO> findPlanManagerByField(PlanManager planManager);
 
     /**
      * 修改方案
+     * @param planManager
+     * @return
      */
     int alterPlanManager(PlanManager planManager);
 
     /**
      * 通过ids 删除多个方案
+     * @param ids
+     * @return
      */
     int deletePlanManagerByIds(List<Serializable> ids);
 
     /**
      * 通过id 删除单个方案
+     * @param id
+     * @return
      */
     int deletePlanManagerById(Serializable id);
 
+
+    /**
+     * 分页查询     方案中设置的课程
+     */
+    List<PlanManagerCourseDTO> findPlanCoursePaging(Serializable planId, int page, int size);
+
+
     /**
      * 对方案添加课程
+     * @param planManagerCourse
+     * @return
      */
     int addPlanManagerCourse(PlanManagerCourse planManagerCourse);
 
     /**
      * 删除方案中的课程
+     * @param id
+     * @return
      */
     int deltePlanManagerCourseById(Serializable id);
 
     /**
      * 对方案中的课程排序 上移 下移
+     * @param up
+     * @param down
+     * @return
      */
-    int shiftCellsUpOrDown(Serializable upId, Serializable downId);
+    int shiftCellsUpOrDown(PlanManagerCourse up, PlanManagerCourse down);
 
     /**
      * 通过方案id,查询方案中的所有课程
+     * @param id
+     * @return
      */
-    List<PlanManagerCourse> findAllPlanManagerCourse(Serializable id);
+    List<PlanManagerCourseDTO> findAllPlanManagerCourse(Serializable id);
 
 
 

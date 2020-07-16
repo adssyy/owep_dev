@@ -19,7 +19,6 @@ public interface OrgInstituteService {
 
     /**
      * 查询所有机构
-     *
      * @return
      */
     List<OrgInstituteDTO> findAllinstitute();
@@ -53,11 +52,11 @@ public interface OrgInstituteService {
     int updateOrgInstitute(OrgInstitute orgInstitute);
 
     /***
-     * 根据机构名称删除资源
-     * @param instituteName
+     * 根据id删除资源
+     * @param instituteId
      * @return
      */
-    int deleteOrgInstituteByName(Serializable instituteName);
+    int deleteOrgInstituteById(Serializable instituteId);
 
 
 }

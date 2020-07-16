@@ -39,15 +39,11 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="isDelete != null">
         is_delete,
-      </if>
       <if test="version != null">
         version,
       </if>
-      <if test="lastAccessTime != null">
         last_access_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -65,15 +61,11 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=VARCHAR},
-      </if>
+        1,
       <if test="version != null">
         #{version,jdbcType=INTEGER},
       </if>
-      <if test="lastAccessTime != null">
-        #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
+        now()
     </trim>
   </insert>
 
@@ -86,9 +78,6 @@
         </if>
         <if test="categoryDesc != null">
           category_desc = #{categoryDesc,jdbcType=VARCHAR},
-        </if>
-        <if test="courseCategory.id != null">
-          fk_parent_id = #{courseCategory.id,jdbcType=INTEGER},
         </if>
         <if test="isDelete != null">
           is_delete = #{isDelete,jdbcType=INTEGER},

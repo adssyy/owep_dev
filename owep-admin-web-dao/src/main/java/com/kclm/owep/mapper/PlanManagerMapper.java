@@ -6,6 +6,7 @@ package com.kclm.owep.mapper;
 import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +24,6 @@ public interface PlanManagerMapper extends BaseMapper<PlanManager> {
 
 
     List<PlanManager> selectByField(PlanManager planManager);
-
 
     /**
      * 查询方案的总记录数
@@ -45,4 +45,6 @@ public interface PlanManagerMapper extends BaseMapper<PlanManager> {
 
     @Override
     List<PlanManager> selectAll();
+
+
 }
