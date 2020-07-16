@@ -27,7 +27,7 @@ public interface TeachingService {
      * 根据条件，获取班级数据
      */
     List<ClassDTO> findClassByConditions(String classNumber,String className,String instituteName,
-                                      String branchName,String profession);
+                                         String branchName,String profession);
 
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
@@ -107,6 +107,6 @@ public interface TeachingService {
      * 添加违纪数据
      */
     int saveIllegal(Illegal illegal);
-    
+
 
 }

@@ -6,8 +6,11 @@ package com.kclm.owep.service.impl;
 
 import com.kclm.owep.dto.ClazzDTO;
 import com.kclm.owep.entity.Clazz;
+import com.kclm.owep.mapper.ClazzMapper;
 import com.kclm.owep.service.ClazzService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,15 +24,37 @@ import java.util.List;
  *
  */
 @Service
+@Transactional
 public class ClazzServiceImpl implements ClazzService {
+    @Autowired
+    private ClazzMapper clazzMapper;
+
+    /***
+     * 添加班级
+     * @param entity
+     * @return
+     */
     @Override
     public int save(Clazz entity) {
-        return 0;
+        //保存entity
+        int save = clazzMapper.save(entity);
+        //获取班级id
+        int classId=entity.getId();
+        //添加班级-方案中间表
+        for (int i=0;i<entity.getPlanManagerList().size();i++){
+            clazzMapper.saveClazzPlanmanage(classId,entity.getPlanManagerList().get(i).getId());
+        }
+        //添加班级-资源中间表
+        for (int i=0;i<entity.getResourceList().size();i++){
+            clazzMapper.saveClazzResource(classId,entity.getResourceList().get(i).getId());
+        }
+        //返回班级表影响的行数
+        return save;
     }
 
     @Override
     public int update(Clazz entity) {
-        return 0;
+        return clazzMapper.update(entity);
     }
 
     @Override
