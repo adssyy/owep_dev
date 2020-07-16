@@ -92,4 +92,13 @@ public class TeacherPollMapperTest {
         final int i = teacherPollMapper.countTeacherPoll();
         System.out.println("有"+i+"条记录");
     }
-}
+
+    @Test
+    void SelectByConditionTest(){
+        String className = "";
+        String teacherName = "张无忌";
+        String profName = "";
+        final List<TeacherPoll> teacherPolls = teacherPollMapper.selectByCondition(className,profName,teacherName);
+        System.out.println("===============>"+teacherPolls);
+    }
+};

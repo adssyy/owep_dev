@@ -284,4 +284,20 @@
     select * from t_teacher_poll
   </select>
 
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select * from t_teacher_poll t
+    join t_class tc on t.fk_class_id = tc.id
+    join t_profession tp on tc.fk_profession_id = tp.id
+    where 1 = 1
+    <if test="className != null and className !='' ">
+      and t.class_name = #{className}
+    </if>
+    <if test="teacherName != null and teacherName !='' ">
+      and t.teacher_name = #{teacherName}
+    </if>
+    <if test="profName != null and profName != '' ">
+      and prof_name = #{profName}
+    </if>
+  </select>
+
 </mapper>

@@ -6,6 +6,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.PollTemplateDTO;
 import com.kclm.owep.entity.PollTemplate;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,13 +24,15 @@ public interface PollTemplateService {
      * @param keyword
      * @return
      */
-    PollTemplateDTO findByKeywords(String keyword);
+    List<PollTemplateDTO> findByKeywords(String keyword,int page,int pageSize);
 
     /***
      * 获取所有的考评模板
+     * @param page
+     * @param pageSize
      * @return
      */
-    PollTemplateDTO findAllPollTemplates();
+    List<PollTemplateDTO> findAllPollTemplates(int page,int pageSize);
 
     /***
      * 根据id获取考评模板信息
