@@ -107,11 +107,6 @@ public interface TeachingService {
      * 添加违纪数据
      */
     int saveIllegal(Illegal illegal);
-
-    /**
-     * 获取课程章节数据
-     */
-    List<Chapter> findChapter();
-
+    
 
 }
