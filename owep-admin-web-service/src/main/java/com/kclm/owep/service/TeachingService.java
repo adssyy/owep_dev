@@ -110,7 +110,7 @@ public interface TeachingService {
     /**
      * 获取课程章节数据
      */
-    //List<Chapter> findChapter();
+    List<Chapter> findChapter();
 
 
 }

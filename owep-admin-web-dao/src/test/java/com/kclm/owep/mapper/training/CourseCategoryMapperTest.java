@@ -57,8 +57,6 @@ class CourseCategoryMapperTest {
         courseCategory.setCategoryName("redis");
         courseCategory.setCategoryDesc("noSql");
         courseCategory.setIsDelete(1);
-        courseCategory.setCourseCategory(new CourseCategory());
-        courseCategory.setLastAccessTime(LocalDateTime.now());
         courseCategoryMapper.update(courseCategory);
 
     }

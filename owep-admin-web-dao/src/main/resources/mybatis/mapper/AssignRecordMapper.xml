@@ -36,9 +36,6 @@
   <insert id="save" parameterType="AssignRecord">
     insert into t_assign_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="fromUser.id != null">
         fk_from_user_id,
       </if>
@@ -48,23 +45,14 @@
       <if test="client.id != null">
         fk_client_id,
       </if>
-      <if test="createTime != null">
         create_time,
-      </if>
       <if test="reason != null">
         reason,
       </if>
-      <if test="lastAccessTime != null">
         last_access_time,
-      </if>
-      <if test="version != null">
         version,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="fromUser.id != null">
         #{fromUser.id,jdbcType=INTEGER},
       </if>
@@ -74,18 +62,12 @@
       <if test="client.id != null">
         #{client.id,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
+        now(),
       <if test="reason != null">
         #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="lastAccessTime != null">
-        #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        #{version,jdbcType=INTEGER},
-      </if>
+        now(),
+        1,
     </trim>
   </insert>
 

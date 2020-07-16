@@ -40,8 +40,8 @@ class PlanManagerMapperTest {
 
         planManagerMapper.deleteById(2);
 
-
     }
+
 
     @Test
     void deleteSelect() {
@@ -55,7 +55,21 @@ class PlanManagerMapperTest {
         List<PlanManager> planManagers = planManagerMapper.selectAll();
         planManagers.forEach(System.out::println);
     }
-    
+
+    @Test
+    void save(){
+        for(int i= 0; i<50; i++){
+            PlanManager planManager = new PlanManager();
+            planManager.setLastAccessTime(LocalDateTime.now());
+            planManager.setPlanDesc("JAVAEE企业全栈开发描述");
+            planManager.setPlanName("JAVAEE企业全栈开发");
+            planManager.setPlanStatus(1);
+            planManager.setPlanNumber("FA_20200327153221");
+            planManagerMapper.save(planManager);
+        }
+    }
+
+
     @Test
     void update() {
         PlanManager planManager = new PlanManager();
@@ -64,6 +78,7 @@ class PlanManagerMapperTest {
         planManager.setPlanDesc("JAVAEE企业全栈开发描述");
         planManager.setPlanName("JAVAEE企业全栈开发");
         planManager.setPlanStatus(1);
+        planManager.setIsDelete(1);
         planManager.setPlanNumber("FA_20200327153221");
         planManagerMapper.update(planManager);
     }
