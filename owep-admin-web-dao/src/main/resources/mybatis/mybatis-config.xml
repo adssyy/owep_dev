@@ -99,6 +99,7 @@
         <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
         <mapper resource="mybatis/mapper/StudentMapper.xml"/>
         <mapper resource="mybatis/mapper/VideoMapper.xml"/>
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======

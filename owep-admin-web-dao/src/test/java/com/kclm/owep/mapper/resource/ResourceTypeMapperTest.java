@@ -30,8 +30,8 @@ public class ResourceTypeMapperTest {
     @Test
     void save(){
         ResourceType resourceType = new ResourceType();
-        resourceType.setTypeName("课程资源");
-        resourceType.setTypeDesc("公开的资源哈哈");
+        resourceType.setTypeName("私有资源");
+        resourceType.setTypeDesc("私有的资源");
         resourceType.setIsDelete(1);
         resourceType.setCreateTime(LocalDateTime.now());
         this.resourceTypeMapper.save(resourceType);
@@ -42,7 +42,7 @@ public class ResourceTypeMapperTest {
     void update(){
         ResourceType resourceType = new ResourceType();
         resourceType.setId(1);
-        resourceType.setTypeName("hahaha");
+        resourceType.setTypeName("公共资源");
         resourceTypeMapper.update(resourceType);
     }
 
@@ -69,5 +69,11 @@ public class ResourceTypeMapperTest {
         if (all != null){
             all.forEach(System.out::println);
         }
+    }
+    @Test
+    void findByKeywords(){
+        String keyword = "2";
+        final List<ResourceType> result = resourceTypeMapper.findByKeywords(keyword);
+        System.out.println("-------------查找结果------------------"+result);
     }
 }
