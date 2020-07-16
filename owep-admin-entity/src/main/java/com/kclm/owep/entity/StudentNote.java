@@ -4,6 +4,8 @@
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 /*****
  * @Author WSP
  * @Version v1.0
@@ -140,5 +142,30 @@ public class StudentNote {
         sb.append(", version=").append(version);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        StudentNote that = (StudentNote) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(noteTitle, that.noteTitle) &&
+                Objects.equals(noteContent, that.noteContent) &&
+                Objects.equals(createTime, that.createTime) &&
+                Objects.equals(lastAccessTime, that.lastAccessTime) &&
+                Objects.equals(version, that.version) &&
+                Objects.equals(fkStudent, that.fkStudent) &&
+                Objects.equals(fkCourse, that.fkCourse) &&
+                Objects.equals(fkVideo, that.fkVideo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, noteTitle, noteContent, createTime, lastAccessTime, version, fkStudent, fkCourse, fkVideo);
     }
 }

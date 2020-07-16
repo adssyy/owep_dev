@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /*********************
- * @Author: Zhangsw
+ * @Author: ZhangShaowei
  * @Version : v1.0
  * @Create: 2020年7月03日
  * @Description 学生实体类
@@ -369,6 +369,7 @@ public class Student {
         sb.append("id=").append(id);
         sb.append(", stuName='").append(stuName).append('\'');
         sb.append(", stuPwd='").append(stuPwd).append('\'');
+        sb.append(", stuNumber='").append(stuNumber).append('\'');
         sb.append(", stuPhone='").append(stuPhone).append('\'');
         sb.append(", stuEmail='").append(stuEmail).append('\'');
         sb.append(", stuRealName='").append(stuRealName).append('\'');
@@ -414,5 +415,8 @@ public class Student {
     @Override
     public int hashCode() {
         return Objects.hash(id, stuName, stuPwd, stuPhone, stuEmail, stuRealName, emailCode, gender, cardNum);
+    }
+
+    public Student() {
     }
 }
