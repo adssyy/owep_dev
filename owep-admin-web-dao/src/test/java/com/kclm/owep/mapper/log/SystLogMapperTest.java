@@ -26,11 +26,11 @@ class SystLogMapperTest {
 
     @Test
     void findByTime() {
-       // String username="admin";
-        String username="tomcat";
+        String username="admin";
         LocalDateTime start=LocalDateTime.of(2020,7,9,0,0,0);
         //LocalDateTime start=null;
-        LocalDateTime end=LocalDateTime.of(2020,7,10,0,0,0);
+        //LocalDateTime end=LocalDateTime.of(2020,7,10,0,0,0);
+        LocalDateTime end=LocalDateTime.now();
         //LocalDateTime end=null;
         // 2020-07-09 11:26:30
         this.systLogMapper.findByTime(username,start,end);
@@ -40,7 +40,14 @@ class SystLogMapperTest {
     void  save(){
         SystLog systLog=new SystLog();
         systLog.setTitle("日志");
+        systLog.setModuleName("系统配置");
+        systLog.setMenuName("参数信息");
+        systLog.setMethod("GET");
+        systLog.setRequestUrl("/system/toSystemDirect");
         systLog.setIpAddr("192.168.0.0.1");
+        systLog.setType("后台管理端");
+        systLog.setLoginUserName("admin");
+        systLog.setLastAccessTime(LocalDateTime.now());
         systLog.setCreateTime(LocalDateTime.now());
         this.systLogMapper.save(systLog);
         System.out.println(systLog);
@@ -48,8 +55,16 @@ class SystLogMapperTest {
     @Test
     void update(){
         SystLog systLog=new SystLog();
-        systLog.setLoginUserName("测试update");
-        systLog.setId(1);
+        systLog.setTitle("日志");
+        systLog.setModuleName("系统配置");
+        systLog.setMenuName("参数信息");
+        systLog.setMethod("GET");
+        systLog.setRequestUrl("/system/toSystemDirect");
+        systLog.setIpAddr("192.168.0.0.1");
+        systLog.setType("后台管理端");
+        systLog.setLoginUserName("admin");
+        systLog.setLastAccessTime(LocalDateTime.now());
+        systLog.setId(12);
         this.systLogMapper.update(systLog);
         System.out.println(systLog);
     }
@@ -64,9 +79,8 @@ class SystLogMapperTest {
     }
     @Test
     void  selectById(){
-        final SystLog systLog=systLogMapper.selectById(1);
+        final SystLog systLog=systLogMapper.selectById(10);
         System.out.println(systLog);
-
     }
     @Test
     void  SelectAll(){

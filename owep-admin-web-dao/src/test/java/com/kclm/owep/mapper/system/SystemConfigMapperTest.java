@@ -34,6 +34,8 @@ class SystemConfigMapperTest {
         systemConfig.setSystemName("苏州青英培训学校（乐码学院）");
         systemConfig.setLoginPageLogo("img/copy");
         systemConfig.setSystemPageLogo("img/system");
+        systemConfig.setLastAccessTime(LocalDateTime.now());
+        systemConfig.setLoginCount(1);
         this.systemConfigMapper.save(systemConfig);
         System.out.println(systemConfig);
     }
@@ -41,7 +43,8 @@ class SystemConfigMapperTest {
     @Test
     public  void update(){
         SystemConfig systemConfig=new SystemConfig();
-        systemConfig.setId(1);
+        systemConfig.setId(10);
+        systemConfig.setLastAccessTime(LocalDateTime.now());
         this.systemConfigMapper.update(systemConfig);
         System.out.println(systemConfig);
     }
@@ -60,9 +63,8 @@ class SystemConfigMapperTest {
 
     @Test
     public  void selectById(){
-        final  SystemConfig systemConfig=systemConfigMapper.selectById(2);
+        final  SystemConfig systemConfig=systemConfigMapper.selectById(10);
         System.out.println("systemConfig"+systemConfig);
-
     }
 
     @Test

@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.SystLogDTO;
 import com.kclm.owep.entity.SystLog;
 
 import java.time.LocalDateTime;
@@ -20,18 +21,13 @@ public interface SystLogService {
      * 查询所有记录
      * @return
      */
-    List<SystLog> findAll();
+    List<SystLogDTO> findAll();
 
     /**
      * 根据用户名和时间查询记录
-     * @param username
-     * @param start
-     * @param end
      * @return
      */
-    List<SystLog> findByTime(String username,
-                             LocalDateTime start,
-                             LocalDateTime end);
+    List<SystLogDTO> findByTime();
 
 
 }

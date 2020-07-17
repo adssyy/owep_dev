@@ -30,13 +30,10 @@ class DbCopyMapperTest {
     @Test
     public void save(){
         DbCopy dbCopy=new DbCopy();
-
-        //dbCopy.setCreateTime(LocalDateTime.now());
         dbCopy.setFileName("数据库测试1");
         dbCopy.setFilePath("hello/hello");
         dbCopy.setLastAccessTime(LocalDateTime.now());
         dbCopy.setStatus(true);
-        //dbCopy.setVersion(1);
         this.dbCopyMapper.save(dbCopy);
         System.out.println(dbCopyMapper);
         System.out.println(dbCopy);
@@ -47,13 +44,9 @@ class DbCopyMapperTest {
         DbCopy dbCopy=new DbCopy();
         dbCopy.setId(1001);
         dbCopy.setFileName("new1_update");
-        //dbCopy.setVersion(2);
         dbCopy.setStatus(true);
-        //dbCopy.setLastAccessTime(LocalDateTime.now());
-        //dbCopy.setCreateTime(LocalDateTime.now());
         this.dbCopyMapper.update(dbCopy);
         System.out.println(dbCopy);
-
     }
     @Test
     public void deleteById(){
@@ -69,7 +62,7 @@ class DbCopyMapperTest {
     @Test
     public void selectById(){
         System.out.println("DbCopyMapper"+dbCopyMapper);
-        final DbCopy dbCopy=this.dbCopyMapper.selectById(1);
+        final DbCopy dbCopy=this.dbCopyMapper.selectById(1007);
         System.out.println(dbCopy);
 
     }

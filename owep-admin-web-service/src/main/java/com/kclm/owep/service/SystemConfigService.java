@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.SystemConfigDTO;
 import com.kclm.owep.entity.SystemConfig;
 
 import java.util.List;
@@ -18,13 +19,13 @@ public interface SystemConfigService {
      * 查询基本信息
      * @return
      */
-    List<SystemConfig> findAll();
+    List<SystemConfigDTO> findAll();
 
     /**
      * 保存基本信息
      * @return
      */
-    int save();
+    int save(SystemConfigDTO systemConfigDTO);
 
 
 

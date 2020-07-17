@@ -17,20 +17,87 @@ public class DbCopyDTO implements Serializable {
 
     private static final long serialVersionUTD = 1L;
     /**
-     * 主键id值
+     * 主键id
      */
     private Integer id;
     /**
-     *文件名
+     * 备份sql文件名
      */
-    private String fileName;
+    private  String fileName;
     /**
-     *备份的状态，1表示成功，0表示失败
+     * 备份的状态，1代表成功，0代表失败
      */
-    private Boolean status;
+    private boolean status;
     /**
-     *备份时间
+     * 备份的时间
      */
-    private LocalDateTime createTime=LocalDateTime.now();
+    private LocalDateTime createTime =LocalDateTime.now();
+    /**
+     * 开始时间
+     */
+    private LocalDateTime startTime;
+    /**
+     * 结束时间
+     */
+    private LocalDateTime endTime;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "DbCopyDTO{" +
+                "id=" + id +
+                ", fileName='" + fileName + '\'' +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }
