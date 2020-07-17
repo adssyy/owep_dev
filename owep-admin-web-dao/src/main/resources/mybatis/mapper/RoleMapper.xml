@@ -67,9 +67,9 @@
             <if test="roleDescription != null">
                 role_description=#{roleDescription},
             </if>
-                last_access_time=now(),
-                version=version+1,
-            <if test="parent!= null">
+            last_access_time=now(),
+            version=version + 1,
+            <if test="parent != null">
                 fk_parent_id=#{parent.id}
             </if>
         </set>
@@ -235,6 +235,14 @@
     <delete id="deletePermissionByRoleId">
         delete
         from t_role_permission
+                where role_id in
+        <foreach collection="list" close=")" open="(" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteRoleInGR">
+        delete
+        from t_group_role
                 where role_id in
         <foreach collection="list" close=")" open="(" separator="," item="item">
             #{item}

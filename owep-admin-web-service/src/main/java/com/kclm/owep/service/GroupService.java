@@ -33,7 +33,7 @@ public interface GroupService {
     int saveOrUpdate(Group group);
 
     /**
-     * 删除用户组
+     * 删除用户组,需要删除中间表数据
      * @param ids
      * @return  大于0则执行成功  等于或小于0执行失败
      */

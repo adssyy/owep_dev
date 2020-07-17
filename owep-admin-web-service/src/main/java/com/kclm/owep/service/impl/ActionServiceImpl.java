@@ -10,6 +10,7 @@ import com.kclm.owep.dto.ActionDTO;
 import com.kclm.owep.dto.GroupDTO;
 import com.kclm.owep.entity.Action;
 import com.kclm.owep.mapper.ActionMapper;
+import com.kclm.owep.mapper.MenuMapper;
 import com.kclm.owep.service.ActionService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -35,6 +36,8 @@ public class ActionServiceImpl implements ActionService {
     private MapperFactory mapperFactory;
     @Autowired
     private ActionMapper actionMapper;
+    @Autowired
+    private MenuMapper menuMapper;
 
     @Override
     public int saveOrUpdate(Action action) {
@@ -53,6 +56,7 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public int deleteAction(List<Serializable> ids) {
         Assert.notNull(ids, "ids对象不能为空");
+        menuMapper.deleteByActionIdInAPM(ids);
         logger.debug("ids:" + ids.size());
         if (ids.size() == 1) {
             return actionMapper.deleteById(ids.get(0));

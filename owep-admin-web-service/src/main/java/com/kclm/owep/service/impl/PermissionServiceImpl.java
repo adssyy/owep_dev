@@ -54,6 +54,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public int deletePermission(List<Serializable> ids) {
         Assert.notNull(ids, "ids对象不能为空");
+        permissionMapper.deleteMenusByPermissionId(ids);
+        menuMapper.deleteByPerIdInAPM(ids);
         if (ids.size() == 1) {
             return permissionMapper.deleteById(ids.get(0));
         } else if (ids.size() > 1) {

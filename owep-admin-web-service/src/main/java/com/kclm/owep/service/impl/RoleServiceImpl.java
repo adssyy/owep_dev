@@ -57,6 +57,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int deleteRole(List<Serializable> ids) {
         Assert.notNull(ids, "ids对象不能为空");
+        roleMapper.deletePermissionByRoleId(ids);
+        roleMapper.deleteRoleInGR(ids);
         if (ids.size() == 1) {
             return roleMapper.deleteById(ids.get(0));
         } else if (ids.size() > 1) {

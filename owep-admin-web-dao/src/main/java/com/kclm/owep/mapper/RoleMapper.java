@@ -60,6 +60,12 @@ public interface RoleMapper extends BaseMapper<Role> {
     int deletePermissionByRoleId(List<Serializable> roleIds);
 
     /**
+     * 根据角色ID删除group_role中间表相关的数据
+     * @param roleIds
+     * @return
+     */
+    int deleteRoleInGR(List<Serializable> roleIds);
+    /**
      * 删除某角色下的某个权限
      * */
     int deletePermissionByPerIdAndRoleId(@Param("roleId") Serializable roleId, @Param("perId") Serializable perId);

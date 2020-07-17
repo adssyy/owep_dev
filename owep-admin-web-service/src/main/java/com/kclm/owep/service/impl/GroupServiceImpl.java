@@ -61,6 +61,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public int deleteGroup(List<Serializable> ids) {
         Assert.notNull(ids, "ids对象不能为空");
+        groupMapper.deleteByGroupIdInGR(ids);
         logger.debug("ids:" + ids.size());
         if (ids.size() == 1) {
             return groupMapper.deleteById(ids.get(0));

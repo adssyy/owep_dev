@@ -152,7 +152,7 @@
             <if test="_parameter != 0">
                 p.id = #{menuId}
             </if>
-               <if test="_parameter == 0">
+            <if test="_parameter == 0">
                 and p.fk_parent_id is null
             </if>
         </where>
@@ -201,7 +201,6 @@
             <if test="_parameter != 0">
                 c.id = #{id}
             </if>
-
         </where>
     </select>
     <resultMap id="ParentMenu" type="Menu">
@@ -225,10 +224,26 @@
         </association>
     </resultMap>
     <!--以菜单ID为准删除中间表的数据-->
-    <delete id="deleteByMenuIdInAPM" parameterType="integer">
+    <delete id="deleteByMenuIdInAPM">
         delete
         from t_menu_action_per
                 where menu_id in
+        <foreach collection="list" close=")" open="(" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteByPerIdInAPM">
+        delete
+        from t_menu_action_per
+                where per_id in
+        <foreach collection="list" close=")" open="(" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteByActionIdInAPM">
+        delete
+        from t_menu_action_per
+                where action_id in
         <foreach collection="list" close=")" open="(" separator="," item="id">
             #{id}
         </foreach>

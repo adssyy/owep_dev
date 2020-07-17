@@ -13,6 +13,7 @@ import com.kclm.owep.entity.Menu;
 import com.kclm.owep.entity.Permission;
 import com.kclm.owep.mapper.ActionMapper;
 import com.kclm.owep.mapper.MenuMapper;
+import com.kclm.owep.mapper.PermissionMapper;
 import com.kclm.owep.service.MenuService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -40,6 +41,8 @@ public class MenuServiceImpl implements MenuService {
     private MapperFactory mapperFactory;
     @Autowired
     private ActionMapper actionMapper;
+    @Autowired
+    private PermissionMapper permissionMapper;
 
     @Override
     public int saveOrUpdate(Menu menu) {
@@ -57,6 +60,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public int deleteMenu(List<Serializable> ids) {
         Assert.notNull(ids, "ids对象不能为空");
+        menuMapper.deleteByMenuIdInAPM(ids);
+        permissionMapper.deleteMenusByMenuId(ids);
         if (ids.size() == 1) {
             return menuMapper.deleteById(ids.get(0));
         } else if (ids.size() > 1) {
@@ -80,7 +85,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuDTO> selectAllMenu() {
         List<Menu> menus = menuMapper.selectParent(0);
-        mapperFactory.classMap(Menu.class,MenuDTO.class)
+        mapperFactory.classMap(Menu.class, MenuDTO.class)
                 .field("parent.id", "pid")
                 .byDefault()
                 .register();
@@ -156,7 +161,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public NodeDTO selectActionByMenuIdAndPermissionId(Serializable menuId,Serializable perId) {
+    public NodeDTO selectActionByMenuIdAndPermissionId(Serializable menuId, Serializable perId) {
         List<Menu> menus = menuMapper.selectAllInAPM(menuId, perId, 0);
         mapperFactory.classMap(Action.class, NodeDTO.class)
                 .field("id", "tags")
@@ -172,8 +177,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public NodeDTO selectActionByMenuId(Serializable menuId){
-        List<Menu> menus =menuMapper.selectActionInMenu(menuId);
+    public NodeDTO selectActionByMenuId(Serializable menuId) {
+        List<Menu> menus = menuMapper.selectActionInMenu(menuId);
         mapperFactory.classMap(Action.class, NodeDTO.class)
                 .field("id", "tags")
                 .field("actionName", "text")
