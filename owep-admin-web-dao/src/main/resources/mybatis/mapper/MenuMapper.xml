@@ -112,8 +112,8 @@
             <if test="menuCode != null">
                 menu_code = #{menuCode,jdbcType=VARCHAR},
             </if>
-                last_access_time = now(),
-                version =version+1,
+            last_access_time = now(),
+            version          =version + 1,
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -151,6 +151,9 @@
         <where>
             <if test="_parameter != 0">
                 p.id = #{menuId}
+            </if>
+            <if test="_parameter == 0">
+                and p.fk_parent_id is null
             </if>
         </where>
     </select>
@@ -221,10 +224,26 @@
         </association>
     </resultMap>
     <!--以菜单ID为准删除中间表的数据-->
-    <delete id="deleteByMenuIdInAPM" parameterType="integer">
+    <delete id="deleteByMenuIdInAPM">
         delete
         from t_menu_action_per
                 where menu_id in
+        <foreach collection="list" close=")" open="(" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteByPerIdInAPM">
+        delete
+        from t_menu_action_per
+                where per_id in
+        <foreach collection="list" close=")" open="(" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteByActionIdInAPM">
+        delete
+        from t_menu_action_per
+                where action_id in
         <foreach collection="list" close=")" open="(" separator="," item="id">
             #{id}
         </foreach>

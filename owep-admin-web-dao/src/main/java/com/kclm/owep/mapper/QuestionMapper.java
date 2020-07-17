@@ -69,12 +69,6 @@ public interface QuestionMapper extends BaseMapper<Question> {
     List<Question> selectAll();
 
     /***
-     * 根据课程名称来查询
-     * @return
-     */
-    List<Question> selectByName(String courseName);
-
-    /***
      * 根据班级id来查询班级问题
      * @return
      */

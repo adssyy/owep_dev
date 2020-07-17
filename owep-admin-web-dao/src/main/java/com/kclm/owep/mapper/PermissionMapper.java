@@ -52,6 +52,12 @@ public interface PermissionMapper extends BaseMapper<Permission> {
     int deleteMenusByPermissionId(List<Serializable> perIds);
 
     /**
+     * 以菜单ID删除菜单权限中间表的数据
+     * @param menuIds
+     * @return
+     */
+    int deleteMenusByMenuId(List<Serializable> menuIds);
+    /**
      * 向中间表插入数据 给权限分配行为
      */
 /*

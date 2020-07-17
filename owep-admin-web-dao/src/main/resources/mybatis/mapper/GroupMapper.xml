@@ -25,7 +25,7 @@
     <select id="selectAll" resultType="Group">
         select
         <include refid="base_column_list"/>
-        from t_group;
+        from t_group
     </select>
     <!--根据组名查询-->
     <select id="selectByGroupName" resultType="Group">

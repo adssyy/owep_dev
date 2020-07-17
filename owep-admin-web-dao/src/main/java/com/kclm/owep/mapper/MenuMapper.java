@@ -55,9 +55,23 @@ public interface MenuMapper extends BaseMapper<Menu> {
     int deleteByMenuIdInAPM(List<Serializable> menuId);
 
     /**
+     * 以行为ID删除中间表数据
+     * @param actionId
+     * @return
+     */
+    int deleteByActionIdInAPM(List<Serializable> actionId);
+
+    /**
+     * 以权限ID删除中间表数据
+     * @param perId
+     * @return
+     */
+    int deleteByPerIdInAPM(List<Serializable> perId);
+
+    /**
      * 外联查询 查询菜单所关联的行为 可利用ID查单个对象
      */
-    List<Menu> selectActionInMenu(Serializable menuId);
+    List<Menu> selectActionInMenu(Serializable ac);
 
     /**
      * 外联查询  查询菜单所关联的权限 可利用进行条件查询
