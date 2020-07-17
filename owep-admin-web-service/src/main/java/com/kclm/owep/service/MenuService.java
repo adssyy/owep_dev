@@ -65,14 +65,14 @@ public interface MenuService {
      * @param menuId
      * @return
      */
-    List<ActionMenuPermissionDTO> selectActionAndPermissionNyMenuId(Serializable menuId);
+    ActionMenuPermissionDTO selectActionAndPermissionNyMenuId(Serializable menuId);
 
     /**
      * 根据权限id查询相关的行为
      * @param perId
      * @return
      */
-    List<ActionMenuPermissionDTO> selectActionByPermissionId(Serializable perId);
+    ActionMenuPermissionDTO selectActionByPermissionId(Serializable perId,Serializable menuId);
 
     /**
      * 查询所有的行为，并封装成Node对象，需写死一个text为行为的父对象，在子（list中）
@@ -82,9 +82,16 @@ public interface MenuService {
     NodeDTO selectAllAction();
 
     /**
-     * 根据菜单ID查询它所包含的一些默认行为。并封装成NODE对象
+     * 根据菜单ID和权限ID查询它所包含的一些默认行为。并封装成NODE对象
      * 同样需写死一个text为分配行为的父对象，在子（list）写入
      * 数据中跟当前菜单相关的行为。
+     * @param menuId
+     * @return
+     */
+    NodeDTO selectActionByMenuIdAndPermissionId(Serializable menuId,Serializable perId);
+
+    /**
+     * 根据菜单ID查询所有的相关联的行为
      * @param menuId
      * @return
      */

@@ -24,7 +24,7 @@ public interface RoleMapper extends BaseMapper<Role> {
     /**
      * 根据角色名字 模糊查询
      * */
-    Role selectByName(String roleName);
+    List<Role> selectByName(String roleName);
 
 
     /**

@@ -10,6 +10,7 @@ import com.kclm.owep.dto.PermissionDTO;
 import com.kclm.owep.dto.RoleDTO;
 import com.kclm.owep.dto.RolePermissionDTO;
 import com.kclm.owep.entity.Role;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Map;
  * @create: 2020/7/13 10:58
  * @description: 角色接口
  **/
+@Service
 public interface RoleService {
 
     int PAGE_SIZE=10;
@@ -51,7 +53,7 @@ public interface RoleService {
      * @param name
      * @return
      */
-    RoleDTO selectByName(String name);
+    List<RoleDTO> selectByName(String name);
 
     /**
      * 查询所有的角色 需要进行分页
@@ -72,7 +74,7 @@ public interface RoleService {
      * @param roleId
      * @return
      */
-    List<RolePermissionDTO> selectPermissionByRoleId(Serializable roleId);
+    RolePermissionDTO selectPermissionByRoleId(Serializable roleId);
 
     /**
      * 给角色分配权限，具体业务逻辑同用户组分配角色，

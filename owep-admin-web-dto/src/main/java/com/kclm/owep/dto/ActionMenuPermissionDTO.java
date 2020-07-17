@@ -6,6 +6,7 @@
 package com.kclm.owep.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,6 +25,8 @@ public class ActionMenuPermissionDTO implements Serializable {
      */
     private Integer menuId;
     private Integer permissionId;
+    private List<Integer> actionIds;
+    private List<Integer> permissionIds;
 
     public ActionMenuPermissionDTO() {
     }
@@ -80,6 +83,23 @@ public class ActionMenuPermissionDTO implements Serializable {
     }
 
     public void setPermissionId(Integer permissionId) {
+
         this.permissionId = permissionId;
+    }
+
+    public List<Integer> getActionIds() {
+        return actionIds;
+    }
+
+    public void setActionIds(List<Integer> actionIds) {
+        this.actionIds = actionIds;
+    }
+
+    public List<Integer> getPermissionIds() {
+        return permissionIds;
+    }
+
+    public void setPermissionIds(List<Integer> permissionIds) {
+        this.permissionIds = permissionIds;
     }
 }

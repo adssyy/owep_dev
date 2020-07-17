@@ -5,6 +5,7 @@
 
 package com.kclm.owep.dto;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +23,8 @@ public class PermissionMenuDTO {
      * 菜单ID
      */
     private Integer menuId;
+    private List<Integer> permissionIds;
+    private List<Integer> menuIds;
 
     public PermissionMenuDTO() {
     }
@@ -53,6 +56,22 @@ public class PermissionMenuDTO {
     @Override
     public int hashCode() {
         return Objects.hash(permissionId, menuId);
+    }
+
+    public List<Integer> getPermissionIds() {
+        return permissionIds;
+    }
+
+    public void setPermissionIds(List<Integer> permissionIds) {
+        this.permissionIds = permissionIds;
+    }
+
+    public List<Integer> getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(List<Integer> menuIds) {
+        this.menuIds = menuIds;
     }
 
     public Integer getPermissionId() {

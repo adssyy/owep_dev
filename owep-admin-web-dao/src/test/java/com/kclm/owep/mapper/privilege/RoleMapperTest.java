@@ -74,8 +74,8 @@ class RoleMapperTest extends ActionMapperTest {
 
     @Test
     void findByName() {
-        Role byName = roleMapper.selectByName("1");
-        System.out.println(byName);
+        List<Role> roleList = roleMapper.selectByName("1");
+        System.out.println(roleList);
     }
 
     @Test
@@ -85,7 +85,8 @@ class RoleMapperTest extends ActionMapperTest {
 
     @Test
     void findParent() {
-        List<Role> parent = roleMapper.selectParent(0);
+        List<Role> parent = roleMapper.selectParent(3);
+        parent.forEach(System.out::println);
 
     }
 

@@ -10,6 +10,7 @@ import com.kclm.owep.dto.GroupRoleDTO;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.RoleDTO;
 import com.kclm.owep.entity.Group;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Map;
  * @create: 2020/7/13 9:19
  * @description: 用户组接口
  **/
+@Service
 public interface GroupService {
     int PAGE_SIZE=10;
     /**
@@ -42,7 +44,7 @@ public interface GroupService {
      * @param name
      * @return 用户组DTO
      */
-    GroupDTO selectByName(String name);
+    List<GroupDTO> selectByName(String name);
 
     /**
      * 根据id查询用户组
@@ -61,15 +63,15 @@ public interface GroupService {
     /**
      * 根据用户组的ID查询出已分配好的角色
      * @param groupId
-     * @return 返回集合
+     * @return
      */
-    List<GroupRoleDTO> selectRolesByGroupId(Serializable groupId);
+    GroupRoleDTO selectRolesByGroupId(Serializable groupId);
     /**
      * 给用户组分配角色；
      * 往中间表插入数据，在插入之前需要先把某组分配的好角色的全部删除
      * 需要检查分配角色的数量是否大于最大分配量即Group中的属性maxCount。
      * @param map 第一个参数是组ID 第二个参数是所分配的角色ID集合
-     * @return 大于0则执行成功  等于或小于0执行失败
+     * @return 大于0则执行成功  等于或小于0执行失败 其中-2
      */
     int assignRoleToGroup(Map<Integer,List<Integer>> map);
     /**

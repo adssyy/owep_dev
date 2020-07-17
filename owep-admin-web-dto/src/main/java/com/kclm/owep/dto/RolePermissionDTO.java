@@ -6,6 +6,7 @@
 package com.kclm.owep.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,6 +24,8 @@ public class RolePermissionDTO implements Serializable {
      * 权限ID
      */
     private Integer permissionId;
+    private List<Integer> roleIds;
+    private List<Integer> permissionIds;
 
     public RolePermissionDTO() {
     }
@@ -46,6 +49,22 @@ public class RolePermissionDTO implements Serializable {
 
     public void setPermissionId(Integer permissionId) {
         this.permissionId = permissionId;
+    }
+
+    public List<Integer> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Integer> roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    public List<Integer> getPermissionIds() {
+        return permissionIds;
+    }
+
+    public void setPermissionIds(List<Integer> permissionIds) {
+        this.permissionIds = permissionIds;
     }
 
     @Override

@@ -5,6 +5,8 @@
 
 package com.kclm.owep.dto;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Objects;
  * @create: 2020/7/13 10:39
  * @description: 用户组和角色
  **/
-public class GroupRoleDTO {
+public class GroupRoleDTO implements Serializable {
     /**
      * 组ID
      */
@@ -22,9 +24,22 @@ public class GroupRoleDTO {
      * 角色ID
      */
     private Integer roleId;
+    private List<Integer> roleIds;
+    private List<Integer> groupIds;
+
+    public GroupRoleDTO() {
+    }
+
     public GroupRoleDTO(Integer groupId, Integer roleId) {
         this.groupId = groupId;
         this.roleId = roleId;
+    }
+
+    public GroupRoleDTO(Integer groupId, Integer roleId, List<Integer> roleIds, List<Integer> groupIds) {
+        this.groupId = groupId;
+        this.roleId = roleId;
+        this.roleIds = roleIds;
+        this.groupIds = groupIds;
     }
 
     @Override
@@ -64,5 +79,21 @@ public class GroupRoleDTO {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public List<Integer> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Integer> roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    public List<Integer> getGroupIds() {
+        return groupIds;
+    }
+
+    public void setGroupIds(List<Integer> groupIds) {
+        this.groupIds = groupIds;
     }
 }

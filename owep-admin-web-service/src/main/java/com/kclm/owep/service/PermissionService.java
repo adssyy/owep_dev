@@ -54,7 +54,7 @@ public interface PermissionService {
      * @param name
      * @return 大于0则执行成功，等于或小于0则执行失败
      */
-    PermissionDTO selectByName(String name);
+    List<PermissionDTO> selectByName(String name);
 
     /**
      * 分页查询所有的权限
@@ -70,7 +70,7 @@ public interface PermissionService {
      * @return
      */
 
-    List<PermissionMenuDTO> selectMenuByPermissionId(Serializable perId);
+    PermissionMenuDTO selectMenuByPermissionId(Serializable perId);
 
     /**
      * 查询所有的菜单，并且需要将其封装程Node对象将其返回

@@ -7,6 +7,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.ActionDTO;
 import com.kclm.owep.entity.Action;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @create: 2020/7/13 16:14
  * @description: 行为
  **/
+@Service
 public interface ActionService {
     int PAGE_SIZE=10;
 

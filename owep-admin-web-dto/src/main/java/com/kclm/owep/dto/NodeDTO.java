@@ -23,7 +23,7 @@ public class NodeDTO {
     /**
      * 附加信息 放ID
      */
-    private String[] tags;
+    private Integer tags;
     /**
      * 子节点
      */
@@ -36,7 +36,7 @@ public class NodeDTO {
     public String toString() {
         final StringBuilder sb = new StringBuilder("NodeDTO{");
         sb.append("text='").append(text).append('\'');
-        sb.append(", tags=").append(Arrays.toString(tags));
+        sb.append(", tags=").append(tags);
         sb.append(", nodes=").append(nodes);
         sb.append('}');
         return sb.toString();
@@ -47,15 +47,12 @@ public class NodeDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NodeDTO nodeDTO = (NodeDTO) o;
-        return Objects.equals(text, nodeDTO.text) &&
-                Arrays.equals(tags, nodeDTO.tags);
+        return Objects.equals(tags, nodeDTO.tags);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(text);
-        result = 31 * result + Arrays.hashCode(tags);
-        return result;
+        return Objects.hash(tags);
     }
 
     public String getText() {
@@ -66,11 +63,11 @@ public class NodeDTO {
         this.text = text;
     }
 
-    public String[] getTags() {
+    public Integer getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(Integer tags) {
         this.tags = tags;
     }
 
