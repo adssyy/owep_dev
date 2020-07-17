@@ -62,8 +62,9 @@ public interface QuestionService {
     List<QuestionDTO> selectAll();
 
     /***
-     * 根据专业名称来查询
+     * 根据课程名称来查询
      * @return
      */
-    List<QuestionDTO> selectByName();
+    List<QuestionDTO> selectByCourseName(String courseName);
+
 }

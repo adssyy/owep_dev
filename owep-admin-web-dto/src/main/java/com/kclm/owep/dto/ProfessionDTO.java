@@ -16,6 +16,10 @@ import java.util.Objects;
  */
 public class ProfessionDTO {
     /***
+     * id
+     */
+    private Integer id;
+    /***
      * 专业名称
      */
     private String profName;
@@ -31,6 +35,14 @@ public class ProfessionDTO {
      * 是否启用
      */
     private int profStatute;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getProfName() {
         return profName;
@@ -93,7 +105,8 @@ public class ProfessionDTO {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("ProfessionDTO{");
-        sb.append("profName='").append(profName).append('\'');
+        sb.append("id=").append(id);
+        sb.append(", profName='").append(profName).append('\'');
         sb.append(", instituteName='").append(instituteName).append('\'');
         sb.append(", instituteBranchName='").append(instituteBranchName).append('\'');
         sb.append(", profStatute=").append(profStatute);
