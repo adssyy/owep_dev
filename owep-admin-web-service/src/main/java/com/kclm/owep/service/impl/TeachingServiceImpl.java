@@ -4,8 +4,7 @@
 package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.kclm.owep.dto.ClassDTO;
-import com.kclm.owep.dto.TeachingDTO;
+import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.*;
 import com.kclm.owep.mapper.*;
 import com.kclm.owep.service.TeachingService;
@@ -43,6 +42,7 @@ public class TeachingServiceImpl implements TeachingService {
     @Autowired
     private MapperFactory mapperFactory;
 
+
     /**
      * 获取班级数据
      */
@@ -63,59 +63,32 @@ public class TeachingServiceImpl implements TeachingService {
         return null;
     }
 
-    @Override
-    public TeachingDTO classTeachingDto(Serializable id) {
-        Clazz clazz = clazzMapper.selectById(id);
-        MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        TeachingDTO teach = mapperFacade.map(clazz, TeachingDTO.class);
-        return teach;
-    }
-
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
     @Override
-    public List<TeachingDTO> evaluateTeachingDto(Serializable classId,int pageNumber,int pageSize) {
+    public TeachingDTO getTeachingDTO(Serializable classId,int pageNumber,int pageSize) {
         PageHelper.startPage(pageNumber,pageSize);
         List<Evaluate> evaluateList = evaluateMapper.selectByClassId(classId);
-        MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        List<TeachingDTO> teachingEvaluate = mapperFacade.mapAsList(evaluateList, TeachingDTO.class);
-        mapperFacade.mapAsList(evaluateList,TeachingDTO.class);
-        return teachingEvaluate;
-
-
-        //Clazz clazz = clazzMapper.selectById(classId);
-        //List<Illegal> illegalList = illegalMapper.selectByClassId(classId);
-        //List<Leave> leaveList = leaveMapper.selectByClassId(classId);
-
-        //List<Clazz> clazzes = Arrays.asList(clazz);
-        //List<TeachingDTO> teachingClass = mapperFacade.mapAsList(clazzes, TeachingDTO.class);
-        //List<TeachingDTO> teachingLeave = mapperFacade.mapAsList(leaveList, TeachingDTO.class);
-        //List<TeachingDTO> teachingIllegal = mapperFacade.mapAsList(illegalList, TeachingDTO.class);
-        //teachingClass.addAll(teachingEvaluate);
-        //teachingClass.addAll(teachingLeave);
-        //teachingClass.addAll(teachingIllegal);
-    }
-
-    @Override
-    public List<TeachingDTO> leaveTeachingDto(Serializable classId,int pageNumber,int pageSize) {
-        PageHelper.startPage(pageNumber,pageSize);
         List<Leave> leaveList = leaveMapper.selectByClassId(classId);
-        MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        mapperFactory.classMap(Leave.class,TeachingDTO.class).
-                field("endTime","leaveEndTime").byDefault().register();
-        List<TeachingDTO> teachingLeave = mapperFacade.mapAsList(leaveList, TeachingDTO.class);
-        return teachingLeave;
-    }
-
-    @Override
-    public List<TeachingDTO> illegalTeachingDto(Serializable classId,int pageNumber,int pageSize) {
-        PageHelper.startPage(pageNumber,pageSize);
         List<Illegal> illegalList = illegalMapper.selectByClassId(classId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        List<TeachingDTO> teachingIllegal = mapperFacade.mapAsList(illegalList, TeachingDTO.class);
-        return teachingIllegal;
+        mapperFactory.classMap(Evaluate.class,EvaluateDTO.class).field("student.stuNumber","stuNumber")
+                .field("student.gender","gender")
+                .field("student.stuPhone","stuPhone")
+                .field("student.stuEmail","stuEmail")
+                .field("student.effectiveDate","effectiveDate")
+                .byDefault().register();
+        List<EvaluateDTO> evaluateDTOs = mapperFacade.mapAsList(evaluateList, EvaluateDTO.class);
+        List<LeaveDTO> leaveDTOs = mapperFacade.mapAsList(leaveList, LeaveDTO.class);
+        mapperFactory.classMap(Illegal.class,IllegalDTO.class).field("student{stuNumber}","stuNumber")
+                .byDefault().register();
+        List<IllegalDTO> illegalDTOs = mapperFacade.mapAsList(illegalList, IllegalDTO.class);
+        TeachingDTO teachingDTO = new TeachingDTO(evaluateDTOs,leaveDTOs,illegalDTOs);
+        return teachingDTO;
     }
+
+
 
     @Override
     public List<TeachingDTO> findResourceByName(String resourceName) {

@@ -30,42 +30,9 @@ public class TeachingDTO {
      * 资源管理
      */
     private List<Resource> resourceList;
-    /***
-     * 方案
-     */
-    private List<PlanManager> planManagerList;
-    /**
-     *学员外键
-     */
-    private Student student;
-    /**
-     *评价内容
-     */
-    private String evaluate;
-    /**
-     *请假时间
-     */
-    private LocalDateTime leaveTime;
-    /**
-     *结束时间
-     */
-    private LocalDateTime leaveEndTime;
-    /**
-     *请假事由
-     */
-    private String reasonLeave;
-    /**
-     *审核状态,1.待审核， 2， 审核通过， 0 未通过
-     */
-    private Integer approvalStatus;
-    /**
-     *违规时间
-     */
-    private LocalDateTime disciplineTime;
-    /**
-     *情况说明
-     */
-    private String presentationCondition;
+    private List<EvaluateDTO> evaluateDTOs;
+    private List<LeaveDTO> leaveDTOs;
+    private List<IllegalDTO> illegalDTOs;
 
     public Integer getId() {
         return id;
@@ -91,76 +58,28 @@ public class TeachingDTO {
         this.resourceList = resourceList;
     }
 
-    public Student getStudent() {
-        return student;
+    public List<EvaluateDTO> getEvaluateDTOs() {
+        return evaluateDTOs;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setEvaluateDTOs(List<EvaluateDTO> evaluateDTOs) {
+        this.evaluateDTOs = evaluateDTOs;
     }
 
-    public String getEvaluate() {
-        return evaluate;
+    public List<LeaveDTO> getLeaveDTOs() {
+        return leaveDTOs;
     }
 
-    public void setEvaluate(String evaluate) {
-        this.evaluate = evaluate;
+    public void setLeaveDTOs(List<LeaveDTO> leaveDTOs) {
+        this.leaveDTOs = leaveDTOs;
     }
 
-    public LocalDateTime getLeaveTime() {
-        return leaveTime;
+    public List<IllegalDTO> getIllegalDTOs() {
+        return illegalDTOs;
     }
 
-    public void setLeaveTime(LocalDateTime leaveTime) {
-        this.leaveTime = leaveTime;
-    }
-
-    public LocalDateTime getLeaveEndTime() {
-        return leaveEndTime;
-    }
-
-    public void setLeaveEndTime(LocalDateTime leaveEndTime) {
-        this.leaveEndTime = leaveEndTime;
-    }
-
-    public String getReasonLeave() {
-        return reasonLeave;
-    }
-
-    public void setReasonLeave(String reasonLeave) {
-        this.reasonLeave = reasonLeave;
-    }
-
-    public Integer getApprovalStatus() {
-        return approvalStatus;
-    }
-
-    public void setApprovalStatus(Integer approvalStatus) {
-        this.approvalStatus = approvalStatus;
-    }
-
-    public LocalDateTime getDisciplineTime() {
-        return disciplineTime;
-    }
-
-    public void setDisciplineTime(LocalDateTime disciplineTime) {
-        this.disciplineTime = disciplineTime;
-    }
-
-    public String getPresentationCondition() {
-        return presentationCondition;
-    }
-
-    public void setPresentationCondition(String presentationCondition) {
-        this.presentationCondition = presentationCondition;
-    }
-
-    public List<PlanManager> getPlanManagerList() {
-        return planManagerList;
-    }
-
-    public void setPlanManagerList(List<PlanManager> planManagerList) {
-        this.planManagerList = planManagerList;
+    public void setIllegalDTOs(List<IllegalDTO> illegalDTOs) {
+        this.illegalDTOs = illegalDTOs;
     }
 
     @Override
@@ -169,15 +88,18 @@ public class TeachingDTO {
                 "id=" + id +
                 ", classDesc='" + classDesc + '\'' +
                 ", resourceList=" + resourceList +
-                ", planManagerList=" + planManagerList +
-                ", student=" + student +
-                ", evaluate='" + evaluate + '\'' +
-                ", leaveTime=" + leaveTime +
-                ", leaveEndTime=" + leaveEndTime +
-                ", reasonLeave='" + reasonLeave + '\'' +
-                ", approvalStatus=" + approvalStatus +
-                ", disciplineTime=" + disciplineTime +
-                ", presentationCondition='" + presentationCondition + '\'' +
+                ", evaluateDTOs=" + evaluateDTOs +
+                ", leaveDTOs=" + leaveDTOs +
+                ", illegalDTOs=" + illegalDTOs +
                 '}';
+    }
+
+    public TeachingDTO() {
+    }
+
+    public TeachingDTO(List<EvaluateDTO> evaluateDTOs, List<LeaveDTO> leaveDTOs, List<IllegalDTO> illegalDTOs) {
+        this.evaluateDTOs = evaluateDTOs;
+        this.leaveDTOs = leaveDTOs;
+        this.illegalDTOs = illegalDTOs;
     }
 }

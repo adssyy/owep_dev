@@ -32,10 +32,8 @@ public interface TeachingService {
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
      */
-    TeachingDTO classTeachingDto(Serializable id);
-    List<TeachingDTO> evaluateTeachingDto(Serializable classId,int pageNumber,int pageSize);
-    List<TeachingDTO> leaveTeachingDto(Serializable classId,int pageNumber,int pageSize);
-    List<TeachingDTO> illegalTeachingDto(Serializable classId,int pageNumber,int pageSize);
+    //TeachingDTO classTeachingDto(Serializable id);
+    TeachingDTO getTeachingDTO(Serializable classId,int pageNumber,int pageSize);
 
     /**
      * 根据资源名称查询资源

@@ -34,16 +34,6 @@ public class TeachingServiceImplTest {
         allClass.forEach(System.out::println);
     }
 
-    @Test
-    void testTeachingDto(){
-        //List<TeachingDTO> teachingDto = teachingService.evaluateTeachingDto(1,2,5);
-        //List<TeachingDTO> teachingDto1 = teachingService.leaveTeachingDto(1,2,5);
-        //List<TeachingDTO> teachingDto2 = teachingService.illegalTeachingDto(1);
-        TeachingDTO tea = teachingService.classTeachingDto(1);
-        System.out.println(tea);
-        tea.getPlanManagerList().forEach(System.out::println);
-        //teachingDto1.forEach(System.out::println);
-    }
 
     @Test
     void testFindQuestionById(){
