@@ -13,7 +13,7 @@
     <association property="student" column="fk_student_id" javaType="student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
     <association property="video" column="fk_video_id" javaType="video" select="com.kclm.owep.mapper.VideoMapper.selectById"/>
     <association property="clazz" column="fk_class_id" javaType="video" select="com.kclm.owep.mapper.ClazzMapper.selectById"/>
-    <association property="course" javaType="com.kclm.owep.entity.Course" select="com.kclm.owep.mapper.CourseMapper.selectById"/>
+    <association property="course" column="fk_course_id" javaType="com.kclm.owep.entity.Course" select="com.kclm.owep.mapper.CourseMapper.selectById"/>
   </resultMap>
 
   <sql id="Base_Column_List">
@@ -26,6 +26,20 @@
     <include refid="Base_Column_List" />
     from t_question
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--通过班级id来查询班级问题-->
+  <select id="selectByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_question
+    where fk_class_id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--通过课程id来查询班级问题-->
+  <select id="selectByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_question
+    where fk_course_id = #{id,jdbcType=INTEGER}
   </select>
   <!--查询所有的记录-->
   <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
