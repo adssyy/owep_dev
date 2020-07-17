@@ -99,13 +99,17 @@
         <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
         <mapper resource="mybatis/mapper/StudentMapper.xml"/>
         <mapper resource="mybatis/mapper/VideoMapper.xml"/>
+<<<<<<< HEAD
 
+<<<<<<< HEAD
+=======
         <mapper resource="mybatis/mapper/EvaluateMapper.xml"/>
         <mapper resource="mybatis/mapper/HomeworkAnswerMapper.xml"/>
         <mapper resource="mybatis/mapper/LeaveMapper.xml"/>
         <mapper resource="mybatis/mapper/IllegalMapper.xml"/>
 
         <mapper resource="mybatis/mapper/UserMapper.xml"/>
+>>>>>>> 0d9db06f2366397a8e30a699c566bc5ae8e8f112
         <mapper resource="mybatis/mapper/UserMapper.xml"/>
 
         <mapper resource="mybatis/mapper/DbCopyMapper.xml"/>

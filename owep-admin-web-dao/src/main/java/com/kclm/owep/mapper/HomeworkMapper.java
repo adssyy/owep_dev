@@ -71,6 +71,20 @@ public interface HomeworkMapper extends BaseMapper<Homework> {
      * 根据课程名查询
      * @param courseName
      * @return
-     *//*
-    List<Homework> selectByCourseName(String courseName);*/
+     */
+    List<Homework> selectByCourseName(String courseName);
+
+    /***
+     * 根据班级id来查询班级作业
+     * @param id
+     * @return
+     */
+    List<Homework> selectByClassId(@Param("id")Serializable id);
+
+    /***
+     * 根据课程id来查询班级作业
+     * @param id
+     * @return
+     */
+    List<Homework> selectByCourseId(@Param("id")Serializable id);
 }

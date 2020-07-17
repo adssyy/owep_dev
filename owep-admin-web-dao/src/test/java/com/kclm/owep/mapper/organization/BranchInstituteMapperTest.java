@@ -1,4 +1,4 @@
-package com.kclm.owep.organization;
+package com.kclm.owep.mapper.organization;
 
 import com.kclm.owep.OwepAdminWebDaoApplication;
 import com.kclm.owep.entity.BranchInstitute;
@@ -8,8 +8,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
-
+/*******
+ * @Author yangwr
+ * @Version v1.0
+ * @Create 2020/7/6 16:34
+ * @Description 分支机构测试类
+ */
 @SpringBootTest(classes = OwepAdminWebDaoApplication.class)
 class BranchInstituteMapperTest {
     @Autowired
@@ -29,12 +37,17 @@ class BranchInstituteMapperTest {
     }
 
     /***
-     * 根据分支名称来查询
+     * 根据分支名称和所属机构查查询
      */
     @Test
-    void findByBranchName() {
-        final List<BranchInstitute> branchInstitute = this.branchInstituteMapper.findByBranchName("培训机构");
-        System.out.println(branchInstitute);
+    void findByBranchNameAndInstitute() {
+       BranchInstitute branchInstitute = new BranchInstitute();
+       branchInstitute.setBranchName("学校");
+       OrgInstitute orgInstitute = new OrgInstitute();
+       orgInstitute.setId(1);
+       branchInstitute.setOrgInstitute(orgInstitute);
+       this.branchInstituteMapper.findByBranchNameAndinstitute(branchInstitute);
+
     }
 
     /***
@@ -51,10 +64,10 @@ class BranchInstituteMapperTest {
      */
     @Test
     public void update() {
-        BranchInstitute branchInstitute = this.branchInstituteMapper.selectById(1);
+        BranchInstitute branchInstitute = this.branchInstituteMapper.selectById(5);
         branchInstitute.setBranchName("学校");
         OrgInstitute orgInstitute = new OrgInstitute();
-        orgInstitute.setId(2);
+        orgInstitute.setId(1);
         branchInstitute.setOrgInstitute(orgInstitute);
         this.branchInstituteMapper.update(branchInstitute);
     }
@@ -67,8 +80,22 @@ class BranchInstituteMapperTest {
         BranchInstitute branchInstitute = this.branchInstituteMapper.selectById(2);
         System.out.println(branchInstitute);
     }
+
+    /***
+     * 根据id删除
+     */
     @Test
     public void deleteByid(){
         this.branchInstituteMapper.deleteById(1);
+    }
+
+    /***
+     * 多个删除
+     */
+    @Test
+    public void deleteSelect(){
+        List<Serializable> idList = Arrays.asList(1, 2, 3);
+        branchInstituteMapper.deleteSelect(idList);
+
     }
 }

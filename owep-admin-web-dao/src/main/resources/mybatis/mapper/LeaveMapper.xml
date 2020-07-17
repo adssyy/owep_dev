@@ -56,10 +56,10 @@
   <!--通过班级id查找请假处理的数据-->
   <sql id="Base_Column_List">
     id,version,create_time,last_access_time,fk_class_id,leave_time,end_time,reason_leave,
-    approval_status,`option`,student_name,leave_type,leave_type,serial_number
+    approval_status,`option`,student_name,leave_type,leave_type,serial_number,fk_student_id
   </sql>
 
-  <!--请假审批修改审批状态-->
+  <!--通过班级id查找请假处理的数据-->
   <select id="selectByClassId" parameterType="integer" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from t_leave where fk_class_id = #{classId}
   </select>

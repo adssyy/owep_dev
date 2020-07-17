@@ -19,12 +19,12 @@ public interface SystLogMapper extends BaseMapper<SystLog> {
 
     /*********
      * 根据时间或用户名查找日志记录
-     * @param username
+     * @param login_user_name
      * @param start
      * @param end
      * @return
      */
-    List<SystLog> findByTime(@Param("username") String username,
+    List<SystLog> findByTime(@Param("login_user_name") String login_user_name,
                              @Param("start")LocalDateTime start,
                              @Param("end")LocalDateTime end);
 

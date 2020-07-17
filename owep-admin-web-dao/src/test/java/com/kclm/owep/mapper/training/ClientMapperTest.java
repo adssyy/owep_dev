@@ -132,4 +132,13 @@ class ClientMapperTest {
         List<Client> clients = clientMapper.selectAll();
         clients.forEach(System.out::println);
     }
+
+    /**
+     * 分配客户把 1，2，4客户分配给2号咨询师
+     */
+    @Test
+    void assigningClient(){
+        List<Serializable> integers = Arrays.asList(1, 2, 4);
+        clientMapper.assigningClient(integers, 2);
+    }
 }

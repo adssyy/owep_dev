@@ -4,6 +4,7 @@
 package com.kclm.owep.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 /*****
@@ -172,4 +173,32 @@ public class Message {
         sb.append('}');
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Message message = (Message) o;
+        return Objects.equals(id, message.id) &&
+                Objects.equals(title, message.title) &&
+                Objects.equals(content, message.content) &&
+                Objects.equals(read, message.read) &&
+                Objects.equals(createTime, message.createTime) &&
+                Objects.equals(lastAccessTime, message.lastAccessTime) &&
+                Objects.equals(version, message.version) &&
+                Objects.equals(fromUserName, message.fromUserName) &&
+                Objects.equals(toUserName, message.toUserName) &&
+                Objects.equals(FkFromStudent, message.FkFromStudent) &&
+                Objects.equals(ToFromStudent, message.ToFromStudent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, content, read, createTime, lastAccessTime, version, fromUserName, toUserName, FkFromStudent, ToFromStudent);
+    }
+
 }

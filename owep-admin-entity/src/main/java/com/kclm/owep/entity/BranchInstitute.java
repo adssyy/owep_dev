@@ -40,6 +40,9 @@ public class BranchInstitute implements Serializable {
      */
     private LocalDateTime lastAccessTime = LocalDateTime.now();
 
+    /***
+     * 构造方法
+     */
     public BranchInstitute() {
     }
 

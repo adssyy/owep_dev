@@ -3,8 +3,6 @@ package com.kclm.owep.mapper;
 import com.kclm.owep.entity.BranchInstitute;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 /*******
@@ -16,8 +14,11 @@ import java.util.List;
 @Mapper
 public interface BranchInstituteMapper extends BaseMapper<BranchInstitute> {
 
-    /*
-     * 根据分支名称进行查询
-     * */
-    List<BranchInstitute> findByBranchName( String branchName);
+    /***
+     * 根据分支名称和所属机构进行查询
+     * @param branchInstitute
+     * @return
+     */
+    List<BranchInstitute> findByBranchNameAndinstitute(BranchInstitute branchInstitute);
+
 }

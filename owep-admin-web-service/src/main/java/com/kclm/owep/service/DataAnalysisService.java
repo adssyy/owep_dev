@@ -4,6 +4,8 @@
 
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.ClassDTO;
+import com.kclm.owep.dto.VideoWatchRecordDTO;
 import com.kclm.owep.entity.Student;
 import com.kclm.owep.entity.StudentReport;
 import com.kclm.owep.entity.VideoWatchRecord;
@@ -20,16 +22,16 @@ import java.util.List;
 public interface DataAnalysisService {
 
     /***
-     * 获取所有的班级
+     * 分页查询所有的班级
      * @return
      */
-    List<Class> findAllClass();
+    List<ClassDTO> findAllClass(int page, int pageSize);
 
     /***
-     * 通过class_id获取一个班级中所有的学生
+     * 通过class_id分页查询出一个班级中所有的学生
      * @return
      */
-    List<Student> findAllStudent(Serializable classId);
+    List<Student> findAllStudent(Serializable classId,int page,int pageSize);
 
     /***
      * 根据学员id查询出学员学习报告
@@ -39,28 +41,36 @@ public interface DataAnalysisService {
     StudentReport findStudentReport(Serializable studentId);
 
     /***
-     * 通过搜索框条件查询出相应的班级
+     * 通过搜索框条件分页查询出相应的班级
      * @return
      */
-    List<Class> findByConfition();
+    List<ClassDTO> findByCondition(String classNumber,String className,String profName,int page,int pageSize);
 
     /***
      * 通过id获取相应班级的信息
      * @param id
      * @return
      */
-    Class findById(Serializable id);
+    ClassDTO findById(Serializable id);
 
     /***
-     * 通过关键字查找相应的学员观看记录
-     * @param keyword
+     * 通过用户名查找相应的学员观看记录
+     * @param stuName
      * @return
      */
-    VideoWatchRecord findByKeywords(String keyword);
+    List<VideoWatchRecordDTO> findByKeywords(String stuName);
 
     /***
-     * 查询所有的学员观看记录
+     * 分页查询所有的学员观看记录
+     * @param page
+     * @param pageSize
      * @return
      */
-    VideoWatchRecord findAllVideoWatchRecord();
+    List<VideoWatchRecordDTO> findAllVideoWatchRecord(int page,int pageSize);
+
+    /***
+     * 通过学生姓名和时间范围查找出相应的学员观看记录
+     * @return
+     */
+    List<VideoWatchRecordDTO> findByNameAndTimeRange();
 }

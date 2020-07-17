@@ -71,9 +71,7 @@
             <if test="advancePay != null">
                 advance_pay,
             </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
+            create_time,
             <if test="totalPay != null">
                 total_pay,
             </if>
@@ -83,15 +81,11 @@
             <if test="payMent != null">
                 pay_ment,
             </if>
-            <if test="isAssignClass != null">
-                is_assign_class,
-            </if>
+            is_assign_class,
             <if test="clientEmail != null">
                 client_email,
             </if>
-            <if test="loanStatus != null">
-                loan_status,
-            </if>
+            loan_status,
             <if test="loan != null">
                 loan,
             </if>
@@ -113,18 +107,12 @@
             <if test="signTime != null">
                 sign_time,
             </if>
-            <if test="isDelete != null">
-               is_delete,
-            </if>
+            is_delete,
             <if test="channel.id != null">
                 fk_channel_id,
             </if>
-            <if test="version != null">
-                version,
-            </if>
-            <if test="lastAccessTime != null">
-                last_access_time,
-            </if>
+            version,
+            last_access_time,
             <if test="user.id != null">
                 fk_user_id,
             </if>
@@ -148,9 +136,8 @@
             <if test="advancePay != null">
                 #{advancePay,jdbcType=DOUBLE},
             </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
+            <!--创建时间-->
+            now(),
             <if test="totalPay != null">
                 #{totalPay,jdbcType=DOUBLE},
             </if>
@@ -160,15 +147,13 @@
             <if test="payMent != null">
                 #{payMent,jdbcType=INTEGER},
             </if>
-            <if test="isAssignClass != null">
-                #{isAssignClass,jdbcType=INTEGER},
-            </if>
+            <!--默认没有分配班级-->
+            1,
             <if test="clientEmail != null">
                 #{clientEmail,jdbcType=VARCHAR},
             </if>
-            <if test="loanStatus != null">
-                #{loanStatus,jdbcType=INTEGER},
-            </if>
+            <!--是否贷款-->
+            0,
             <if test="loan != null">
                 #{loan,jdbcType=DOUBLE},
             </if>
@@ -190,18 +175,12 @@
             <if test="signTime != null">
                 #{signTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="isDelete != null">
-                #{isDelete,jdbcType=INTEGER},
-            </if>
+            1,
             <if test="channel.id != null">
                 #{channel.id,jdbcType=INTEGER},
             </if>
-            <if test="version != null">
-                #{version,jdbcType=INTEGER},
-            </if>
-            <if test="lastAccessTime != null">
-                #{lastAccessTime,jdbcType=TIMESTAMP},
-            </if>
+            1,
+            now(),
             <if test="user.id != null">
                 #{user.id,jdbcType=INTEGER},
             </if>
@@ -227,18 +206,7 @@
             <if test="salsemanDescribe != null">
                 salseman_describe = #{salsemanDescribe,jdbcType=VARCHAR},
             </if>
-            <if test="advancePay != null">
-                advance_pay = #{advancePay,jdbcType=DOUBLE},
-            </if>
-            <if test="totalPay != null">
-                total_pay = #{totalPay,jdbcType=DOUBLE},
-            </if>
-            <if test="monthPay != null">
-                month_pay = #{monthPay,jdbcType=DOUBLE},
-            </if>
-            <if test="payMent != null">
-                pay_ment = #{payMent,jdbcType=INTEGER},
-            </if>
+
             <if test="isAssignClass != null">
                 is_assign_class = #{isAssignClass,jdbcType=INTEGER},
             </if>
@@ -247,9 +215,6 @@
             </if>
             <if test="loanStatus != null">
                 loan_status = #{loanStatus,jdbcType=INTEGER},
-            </if>
-            <if test="loan != null">
-                loan = #{loan,jdbcType=DOUBLE},
             </if>
             <if test="interviewTimeStart != null">
                 interview_time_start = #{interviewTimeStart,jdbcType=TIMESTAMP},
@@ -263,17 +228,14 @@
             <if test="major != null">
                 major = #{major,jdbcType=VARCHAR},
             </if>
-            <if test="signTime != null">
-                sign_time = #{signTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="isDelete != null">
                 is_delete = #{isDelete,jdbcType=INTEGER},
             </if>
             <if test="channel.id != null">
                 fk_channel_id = #{channel.id,jdbcType=INTEGER},
             </if>
-                version =  version + 1,
-                last_access_time = now(),
+            version = version + 1,
+            last_access_time = now(),
             <if test="user.id != null">
                 fk_user_id = #{user.id,jdbcType=INTEGER},
             </if>
@@ -281,12 +243,41 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <!--签约客户-->
+    <update id="signClient" parameterType="client">
+        update t_client
+        <set>
+            <if test="loanStatus != null">
+                loan_status = #{loanStatus,jdbcType=INTEGER},
+            </if>
+            <if test="signTime != null">
+                sign_time = #{signTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loan != null">
+                loan = #{loan,jdbcType=DOUBLE},
+            </if>
+            <if test="advancePay != null">
+                advance_pay = #{advancePay,jdbcType=DOUBLE},
+            </if>
+            <if test="totalPay != null">
+                total_pay = #{totalPay,jdbcType=DOUBLE},
+            </if>
+            <if test="monthPay != null">
+                month_pay = #{monthPay,jdbcType=DOUBLE},
+            </if>
+            <if test="payMent != null">
+                pay_ment = #{payMent,jdbcType=INTEGER},
+            </if>
+            version = version + 1,
+            last_access_time = now(),
+        </set>
+        where id = #{id}
+    </update>
 
     <!--删除单个客户 逻辑删除-->
     <update id="deleteById">
         update t_client set is_delete = 0 where id = #{id}
     </update>
-
 
 
     <!--删除所选客户 逻辑删除-->
@@ -314,11 +305,9 @@
             <if test="clientState != null">
                 client_state = #{clientState,jdbcType=VARCHAR} and
             </if>
-            <if test="user.id != null">
-                fk_user_id = #{user.id,jdbcType=VARCHAR} and
-            </if>
             <if test="interviewTimeStart != null and interviewTimeEnd != null">
-                interview_time_start between #{interviewTimeStart, jdbcType=TIMESTAMP} and #{interviewTimeEnd, jdbcType=TIMESTAMP} and
+                interview_time_start between #{interviewTimeStart, jdbcType=TIMESTAMP} and
+                #{interviewTimeEnd, jdbcType=TIMESTAMP} and
             </if>
             <if test="clientPhone != null">
                 client_phone = #{clientPhone,jdbcType=VARCHAR}
@@ -337,5 +326,15 @@
     <select id="rowTotal" resultType="java.lang.Long">
     select count(*) from t_client
   </select>
+
+    <!--分配客户-->
+    <update id="assigningClient">
+        update t_client set fk_user_id = #{id}
+        where id in
+        <foreach collection="list" item="ids" open="(" close=")" separator=",">
+            ${ids}
+        </foreach>
+    </update>
+
 
 </mapper>

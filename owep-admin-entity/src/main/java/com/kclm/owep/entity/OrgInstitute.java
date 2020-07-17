@@ -2,6 +2,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /*******
@@ -23,13 +24,18 @@ public class OrgInstitute implements Serializable {
      */
     private String instituteName;
     /***
-     *机构类型
+     *机构类型 1表示学校机构，2 表示培训机构
      */
     private Integer instituteType;
     /***
      *是否逻辑删除，1表示未删除，0表示已删除
      */
     private Integer delete;
+
+    /***
+     * 从分支机构中获取数据
+     */
+    private List<BranchInstitute> branchInstitutes;
     /***
      *版本
      */
@@ -46,6 +52,17 @@ public class OrgInstitute implements Serializable {
     public OrgInstitute() {
     }
 
+    public OrgInstitute(Integer id, String instituteName, Integer instituteType, Integer delete, List<BranchInstitute> branchInstitutes, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
+        this.id = id;
+        this.instituteName = instituteName;
+        this.instituteType = instituteType;
+        this.delete = delete;
+        this.branchInstitutes = branchInstitutes;
+        this.version = version;
+        this.createTime = createTime;
+        this.lastAccessTime = lastAccessTime;
+    }
+
     @Override
     public String toString() {
         return "OrgInstitute{" +
@@ -53,20 +70,11 @@ public class OrgInstitute implements Serializable {
                 ", instituteName='" + instituteName + '\'' +
                 ", instituteType=" + instituteType +
                 ", delete=" + delete +
+                ", branchInstitutes=" + branchInstitutes +
                 ", version=" + version +
                 ", createTime=" + createTime +
                 ", lastAccessTime=" + lastAccessTime +
                 '}';
-    }
-
-    public OrgInstitute(Integer id, String instituteName, Integer instituteType, Integer delete, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
-        this.id = id;
-        this.instituteName = instituteName;
-        this.instituteType = instituteType;
-        this.delete = delete;
-        this.version = version;
-        this.createTime = createTime;
-        this.lastAccessTime = lastAccessTime;
     }
 
     @Override
@@ -78,6 +86,7 @@ public class OrgInstitute implements Serializable {
                 Objects.equals(instituteName, that.instituteName) &&
                 Objects.equals(instituteType, that.instituteType) &&
                 Objects.equals(delete, that.delete) &&
+                Objects.equals(branchInstitutes, that.branchInstitutes) &&
                 Objects.equals(version, that.version) &&
                 Objects.equals(createTime, that.createTime) &&
                 Objects.equals(lastAccessTime, that.lastAccessTime);
@@ -85,9 +94,12 @@ public class OrgInstitute implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, instituteName, instituteType, delete, version, createTime, lastAccessTime);
+        return Objects.hash(id, instituteName, instituteType, delete, branchInstitutes, version, createTime, lastAccessTime);
     }
 
+    /***
+     * 构造方法
+     */
     public Integer getId() {
         return id;
     }
@@ -118,6 +130,14 @@ public class OrgInstitute implements Serializable {
 
     public void setDelete(Integer delete) {
         this.delete = delete;
+    }
+
+    public List<BranchInstitute> getBranchInstitutes() {
+        return branchInstitutes;
+    }
+
+    public void setBranchInstitutes(List<BranchInstitute> branchInstitutes) {
+        this.branchInstitutes = branchInstitutes;
     }
 
     public Integer getVersion() {

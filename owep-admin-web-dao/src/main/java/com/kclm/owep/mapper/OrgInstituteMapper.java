@@ -3,7 +3,6 @@ package com.kclm.owep.mapper;
 import com.kclm.owep.entity.OrgInstitute;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,8 +14,11 @@ import java.util.List;
  */
 @Mapper
 public interface OrgInstituteMapper extends BaseMapper<OrgInstitute> {
-    /*
-     * 根据机构名称进行查询
-     * */
-    List<OrgInstitute> findByinstituteName(String instituteName);
+    /***
+     * 根据机构名称和机构类型进行查询
+     * @param orgInstitute
+     * @return
+     */
+    List<OrgInstitute> findByinstituteNameAndType(OrgInstitute orgInstitute);
+
 }

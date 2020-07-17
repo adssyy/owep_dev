@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.CourseCategoryDTO;
 import com.kclm.owep.entity.CourseCategory;
 
 import java.io.Serializable;
@@ -19,22 +20,53 @@ public interface CategoryService {
 
     /**
      * 通过分类名查询分类
+     * @param courseCategoryName
+     * @return
      */
-    CourseCategory findByCourseCategoryName(String courseCategoryName);
+    CourseCategoryDTO findByCourseCategoryName(String courseCategoryName);
+
+
+    /**
+     * 添加课程分类
+     * @param courseCategory
+     */
+    void addCourseCategory(CourseCategory courseCategory);
+
 
     /**
      *  查询所有的上级课程分类
+     * @return
      */
-    List<CourseCategory> findAllCourseCategory();
+    List<CourseCategoryDTO> findAllCourseCategory();
+
+    /**
+     * 通过上级id 查询所有下级分类
+     * @param parentId
+     * @return
+     */
+    List<CourseCategoryDTO> findAllSubCourseCategory(Serializable parentId);
 
     /**
      * 修改分类课程
+     * @param courseCategory
+     * @return
      */
     int alterCourseCategory(CourseCategory courseCategory);
 
     /**
      *  通过分类id 删除
+     * @param id
+     * @return
      */
     int deleteCourseCategory(Serializable id);
 
+
+
+    /**
+     * 分页查询  课程分类
+     * @param page
+     * @param size
+     * @return
+     */
+    List<CourseCategoryDTO> findAllByPaging(int page, int size);
 }

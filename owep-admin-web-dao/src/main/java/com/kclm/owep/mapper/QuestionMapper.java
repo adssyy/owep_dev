@@ -16,7 +16,7 @@ import java.util.List;
  * @Author: tanj
  * @Version : v1.0
  * @Create: 2020年7月07日 下午16:10:40
- * @Description 班级
+ * @Description 班级问题
  */
 @Mapper
 public interface QuestionMapper extends BaseMapper<Question> {
@@ -73,4 +73,17 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @return
      */
     List<Question> selectByName();
+
+    /***
+     * 根据班级id来查询班级问题
+     * @return
+     */
+    List<Question> selectByClassId(@Param("id") Serializable id);
+
+    /***
+     * 根据课程id来查询班级问题
+     * @param id
+     * @return
+     */
+    List<Question> selectByCourseId(@Param("id") Serializable id);
 }
