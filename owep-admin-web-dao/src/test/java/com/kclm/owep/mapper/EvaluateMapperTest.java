@@ -98,7 +98,7 @@ public class EvaluateMapperTest {
     /*测试违规处理的，根据条件查询*/
     @Test
     void test5() {
-        List<Illegal> illegals = illegalMapper.selectByCondition(null,"shen", LocalDateTime.now(),null);
+        List<Illegal> illegals = illegalMapper.selectByCondition(null,"hen", null,null);
         System.out.println(illegals.size());
     }
 

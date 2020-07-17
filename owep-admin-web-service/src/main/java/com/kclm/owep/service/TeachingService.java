@@ -3,8 +3,7 @@
  */
 package com.kclm.owep.service;
 
-import com.kclm.owep.dto.ClassDTO;
-import com.kclm.owep.dto.TeachingDTO;
+import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.*;
 
 import java.io.Serializable;
@@ -27,7 +26,7 @@ public interface TeachingService {
      * 根据条件，获取班级数据
      */
     List<ClassDTO> findClassByConditions(String classNumber,String className,String instituteName,
-                                         String branchName,String profession);
+                                         String branchName,String profession,int pageNumber,int pageSize);
 
     /**
      * 根据classid获取一个班级的 信息、问题、资源、作业、评价、请假、违规的数据
@@ -38,7 +37,7 @@ public interface TeachingService {
     /**
      * 根据资源名称查询资源
      */
-    List<TeachingDTO> findResourceByName(String resourceName);
+    List<ResourceDTO> findResourceByName(String resourceName);
 
     /**
      * 根据id删除资源
@@ -58,7 +57,7 @@ public interface TeachingService {
     /**
      * 根据id获取问题详情
      */
-    TeachingDTO findQuestionById(Serializable questionId);
+    QuestionDTO findQuestionById(Serializable questionId);
 
     /**
      * 更新问题
@@ -68,17 +67,17 @@ public interface TeachingService {
     /**
      * 根据id获取作业详情
      */
-    TeachingDTO findHomeworkById(Serializable homeworkId);
+    HomeworkAnswerDTO findHomeworkAnswerById(Serializable homeworkAnswerId);
 
     /**
      * 更新作业 审批内容
      */
-    int updateHomework(Homework homework);
+    int updateHomework(HomeworkAnswer homeworkAnswer);
 
     /**
      * 根据id获取学生评价详情
      */
-    TeachingDTO findEvaluateById(Serializable evaluateId);
+    EvaluateDTO findEvaluateById(Serializable evaluateId);
 
     /**
      * 更新评价内容
@@ -93,7 +92,7 @@ public interface TeachingService {
     /**
      *  根据条件查找违纪数据
      */
-    List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,
+    List<IllegalDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,
                                               LocalDateTime endTime,int pageNumber,int pageSize);
 
     /**

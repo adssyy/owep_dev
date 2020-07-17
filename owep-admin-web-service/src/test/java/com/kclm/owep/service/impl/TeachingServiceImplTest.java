@@ -5,6 +5,8 @@ package com.kclm.owep.service.impl;
 
 import com.kclm.owep.OwepAdminServiceApplication;
 import com.kclm.owep.dto.ClassDTO;
+import com.kclm.owep.dto.EvaluateDTO;
+import com.kclm.owep.dto.QuestionDTO;
 import com.kclm.owep.dto.TeachingDTO;
 import com.kclm.owep.entity.Evaluate;
 import com.kclm.owep.entity.Illegal;
@@ -37,20 +39,20 @@ public class TeachingServiceImplTest {
 
     @Test
     void testFindQuestionById(){
-        TeachingDTO question = teachingService.findQuestionById(5);
+        QuestionDTO question = teachingService.findQuestionById(5);
         System.out.println(question);
     }
 
     @Test
     void testFindEvaluateById(){
-        TeachingDTO evaluate = teachingService.findEvaluateById(8);
+        EvaluateDTO evaluate = teachingService.findEvaluateById(8);
         System.out.println(evaluate);
     }
 
     @Test
     void testUpdateEvaluate(){
         Evaluate e = new Evaluate();
-        e.setId(8);
+        e.setId(10);
         e.setEvaluate("加油");
         teachingService.updateEvaluate(e);
     }
@@ -72,4 +74,18 @@ public class TeachingServiceImplTest {
     void testSaveIllegal(){
         teachingService.saveIllegal(new Illegal(1,"qian", LocalDateTime.now()));
     }
+
+    @Test
+    void testGetTeachingDTO(){
+        TeachingDTO teachingDTO = teachingService.getTeachingDTO(1, 1, 2);
+        System.out.println(teachingDTO.getId());
+        System.out.println((teachingDTO.getClassDesc()));
+        System.out.println(teachingDTO.getQuestionDTOS());
+        System.out.println(teachingDTO.getHomeworkAnswerDTOS());
+        System.out.println(teachingDTO.getResourceDTOS());
+        System.out.println(teachingDTO.getEvaluateDTOs().size());
+        System.out.println(teachingDTO.getIllegalDTOs().size());
+        System.out.println(teachingDTO.getLeaveDTOs().size());
+    }
+
 }

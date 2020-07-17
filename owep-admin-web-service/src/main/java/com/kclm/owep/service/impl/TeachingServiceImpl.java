@@ -40,6 +40,8 @@ public class TeachingServiceImpl implements TeachingService {
     @Autowired
     private HomeworkMapper homeworkMapper;
     @Autowired
+    private HomeworkAnswerMapper homeworkAnswerMapper;
+    @Autowired
     private MapperFactory mapperFactory;
 
 
@@ -59,7 +61,8 @@ public class TeachingServiceImpl implements TeachingService {
      * 根据条件，获取班级数据
      */
     @Override
-    public List<ClassDTO> findClassByConditions(String classNumber, String className, String instituteName, String branchName, String profession) {
+    public List<ClassDTO> findClassByConditions(String classNumber, String className, String instituteName,
+                                                String branchName, String profession,int pageNumber,int pageSize) {
         return null;
     }
 
@@ -68,12 +71,34 @@ public class TeachingServiceImpl implements TeachingService {
      */
     @Override
     public TeachingDTO getTeachingDTO(Serializable classId,int pageNumber,int pageSize) {
+        //获取一个班级的 信息、问题、资源、作业、评价、请假、违规list
+        Clazz clazz = clazzMapper.selectById(classId);
+        PageHelper.startPage(pageNumber,pageSize);
+        List<HomeworkAnswer> homeworkAnswerList = homeworkAnswerMapper.selectByClassId(classId);
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Question> questionList = questionMapper.selectByClassId(classId);
         PageHelper.startPage(pageNumber,pageSize);
         List<Evaluate> evaluateList = evaluateMapper.selectByClassId(classId);
+        PageHelper.startPage(pageNumber,pageSize);
         List<Leave> leaveList = leaveMapper.selectByClassId(classId);
+        PageHelper.startPage(pageNumber,pageSize);
         List<Illegal> illegalList = illegalMapper.selectByClassId(classId);
+
+        //将list分别映射
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        mapperFactory.classMap(Evaluate.class,EvaluateDTO.class).field("student.stuNumber","stuNumber")
+        mapperFactory.classMap(Clazz.class,TeachingDTO.class)
+                .field("resourceList","resourceDTOS").
+                byDefault().register();
+        TeachingDTO teachingDTO = mapperFacade.map(clazz, TeachingDTO.class);
+        mapperFactory.classMap(HomeworkAnswer.class,HomeworkAnswerDTO.class)
+                .field("student.stuRealName","studentName")
+                .field("homework.workTitle","workTitle")
+                .field("homework.workContent","workContent")
+                .byDefault().register();
+        List<HomeworkAnswerDTO> homeworkAnswerDTOS = mapperFacade.mapAsList(homeworkAnswerList, HomeworkAnswerDTO.class);
+        List<QuestionDTO> questionDTOS = mapperFacade.mapAsList(questionList, QuestionDTO.class);
+        mapperFactory.classMap(Evaluate.class,EvaluateDTO.class)
+                .field("student.stuNumber","stuNumber")
                 .field("student.gender","gender")
                 .field("student.stuPhone","stuPhone")
                 .field("student.stuEmail","stuEmail")
@@ -81,17 +106,23 @@ public class TeachingServiceImpl implements TeachingService {
                 .byDefault().register();
         List<EvaluateDTO> evaluateDTOs = mapperFacade.mapAsList(evaluateList, EvaluateDTO.class);
         List<LeaveDTO> leaveDTOs = mapperFacade.mapAsList(leaveList, LeaveDTO.class);
-        mapperFactory.classMap(Illegal.class,IllegalDTO.class).field("student{stuNumber}","stuNumber")
+        mapperFactory.classMap(Illegal.class,IllegalDTO.class)
+                .field("student.stuNumber","stuNumber")
                 .byDefault().register();
         List<IllegalDTO> illegalDTOs = mapperFacade.mapAsList(illegalList, IllegalDTO.class);
-        TeachingDTO teachingDTO = new TeachingDTO(evaluateDTOs,leaveDTOs,illegalDTOs);
+
+        teachingDTO.setHomeworkAnswerDTOS(homeworkAnswerDTOS);
+        teachingDTO.setQuestionDTOS(questionDTOS);
+        teachingDTO.setIllegalDTOs(illegalDTOs);
+        teachingDTO.setEvaluateDTOs(evaluateDTOs);
+        teachingDTO.setLeaveDTOs(leaveDTOs);
         return teachingDTO;
     }
 
 
 
     @Override
-    public List<TeachingDTO> findResourceByName(String resourceName) {
+    public List<ResourceDTO> findResourceByName(String resourceName) {
         return null;
     }
 
@@ -119,10 +150,10 @@ public class TeachingServiceImpl implements TeachingService {
      * 根据id获取问题详情
      */
     @Override
-    public TeachingDTO findQuestionById(Serializable questionId) {
+    public QuestionDTO findQuestionById(Serializable questionId) {
         Question question = questionMapper.selectById(questionId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        return mapperFacade.map(question,TeachingDTO.class);
+        return mapperFacade.map(question,QuestionDTO.class);
     }
 
     /**
@@ -135,28 +166,28 @@ public class TeachingServiceImpl implements TeachingService {
      * 根据id获取作业详情
      */
     @Override
-    public TeachingDTO findHomeworkById(Serializable homeworkId) {
-        Homework homework = homeworkMapper.selectById(homeworkId);
+    public HomeworkAnswerDTO findHomeworkAnswerById(Serializable homeworkAnswerId) {
+        HomeworkAnswer homeworkAnswer = homeworkAnswerMapper.selectById(homeworkAnswerId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        return mapperFacade.map(homework,TeachingDTO.class);
+        return mapperFacade.map(homeworkAnswer,HomeworkAnswerDTO.class);
     }
 
     /**
      * 更新作业 审批内容
      */
     @Override
-    public int updateHomework(Homework homework) {
-        return homeworkMapper.update(homework);
+    public int updateHomework(HomeworkAnswer homeworkAnswer) {
+        return homeworkAnswerMapper.update(homeworkAnswer);
     }
 
     /**
      * 根据id获取学生评价详情
      */
     @Override
-    public TeachingDTO findEvaluateById(Serializable evaluateId) {
+    public EvaluateDTO findEvaluateById(Serializable evaluateId) {
         Evaluate evaluate = evaluateMapper.selectById(evaluateId);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        return mapperFacade.map(evaluate,TeachingDTO.class);
+        return mapperFacade.map(evaluate,EvaluateDTO.class);
     }
 
     /**
@@ -179,12 +210,12 @@ public class TeachingServiceImpl implements TeachingService {
      *  根据条件查找违纪数据
      */
     @Override
-    public List<TeachingDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,
+    public List<IllegalDTO> findIllegalByConditions(String stuNumber, String stuName, LocalDateTime startTime,
                                                      LocalDateTime endTime,int pageNumber,int pageSize) {
         PageHelper.startPage(pageNumber,pageSize);
         List<Illegal> illegals = illegalMapper.selectByCondition(stuNumber, stuName, startTime, endTime);
         MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        return mapperFacade.mapAsList(illegals, TeachingDTO.class);
+        return mapperFacade.mapAsList(illegals, IllegalDTO.class);
     }
 
     /**

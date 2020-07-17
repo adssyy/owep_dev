@@ -66,4 +66,10 @@ public class HomeworkAnswerMapperTest {
         System.out.println(i);
     }
 
+    @Test
+    void testSelectByClassId(){
+        List<HomeworkAnswer> homeworkAnswers = homeworkAnswerMapper.selectByClassId(1);
+        homeworkAnswers.forEach(System.out::println);
+    }
+
 }

@@ -108,7 +108,8 @@ public class EvaluateDTO {
     @Override
     public String toString() {
         return "EvaluateDTO{" +
-                "stuNumber='" + stuNumber + '\'' +
+                "id=" + id +
+                ", stuNumber='" + stuNumber + '\'' +
                 ", studentName='" + studentName + '\'' +
                 ", stuPhone='" + stuPhone + '\'' +
                 ", stuEmail='" + stuEmail + '\'' +

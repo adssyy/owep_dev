@@ -7,6 +7,9 @@ import com.kclm.owep.entity.HomeworkAnswer;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.io.Serializable;
+import java.util.List;
+
 /*********************
  * @Auther shentr
  * @Version V1.0
@@ -15,5 +18,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface HomeworkAnswerMapper extends BaseMapper<HomeworkAnswer> {
+
+    /**
+     * 根据classId查找
+     */
+    List<HomeworkAnswer> selectByClassId(Serializable classId);
 
 }

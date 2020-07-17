@@ -15,8 +15,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
-    <!--<result column="fk_homework_id" jdbcType="INTEGER" property="fkHomeworkId" />
-    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />-->
+    <association property="homework" column="fk_homework_id" javaType="com.kclm.owep.entity.Homework" select="com.kclm.owep.mapper.HomeworkMapper.selectById"/>
+    <association property="student" column="fk_student_id" javaType="com.kclm.owep.entity.Student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
   </resultMap>
   <update id="update" parameterType="com.kclm.owep.entity.HomeworkAnswer">
     update t_homework_answer set audit_content = #{auditContent} where id = #{id}
@@ -31,6 +31,26 @@
     create_time, last_access_time, version, fk_homework_id, fk_student_id
   </sql>
 
+  <!--根据classId查找-->
+  <select id="selectByClassId" parameterType="integer" resultMap="BaseResultMap">
+    SELECT
+    tha.id,
+    tha.answer_url,
+    tha.answer_content,
+    tha.answer_attachment,
+    tha.answer_status,
+    tha.audit_content,
+    tha.create_time,
+    tha.last_access_time,
+    tha.version,
+    tha.fk_student_id,
+    tha.fk_homework_id
+    FROM
+    t_homework_answer tha
+    LEFT JOIN t_homework th ON th.id = tha.fk_homework_id
+    WHERE
+    th.fk_class_id = #{classId}
+  </select>
 <!--以下为没用到方法-->
 <!--插入数据-->
   <insert id="save" parameterType="com.kclm.owep.entity.HomeworkAnswer">

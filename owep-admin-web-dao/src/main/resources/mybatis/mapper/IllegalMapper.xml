@@ -61,10 +61,10 @@
     select * from t_illegal
     <where>
       <if test="stuNumber != null and stuNumber != ''">
-        and fk_student_id = (select id from t_student where stu_number like #{stuNumber})
+        and fk_student_id = (select id from t_student where stu_number like CONCAT('%',#{stuNumber},'%')
       </if>
       <if test="stuName != null and stuName != ''">
-        and student_name like #{stuName}
+        and student_name like CONCAT('%',#{stuName},'%')
       </if>
       <if test="startTime != null">
         and discipline_time &gt;= #{startTime}

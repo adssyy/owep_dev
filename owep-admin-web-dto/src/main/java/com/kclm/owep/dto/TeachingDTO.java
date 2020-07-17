@@ -3,11 +3,6 @@
  */
 package com.kclm.owep.dto;
 
-import com.kclm.owep.entity.PlanManager;
-import com.kclm.owep.entity.Resource;
-import com.kclm.owep.entity.Student;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 /*********************
@@ -29,9 +24,30 @@ public class TeachingDTO {
     /***
      * 资源管理
      */
-    private List<Resource> resourceList;
+    private List<ResourceDTO> resourceDTOS;
+    /***
+     * 课程
+     */
+    private List<CourseDTO> courseDTOS;
+    /***
+     * 问题
+     */
+    private List<QuestionDTO> questionDTOS;
+    /***
+     * 作业
+     */
+    private List<HomeworkAnswerDTO> homeworkAnswerDTOS;
+    /***
+     * 学生评价
+     */
     private List<EvaluateDTO> evaluateDTOs;
+    /***
+     * 请假处理
+     */
     private List<LeaveDTO> leaveDTOs;
+    /***
+     * 违规处理
+     */
     private List<IllegalDTO> illegalDTOs;
 
     public Integer getId() {
@@ -50,13 +66,17 @@ public class TeachingDTO {
         this.classDesc = classDesc;
     }
 
-    public List<Resource> getResourceList() {
-        return resourceList;
+    public List<ResourceDTO> getResourceDTOS() {
+        return resourceDTOS;
     }
 
-    public void setResourceList(List<Resource> resourceList) {
-        this.resourceList = resourceList;
+    public void setResourceDTOS(List<ResourceDTO> resourceDTOS) {
+        this.resourceDTOS = resourceDTOS;
     }
+
+    public List<CourseDTO> getCourseDTOS() { return courseDTOS; }
+
+    public void setCourseDTOS(List<CourseDTO> courseDTOS) { this.courseDTOS = courseDTOS; }
 
     public List<EvaluateDTO> getEvaluateDTOs() {
         return evaluateDTOs;
@@ -82,24 +102,21 @@ public class TeachingDTO {
         this.illegalDTOs = illegalDTOs;
     }
 
-    @Override
-    public String toString() {
-        return "TeachingDTO{" +
-                "id=" + id +
-                ", classDesc='" + classDesc + '\'' +
-                ", resourceList=" + resourceList +
-                ", evaluateDTOs=" + evaluateDTOs +
-                ", leaveDTOs=" + leaveDTOs +
-                ", illegalDTOs=" + illegalDTOs +
-                '}';
+    public List<QuestionDTO> getQuestionDTOS() {
+        return questionDTOS;
     }
 
-    public TeachingDTO() {
+    public void setQuestionDTOS(List<QuestionDTO> questionDTOS) {
+        this.questionDTOS = questionDTOS;
     }
 
-    public TeachingDTO(List<EvaluateDTO> evaluateDTOs, List<LeaveDTO> leaveDTOs, List<IllegalDTO> illegalDTOs) {
-        this.evaluateDTOs = evaluateDTOs;
-        this.leaveDTOs = leaveDTOs;
-        this.illegalDTOs = illegalDTOs;
+    public List<HomeworkAnswerDTO> getHomeworkAnswerDTOS() {
+        return homeworkAnswerDTOS;
     }
+
+    public void setHomeworkAnswerDTOS(List<HomeworkAnswerDTO> homeworkAnswerDTOS) {
+        this.homeworkAnswerDTOS = homeworkAnswerDTOS;
+    }
+
+
 }
