@@ -17,13 +17,11 @@ import com.kclm.owep.service.PermissionService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author: ZhangQi
@@ -31,6 +29,7 @@ import java.util.Set;
  * @create: 2020/7/15 12:01
  * @description:
  **/
+@Service
 public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private PermissionMapper permissionMapper;
@@ -120,9 +119,10 @@ public class PermissionServiceImpl implements PermissionService {
                 .field("childMenus{id}", "nodes{tags}")
                 .field("childMenus{menuName}", "nodes{text}")
                 .register();
-        List<Menu> menus = menuMapper.selectAll();
+        List<Menu> menus = menuMapper.selectMenuChild(0);
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         List<NodeDTO> nodeDTOS = mapperFacade.mapAsList(menus, NodeDTO.class);
+        Iterator<NodeDTO> iterator = nodeDTOS.iterator();
         return nodeDTOS;
     }
 

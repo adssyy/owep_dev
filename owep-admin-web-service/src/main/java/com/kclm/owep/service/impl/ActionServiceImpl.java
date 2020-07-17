@@ -16,6 +16,7 @@ import ma.glasnost.orika.MapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -27,6 +28,7 @@ import java.util.List;
  * @create: 2020/7/15 10:45
  * @description:
  **/
+@Service
 public class ActionServiceImpl implements ActionService {
     private final Logger logger = LoggerFactory.getLogger(GroupServiceImpl.class);
     @Autowired

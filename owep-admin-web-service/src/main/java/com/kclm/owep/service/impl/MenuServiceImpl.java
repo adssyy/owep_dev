@@ -17,6 +17,7 @@ import com.kclm.owep.service.MenuService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -31,6 +32,7 @@ import java.util.Set;
  * @create: 2020/7/15 14:00
  * @description:
  **/
+@Service
 public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuMapper menuMapper;
@@ -77,7 +79,11 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDTO> selectAllMenu() {
-        List<Menu> menus = menuMapper.selectAll();
+        List<Menu> menus = menuMapper.selectParent(0);
+        mapperFactory.classMap(Menu.class,MenuDTO.class)
+                .field("parent.id", "pid")
+                .byDefault()
+                .register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         List<MenuDTO> menuDTOS = mapperFacade.mapAsList(menus, MenuDTO.class);
         return menuDTOS;
@@ -107,9 +113,10 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ActionMenuPermissionDTO selectActionAndPermissionNyMenuId(Serializable menuId) {
+    public ActionMenuPermissionDTO selectActionAndPermissionByMenuId(Serializable menuId) {
         Assert.notNull(menuId, "menuId不能为空");
         List<Menu> menus = menuMapper.selectAllInAPM(menuId, 0, 0);
+
         mapperFactory.classMap(Menu.class, ActionMenuPermissionDTO.class)
                 .field("id", "menuId")
                 .field("permissions{id}", "permissionIds{}")

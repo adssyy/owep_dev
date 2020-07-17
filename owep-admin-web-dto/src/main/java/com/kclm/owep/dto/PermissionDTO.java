@@ -34,9 +34,9 @@ public class PermissionDTO extends Permission {
     public PermissionDTO() {
     }
 
-    public PermissionDTO(String permissionName, String permissionDesc) {
+    public PermissionDTO(String permissionName, String permissionDescription) {
         this.permissionName = permissionName;
-        this.permissionDescription = permissionDesc;
+        this.permissionDescription = permissionDescription;
     }
 
     @Override
@@ -85,12 +85,14 @@ public class PermissionDTO extends Permission {
         this.permissionName = permissionName;
     }
 
-    public String getPermissionDesc() {
+    @Override
+    public String getPermissionDescription() {
         return permissionDescription;
     }
 
-    public void setPermissionDesc(String permissionDesc) {
-        this.permissionDescription = permissionDesc;
+    @Override
+    public void setPermissionDescription(String permissionDescription) {
+        this.permissionDescription = permissionDescription;
     }
 
     @Override

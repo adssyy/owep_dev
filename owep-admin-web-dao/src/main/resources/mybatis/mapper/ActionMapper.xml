@@ -27,7 +27,7 @@
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from t_action;
+        from t_action
     </select>
     <!--根据Id查询-->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">

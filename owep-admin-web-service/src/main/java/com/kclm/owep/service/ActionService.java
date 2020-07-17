@@ -18,7 +18,7 @@ import java.util.List;
  * @create: 2020/7/13 16:14
  * @description: 行为
  **/
-@Service
+
 public interface ActionService {
     int PAGE_SIZE=10;
 

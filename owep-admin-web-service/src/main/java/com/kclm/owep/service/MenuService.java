@@ -61,11 +61,14 @@ public interface MenuService {
     int assignActionToMenu(Map<Integer, List<Integer>> map);
 
     /**
+     * 该方法可能弃用！！
      * 根据菜单ID获取相关的权限和行为
+     * 注意：该查询会出现 部分数据重复 从而导致记录数无法匹配 如 菜单3 下对应两条 权限为2 两条行为为1 2的记录
+     * 这其中 两条权限为2的记录因为是重复的 所有会变成一条。
      * @param menuId
      * @return
      */
-    ActionMenuPermissionDTO selectActionAndPermissionNyMenuId(Serializable menuId);
+    ActionMenuPermissionDTO selectActionAndPermissionByMenuId(Serializable menuId);
 
     /**
      * 根据权限id查询相关的行为

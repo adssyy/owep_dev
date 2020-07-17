@@ -17,6 +17,7 @@ import com.kclm.owep.service.RoleService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -31,6 +32,7 @@ import java.util.Set;
  * @create: 2020/7/15 11:27
  * @description:
  **/
+@Service
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
@@ -148,7 +150,7 @@ public class RoleServiceImpl implements RoleService {
         List<Role> roles = roleMapper.selectParent(roleId);
         if (roles.size() > 0) {
             MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            RoleDTO roleDTO = mapperFacade.map(roles.get(0), RoleDTO.class);
+            RoleDTO roleDTO = mapperFacade.map(roles.get(0).getParent(), RoleDTO.class);
             return roleDTO;
         } else return null;
 

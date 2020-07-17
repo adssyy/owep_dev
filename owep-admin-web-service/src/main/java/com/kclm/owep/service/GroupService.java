@@ -22,7 +22,7 @@ import java.util.Map;
  * @create: 2020/7/13 9:19
  * @description: 用户组接口
  **/
-@Service
+
 public interface GroupService {
     int PAGE_SIZE=10;
     /**

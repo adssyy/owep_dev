@@ -22,7 +22,7 @@ import java.util.Map;
  * @create: 2020/7/13 10:58
  * @description: 角色接口
  **/
-@Service
+
 public interface RoleService {
 
     int PAGE_SIZE=10;
