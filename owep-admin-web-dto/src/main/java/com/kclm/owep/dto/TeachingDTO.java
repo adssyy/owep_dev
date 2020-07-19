@@ -3,11 +3,6 @@
  */
 package com.kclm.owep.dto;
 
-import com.kclm.owep.entity.PlanManager;
-import com.kclm.owep.entity.Resource;
-import com.kclm.owep.entity.Student;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 /*********************
@@ -29,43 +24,31 @@ public class TeachingDTO {
     /***
      * 资源管理
      */
-    private List<Resource> resourceList;
+    private List<ResourceDTO> resourceDTOS;
     /***
-     * 方案
+     * 课程
      */
-    private List<PlanManager> planManagerList;
-    /**
-     *学员外键
+    private List<CourseDTO> courseDTOS;
+    /***
+     * 问题
      */
-    private Student student;
-    /**
-     *评价内容
+    private List<QuestionDTO> questionDTOS;
+    /***
+     * 作业
      */
-    private String evaluate;
-    /**
-     *请假时间
+    private List<HomeworkAnswerDTO> homeworkAnswerDTOS;
+    /***
+     * 学生评价
      */
-    private LocalDateTime leaveTime;
-    /**
-     *结束时间
+    private List<EvaluateDTO> evaluateDTOs;
+    /***
+     * 请假处理
      */
-    private LocalDateTime leaveEndTime;
-    /**
-     *请假事由
+    private List<LeaveDTO> leaveDTOs;
+    /***
+     * 违规处理
      */
-    private String reasonLeave;
-    /**
-     *审核状态,1.待审核， 2， 审核通过， 0 未通过
-     */
-    private Integer approvalStatus;
-    /**
-     *违规时间
-     */
-    private LocalDateTime disciplineTime;
-    /**
-     *情况说明
-     */
-    private String presentationCondition;
+    private List<IllegalDTO> illegalDTOs;
 
     public Integer getId() {
         return id;
@@ -83,101 +66,57 @@ public class TeachingDTO {
         this.classDesc = classDesc;
     }
 
-    public List<Resource> getResourceList() {
-        return resourceList;
+    public List<ResourceDTO> getResourceDTOS() {
+        return resourceDTOS;
     }
 
-    public void setResourceList(List<Resource> resourceList) {
-        this.resourceList = resourceList;
+    public void setResourceDTOS(List<ResourceDTO> resourceDTOS) {
+        this.resourceDTOS = resourceDTOS;
     }
 
-    public Student getStudent() {
-        return student;
+    public List<CourseDTO> getCourseDTOS() { return courseDTOS; }
+
+    public void setCourseDTOS(List<CourseDTO> courseDTOS) { this.courseDTOS = courseDTOS; }
+
+    public List<EvaluateDTO> getEvaluateDTOs() {
+        return evaluateDTOs;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setEvaluateDTOs(List<EvaluateDTO> evaluateDTOs) {
+        this.evaluateDTOs = evaluateDTOs;
     }
 
-    public String getEvaluate() {
-        return evaluate;
+    public List<LeaveDTO> getLeaveDTOs() {
+        return leaveDTOs;
     }
 
-    public void setEvaluate(String evaluate) {
-        this.evaluate = evaluate;
+    public void setLeaveDTOs(List<LeaveDTO> leaveDTOs) {
+        this.leaveDTOs = leaveDTOs;
     }
 
-    public LocalDateTime getLeaveTime() {
-        return leaveTime;
+    public List<IllegalDTO> getIllegalDTOs() {
+        return illegalDTOs;
     }
 
-    public void setLeaveTime(LocalDateTime leaveTime) {
-        this.leaveTime = leaveTime;
+    public void setIllegalDTOs(List<IllegalDTO> illegalDTOs) {
+        this.illegalDTOs = illegalDTOs;
     }
 
-    public LocalDateTime getLeaveEndTime() {
-        return leaveEndTime;
+    public List<QuestionDTO> getQuestionDTOS() {
+        return questionDTOS;
     }
 
-    public void setLeaveEndTime(LocalDateTime leaveEndTime) {
-        this.leaveEndTime = leaveEndTime;
+    public void setQuestionDTOS(List<QuestionDTO> questionDTOS) {
+        this.questionDTOS = questionDTOS;
     }
 
-    public String getReasonLeave() {
-        return reasonLeave;
+    public List<HomeworkAnswerDTO> getHomeworkAnswerDTOS() {
+        return homeworkAnswerDTOS;
     }
 
-    public void setReasonLeave(String reasonLeave) {
-        this.reasonLeave = reasonLeave;
+    public void setHomeworkAnswerDTOS(List<HomeworkAnswerDTO> homeworkAnswerDTOS) {
+        this.homeworkAnswerDTOS = homeworkAnswerDTOS;
     }
 
-    public Integer getApprovalStatus() {
-        return approvalStatus;
-    }
 
-    public void setApprovalStatus(Integer approvalStatus) {
-        this.approvalStatus = approvalStatus;
-    }
-
-    public LocalDateTime getDisciplineTime() {
-        return disciplineTime;
-    }
-
-    public void setDisciplineTime(LocalDateTime disciplineTime) {
-        this.disciplineTime = disciplineTime;
-    }
-
-    public String getPresentationCondition() {
-        return presentationCondition;
-    }
-
-    public void setPresentationCondition(String presentationCondition) {
-        this.presentationCondition = presentationCondition;
-    }
-
-    public List<PlanManager> getPlanManagerList() {
-        return planManagerList;
-    }
-
-    public void setPlanManagerList(List<PlanManager> planManagerList) {
-        this.planManagerList = planManagerList;
-    }
-
-    @Override
-    public String toString() {
-        return "TeachingDTO{" +
-                "id=" + id +
-                ", classDesc='" + classDesc + '\'' +
-                ", resourceList=" + resourceList +
-                ", planManagerList=" + planManagerList +
-                ", student=" + student +
-                ", evaluate='" + evaluate + '\'' +
-                ", leaveTime=" + leaveTime +
-                ", leaveEndTime=" + leaveEndTime +
-                ", reasonLeave='" + reasonLeave + '\'' +
-                ", approvalStatus=" + approvalStatus +
-                ", disciplineTime=" + disciplineTime +
-                ", presentationCondition='" + presentationCondition + '\'' +
-                '}';
-    }
 }
