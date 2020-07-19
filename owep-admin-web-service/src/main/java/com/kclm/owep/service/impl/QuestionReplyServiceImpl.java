@@ -6,8 +6,13 @@ package com.kclm.owep.service.impl;
 
 import com.kclm.owep.dto.QuestionReplyDTO;
 import com.kclm.owep.entity.QuestionReply;
+import com.kclm.owep.mapper.QuestionReplyMapper;
 import com.kclm.owep.service.QuestionReplyService;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,29 +26,64 @@ import java.util.List;
  *
  */
 @Service
+@Transactional
 public class QuestionReplyServiceImpl implements QuestionReplyService {
+    @Autowired
+    private QuestionReplyMapper questionReplyMapper;
+    @Autowired
+    private MapperFactory mapperFactory;
+
+    /**
+     * 保存
+     * @param entity
+     * @return
+     */
     @Override
     public int save(QuestionReply entity) {
-        return 0;
+        return questionReplyMapper.save(entity);
     }
 
+    /**
+     * 更新
+     * @param entity
+     * @return
+     */
     @Override
     public int update(QuestionReply entity) {
-        return 0;
+        return questionReplyMapper.update(entity);
     }
 
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
     @Override
     public int deleteById(Serializable id) {
-        return 0;
+        return questionReplyMapper.deleteById(id);
     }
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
     @Override
     public QuestionReplyDTO selectById(Serializable id) {
-        return null;
+        QuestionReply questionReply = questionReplyMapper.selectById(id);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+
+        return mapperFacade.map(questionReply,QuestionReplyDTO.class);
     }
 
+    /**
+     * 查询所有
+     * @return
+     */
     @Override
     public List<QuestionReplyDTO> selectAll() {
-        return null;
+        List<QuestionReply> questionReplies = questionReplyMapper.selectAll();
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        return mapperFacade.mapAsList(questionReplies,QuestionReplyDTO.class);
     }
 }
