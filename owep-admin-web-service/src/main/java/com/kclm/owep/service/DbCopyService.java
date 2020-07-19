@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.DbCopyDTO;
 import com.kclm.owep.entity.DbCopy;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public interface DbCopyService {
      * 查询所有记录
      * @return
      */
-    List<DbCopy> findAll();
+    List<DbCopyDTO> findAll();
 
     /**
      * 根据开始时间和结束时间查询
@@ -28,7 +29,7 @@ public interface DbCopyService {
      * @param end
      * @return
      */
-    List<DbCopy> findByTime(LocalDateTime start,LocalDateTime end);
+    List<DbCopyDTO> findByTime(LocalDateTime start,LocalDateTime end);
 
     /**
      * 根据id删除

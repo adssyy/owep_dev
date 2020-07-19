@@ -85,13 +85,13 @@
     from t_syslog
     <where>
         <if test="login_user_name!='%null '">
-          login_user_name like #{login_user_name}
+          login_user_name like #{login_user_name}and
         </if>
         <if test="start!=null ">
-          and create_time &gt;= #{start}
+           create_time &gt;= #{start} and
         </if>
       <if test="end!=null ">
-         and create_time &lt;= #{end}
+         create_time &lt;= #{end}
       </if>
     </where>
    <!-- login_user_name=#{username}

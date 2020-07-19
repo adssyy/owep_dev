@@ -31,4 +31,46 @@ public class SystemConfigDTO implements Serializable {
      *系统页LOGO
      */
     private String systemLogo;
+
+    public String getSystemName() {
+        return systemName;
+    }
+
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
+    }
+
+    public String getCopyName() {
+        return copyName;
+    }
+
+    public void setCopyName(String copyName) {
+        this.copyName = copyName;
+    }
+
+    public String getLoginPageLogo() {
+        return loginPageLogo;
+    }
+
+    public void setLoginPageLogo(String loginPageLogo) {
+        this.loginPageLogo = loginPageLogo;
+    }
+
+    public String getSystemLogo() {
+        return systemLogo;
+    }
+
+    public void setSystemLogo(String systemLogo) {
+        this.systemLogo = systemLogo;
+    }
+
+    @Override
+    public String toString() {
+        return "SystemConfigDTO{" +
+                "systemName='" + systemName + '\'' +
+                ", copyName='" + copyName + '\'' +
+                ", loginPageLogo='" + loginPageLogo + '\'' +
+                ", systemLogo='" + systemLogo + '\'' +
+                '}';
+    }
 }
