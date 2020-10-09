@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="视频管理">
+    <meta name="description" content="视频管理">
+    <title>视频管理</title>
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"
+          th:href="@{/static/css/bootstrap.min.css(v=3.3.6)}">
+    <link href="../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet"
+          th:href="@{/static/css/font-awesome.css(v=4.4.0)}">
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
+          th:ref="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/css/plugins/treegrid/jquery.treegrid.css" rel="stylesheet"
+          th:ref="@{/static/css/plugins/treegrid/jquery.treegrid.css}">
+    <!-- Sweet Alert -->
+    <link href="../../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css}">
+    <link href="../../static/css/animate.css" rel="stylesheet" th:href="@{/static/css/animate.css}">
+    <link href="../../static/css/style.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.css(v=4.1.0)}">
+    <link href="../../static/css/plugins/fileinput/fileinput.min.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/fileinput/fileinput.min.css}">
+    <link href="../../static/css/plugins/fileinput/theme.min.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/fileinput/theme.min.css}">
+    <style>
+        th {
+            color: #2a62bc;
+            background-color: #eaeaea;
+        }
+
+        table tbody td {
+            border: 0 solid #ddd !important;
+        }
+
+        .file-preview {
+            border-radius: 1px;
+            border: 1px solid #ddd;
+            padding: 0px;
+            width: 100%;
+            height: 270px;
+            margin-bottom: 5px;
+            overflow: auto;
+        }
+
+        .krajee-default.file-preview-frame .kv-file-content {
+            width: 180px;
+            height: 160px
+        }
+
+        .file-drop-zone {
+            border: none !important;
+            border-radius: 4px;
+            text-align: center;
+            vertical-align: middle;
+            margin: 12px 15px 12px 12px;
+            padding: 5px
+        }
+
+        .file-preview .fileinput-remove {
+            top: 5px !important;
+            right: 5px !important;
+            line-height: 10px !important;
+        }
+    </style>
+</head>
+<!--by qi-->
+<body class="gray-bg">
+<div id="toolbar">
+    <div class="btn-group">
+        <button type="button" id="btnFilter" class="btn btn-info dropdown-toggle" style="width:75px"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            默认 <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" style="left: 0;width: 50px">
+            <li value="all" name="all"><a href="#">全部</a></li>
+            <li th:value="" name="me"><a href="#">我</a></li>
+        </ul>
+
+    </div>
+    <button class="btn btn-success" data-toggle="modal" data-target="#upModal">上传</button>
+    <!--<button class="btn btn-danger" id="delAll">批量删除</button>-->
+</div>
+<div class="ibox-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="animated fadeInRight">
+                <table id="videoTable" class="table">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--上传模态窗-->
+<div class="modal fade" id="upModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <!-- 模态框头部定义 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">上传视频</h4>
+            </div>
+            <!--体部定义-->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="file-loading">
+                            <input id="input-single" name="input-fa" type="file" accept="video/*">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="file-loading">
+                            <input id="input-multiple" name="input-fa" type="file" accept="video/*" multiple
+                                   webkitdirectory>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" id="btnUpModal" class="btn btn-primary">保存</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--表格中的上传模态窗-->
+<div class="modal fade" id="tableUpModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <!-- 模态框头部定义 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" name="dirTitle"></h4>
+            </div>
+            <!--体部定义-->
+            <div class="modal-body">
+                <div class="file-loading">
+                    <input id="inputFiles" name="input-fa" type="file" accept="video/*" multiple>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" id="btnTableUpModal" class="btn btn-primary">保存</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--修改视频文件名-->
+<div class="modal fade" id="updateSingleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- 模态框头部定义 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">修改</h4>
+            </div>
+            <!--体部定义-->
+            <div class="modal-body">
+                <form th:action="@{/}" class="form-horizontal" name="updateFileNameForm" method="post">
+                    <div class="form-group  has-feedback">
+                        <label class="col-md-2 control-label">文件名:</label>
+                        <div class="col-md-6">
+                            <input type="text" th:values="" name="fileName" value="" class="form-control">
+                        </div>
+                        <!--<div class="col-md-offset-1 col-md-2">
+                            <label class="control-label"  hidden tip="name">msg</label>
+                        </div>-->
+                    </div>
+                    <div class="form-group  has-feedback">
+                        <label class="col-md-2 control-label ">文件大小:</label>
+                        <div class="col-md-6">
+                            <input type="text" th:value="" value="800MB" readonly name="fileSize" class="form-control"
+                                   rows="3">
+                        </div>
+                        <!--<div class="col-md-offset-1 col-md-2">
+                          &lt;!&ndash;  <label class="control-label" tip="description">msg</label>&ndash;&gt;
+                        </div>-->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" id="btnUpdateName" class="btn btn-primary">保存</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--视频预览模态窗-->
+<div class="modal fade" id="videoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- 模态框头部定义 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">预览</h4>
+            </div>
+            <!--体部定义-->
+            <div class="modal-body">
+                <div class="kv-zoom-body file-zoom-content explorer-frame">
+                    <video class="kv-preview-data file-preview-video file-zoom-detail"
+                           controls style="width:auto;height: 100%;max-width: 100%">
+                        <source th:src="" src="" type="video/*">
+                    </video>
+                    <div class="row text-left">
+
+                        <div name="videoName" class="col-md-6 help-block">XXX.mp4</div>
+                        <div name="videoTime" class="col-md-6 help-block">时长:时:分:秒</div>
+                        <div name="videoSize" class="col-md-6 help-block">文件大小:</div>
+                        <div name="lastAccessTime" class="col-md-6 help-block">最后一次访问时间</div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!--<button type="submit" id="btnVideoModal" class="btn btn-primary">保存</button>-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js(v=2.1.4)}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js(v=3.3.6)}"></script>
+<script src="../../static/js/plugins/treegrid/bootstrap-table.min.js"
+        th:src="@{/static/js/plugins/treegrid/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script src="../../static/js/plugins/treegrid/bootstrap-table-treegrid.min.js"
+        th:src="@{/static/js/plugins/treegrid/bootstrap-table-treegrid.min.js}"></script>
+<script src="../../static/js/plugins/treegrid/jquery.treegrid.min.js"
+        th:src="@{/static/js/plugins/treegrid/jquery.treegrid.min.js}"></script>
+<script src="../../static/js/plugins/treeview/bootstrap-treeview.min.js"
+        th:src="@{/static/js/plugins/treeview/bootstrap-treeview.min.js}"></script>
+<script src="../../static/js/plugins/fileinput/fileinput.min.js"
+        th:src="@{/static/js/plugins/fileinput/fileinput.min.js}"></script>
+<script src="../../static/js/plugins/fileinput/zh.js"
+        th:src="@{/static/js/plugins/fileinput/zh.js}"></script>
+<script src="../../static/js/plugins/fileinput/theme.min.js"
+        th:src="@{/static/js/plugins/fileinput/theme.min.js}"></script>
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<script>
+    $(function () {
+        let $videoTable = $("#videoTable");
+        /*初始化表格*/
+        initTable($videoTable);
+        /*绑定过滤按钮*/
+        let $btnFilter = $("#btnFilter");
+        /*绑定下拉li点击事件*/
+        $(".dropdown-menu").on("click", 'li', function () {
+            let text = $(this).text();
+            console.log(text);
+            let value = $(this).attr('value');
+            let name = $(this).attr('name');
+            /*给过滤按钮赋值*/
+            $btnFilter.text(text).append(' <span class="caret"></span>');
+            /*value的值需要获取session里的用户名*/
+            if (name == 'me') {
+                $videoTable.bootstrapTable('filterBy', {
+                    origin: ['快程乐码']
+                })
+            }
+            if (name == 'all') {
+                $videoTable.bootstrapTable('filterBy');
+            }
+
+        });
+
+
+        /*初始化图片上传fileInput*/
+        let $single = $("#input-single");
+        let $multiple = $("#input-multiple");
+        let $inputFiles = $("#inputFiles");
+        initUpFile($single, true, 1);
+        initUpFile($multiple, false, 10);
+        initUpFile($inputFiles, false, 10);
+
+    });
+
+    /*初始化上传*/
+    function initUpFile(o, b, num) {
+        let zoneMsg = "可选择多视频(可拖拽)";
+        if (b) {
+            zoneMsg = "请选择单一视频(可拖拽)"
+        }
+        let dirName;
+
+        o.fileinput({
+            theme: 'explorer',
+            language: 'zh',
+            uploadUrl: "/file-upload-batch/2", //上传服务器URL
+            maxFileCount: num,//最大文件数量
+            autoReplace: false,//是否自动替换
+            showCaption: false,//是否显示输入框
+            dropZoneEnabled: true,//是否显示拖拽区域
+            browseOnZoneClick: true,//拖拽区域可点击
+            dropZoneTitle: zoneMsg,//设置拖拽区域文本
+            dropZoneClickTitle: "",//清空拖拽区域点击时的默认文本
+            uploadAsync: true,//默认异步上传
+            enctype: 'multipart/form-data',
+            allowedFileTypes: '[video]',//限制文件类型
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            //overwriteInitial:false,//初始化重写
+            //removeFromPreviewOnError:true,//移除预览出错
+            //initialPreviewAsData: true, // 是否将初始预览内容集解析为数据而不是原始标记
+            preferIconicPreview: true, // 使用icon预览
+            previewFileIconSettings: { // 配置视频icon
+                'mov': '<i class="fa fa-file-movie-o text-warning"></i>',
+            },
+            previewFileExtSettings: { // 配置哪些视频格式应用这个icon
+                'mov': function (ext) {
+                    return ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i);
+                }
+            },
+            /*附加额外数据*/
+            uploadExtraData: function (previewId, index) {
+                /*附加父级目录名字*/
+                let obj = {};
+                if (!b) {
+                    obj[dirName] = dirName;
+                    return obj;
+                }
+            }
+        });
+        /*文件选择完后触发的事件*/
+        o.on("filebatchselected", function (event, files) {
+            /*判断类型是否符合*/
+            var reg = /^video/;
+            for (let key in files) {
+                let types = files[key].file.type;//类型
+                console.log(types);
+                if (reg.test(types)) {
+                    console.log("类型正确");
+                } else {
+                    o.fileinput('clearFileStack');
+                    alert("文件类型不支持");
+                    return
+                }
+                /*如果是文件夹则获取父母录*/
+                if (!b) {
+                    let split = files[key].relativePath.split("/");
+                    dirName = split[0];
+                    console.log(dirName)
+                }
+            }
+        });
+        //上传失败处理
+        o.on('fileerror', function (event, data, msg) {
+            alert("上传失败" + msg)
+        });
+        o.on("fileuploaded", function (event, previewId, index, fileId) {
+            alert(("上传成功"))
+        })
+    }
+
+    /*初始化表格*/
+    function initTable(o) {
+        o.bootstrapTable({
+                url: '../../static/js/demo/resources/videoMgmt_table_test.json',
+                mobileResponsive: true,
+                idField: 'id',
+                search: true,
+                searchAlign: "left",
+                toolbar: '#toolbar',
+                toolbarAlign: 'right',
+                pagination: true,
+                paginationHAlign: "right",
+                showPaginationSwitch: false,
+                columns: [
+                    {
+                        field: 'videoMsg',
+                        title: '视频信息',
+                        cellStyle: function (value, row, index) {
+                            return {css: {"cursor": "pointer",}}
+                        },
+                        formatter: function (value, row, index) {
+                            /*如果时子文件则加上a标签*/
+                            if (!row.isDir) {
+                                // return ['<a name="va" value="' + row.id + '">' + row.videoMsg + row.videoType+'</a>']
+                                return ['<a name="va" value="' + row.id + '">' + row.videoMsg + ".mp4" + '</a>']
+                            } else {
+
+                                return row.videoMsg;
+                            }
+                        },
+                        events: {
+                            "click a[name='va']": function (e, value, row, index) {
+                                /*调用视频预览框*/
+                                /*    $.ajax({
+                                       url:'',
+                                       method:'post',
+                                        dataType:'json',
+                                        data:{'id':row.id},
+                                        contentType:"application/json",
+                                        success:function (data) {
+
+                                        },
+                                        error:function (jqXHR) {
+                                            console.log(jqXHR)
+                                        }
+                                    });*/
+                                //动态追加视频路径
+                                // $('source').attr('src',path)
+                                $("#videoModal").modal();
+                            }
+                        }
+
+                    },
+                    {
+                        field: 'times',
+                        title: '课时'
+                    },
+                    {
+                        field: 'origin',
+                        title: '来源'
+                    },
+                    {
+                        field: 'status',
+                        title: '状态'
+                    }, {
+                        field: 'operate',
+                        title: '操作',
+                        events: {
+                            'click button[title="修改"]': function (e, value, row, index) {
+                                let name = row.videoMsg;
+                                //let size=row.fielSize;
+                                console.log(name);
+                                $("input[name='fileName']").val(name);
+                                $("input[name='fileSize']").val();
+                                $("#updateSingleModal").modal();
+                                $("#btnUpdateName").click(function () {
+                                    $("form[name='updateFileNameForm']").submit();
+                                })
+                            },
+                            'click button[title="删除"]': function (e, value, row, index) {
+                                swal({
+                                    title: "您确定要删除这条数据吗",
+                                    text: "删除后将无法恢复，请谨慎操作！",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "删除",
+                                    cancelButtonText: "取消",
+                                    closeOnConfirm: false
+                                }, function () {
+                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                });
+                                /* let id=$(this).val();
+                                 $.ajax({
+                                     url:"",
+                                     method:"post",
+                                     data:{id:"id"},
+                                     dataType:"text",
+                                     contentType:"application/json",
+                                     success:function () {
+                                         swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                     },
+                                     error:function (jqXHR) {
+                                         swal("删除失败","后台请求失败"+jqXHR,"error");
+                                     }
+                                 })*/
+                            },
+                            'click button[title="上传"]': function (e, value, row, index) {
+                                $("h4[name='dirTitle']").text(row.videoMsg);
+                                $("#tableUpModal").modal();
+                                $("#btnTableUpModal").click(function () {
+                                    $("#tableUpModal").modal('toggle');
+                                })
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            let va;
+                            if (row.isDir) {
+                                va = ['<button class="btn btn-white" value="' + row.index + '" type="button" data-toggle="tooltip" data-placement="bottom" title="上传"><i class="glyphicon glyphicon-upload"/> </button>',
+                                    '<button class="btn btn-white" value="' + row.index + '" type="button" data-toggle="tooltip" data-placement="bottom" title="修改"><i class="glyphicon glyphicon-edit"/> </button>'
+                                ].join('')
+                            } else {
+                                va = ['<button class="btn btn-white" value="' + row.index + '" type="button" data-toggle="tooltip" data-placement="bottom" title="修改"><i class="glyphicon glyphicon-edit"/> </button>',
+                                    '<button class="btn btn-white" value="' + row.index + '" type="button" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="glyphicon glyphicon-trash"/> </button>'].join('')
+                            }
+                            return va
+                        },
+                    }
+                ],
+                treeShowField: 'videoMsg',
+                parentIdField: 'pid',
+                /*加载树形结构*/
+                onResetView: function (data) {
+                    o.treegrid({
+                        initialState: 'Collapse',// 所有节点都展开，默认展开
+                        expanderTemplate: '<span class="treegrid-expander glyphicon glyphicon-facetime-video"></span>',
+                        expanderExpandedClass: 'glyphicon glyphicon-folder-open',  //图标样式
+                        expanderCollapsedClass: 'glyphicon glyphicon-folder-close',
+                        treeColumn: 0,
+                    })
+                },
+                /*点击行 进行收缩与展开的切换*/
+                onClickRow: function (row, $element, field) {
+                    if (row.pid == null && field == 'videoMsg') {
+                        $element.treegrid("toggle");
+                    }
+                },
+            }
+        );
+    }
+</script>
+</body>
+</html>

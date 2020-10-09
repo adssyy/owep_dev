@@ -260,6 +260,7 @@
          */
         clonePanel(event) {
             let _this = event.data;
+            console.log(_this.panelGroup.html())
             //选出第一个 章节组件
             let newPanel = $(".panel.panel-default", _this.panelGroup).eq(0).clone();
             //修改此元素中的 <a> 中的id值以及 内容区的id

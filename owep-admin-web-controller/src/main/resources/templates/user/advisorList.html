@@ -54,7 +54,7 @@
                         <label for="exampleInputName">咨询师姓名:</label>
                         <input type="text" name="name" class="form-control" id="exampleInputName">
                     </div>
-                    <button  class="btn btn-success query">查询</button>
+                    <button  class="btn btn-success query" type="button">查询</button>
                     <button class="btn btn-danger deleteAll" type="button">删除</button>
                     <button class="btn btn-info" type="button" data-toggle="modal" data-target="#modal_add">添加</button>
                     <button class="btn btn-primary export" type="button">导出</button>
@@ -343,36 +343,8 @@
         });
 
         $('.query').click(function () {
-            let stuId = $('form[id="advisor_query"] input[name="stuId"]').val();
-            let name = $('form[id="advisor_query"] input[name="name"]').val();
-            if (stuId == "" || name == ""){
-                swal("搜索失败！", "不允许有空数据", "error");
-                return false;
-            }
-            let obj = {
-                "stuId":stuId,
-                "name":name
-            }
-            let query_data = JSON.stringify(obj);
-            alert(query_data);
-            //发送ajax 查询
-          /*  $.ajax({
-                url: appName+"/book/deleteSelect.do",
-                method: "post",
-                async: true,
-                data: query_data,
-                dataType: "text",   //期望服务端返回的数据类型
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data.toString());
-                    //重新加载页面
-                    $('#tb_departments_1').bootstrapTable('load', data);
-                },
-                error: function (jqXHR) {
-                    swal("搜索失败！", "未知错误", "error");
-                }
-            });*/
-            swal("搜索成功！", "已为你重新加载数据", "success");
+            let dataList = new Array('stuId','name');
+            queryRecords('form[id="advisor_query"]',dataList);
         });
 
         /*添加提交表单*/
@@ -448,36 +420,10 @@
                         },
                         'click button[title=修改]':function (e,value,row,index) {
                             //回显数据
-                            $('form[id="form_modification"] input[name="userName"]').val(row.userName);
-                            $('form[id="form_modification"] input[name="name"]').val(row.name);
-                            let sex;
-                            if(row.sex == '男'){
-                                sex =  $('form[id="form_modification"] input[value=男]');
-                            }else {
-                                sex =  $('form[id="form_modification"] input[value=女]');
-                            }  sex.prop("checked",true);
-                            /*第二种遍历循环式的选中*/
-                            /*         let sexs =  $('form[id="form_modification"] input[name="sex"]');
-                                     for (let i=0;i<sexs.length;i++){
-                                         if (row.sex == sexs[i].value){
-                                             sexs[i].checked = true ;
-                                             break;
-                                         }
-                                     }*/
-                            $('form[id="form_modification"] input[name="phone"]').val(row.phone);
-                            $('form[id="form_modification"] input[name="email"]').val(row.email);
-                            $('form[id="form_modification"] input[name="lastLandingTime"]').val(row.lastLandingTime);
-                            $('form[id="form_modification"] input[name="password"]').val(row.password);
-                            $('form[id="form_modification"] input[name="major"]').val(row.major);
-                            $('form[id="form_modification"] input[name="customerBelongs"]').val(row.customerBelongs);
-                            let startUsing = $('form[id="form_modification"] input[name="startUsing"]');
-
-                            if((row.startUsing == '启用' && !switchery.isChecked())||
-                                (row.startUsing == '不启用' && switchery.isChecked())){
-                                switchery.setPosition(true);
-                                switchery.handleOnchange(true);
-                            }
-
+                            echoDataForm('form[id="form_modification"]',new Array(
+                                'userName','name','phone','email','lastLandingTime','major',
+                                [switchery,'startUsing','sweetalert'],["sex","sex"],'customerBelongs'
+                            ),row)
                             $('#modal_modification').modal();
                         },
                         'click button[title=分配用户组]':function (e,value,row,index) {

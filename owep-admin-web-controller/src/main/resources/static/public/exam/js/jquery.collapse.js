@@ -11,9 +11,9 @@
      * 产生唯一性字符串
      * @returns {string}
      */
-    function  guid(){
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            let r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    function guid() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
     }
@@ -28,7 +28,7 @@
             if (typeof JSON.parse(str) == "object") {
                 return true;
             }
-        } catch(e) {
+        } catch (e) {
         }
         return false;
     }
@@ -54,15 +54,15 @@
                 },
                 'delete': function (_target) {   //移除某个条目
                     //直接移除掉当前元素的父元素
-                    if(window.confirm("你确定要移除此条记录吗？")) {
+                    if (window.confirm("你确定要移除此条记录吗？")) {
                         //移除
                         $(_target).parent().remove();
                     }
                 },
                 'itemDatas': [],  //表示panel-body中的条目数据
                 'formatter': function (id) {
-                    console.log("当前的条目ID:"+id);
-                    return "<button type='button' class='btn btn-default' data-trigger='review' data-id='"+id+"'>"+
+                    console.log("当前的条目ID:" + id);
+                    return "<button type='button' class='btn btn-default' data-trigger='review' data-id='" + id + "'>" +
                         "<i class='glyphicon glyphicon-eye-open'></i></button>" +
                         "<button type='button' class='btn btn-default' data-trigger='delete'><i class='glyphicon glyphicon-remove'></i></button>";
                 },
@@ -72,7 +72,7 @@
                     //默认实现
 
                     //1. 判断用户传入的是否是json
-                    if(typeof _this.options.itemDatas == 'object') {
+                    if (typeof _this.options.itemDatas == 'object') {
                         console.log("传入的为json对象");
                     } else {
                         //如果不是json对象，则需要 通过 ajax 方法去获取对象
@@ -82,29 +82,29 @@
                             url: _this.options.itemDatas,
                             async: false,    //todo: 此处如果采用异步的话，则数据不能迭代
                             method: _this.options.method,
-                            success: function(data) {
+                            success: function (data) {
                                 //
                                 console.log("...加载数据成功....");
                                 _this.options.itemDatas = data;
                             },
-                            error: function(jqXHR) {
+                            error: function (jqXHR) {
                                 //
-                                console.log("加载数据失败："+jqXHR);
+                                console.log("加载数据失败：" + jqXHR);
                             },
                             dataType: "json"
                         });
                     }
                     //判断当前的panel-body中是否存在 ul 元素
                     let ul = {};
-                    if($("ul[class='list-group']", _this.currentPanel).length > 0) {
-                       ul = $("ul[class='list-group']", _this.currentPanel);
+                    if ($("ul[class='list-group']", _this.currentPanel).length > 0) {
+                        ul = $("ul[class='list-group']", _this.currentPanel);
                     } else {
                         ul = $("<ul>").addClass("list-group");
                     }
                     //迭代用户指定的数据
                     $.each(_this.options.itemDatas, function (index, element) {
                         let li = $("<li>").addClass("list-group-item").addClass("li-item");
-                        li.append($('<input type="text" name="score" value="'+element.score+'">'));
+                        li.append($('<input type="text" name="score" value="' + element.score + '">'));
                         li.append($('<span>').text(element.item));
                         //li.append('<button type="button" class="btn btn-default" data-trigger="review" data-id="'+element.id+'"><i class="glyphicon glyphicon-eye-open"></i></button>');
                         //li.append('<button type="button" class="btn btn-default" data-trigger="delete"><i class="glyphicon glyphicon-remove"></i></button>');
@@ -135,7 +135,7 @@
             //1. 给添加按钮绑定事件
             this.$element.on("click", this, this.clonePanel);
             //2.给关闭按钮添加事件
-            this.panelGroup.on('click', 'button[class="close"]',this, this.closePanel);
+            this.panelGroup.on('click', 'button[class="close"]', this, this.closePanel);
             //3.批量设置分值事件
             this.panelGroup.on("click", "a[data-trigger='setScore']", this, this.setScore);
             //4.预览试题按钮 事件
@@ -157,13 +157,14 @@
                 $(element).attr("data-index", index);
             })
         }
+
         //关闭按钮
         closePanel(event) {
             //阻止事件的冒泡传递，只需要针对当前的x 执行本方法即可
             event.stopImmediatePropagation();
-            if(confirm("确定要删除该章节吗？")) {
+            if (confirm("确定要删除该章节吗？")) {
                 //
-                if($(".panel.panel-default").length <= 1) {
+                if ($(".panel.panel-default").length <= 1) {
                     //
                     alert("请至少要保留一个章节!");
                 } else {
@@ -177,7 +178,7 @@
                     });
                     //把留下来的数组赋值给原来的属性
                     _this.panelList = remainPanelList;
-                    console.log("还剩下："+_this.panelList.length);
+                    console.log("还剩下：" + _this.panelList.length);
                 }
             }
         }
@@ -187,13 +188,13 @@
             event.stopImmediatePropagation();
             //取值
             var score = $(event.currentTarget).siblings(".input_score").val();
-            console.log("获取的分值："+score);
+            console.log("获取的分值：" + score);
             //赋值：
-            let inputList = $(".panel-body input",$(event.currentTarget).parents(".panel.panel-default"));
-            if(inputList.length > 0) {
+            let inputList = $(".panel-body input", $(event.currentTarget).parents(".panel.panel-default"));
+            if (inputList.length > 0) {
                 //迭代
                 inputList.each(function (index, element) {
-                    console.log("第"+index+"个："+element);
+                    console.log("第" + index + "个：" + element);
                     $(element).val(score);
                 });
             } else {
@@ -209,7 +210,7 @@
          */
         reviewItem(event) {
             //判断
-            if($(this).attr("data-id")) {
+            if ($(this).attr("data-id")) {
                 //invoke
                 event.data.options.review($(this).attr("data-id"));
             } else {
@@ -235,7 +236,7 @@
             let _this = event.data;
             //获取当前操作的面板
             _this.currentPanel = $(this).parents(".panel.panel-default");
-            console.log("当前点选的面板的data-index是： "+_this.currentPanel.attr("data-index"));
+            console.log("当前点选的面板的data-index是： " + _this.currentPanel.attr("data-index"));
             //打开模态框
             $(_this.options.modalName).modal('show');
         }
@@ -264,7 +265,7 @@
             //修改此元素中的 <a> 中的id值以及 内容区的id
             let target = guid();
             //修改下拉小按钮的 href值，保证与 下面的 panel-collapse中的id值一样
-            $("a", newPanel).attr("href", "#"+target);
+            $("a", newPanel).attr("href", "#" + target);
             //
             $(".panel-collapse", newPanel).attr("id", target);
             //把复制出来的元素中的 panel-body 元素清空
@@ -276,7 +277,7 @@
             //更新索引
             _this.setDataIndex();
             //
-            console.log("当前panel的个数："+event.data.panelList.length);
+            console.log("当前panel的个数：" + event.data.panelList.length);
         }
     } //end of class
 

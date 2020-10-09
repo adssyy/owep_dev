@@ -346,36 +346,8 @@
         });
 
         $('.query').click(function () {
-            let userName = $('form[id="admin_query"] input[name="userName"]').val();
-            let name = $('form[id="admin_query"] input[name="name"]').val();
-            if (userName == "" || name == "") {
-                swal("搜索失败！", "不允许有空数据", "error");
-                return false;
-            }
-            let obj = {
-                "userName": userName,
-                "name": name
-            }
-            let query_data = JSON.stringify(obj);
-            alert(query_data);
-            /* //发送ajax 查询
-                $.ajax({
-                    url: appName+"/book/deleteSelect.do",
-                    method: "post",
-                    async: true,
-                    data: query_data,
-                    dataType: "text",   //期望服务端返回的数据类型
-                    contentType: "application/json",
-                    success: function (data) {
-                        console.log(data.toString());
-                        //重新加载页面
-                        $('#tb_departments').bootstrapTable('load', data);
-                    },
-                    error: function (jqXHR) {
-                        swal("搜索失败！", "未知错误", "error");
-                    }
-                });*/
-            swal("搜索成功！", "已为你重新加载数据", "success");
+            let dataList = new Array('userName','name');
+            queryRecords('form[id="admin_query"]',dataList);
         });
         /*导出按钮操作*/
         $('.export').click(function () {
@@ -394,26 +366,6 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
-                /*         //使用ajax请求
-                   ajax:function(request){
-                          $.ajax({
-                              type:"GET",
-                              url:'/h/SelectRequest',
-                              contentType:'application/json;charset=utf-8',
-                              dataType:'json',
-                              data:request.data,
-                              success:function (res) {
-                                  request.success({
-                                      row:res.data,
-                                  });
-                                  //通过load方法渲染数据到table中显示
-                                  $('#table-request').bootstrapTable('load', res.data);
-                              },
-                              error:function(error){
-                                  console.log(error);
-                              }
-                          })
-                      },*/
                 url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
                 // method: 'get',                      //请求方式（*）
                 toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -464,34 +416,10 @@
                         },
                         'click button[title=修改]': function (e, value, row, index) {
                             //回显数据
-                            $('form[id="form_modification"] input[name="userName"]').val(row.userName);
-                            $('form[id="form_modification"] input[name="name"]').val(row.name);
-                            let sex;
-                            if (row.sex == '男') {
-                                sex = $('form[id="form_modification"] input[value=男]');
-                            } else {
-                                sex = $('form[id="form_modification"] input[value=女]');
-                            }
-                            sex.prop("checked", true);
-                            /*第二种遍历循环式的选中*/
-                            /*         let sexs =  $('form[id="form_modification"] input[name="sex"]');
-                                     for (let i=0;i<sexs.length;i++){
-                                         if (row.sex == sexs[i].value){
-                                             sexs[i].checked = true ;
-                                             break;
-                                         }
-                                     }*/
-                            $('form[id="form_modification"] input[name="phone"]').val(row.phone);
-                            $('form[id="form_modification"] input[name="email"]').val(row.email);
-                            $('form[id="form_modification"] input[name="lastLandingTime"]').val(row.lastLandingTime);
-                            let startUsing = $('form[id="form_modification"] input[name="startUsing"]');
-
-                            if ((row.startUsing == '启用' && !switchery.isChecked()) ||
-                                (row.startUsing == '不启用' && switchery.isChecked())) {
-                                switchery.setPosition(true);
-                                switchery.handleOnchange(true);
-                            }
-
+                            echoDataForm('form[id="form_modification"]',new Array(
+                                'userName','name','phone','email','lastLandingTime','major',
+                                [switchery,'startUsing','sweetalert'],["sex","sex"],'customerBelongs'
+                            ),row)
                             $('#modal_modification').modal();
                         },
                         'click button[title=分配用户组]': function (e, value, row, index) {

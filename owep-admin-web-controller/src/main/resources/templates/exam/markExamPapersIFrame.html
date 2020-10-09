@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>考试批阅</title>
+</head>
+
+<link rel="shortcut icon" href="../../static/favicon.ico"
+      th:href="@{/static/favicon.ico}">
+<link href="../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"
+      th:href="@{/static/css/bootstrap.min.css(v=3.3.6) }">
+<link href="../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet"
+      th:href="@{/static/css/font-awesome.css(v=4.4.0) }">
+<link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
+      th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css }">
+<link href="../../static/css/animate.css" rel="stylesheet"
+      th:href="@{/static/css/animate.css }">
+<link href="../../static/css/style.css?v=4.1.0" rel="stylesheet"
+      th:href="@{/static/css/style.css(v=4.1.0) }">
+<style type="text/css">
+    h2, th, td, .topic > .col-md-12 > .col-md-2 > p {
+        text-align: center;
+    }
+
+    .types {
+        padding: 5px;
+        background: #eee;
+        margin-top: 15px;
+    }
+
+    .types p {
+        font-size: 15px;
+        margin-top: 9px
+    }
+
+    .particulars {
+        margin-top: 10px;
+        border: 1px solid #eeeeee;
+        overflow: auto
+    }
+
+    .topic {
+        overflow: auto;
+        border: 1px solid #eeeeee;
+    }
+
+    .topic .col-md-12 {
+        padding: 0;
+    }
+
+    .topic .col-md-12 .col-md-11,
+    .topic .col-md-12 .col-md-9 {
+        overflow: auto;
+        max-height: 250px;
+        border: 1px solid #eeeeee;
+
+    }
+
+    .topic .col-md-12 .col-md-9 {
+        border-top: 0;
+        border-bottom: 0;
+    }
+
+    .topic .col-md-12 .col-md-11 {
+        border-right: 0;
+        padding-top: 10px;
+    }
+
+    .topic .col-md-1 button {
+        width: 50px;
+    }
+
+    .topic .col-md-9 p, .col-md-1 button, .col-md-2 p {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .answer {
+        background: #e6e6e6;
+        overflow: auto;
+        padding-top: 10px;
+        border: 1px solid #eeeeee;
+    }
+
+    .answer .col-md-11 {
+        overflow: auto;
+    }
+
+    .answer .col-md-2 button {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .tab-content .col-md-1 button {
+        width: 120%;
+        margin: 5px
+    }
+
+
+    .buttons {
+        background: #eeeeee;
+        padding: 10px;
+        position: fixed;
+        bottom: 65px;
+        right: 6.5%;
+        z-index: 999;
+    }
+
+    .tabs-container {
+        position: fixed;
+        bottom: 0;
+        z-index: 999;
+        background: #eeeeee;
+        padding: 0;
+        display: none;
+    }
+
+
+</style>
+<body class="gray-bg">
+<div class="buttons" style="display: none">
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" style="margin-bottom: 10px;text-align: center">
+            <span>总得分:<a>68</a>分</span>
+        </li>
+        <li role="presentation">
+            <button type="button" class="btn btn-danger btn-sm" id="button_top">一键置顶</button>
+        </li>
+        <li role="presentation" style="margin-top:10px;margin-bottom: 10px">
+            <button type="button" class="btn btn-success btn-sm" id="button_location">快捷定位</button>
+        </li>
+        <li role="presentation">
+            <button type="button" class="btn btn-info btn-sm" id="button_bottom">一键置底</button>
+        </li>
+    </ul>
+</div>
+<div class="tabs-container col-md-9 col-md-offset-1">
+    <ul class="nav nav-tabs">
+        <li class=""><a data-toggle="tab" href="#tab-0" aria-expanded="true"> 第一个选项卡</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="tab-0" class="tab-pane">
+            <div class="panel-body">
+                <div class="col-md-1">
+                    <button class="btn" onclick="locationBtn(this)" type="button">1</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<span class="score"><strong>当前总得分为<a>69</a>分</strong></span>-->
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-title">
+        <div class="row row-lg">
+            <div class="col-md-9 col-md-offset-1 content" style="margin-top: 25px">
+                <div class="head">
+                    <table class="table table-striped table-condensed table-bordered" style="margin-bottom: 30px" students_tag="">
+                        <tr class="active">
+                            <th>考生账号</th>
+                            <th>考生姓名</th>
+                            <th>考试试卷</th>
+                            <th>考试次数</th>
+                            <th>时长</th>
+                            <th>总分</th>
+                            <th>总得分</th>
+                            <th>及格分</th>
+                            <th>用时</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                        </tr>
+                        <tr>
+                            <td><a name="examinee">lisi</a></td>
+                            <td><a name="name">李四</a></td>
+                            <td><a name="testSubjects">试卷名称</a></td>
+                            <td>第<a name="currentNumber">1</a>/<a class="canTestTimes">10</a>次</td>
+                            <td><a name="examTime">600</a>分钟</td>
+                            <td><a name="totalPoints">100.0</a>分</td>
+                            <td><a name="score">68</a>分</td>
+                            <td><a name="passMark">60.0</a>分</td>
+                            <td><a name="testTime">13</a>分钟</td>
+                            <td><a name="startTime">2020-04-06 15:55:33 </a></td>
+                            <td><a name="endTime">2020-04-06 16:09:22</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <!--初始样式，用来后面的样式拷贝复制-->
+                <div class="types">
+                    <p name="question_types">&nbsp;&nbsp;&nbsp;单选题</p>
+                </div>
+                <div class="particulars">
+                    <div class="topic">
+                        <div class="col-md-12">
+                            <div class="col-md-1" style=" height: 60px;">
+                                <button class="btn btn-primary" name="number">1</button>
+                            </div>
+                            <div class="col-md-9" style=" height: 60px;">
+                                <p><a name="topic" class="text-primary">下列哪一项不属于阴阳偏衰的病理</a></p>
+                            </div>
+                            <div class="col-md-2" style="height: 60px">
+                                <p><a name="score" class="text-primary"></a>分</p>
+                            </div>
+                        </div>
+                        <hr>
+
+                    </div>
+                    <div class="answer">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-11" style="max-height: 150px">
+                            <p>考生答案:&nbsp;&nbsp;&nbsp;<a class="text-info" name="stu_answer"></a></p>
+                            <p>标准答案:&nbsp;&nbsp;&nbsp;<a class="text-primary" name="sta_answer"></a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-3" style="float: right">
+                            <input type="number" class="form-control points_scored" onchange="changeScored(this)"
+                                   placeholder="请评分..."
+                                   name="points_scored" style="margin: 10px;float: right;display: none">
+                            <button type="button" class="btn btn-primary points_scored" onclick="getScored(this)"
+                                    data-method="points_scored"
+                                    style="margin: 10px;float: right">得分&nbsp;<a name="points_scored">0</a>&nbsp;分
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" name="option">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-11">
+         ue           </div>
+                </div>
+                <pre class="layui-code text-primary"><span></span></pre>
+                <div class="col-md-6 col-md-offset-3" style="margin-top: 10px" id="navigationGroup">
+                        <div class="col-md-4">
+                        <button type="button" class="btn btn-white" style="float: right" name="previous_page" onclick="getPreviousPage(this)">上一份答卷</button></div>
+                        <div class="col-md-4" style="padding: 0">
+                                <div class="input-group ">
+                                    <input type="text"  class="form-control" placeholder="1" name="current_page" onchange="getCurrentPage(this)">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                           <span>/<a name="total_pages">3</a>份</span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-white" style="float: left" name="next_page" onclick="getNextPage(this)">下一份答卷</button>
+                        </div>
+
+                    </div>
+                <div style="height: 150px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 全局js -->
+<script src="../../static/js/jquery.min.js?v=2.1.4"
+        th:src="@{/static/js/jquery.min.js(v=2.1.4) }"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6"
+        th:src="@{/static/js/bootstrap.min.js(v=3.3.6) }"></script>
+<!-- 自定义js -->
+<script src="../../static/js/content.js?v=1.0.0"
+        th:src="@{/static/js/content.js(v=1.0.0) }"></script>
+<!--自定义js---表格操作-->
+<script src="../../static/public/exam/tableOperation.js"
+        th:src="@{/static/public/exam/tableOperation.js}"></script>
+<!-- layui -->
+<script src="../../static/public/user/layui-v2.5.6/layui/layui.all.js"
+        th:src="@{/static/public/user/layui-v2.5.6/layui/layui.all.js}"></script>
+<script>
+    layui.use('code', function () { //加载code模块
+        layui.code({
+            about: false,
+            height: '300px'
+        }); //引用code方法
+    });
+</script>
+<!--按钮监听-->
+<script>
+    $('#button_top').click(function () {
+        $('html,body').animate({scrollTop: 0}, 1000);
+    });
+
+    $('#button_bottom').click(function () {
+        $('html,body').animate({scrollTop: $(document).height()}, 1000);
+    });
+
+    $(window).resize(function () {
+        $(this).width() < 990 ? $('.buttons').css('display', 'none') : $('.buttons').css('display', 'block')
+    });
+
+    $('#button_location').click(function () {
+
+        $('.tabs-container').slideToggle(1000);
+    });
+
+    function getScored(event) {
+        $(event).siblings().fadeIn(1000)
+        $(event).css('display', 'none')
+    }
+
+    function changeScored(event) {
+        let score = $(event).parents('.particulars').find('a[name=score]').text();
+        let input_score = $(event).val();
+        let students_tag = $('table').attr('students_tag');
+        console.log(score, $(event).val())
+        if (0 <= input_score && input_score <= score) {
+            //发送Ajax请求
+            // self.location.reload();//刷新当前子页面
+            //改变快捷定位按钮的状态
+            $('button[butmark=' + $(event).parents('.particulars').find('button[name=number]').text() + ']').attr('class', 'btn btn-success');
+            $(event).siblings().fadeIn(1000).find('a').attr('class', '').text($(event).val());
+
+            msg("修改数据库id为" +students_tag+"-"+ $(event).siblings().attr('id') + "的记录");
+            $(event).css('display', 'none')
+        } else {
+            // $(event).siblings().fadeIn(1000).find('a').attr('class','').text($(event).val())
+            // self.location.reload();
+            $(event).val('').attr('placeholder', '请重新评分...');
+            msg("分数不合法哦~");
+        }
+    }
+
+    function locationBtn(event) {
+        $('html,body').animate({scrollTop: $('button[name=number]:eq(' + $(event).attr('butmark') + ')').offset().top - 25}, 800);
+    }
+
+    function msg(msg) {
+        let layer = layui.layer;
+        layer.msg(msg);
+    }
+
+    function getPreviousPage(event) {
+        let pageNumber = $('table').attr('pageNumber')-1;
+        let index =  $('table').attr('index');
+        console.log(pageNumber,index)
+        // parent.layer.close(index)
+        let data = getAjaxSynchronousData('../../static/js/demo/exam/markExamPapersIFrame2.json','get');
+        getSubjectiveItem(data,pageNumber);
+
+    }
+    function getNextPage(event) {
+        let pageNumber = $('table').attr('pageNumber');
+        let page = pageNumber-1+2;
+        let index =  $('table').attr('index');
+        console.log(pageNumber,index)
+        // parent.layer.close(index)
+        let data = getAjaxSynchronousData('../../static/js/demo/exam/markExamPapersIFrame2.json','get');
+        getSubjectiveItem(data,page);
+    }
+    function getCurrentPage(event) {
+        let page = $('input[name=current_page]').val()-2+1;
+        let placeholder =  $('input[name=current_page]').attr('placeholder');
+        let data = getAjaxSynchronousData('../../static/js/demo/exam/markExamPapersIFrame2.json','get');
+        let judge = false;
+        data.forEach(function (item,index) {
+            if(index == page){
+                judge = true;
+            }
+        });
+        if (judge){
+            getSubjectiveItem(data,page);
+            msg("加载成功")
+        }else {
+            msg("不存在该页面哟")
+            $('input[name=current_page]').val("");
+        }
+
+    }
+
+</script>
+</html>

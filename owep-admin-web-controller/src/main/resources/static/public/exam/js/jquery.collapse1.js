@@ -70,7 +70,6 @@
                 'batchInsertId': '#myModalBatchAddBtn',
                 'batchInsertHandler': function (_this) {
                     //默认实现
-
                     //1. 判断用户传入的是否是json
                     if (typeof _this.options.itemDatas == 'object') {
                         console.log("传入的为json对象");

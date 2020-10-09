@@ -17,9 +17,11 @@
 <link href="../../static/css/style.css?v=4.1.0" rel="stylesheet"
       th:href="@{/static/css/style.css(v=4.1.0) }">
 <!--上传控件-->
-<link href="../../static/public/user/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css"
+<link href="../../static/public/user/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet"
+      type="text/css"
       th:href="@{/static/public/user/bootstrap-fileinput/css/fileinput.min.css}"/>
-<link href="../../static/public/user/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"
+<link href="../../static/public/user/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet"
+      type="text/css"
       th:href="@{/static/public/user/bootstrap-fileinput/themes/explorer/theme.css}"/>
 <!--树形控件-->
 <link href="../../static/css/plugins/treeview/bootstrap-treeview.css" rel="stylesheet"
@@ -35,12 +37,13 @@
 <link href="../../static/css/plugins/switchery/switchery.css"
       th:href="@{/static/css/plugins/switchery/switchery.css}" rel="stylesheet">
 <style type="text/css">
-    .table > thead > tr > th    {
+    .table > thead > tr > th {
         color: #2a62bc;
     }
-    .form-horizontal>.btn:not(.query){
-        margin-left: 0.4%;
-        float: right;
+
+    #stu_query .col-md-2, .col-md-4, .col-md-1 {
+        padding-left: 0px;
+        padding-right: 8px;
     }
 </style>
 <body class="gray-bg">
@@ -51,23 +54,28 @@
             <div class="col-sm-12">
                 <div class="tabs-container">
                     <ul class="nav nav-tabs">
-                        <li class="active" id="allStu"><a data-toggle="tab" href="#tab-1" aria-expanded="true">全部学生信息</a>
+                        <li class="active" id="allStu"><a data-toggle="tab" href="#tab-1"
+                                                          aria-expanded="true">全部学生信息</a>
                         </li>
-                        <li class="" id="notAllStu"><a data-toggle="tab"  href="#tab-2" aria-expanded="false">签约未分班学生信息</a>
+                        <li class="" id="notAllStu"><a data-toggle="tab" href="#tab-2"
+                                                       aria-expanded="false">签约未分班学生信息</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
-                                <form class="form-horizontal"  id="stu_query">
-                                    <div class="col-sm-2"> <div class="form-group">
-                                            <label class=" control-label" style="float: left">
-                                                班级:</label>
-                                            <div class="col-sm-8" style="margin-left: -3%">
+                                <div id="toolbar_1">
+                                <form class="form-inline" id="stu_query">
+                                    <div class="col-md-7" style="padding: 0">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
                                                 <div class="input-group">
-                                                    <input type="text" name="class" class="form-control" id="testNoBtn">
+                                                    <input type="text" name="class" class="form-control"
+                                                           id="testNoBtn"
+                                                           placeholder=" 班级">
                                                     <div class="input-group-btn">
-                                                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                                data-toggle="dropdown">
                                                             <span class="caret"></span>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -76,82 +84,100 @@
                                                     <!-- /btn-group -->
                                                 </div>
                                             </div>
-                                    </div></div>
-                                    <div class="col-sm-2" style="margin-left: -4.6%"> <div class="form-group">
-                                        <label class=" control-label" style="float: left">
-                                            姓名:</label>
-                                        <div class="col-sm-8" style="margin-left: -3%">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="testNoBtn2" name="name">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                                    </ul>
-                                                </div>
-                                                <!-- /btn-group -->
-                                            </div>
                                         </div>
-                                    </div></div>
-                                    <div class="col-sm-2" style="margin-left: -4.6%"> <div class="form-group">
-                                        <label class=" control-label" style="float: left">
-                                            学校:</label>
-                                        <div class="col-sm-8" style="margin-left: -3%">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="testNoBtn3" name="school">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                                    </ul>
-                                                </div>
-                                                <!-- /btn-group -->
-                                            </div>
-                                        </div>
-                                    </div></div>
-                                    <div class="col-sm-2" style="margin-left: -4.6%"> <div class="form-group">
-                                        <label class=" control-label" style="float: left">
-                                            学院:</label>
-                                        <div class="col-sm-8" style="margin-left: -3%">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="testNoBtn4" name="college">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                                    </ul>
-                                                </div>
-                                                <!-- /btn-group -->
-                                            </div>
-                                        </div>
-                                    </div></div>
-                                    <div class="col-sm-3" style="margin-left: -4.6%"> <div class="form-group">
-                                            <label class=" control-label" style="float: left">时间范围:</label>
-                                            <div class="col-sm-9" style="margin-left: -1.2%">
-                                                    <div class="input-group" >
-                                                        <input type="text" class="form-control datepicker" name="start" />
-                                                        <span class="input-group-addon">到</span>
-                                                        <input type="text" class="form-control datepicker" name="end"  />
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="testNoBtn2"
+                                                           name="name"
+                                                           placeholder="姓名">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                                data-toggle="dropdown">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                        </ul>
                                                     </div>
+                                                    <!-- /btn-group -->
+                                                </div>
                                             </div>
-                                            </div></div>
-                                    <button  class="btn btn-success query" style="position:relative;margin-left: -2.6%;">查询</button>
-                                    <button class="btn btn-danger deleteAll" type="button">删除</button>
-                                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#modal_add">添加</button>
-                                    <button class="btn btn-primary export" type="button">导出</button>
-                                    <button class="btn btn-warning to_lead" type="button" data-toggle="modal" data-target="#modal_to_channel">导入</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="testNoBtn3"
+                                                           name="school"
+                                                           placeholder="学校">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                                data-toggle="dropdown">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /btn-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="testNoBtn4"
+                                                           name="college"
+                                                           placeholder="学院">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                                data-toggle="dropdown">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /btn-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control datepicker" name="start"
+                                                           placeholder="起始时间"/>
+                                                    <span class="input-group-addon">到</span>
+                                                    <input type="text" class="form-control datepicker" name="end"
+                                                           placeholder="结束时间"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-success query" type="button">查询</button>
+                                    </div>
+                                        <div class="col-md-4" style="padding: 0">
+                                            <div style="float: right">
+                                            <button class="btn btn-danger deleteAll" type="button">删除</button>
+                                            <button class="btn btn-info" type="button" data-toggle="modal"
+                                                    data-target="#modal_add">添加
+                                            </button>
+                                            <button class="btn btn-primary export" type="button">导出</button>
+                                            <button class="btn btn-warning to_lead" type="button" data-toggle="modal"
+                                                    data-target="#modal_to_channel">导入
+                                            </button>
+                                            </div>
+                                    </div>
                                 </form>
+                                </div>
 
                                 <table id="tb_departments_1"></table>
                             </div>
                         </div>
                         <div id="tab-2" class="tab-pane">
-                            <div class="panel-body" >
+                            <div class="panel-body">
                                 <div id="toolbar">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal_allocation_2" >批量班级分配</button>
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#modal_allocation_2">批量班级分配
+                                    </button>
                                 </div>
                                 <table id="tb_departments_2"></table>
                             </div>
@@ -163,11 +189,12 @@
     </div>
 </div>
 <!--添加-->
-<div class="modal  fade" id="modal_add" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal  fade" id="modal_add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">添加学生</h4>
             </div>
             <div class="modal-body">
@@ -204,13 +231,14 @@
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" name="lastLandingTime" class="form-control myData_add" placeholder="请输入截至日期">
+                            <input type="text" name="lastLandingTime" class="form-control myData_add"
+                                   placeholder="请输入截至日期">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="startUsing" class="js-switch form-control"  />
+                            <input type="checkbox" name="startUsing" class="js-switch form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -254,11 +282,12 @@
     </div>
 </div>
 <!--编辑-->
-<div class="modal  fade" id="modal_modification" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal  fade" id="modal_modification" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
@@ -302,13 +331,14 @@
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" name="lastLandingTime" class="form-control myData_add" placeholder="请输入截至日期">
+                            <input type="text" name="lastLandingTime" class="form-control myData_add"
+                                   placeholder="请输入截至日期">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="startUsing" class="js-switch form-control"  />
+                            <input type="checkbox" name="startUsing" class="js-switch form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -352,11 +382,12 @@
     </div>
 </div>
 <!--编辑-模块二-->
-<div class="modal  fade" id="modal_modification_1" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal  fade" id="modal_modification_1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
@@ -401,7 +432,7 @@
                         <label class="col-sm-2 control-label">
                             客户归属</label>
                         <div class="col-sm-8">
-                            <input type="email" name="customerBelongs" class="form-control" placeholder="请输入客户归属">
+                            <input type="text" name="customerBelongs" class="form-control" placeholder="请输入客户归属">
                         </div>
                     </div>
                 </form>
@@ -415,11 +446,12 @@
     </div>
 </div>
 <!--分配班级-->
-<div class="modal  fade" id="modal_allocation" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal  fade" id="modal_allocation" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">分配班级</h4>
             </div>
             <div class="modal-body">
@@ -444,12 +476,12 @@
                                 分配班级</label>
                             <div class="col-sm-8">
                                 <div class="ibox-content">
-                                <div class="treeview_allocation"></div>
+                                    <div class="treeview_allocation"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="class_transfer"  style="display:none;">
+                    <div id="class_transfer" style="display:none;">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
                                 所在班级</label>
@@ -457,7 +489,8 @@
                                 <div class="input-group">
                                     <input type="text" name="class_start" class="form-control" id="testNoBtn6">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -474,7 +507,8 @@
                                 <div class="input-group">
                                     <input type="text" name="class_end" class="form-control" id="testNoBtn7">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -488,7 +522,7 @@
                             <label class="col-sm-2 control-label">
                                 相关描述</label>
                             <div class="col-sm-8">
-                                <textarea  class="form-control" name="describe" rows="4"></textarea>
+                                <textarea class="form-control" name="describe" rows="4"></textarea>
                                 <!-- /btn-group -->
                             </div>
                         </div>
@@ -506,11 +540,12 @@
     </div>
 </div>
 <!--分配班级-模块二-->
-<div class="modal  fade" id="modal_allocation_1" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal  fade" id="modal_allocation_1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">分配班级</h4>
             </div>
             <div class="modal-body">
@@ -522,15 +557,15 @@
                             <input type="text" name="name" disabled="" class="form-control" placeholder="">
                         </div>
                     </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">
-                                分配班级</label>
-                            <div class="col-sm-8">
-                                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            分配班级</label>
+                        <div class="col-sm-8">
+                            <div class="ibox-content">
                                 <div class="treeview_allocation"></div>
-                                </div>
                             </div>
                         </div>
+                    </div>
                 </form>
             </div>
 
@@ -542,11 +577,12 @@
     </div>
 </div>
 <!--批量分配班级-模块二-->
-<div class="modal  fade" id="modal_allocation_2" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal  fade" id="modal_allocation_2" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">分配班级</h4>
             </div>
             <div class="modal-body">
@@ -556,7 +592,7 @@
                             分配班级</label>
                         <div class="col-sm-8">
                             <div class="ibox-content">
-                            <div class="treeview_allocation"></div>
+                                <div class="treeview_allocation"></div>
                             </div>
                         </div>
                     </div>
@@ -571,11 +607,12 @@
     </div>
 </div>
 <!--导入-->
-<div class="modal  fade" id="modal_to_channel" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal  fade" id="modal_to_channel" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">批量导入</h4>
             </div>
             <div class="modal-body">
@@ -591,7 +628,7 @@
                         <label class="col-sm-2 control-label">
                             模板下载</label>
                         <div class="col-sm-8">
-                            <button type="button" class="btn btn-white" title="点我下载xls模板">下载模板</button>
+                            <button type="button" class="btn btn-white" title="点我下载xls模板" download="1.txt">下载模板</button>
                         </div>
                     </div>
                 </form>
@@ -670,8 +707,8 @@
 <script>
     //页面如何有多个互动按钮必须需要这些js代码
     var switchery;
-    let elems =Array.prototype.slice.call($('.js-switch'));
-    elems.forEach(function(html) {
+    let elems = Array.prototype.slice.call($('.js-switch'));
+    elems.forEach(function (html) {
         /* size: 'normal' 控制大小*/
         switchery = new Switchery(html);
         html.onchange = function () {
@@ -684,7 +721,7 @@
     $(function () {
         let $treevie = $('.treeview_allocation');
         let url = "../../static/js/demo/user/class_treeCheck_test.json";
-        initCheckTree($treevie,url);
+        initCheckTree($treevie, url);
     });
 
 </script>
@@ -696,17 +733,18 @@
         control.fileinput({
             language: 'zh', //设置语言
             uploadUrl: uploadUrl, //上传的地址
-            allowedFileExtensions : ['xls', 'xlsx'],//接收的文件后缀
+            allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
             showUpload: true, //是否显示上传按钮
             showCaption: false,//是否显示标题
             browseClass: "btn btn-primary", //按钮样式
-            textEncoding:'UTF-8',//编码格式
+            textEncoding: 'UTF-8',//编码格式
             uploadAsync: false, //默认异步上传
-            showPreview :false, //是否显示预览
-            maxFileCount:1, //表示允许同时上传的最大文件个数
+            showPreview: false, //是否显示预览
+            maxFileCount: 1, //表示允许同时上传的最大文件个数
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
         });
     }
+
     //初始化fileinput控件（第一次初始化）
     initFileInput("file", "../../static/js/demo/user/excel");
 </script>
@@ -739,54 +777,18 @@
         });
 
         $('.deleteAll').click(function () {
-            deleteAllRecords("",'#tb_departments_1')
+            deleteAllRecords("", '#tb_departments_1')
         });
 
 
         $('.query').click(function () {
-            let stu_class = $('form[id="stu_query"] input[name="class"]').val();
-            let name = $('form[id="stu_query"] input[name="name"]').val();
-            let school = $('form[id="stu_query"] input[name="school"]').val();
-            let college = $('form[id="stu_query"] input[name="college"]').val();
-            let start = $('form[id="stu_query"] input[name="start"]').val();
-            let end = $('form[id="stu_query"] input[name="end"]').val();
-            if (stu_class  == "" || name  == "" || school  == "" || college  == "" || start  == "" || end  == ""){
-                swal("搜索失败！", "不允许有空数据", "error");
-                return false;
-            }
-            let obj = {
-                "class":stu_class,
-                "name":name,
-                "school":school,
-                "college":college,
-                "start":start,
-                "end":end
-            }
-            let query_data = JSON.stringify(obj);
-            alert(query_data);
-            //发送ajax 查询
-          /*  $.ajax({
-                url: appName+"/book/deleteSelect.do",
-                method: "post",
-                async: true,
-                data: query_data,
-                dataType: "text",   //期望服务端返回的数据类型
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data.toString());
-                    //重新加载页面
-                    $('#tb_departments_1').bootstrapTable('load', data);
-                },
-                error: function (jqXHR) {
-                    swal("搜索失败！", "未知错误", "error");
-                }
-            });*/
-            swal("搜索成功！", "已为你重新加载数据", "success");
+            let dataList = new Array('class','name','school','college','start','end');
+            queryRecords('form[id="stu_query"]',dataList);
         });
 
         /*导出按钮操作*/
         $('.export').click(function () {
-           exportRecord("","学生信息")
+            exportRecord("", "学生信息")
         });
     });
     /**
@@ -794,19 +796,19 @@
      */
     let url = '../../static/js/demo/user/stuListTest.json';
     /*班级*/
-    bsSuggest("#testNoBtn",url,"class");
+    bsSuggest("#testNoBtn", url, "class");
     /*姓名*/
-    bsSuggest("#testNoBtn2",url,"name");
+    bsSuggest("#testNoBtn2", url, "name");
     /*学校*/
-    bsSuggest("#testNoBtn3",url,"school");
+    bsSuggest("#testNoBtn3", url, "school");
     /*学院*/
-    bsSuggest("#testNoBtn4",url,"college");
-   /*客服归属*/
-    bsSuggest("#testNoBtn5",url,"customerBelongs");
+    bsSuggest("#testNoBtn4", url, "college");
+    /*客服归属*/
+    bsSuggest("#testNoBtn5", url, "customerBelongs");
     /*所在班级*/
-    bsSuggest("#testNoBtn6",url,"class");
+    bsSuggest("#testNoBtn6", url, "class");
     /*转到班级*/
-    bsSuggest("#testNoBtn7",url,"class");
+    bsSuggest("#testNoBtn7", url, "class");
 
 
     var TableInit = function () {
@@ -816,25 +818,26 @@
             $('#tb_departments_1').bootstrapTable({
                 url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
                 // method: 'get',                      //请求方式（*）
-                toolbar: '#toolbar',                //工具按钮用哪个容器
+                toolbar: '#toolbar_1',                //工具按钮用哪个容器
+                toolbarAlign: "right",
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,                   //是否显示分页（*）
                 sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber:1,                       //初始化加载第一页，默认第一页
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
                 pageSize: 10,                       //每页的记录行数（*）
                 pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
                 height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-                onPostBody:switchInit,
+                onPostBody: switchInit,
                 columns: [{
                     checkbox: true
                 }, {
                     field: 'stuId',
                     title: '学号',
-                    color : "red"
+                    color: "red"
                 }, {
                     field: 'name',
                     title: '姓名'
@@ -850,55 +853,28 @@
                 }, {
                     field: 'startUsing',
                     title: '有效状态',
-                    formatter:addSlideChoiceBox,
+                    formatter: addSlideChoiceBox,
                 }, {
                     field: 'lastLandingTime',
                     title: '最后登陆时间'
-                },{
+                }, {
                     field: 'operate',
                     title: '操作',
                     width: 150,
                     formatter: addFunctionAlty,//表格中增加按钮  
-                    events:{
-                        'click button[title=删除]':function (e,value,row,index) {
-                          deleteRecord(e,value,row,index,"",'#tb_departments_1')
+                    events: {
+                        'click button[title=删除]': function (e, value, row, index) {
+                            deleteRecord(e, value, row, index, "", '#tb_departments_1')
                         },
-                        'click button[title=修改]':function (e,value,row,index) {
+                        'click button[title=修改]': function (e, value, row, index) {
                             //回显数据
-                            $('form[id="form_modification_1"] input[name="stuId"]').val(row.stuId);
-                            $('form[id="form_modification_1"] input[name="userName"]').val(row.userName);
-                            $('form[id="form_modification_1"] input[name="name"]').val(row.name);
-                            let sex;
-                            if(row.sex == '男'){
-                                sex =  $('form[id="form_modification_1"] input[value=男]');
-                            }else {
-                                sex =  $('form[id="form_modification_1"] input[value=女]');
-                            }  sex.prop("checked",true);
-                            /*第二种遍历循环式的选中*/
-                            /*         let sexs =  $('form[id="form_modification"] input[name="sex"]');
-                                     for (let i=0;i<sexs.length;i++){
-                                         if (row.sex == sexs[i].value){
-                                             sexs[i].checked = true ;
-                                             break;
-                                         }
-                                     }*/
-                            $('form[id="form_modification_1"] input[name="phone"]').val(row.phone);
-                            $('form[id="form_modification_1"] input[name="email"]').val(row.email);
-                            $('form[id="form_modification_1"] input[name="lastLandingTime"]').val(row.lastLandingTime);
-                            $('form[id="form_modification_1"] input[name="password"]').val(row.password);
-                            $('form[id="form_modification_1"] input[name="major"]').val(row.major);
-                            $('form[id="form_modification_1"] input[name="customerBelongs"]').val(row.customerBelongs);
-                            let startUsing = $('form[id="form_modification_1"] input[name="startUsing"]');
-
-                            if((row.startUsing == '启用' && !switchery.isChecked())||
-                                (row.startUsing == '不启用' && switchery.isChecked())){
-                                switchery.setPosition(true);
-                                switchery.handleOnchange(true);
-                            }
-
+                            echoDataForm('form[id="form_modification_1"]',new Array('stuId',
+                                'name','phone','email','lastLandingTime',
+                                [switchery,'startUsing','sweetalert'],["sex","sex"]
+                            ),row);
                             $('#modal_modification').modal();
                         },
-                        'click button[title=分配班级]':function (e,value,row,index) {
+                        'click button[title=分配班级]': function (e, value, row, index) {
                             //回显数据
                             $('form[id="form_allocation_1"] input[name="name"]').val(row.name);
                             $('#modal_allocation').modal();
@@ -915,12 +891,12 @@
                 pagination: true,                   //是否显示分页（*）
                 queryParams: oTableInit.queryParams,//传递参数（*）
                 sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber:1,                       //初始化加载第一页，默认第一页
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
                 pageSize: 10,                       //每页的记录行数（*）
                 pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
                 search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
                 showSearchButton: true,
-                searchAlign:"left",
+                searchAlign: "left",
                 toolbarAlign: "right",
                 searchFields: "customerBelongs",
                 minimumCountColumns: 2,             //最少允许的列数
@@ -944,53 +920,22 @@
                 }, {
                     field: 'customerBelongs',
                     title: '客户归属'
-                },{
+                }, {
                     field: 'operate',
                     title: '操作',
                     width: 150,
                     formatter: addFunctionAlty_1,//表格中增加按钮  
-                    events:{
-                        'click button[title=删除]':function (e,value,row,index) {
-                            deleteRecord(e,value,row,index,"",'#tb_departments_2')
+                    events: {
+                        'click button[title=删除]': function (e, value, row, index) {
+                            deleteRecord(e, value, row, index, "", '#tb_departments_2')
                         },
-                        'click button[title=修改]':function (e,value,row,index) {
-                            //回显数据
-                            $('form[id="form_modification_2"] input[name="stuId"]').val(row.stuId);
-                            $('form[id="form_modification_2"] input[name="id"]').val(row.id);
-                            $('form[id="form_modification_2"] input[name="userName"]').val(row.userName);
-                            $('form[id="form_modification_2"] input[name="name"]').val(row.name);
-                            let sex;
-                            if(row.sex == '男'){
-                                sex =  $('form[id="form_modification_2"] input[value=男]');
-                            }else {
-                                sex =  $('form[id="form_modification_2"] input[value=女]');
-                            }  sex.prop("checked",true);
-                            /*第二种遍历循环式的选中*/
-                            /*         let sexs =  $('form[id="form_modification"] input[name="sex"]');
-                                     for (let i=0;i<sexs.length;i++){
-                                         if (row.sex == sexs[i].value){
-                                             sexs[i].checked = true ;
-                                             break;
-                                         }
-                                     }*/
-                            $('form[id="form_modification_2"] input[name="phone"]').val(row.phone);
-                            $('form[id="form_modification_2"] input[name="email"]').val(row.email);
-                            $('form[id="form_modification_2"] input[name="lastLandingTime"]').val(row.lastLandingTime);
-                            $('form[id="form_modification_2"] input[name="password"]').val(row.password);
-                            $('form[id="form_modification_2"] input[name="major"]').val(row.major);
-                            $('form[id="form_modification_2"] input[name="serialNumber"]').val(row.serialNumber);
-                            $('form[id="form_modification_2"] input[name="customerBelongs"]').val(row.customerBelongs);
-                            let startUsing = $('form[id="form_modification_2"] input[name="startUsing"]');
-
-                            if((row.startUsing == '启用' && !switchery.isChecked())||
-                                (row.startUsing == '不启用' && switchery.isChecked())){
-                                switchery.setPosition(true);
-                                switchery.handleOnchange(true);
-                            }
-
+                        'click button[title=修改]': function (e, value, row, index) {
+                            echoDataForm('form[id="form_modification_2"]',new Array('stuId',
+                                'name','phone',["sex","sex"],'customerBelongs',"id"
+                            ),row);
                             $('#modal_modification_1').modal();
                         },
-                        'click button[title=分配班级]':function (e,value,row,index) {
+                        'click button[title=分配班级]': function (e, value, row, index) {
                             //回显数据
                             $('form[id="form_allocation_2"] input[name="name"]').val(row.name);
                             $('#modal_allocation_1').modal();
@@ -1002,8 +947,8 @@
         /*滑动按钮初始化*/
         let switchInit = function () {
             //页面如何有多个互动按钮必须需要这些js代码
-            let elems =Array.prototype.slice.call($('.js-switch-1'));
-            elems.forEach(function(html) {
+            let elems = Array.prototype.slice.call($('.js-switch-1'));
+            elems.forEach(function (html) {
                 /* size: 'normal' 控制大小*/
                 var switchery = new Switchery(html);
                 html.onchange = function () {
@@ -1013,28 +958,32 @@
         }
 
         function addSlideChoiceBox(value, row, index) {
-            if(value == '启用'){
-                return ' <input type="checkbox" class="js-switch-1 form-control" checked/>'}
-            if(value == '不启用'){
-                return ' <input type="checkbox" class="js-switch-1 form-control"/>'}
+            if (value == '启用') {
+                return ' <input type="checkbox" class="js-switch-1 form-control" checked/>'
+            }
+            if (value == '不启用') {
+                return ' <input type="checkbox" class="js-switch-1 form-control"/>'
+            }
         }
 
         function addFunctionAlty(value, row, index) {
             return '<button id = "+id+" type = "button" class = "btn btn-white" title="修改" ' +
                 '> <i class="glyphicon glyphicon-edit"/> </button>' +
-                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>'+
+                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
                 '<button id = "+id+" type = "button" class = "btn btn-white" title="分配班级"' +
                 ' > <i class="glyphicon glyphicon-share text-success"/> </button>'
                 ;
         }
+
         function addFunctionAlty_1(value, row, index) {
             return '<button id = "+id+" type = "button" class = "btn btn-white" title="修改" ' +
                 '> <i class="glyphicon glyphicon-edit"/> </button>' +
-                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>'+
+                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
                 '<button id = "+id+" type = "button" class = "btn btn-white" title="分配班级"' +
                 '> <i class="glyphicon glyphicon-share text-success"/> </button>'
                 ;
         }
+
         //得到查询的参数
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
@@ -1052,16 +1001,16 @@
 <script>
     $(function () {
         $('.allocation').click(function () {
-            $('.class_transfer').attr("class","btn btn-default class_transfer");
-            $('#class_transfer').css("display","none");
-            $('.allocation').attr("class","btn btn-primary allocation");
-            $('#allocation').css("display","");
+            $('.class_transfer').attr("class", "btn btn-default class_transfer");
+            $('#class_transfer').css("display", "none");
+            $('.allocation').attr("class", "btn btn-primary allocation");
+            $('#allocation').css("display", "");
         });
         $('.class_transfer').click(function () {
-            $('.allocation').attr("class","btn btn-default allocation");
-            $('#allocation').css("display","none");
-            $('.class_transfer').attr("class","btn btn-primary class_transfer");
-            $('#class_transfer').css("display","");
+            $('.allocation').attr("class", "btn btn-default allocation");
+            $('#allocation').css("display", "none");
+            $('.class_transfer').attr("class", "btn btn-primary class_transfer");
+            $('#class_transfer').css("display", "");
         });
     });
 </script>

@@ -92,6 +92,14 @@
         .sweet-alert h2 {
             font-size: 18px;
         }
+
+        .margin_bottom {
+            margin-bottom: 5px;
+        }
+
+        .padding_left {
+            padding-left: 40px;
+        }
     </style>
 </head>
 <body class="gray-bg">
@@ -313,7 +321,8 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">题库名称</label>
                                                         <div class="col-sm-8">
-                                                            <input type="text" class="form-control modify_the_question_bank_name">
+                                                            <input type="text"
+                                                                   class="form-control modify_the_question_bank_name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -340,15 +349,18 @@
                                                         <label class="col-sm-2 control-label">
                                                             题库说明</label>
                                                         <div class="col-sm-8">
-                                                            <textarea type="text" class="form-control modify_the_question_bank_explanation"></textarea>
+                                                            <textarea type="text"
+                                                                      class="form-control modify_the_question_bank_explanation"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">访问权限</label>
                                                         <div class="col-sm-8">
                                                             <select class="form-control">
-                                                                <option class="modify_private">完全私有(只有您本人可以操作和使用题库)</option>
-                                                                <option class="modify_shared">只读共享(其他管理员仅可引用您题库中的试题)</option>
+                                                                <option class="modify_private">完全私有(只有您本人可以操作和使用题库)
+                                                                </option>
+                                                                <option class="modify_shared">只读共享(其他管理员仅可引用您题库中的试题)
+                                                                </option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -406,13 +418,11 @@
                                     <table class="tm_table_form_base" style="width: 90%">
                                         <tbody>
                                         <tr>
-                                            <th width="120"
-                                                style="padding-left: 40px;">
+                                            <th width="120" class="padding_left" style="padding-bottom: 5px;">
                                                 目标题库
                                             </th>
                                             <td>
-                                                <select class="form-control validate[required]"
-                                                        style="margin-bottom: 10px">
+                                                <select class="form-control margin_bottom">
                                                     <option value="">请选择目标题库</option>
                                                     <option>开发题</option>
                                                     <option>编程题</option>
@@ -421,16 +431,16 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th style="padding-left: 40px;">数据文件</th>
+                                            <th class="padding_left">数据文件</th>
                                             <td>
-                                                <input class="form-control"
-                                                       style="margin-bottom: 10px" type="file">
+                                                <input class="form-control margin_bottom" multiple="multiple"
+                                                       type="file">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th style="padding-left: 40px;">重复数据</th>
+                                            <th class="padding_left" style="padding-top: 5px">重复数据</th>
                                             <td>
-                                                <select class="form-control validate[required]">
+                                                <select class="form-control" style="margin-top: 5px;">
                                                     <option value="">自动去除重复试题</option>
                                                     <option>忽略重复试题，全部导入</option>
                                                 </select>
@@ -460,7 +470,7 @@
         </div>
     </div>
 </div>
-<!--导入模态框-->
+<!--导出模态框-->
 <div class="modal fade" id="export" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -563,6 +573,9 @@
 <!--滑动按钮-->
 <script src="../../static/js/plugins/switchery/switchery.js"
         th:src="@{../../static/js/plugins/switchery/switchery.js}"></script>
+<!-- Prettyfile -->
+<script src="../../static/js/plugins/prettyfile/bootstrap-prettyfile.js"
+        th:href="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
 <script>
     $(function () {
         /*创建题库*/
@@ -603,6 +616,9 @@
             $('#share_question_bank_tips').css("display", "");
         })
     });
+
+    /*文件上传*/
+    $('input[type="file"]').prettyFile();
 </script>
 <script>
     $(function () {
@@ -630,7 +646,8 @@
                 pageSize: 10,                       //每页的记录行数（*）
                 pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-                onPostBody: checkbox_table,
+                onLoadSuccess: updateSwitchery,  //页面加载成功执行方法
+                onPageChange: updateSwitchery,   //页面发送改变执行的方法
                 columns:
                     [{
                         checkbox: true
@@ -647,9 +664,9 @@
                         align: 'center',
                         formatter: function (value, row, index) {
                             if (value === "正常") {
-                                return '<input type="checkbox" class="js-switch form-control" checked/>';
+                                return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked/>';
                             }
-                            return '<input type="checkbox" class="js-switch form-control"/>';
+                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '"/>';
                         }
                     }, {
                         field: 'question_size',
@@ -681,12 +698,13 @@
                         field: 'operate',
                         align: 'center',
                         title: '操作',
+                        width: 350,
                         formatter: function (value, row, index) {
                             //下载
-                            return ['<button  class = "btn btn-white btn-sm modification" type = "button" data-toggle="tooltip" data-placement="top"  title="修改"> <i class="fa fa-wrench"/></button>' +
-                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="modal" data-target="#import" title="导入试题"><i class="fa fa-download"/></button>' +
-                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="modal"  data-target="#export" title="导出试题"><i class="fa fa-upload"/></button>' +
-                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="tooltip" title="删除题库"><i class="fa fa-close"/></button>'];//删除
+                            return ['<button  class = "btn btn-white btn-sm modification" type = "button"  title="修改"> <i class="fa fa-wrench">修改</i></button>' +
+                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="modal" data-target="#import" title="导入试题"><i class="fa fa-download">导入试题</i></button>' +
+                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="modal"  data-target="#export" title="导出试题"><i class="fa fa-upload">导出试题</i></button>' +
+                            '<button id = "" type = "button" class = "btn btn-sm  btn-white"  title="删除题库"><i class="fa fa-close">删除题库</i></button>'];//删除
 
                         },//表格中增加按钮  
                         events: {
@@ -720,16 +738,17 @@
                                 $('.question_bank_name').val(row.question_bank);
                                 $('.explanatoryNotes').val(row.hints);
                                 if (row.status === '禁用') {
-                                    $('#off').attr("checked", "checked");
+                                    $('#off').prop("checked", true);
+                                    $('#on').prop("checked", false);
                                 } else {
-                                    $('#on').attr("checked", "checked");
+                                    $('#off').prop("checked", false);
+                                    $('#on').prop("checked", true);
                                 }
                                 if (row.authority_management === '只读共享') {
                                     $('.shared').attr("selected", "selected");
                                 } else {
                                     $('.private').attr("selected", "selected");
                                 }
-
                             }
                         }
                     }]
@@ -746,7 +765,8 @@
                 pageSize: 2,                       //每页的记录行数（*）
                 pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-                onPostBody: checkbox_table_1,
+                onLoadSuccess: updateSwitchery,  //页面加载成功执行方法
+                onPageChange: updateSwitchery,   //页面发送改变执行的方法
                 columns:
                     [{
                         checkbox: true
@@ -761,6 +781,9 @@
                         field: 'status',
                         title: '状态',
                         align: 'center',
+                        formatter: function (value, row, index) {
+                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked disabled/>';
+                        },
                     }, {
                         field: 'question_size',
                         align: 'center',
@@ -791,10 +814,10 @@
                         field: 'operate',
                         align: 'center',
                         title: '操作',
-                        width: 100,
+                        width: 200,
                         formatter: function (value, row, index) {
-                            return ['<button  class = "btn btn-white btn-sm share_modification" type = "button" data-toggle="tooltip" data-placement="top"  title="修改"> <i class="fa fa-wrench"/></button>' +
-                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " data-toggle="tooltip" title="删除题库"><i class="fa fa-close"/></button>'];//删除
+                            return ['<button  class = "btn btn-white btn-sm share_modification" type = "button" title="修改"> <i class="fa fa-wrench">修改</i></button>' +
+                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " title="删除题库"><i class="fa fa-close">删除题库</i></button>'];//删除
 
                         },//表格中增加按钮  
                         events: {
@@ -855,27 +878,22 @@
             });
         };
 
-        /*初始化滑动按钮*/
-        function checkbox_table() {
-            //let elems = Array.prototype.slice.call($('.js-switch'));
-            let elems = document.querySelectorAll(".js-switch");
-            elems.forEach(function (html) {
-                var switchery = new Switchery(html, {size: 'normal'});
-                html.onchange = function () {
-                    //TODO 发送AJAX请求
-                    alert(html.checked);
-                }
-            });
-        };
 
-        function checkbox_table_1() {
-            //let elems = Array.prototype.slice.call($('.js-switch'));
-            let elems = document.querySelectorAll(".js-switch_1");
-            elems.forEach(function (html) {
-                var switchery = new Switchery(html, {size: 'normal'});
-                html.onchange = function () {
-                    //TODO 发送AJAX请求
-                    alert(html.checked);
+        //当bootstraptable的页面分页时，要及时更新 switchery组件
+        function updateSwitchery(value, row, index) {
+            $(".js-switch").each(function (index, element) {
+                console.log(element);
+                //判断 element是否已经是 switchery 组件了
+                if ($(element).attr("data-switchery") != 'true') {
+                    //重新创建switchery对象
+                    new Switchery(element, {size: 'normal'});
+                    //绑定事件, 以 element 为参数，以便里面的代码通过 event.data 来获取此element对象，并进一步拿到ic的值
+                    $(element).on('change', element, function (event) {
+                        //todo 发送请求到服务端，更新状态
+                        alert("修改id为" + $(event.data).val() + "的试题：" + element.checked);
+                    });
+                } else {
+                    //console.log("已经添加过了");
                 }
             });
         };
