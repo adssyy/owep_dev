@@ -107,6 +107,6 @@ public interface TeachingService {
      * 添加违纪数据
      */
     int saveIllegal(Illegal illegal);
-    
+
 
 }
