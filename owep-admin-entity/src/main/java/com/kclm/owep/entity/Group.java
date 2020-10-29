@@ -60,16 +60,17 @@ public class Group implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Group{");
-        sb.append("id=").append(id);
-        sb.append(", groupName='").append(groupName).append('\'');
-        sb.append(", groupDescription='").append(groupDescription).append('\'');
-        sb.append(", createTime=").append(createTime);
-        sb.append(", lastAccessTime=").append(lastAccessTime);
-        sb.append(", version=").append(version);
-        sb.append(", maxCount=").append(maxCount);
-        sb.append('}');
-        return sb.toString();
+        return "Group{" +
+                "id=" + id +
+                ", groupName='" + groupName + '\'' +
+                ", groupDescription='" + groupDescription + '\'' +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", version=" + version +
+                ", maxCount=" + maxCount +
+                ", roles=" + roles +
+                ", users=" + users +
+                '}';
     }
 
     public Integer getId() {

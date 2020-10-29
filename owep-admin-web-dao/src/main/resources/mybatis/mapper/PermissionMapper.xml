@@ -140,8 +140,8 @@
     <!--外联查询 查询权限下所关联的菜单 可传Id进行条件查询。不传则默认查询所有-->
     <select id="selectMenuInPermission" resultMap="PermissionMenu">
         select p.id               pid,
-               permission_name,
-               permission_description,
+               permission_name   pname,
+               permission_description pdesc,
                p.create_time      pctime,
                p.last_access_time pltime,
                p.version          pv,
@@ -162,14 +162,14 @@
             </if>
         </where>
     </select>
-    <resultMap id="PermissionMenu" type="Permission">
+    <resultMap id="PermissionMenu" type="com.kclm.owep.entity.Permission">
         <id column="pid" property="id"/>
-        <result column="permission_name" property="permissionName"/>
-        <result column="permission_description" property="permissionDescription"/>
+        <result column="pname" property="permissionName"/>
+        <result column="pdesc" property="permissionDescription"/>
         <result column="pctime" property="createTime"/>
         <result column="pltime" property="lastAccessTime"/>
         <result column="pv" property="version"/>
-        <collection property="menus" ofType="Menu">
+        <collection property="menus" ofType="com.kclm.owep.entity.Menu">
             <id column="mid" property="id"/>
             <result column="menu_name" property="menuName"/>
             <result column="menu_description" property="menuDescription"/>

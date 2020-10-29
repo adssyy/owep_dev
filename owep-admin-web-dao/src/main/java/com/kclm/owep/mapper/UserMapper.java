@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.mapper;
 
+import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -60,6 +61,14 @@ public interface UserMapper extends BaseMapper<User> {
     @Override
     int deleteSelect(@Param("idList") List<Serializable> idList);
 
+
+    /***
+     * @By:Artherine
+     * @Func:由用户名搜索用户信息
+     * @Date:2020.10.24
+     */
+    User selectByName(@Param("userName")String userName );
+
     /******
      * @Author: ZhangShaowei
      * @Date: 2020/7/15 12:38
@@ -80,4 +89,6 @@ public interface UserMapper extends BaseMapper<User> {
     @Override
     List<User> selectAll();
 
+
+    Integer getGroupId(@Param("id") Serializable id);
 }

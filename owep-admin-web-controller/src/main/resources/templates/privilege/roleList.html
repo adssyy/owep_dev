@@ -64,7 +64,8 @@
             <!--体部定义-->
             <div class="modal-body">
                 <!-- 表单定义 -->
-                <form th:action="@{/}" id="addForm" method="post" class="form-horizontal">
+                <form th:action="@{/privilege/roleList/addRole}" id="addForm" method="post" class="form-horizontal">
+
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label">角色:</label>
                         <div class="col-md-6">
@@ -107,11 +108,12 @@
             <!--体部定义-->
             <div class="modal-body">
                 <!-- 表单定义 -->
-                <form th:action="@{/}" id="editForm" method="post" class="form-horizontal">
+                <form th:action="@{/privilege/roleList/editRole}" id="editForm" method="post" class="form-horizontal">
                     <div class="form-group  has-feedback">
+                        <input type="hidden" name="id" value=""/>
                         <label class="col-md-2 control-label">角色名:</label>
                         <div class="col-md-6">
-                            <input type="text" name="roleName" class="form-control" value="" th:value="">
+                            <input type="text" name="roleName" class="form-control" value="" th:value="roleName">
                         </div>
                         <div class="col-md-offset-1 col-md-2">
                             <label class="control-label" tip="name"></label>
@@ -121,7 +123,7 @@
                         <label class="col-md-2 control-label ">角色描述:</label>
                         <div class="col-md-6">
                             <textarea name="roleDescription" class="form-control" rows="3" value=""
-                                      th:value=""></textarea>
+                                      th:value="roleDescription"></textarea>
                         </div>
                         <div class="col-md-offset-1 col-md-2">
                             <label class="control-label" tip="description"></label>
@@ -152,10 +154,10 @@
             <div class="modal-body">
                 <div class="row form-horizontal">
                     <div class="form-group  has-feedback">
-                        <input type="text" id="roleId" value="1" th:value="" hidden>
+                        <input type="text" id="roleId" value="1" th:value="roleId" hidden>
                         <label class="col-md-2 control-label">角色名:</label>
                         <div class="col-md-6">
-                            <input type="text" name="roleName" readonly class="form-control" value="角色名" th:value="">
+                            <input type="text" name="roleName" readonly class="form-control" value="角色名" th:value="roleName">
                         </div>
                         <div class="col-md-offset-1 col-md-2">
                             <label class="control-label" tip="name"></label>
@@ -190,7 +192,7 @@
 <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
         th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <!-- iCheck -->
-<script src="../../static/js/plugins/iCheck/icheck.min.js" th:src="/static/js/plugins/iCheck/icheck.min.js"></script>
+<script src="../../static/js/plugins/iCheck/icheck.min.js" th:src="@{/static/js/plugins/iCheck/icheck.min.js}"></script>
 <!-- Sweet alert -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
         th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
@@ -198,18 +200,19 @@
         th:src="@{/static/js/plugins/treeview/bootstrap-treeview.min.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    // let appName=[[${#request.getContextPath()}]];
+     //let appName=[[${#request.getContextPath()}]];
     $(function () {
+        var oTableInit = {};
         /*init角色管理表*/
         let $roleListTable = $("#roleListTable");
         $roleListTable.bootstrapTable({
-            url: '../../static/js/demo/privilege/roleList_table_test.json',
+            url: '/owep/privilege/roleList/getTable',
             method: "get",
             toolbar: '#toolbar',
             mobileResponsive: true,
             striped: true,
             pagination: true,
-            /*    queryParam:oTableInit.queryParams,*/
+            queryParam:oTableInit.queryParams,
             sidePagination: "client",
             pageList: "[5,10]",
             pageSize: 10,
@@ -253,11 +256,11 @@
 
                 }
 
-            ],
+            ]
         });
 
 
-        /*        //得到查询的参数
+               //得到查询的参数
                 oTableInit.queryParams = function (params) {
                     var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                         limit: params.limit,   //页面大小
@@ -267,32 +270,37 @@
                     };
                     return temp;
                 };
-                return oTableInit;*/
+
+
         /*绑定表格每列中的修改按钮*/
         $roleListTable.on("click", "button[title='修改']", function () {
-            console.log($(this).val());
+            // console.log($(this).val());
+            let id = $(this).val();
             /*异步请求后台数据*/
-            /*       let getData;
                    $.ajax({
-                       url:"",
-                       method:"post",
+                       url:"/owep/privilege/roleList/toEditRole",
+                       method:"get",
                        data:{"id":id},
                        dataType:"json",
                        contentType:"application/json",
                        success:function (data) {
-                           getData=data;
+                           $("textarea[name='roleDescription']").val(data.roleDescription);
+                           $("input[name='roleName']").val(data.roleName);
+                           $("input[name='id']").val(data.id);
+
                        },
                        error:function (jqXHR) {
                            alert(jqXHR);
                        }
-                   });*/
+                   });
             /*调用模态窗*/
             $("#editModal").modal();
             /*回显数据*/
-            /*        $("input[name='userGroupDescription']").val(getData.groupDescription);
-                    $("input[name='userGroupName']").val(getData.groupName);*/
+            // console.log(getData.roleName+","+getData.roleDescription);
+
         });
         $roleListTable.on("click", "button[title='删除']", function () {
+
             swal({
                 title: "您确定要删除这条数据吗",
                 text: "删除后将无法恢复，请谨慎操作！",
@@ -305,25 +313,28 @@
             }, function () {
                 swal("删除成功！", "您已经永久删除了这条信息。", "success");
             });
-            /* let id=$(this).val();
+             let id=$(this).val();
              $.ajax({
-                 url:"",
+                 url:"/owep/privilege/roleList/deleteRole",
                  method:"post",
-                 data:{id:"id"},
+                 data:id,
                  dataType:"text",
                  contentType:"application/json",
                  success:function () {
                      swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                     window.location.reload();
                  },
                  error:function (jqXHR) {
                      swal("删除失败","后台请求失败"+jqXHR,"error");
                  }
-             })*/
+             })
         });
+
         $roleListTable.on("click", "button[title='分配角色']", function () {
             /*初始化树形复选框*/
-            initListTree();
-
+            let id = $(this).val();
+            let name = this.parentNode.parentNode.childNodes[2].textContent;
+            initListTree(id,name);
         });
 
         /*添加模态窗提交*/
@@ -341,33 +352,38 @@
     */
         /*绑定批量删除按钮*/
         $("#delAll").click(function () {
-            let idlist = $roleListTable.bootstrapTable('getAllSelections');
-            console.log(idlist);
-            let ids = JSON.stringify(idlist);
-            if (idlist.length === 0) {
+            let objList = $roleListTable.bootstrapTable('getAllSelections');
+            let idList = [];
+            objList.forEach(function (item,index) {
+                console.log(item);
+                idList.push(item.id);
+            });
+            console.log(idList);
+            let ids = JSON.stringify(idList);
+            if (idList.length === 0) {
                 alert("请至少选择一个")
             } else {
-                if (confirm("确定添加这些数据么")) {
-                    alert("删除:" + ids);
+                if (confirm("确定批量删除么")) {
+                    // alert("删除:" + ids);
                     window.location.reload();
                     //ajax发送异步请求
-                    /*$.ajax({
-                        url:  appName,
+                    $.ajax({
+                        url:  "/owep/privilege/roleList/deleteByGroups",
                         method: "post",
-                        data: idlist,
+                        data: ids,
                         dataType: "text",
                         async: "true",
                         contentType: "application/json",
                         success: function (data) {
                             /!*重新加载本页面*!/
                             alert(data);
-                            window.location.reload();
+                            // window.location.reload();
                         },
                         error: function (jqXRH) {
                             console.log(jqXRH);
                             alert("删除失败")
                         }
-                    })*/
+                    })
                 }
             }
 
@@ -375,14 +391,20 @@
         });
         let $roleListTree = $("#roleListTree");
 
-        function initListTree() {
+        function initListTree(id,name) {
+
             /*分配角色里的  树形复选框*/
             $.ajax({
-                url: '../../static/js/demo/privilege/roleList_treeCheck_test.json',
+                // url: '../../static/js/demo/privilege/roleList_treeCheck_test.json',
+                url: "/owep/privilege/roleList/treeCheck",
+                data:{id:id},
                 dataType: "json",
                 method: "get",
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
+                    $("input[id='roleId']").val(id);
+                    $("input[name='roleName']").val(name);
+
                     $roleListTree.treeview({
                         data: data,
                         levels: 2,
@@ -480,7 +502,8 @@
         }
 
         //分配角色模态窗全选的值  传入后端
-        $("#btnAllocate").click(function () {
+        $("#btnAllocateModal").click(function () {
+            console.log("角色权限窗提交键")
             let roleId = $("#roleId").val();
             var datas = [];
             let checks = $roleListTree.treeview('getChecked');
@@ -490,18 +513,18 @@
                     datas.push(item.tags);
                 }
             });
-            let s = {"id": roleId, "action": datas};
+            let s = {"roleId": roleId, "permissionIds": datas};
             s = JSON.stringify(s);
             console.log("传入的IdJson" + s);
             if (datas == 0) {
                 alert("至少选择一个");
             } else {
                 if (confirm("确定添加这些数据么")) {
-                    alert("添加数据:" + s);
-                    window.location.reload();
+                    // alert("添加数据:" + s);
+                    // window.location.reload();
                     //ajax发送异步请求
-                    /*$.ajax({
-                        url:  appName,
+                    $.ajax({
+                        url:  "/owep/privilege/roleList/treeCheck_edit",
                         method: "post",
                         data: s,
                         dataType: "text",
@@ -510,17 +533,17 @@
                         success: function (data) {
                             /!*重新加载本页面*!/
                             alert(data);
-                            window.location.reload();
                         },
                         error: function (jqXRH) {
                             console.log(jqXRH);
                             alert("删除失败")
                         }
-                    })*/
+                    })
                 }
             }
 
         });
+        return oTableInit;
     });
 </script>
 

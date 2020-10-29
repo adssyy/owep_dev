@@ -44,15 +44,17 @@ public class Permission implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Permission{");
-        sb.append("id=").append(id);
-        sb.append(", permissionName='").append(permissionName).append('\'');
-        sb.append(", permissionDescription='").append(permissionDescription).append('\'');
-        sb.append(", createTime=").append(createTime);
-        sb.append(", lastAccessTime=").append(lastAccessTime);
-        sb.append(", version=").append(version);
-        sb.append('}');
-        return sb.toString();
+        return "Permission{" +
+                "id=" + id +
+                ", permissionName='" + permissionName + '\'' +
+                ", permissionDescription='" + permissionDescription + '\'' +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", version=" + version +
+                ", roles=" + roles +
+                ", actions=" + actions +
+                ", menus=" + menus +
+                '}';
     }
 
     @Override

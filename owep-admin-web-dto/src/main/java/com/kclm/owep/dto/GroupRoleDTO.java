@@ -24,7 +24,9 @@ public class GroupRoleDTO implements Serializable {
      * 角色ID
      */
     private Integer roleId;
+
     private List<Integer> roleIds;
+
     private List<Integer> groupIds;
 
     public GroupRoleDTO() {
@@ -44,11 +46,12 @@ public class GroupRoleDTO implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("GroupRoleDTO{");
-        sb.append("groupId=").append(groupId);
-        sb.append(", roleId=").append(roleId);
-        sb.append('}');
-        return sb.toString();
+        return "GroupRoleDTO{" +
+                "groupId=" + groupId +
+                ", roleId=" + roleId +
+                ", roleIds=" + roleIds +
+                ", groupIds=" + groupIds +
+                '}';
     }
 
     @Override

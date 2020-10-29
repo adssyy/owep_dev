@@ -5,10 +5,8 @@
 
 package com.kclm.owep.service;
 
-import com.kclm.owep.dto.MenuDTO;
-import com.kclm.owep.dto.NodeDTO;
-import com.kclm.owep.dto.PermissionDTO;
-import com.kclm.owep.dto.PermissionMenuDTO;
+import com.kclm.owep.dto.*;
+import com.kclm.owep.entity.Action;
 import com.kclm.owep.entity.Permission;
 
 import java.io.Serializable;
@@ -86,5 +84,7 @@ public interface PermissionService {
      * @return 大于0则执行成功，等于或小于0则执行失败
      */
     int assignMenuToPermission(Map<Integer, List<Integer>> map);
+
+    List<Action> selectActionByPermission(Serializable perId);
 
 }

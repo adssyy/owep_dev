@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /******************
@@ -24,7 +25,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
         log.debug("Spring Boot创建了 WebMvcConfig对象....");
     }
 
-   /* @Override
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+////        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");//似乎spring security会造成默认静态资源路径失效，需要重配
+////        但也不对，测试后发现已有 ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]默认配置
+//    }
+
+    /* @Override
     public Validator getValidator() {
         LocalValidatorFactoryBean lvfb = new LocalValidatorFactoryBean();
         //设置属性

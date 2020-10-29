@@ -157,7 +157,7 @@
             </if>
         </where>
     </select>
-    <resultMap id="ChildMenu" type="Menu">
+    <resultMap id="ChildMenu" type="com.kclm.owep.entity.Menu">
         <id column="pid" property="id"/>
         <result column="pname" property="menuName"/>
         <result column="purl" property="menuUrl"/>
@@ -166,7 +166,7 @@
         <result column="pctime" property="createTime"/>
         <result column="pltime" property="lastAccessTime"/>
         <result column="pv" property="version"/>
-        <collection property="childMenus" ofType="Menu">
+        <collection property="childMenus" ofType="com.kclm.owep.entity.Menu">
             <id column="cid" property="id"/>
             <result column="cname" property="menuName"/>
             <result column="curl" property="menuUrl"/>
@@ -248,6 +248,13 @@
             #{id}
         </foreach>
     </delete>
+    <delete id="deleteByPermIdAndMenuIdInAPM">
+        delete
+        from t_menu_action_per
+                where menu_id = #{menuId} and per_id = #{perId}
+    </delete>
+
+
     <!--根据菜单ID更新中间表的数据-->
     <update id="updateInAPMByMenuId">
         update t_menu_action_per
@@ -337,7 +344,7 @@
             </if>
         </where>
     </select>
-    <resultMap id="MenuPermission" type="Menu">
+    <resultMap id="MenuPermission" type="com.kclm.owep.entity.Menu">
         <id column="mid" property="id"/>
         <result column="menu_url" property="menuUrl"/>
         <result column="menu_code" property="menuCode"/>
@@ -346,7 +353,7 @@
         <result column="mctime" property="createTime"/>
         <result column="mltime" property="lastAccessTime"/>
         <result column="mv" property="version"/>
-        <collection property="permissions" ofType="Permission">
+        <collection property="permissions" ofType="com.kclm.owep.entity.Permission">
             <id column="pid" property="id"/>
             <result column="permission_name" property="permissionName"/>
             <result column="permission_description" property="permissionDescription"/>
@@ -454,4 +461,6 @@
         select count(id)
         from t_menu
     </select>
+
+
 </mapper>

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
  * @Description TODO
  */
 @SpringBootApplication
-@PropertySource(value = "classpath:application-dao.properties")
+//@PropertySource(value = "classpath:application-dao.properties")
 public class OwepAdminWebDaoApplication {
 
     /*public static void main(String[] args) {
