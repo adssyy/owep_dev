@@ -51,18 +51,20 @@ public class Menu implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Menu{");
-        sb.append("id=").append(id);
-        sb.append(", parent=").append(parent);
-        sb.append(", menuName='").append(menuName).append('\'');
-        sb.append(", menuUrl='").append(menuUrl).append('\'');
-        sb.append(", menuDescription='").append(menuDescription).append('\'');
-        sb.append(", menuCode='").append(menuCode).append('\'');
-        sb.append(", createTime=").append(createTime);
-        sb.append(", lastAccessTime=").append(lastAccessTime);
-        sb.append(", version=").append(version);
-        sb.append('}');
-        return sb.toString();
+        return "Menu{" +
+                "id=" + id +
+                ", parent=" + parent +
+                ", menuName='" + menuName + '\'' +
+                ", menuUrl='" + menuUrl + '\'' +
+                ", menuDescription='" + menuDescription + '\'' +
+                ", menuCode='" + menuCode + '\'' +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", version=" + version +
+                ", childMenus=" + childMenus +
+                ", permissions=" + permissions +
+                ", actions=" + actions +
+                '}';
     }
 
     @Override

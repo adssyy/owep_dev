@@ -69,14 +69,14 @@ class MenuMapperTest extends ActionMapperTest {
 
     @Test
     void findParent() {
-        List<Menu> parent = menuMapper.selectParent(0);
+        Menu parent = menuMapper.selectParent(0);
         System.out.println(parent);
 
     }
 
     @Test
     void findMenuChild() {
-        List<Menu> menuChild = menuMapper.selectMenuChild(0);
+        List<Menu> menuChild = menuMapper.selectMenuChild(0).getChildMenus();
         System.out.println(menuChild.size());
         for (Menu m : menuChild) {
             System.out.println(m);

@@ -269,4 +269,18 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <select id="selectByName" resultType="com.kclm.owep.entity.User">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_name like  concat('%',#{userName},'%');
+  </select>
+
+  <select id="getGroupId" resultType="INTEGER">
+    select
+     group_id as gid
+    from t_user_group
+    where user_id = #{id}
+
+  </select>
 </mapper>

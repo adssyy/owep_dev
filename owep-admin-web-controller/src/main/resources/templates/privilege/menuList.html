@@ -14,9 +14,9 @@
     <link href="../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet"
           th:href="@{/static/css/font-awesome.css(v=4.4.0)}">
     <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
-          th:ref="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
     <link href="../../static/css/plugins/treegrid/jquery.treegrid.css" rel="stylesheet"
-          th:ref="@{/static/css/plugins/treegrid/jquery.treegrid.css}">
+          th:href="@{/static/css/plugins/treegrid/jquery.treegrid.css}">
     <!-- Sweet Alert -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"
           th:href="@{/static/css/plugins/sweetalert/sweetalert.css}">
@@ -73,7 +73,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="animated fadeInRight">
-                <table id="menuListTable" class="table">
+                <table id="menuListTable" class="treeStyle">
                 </table>
             </div>
         </div>
@@ -92,36 +92,37 @@
             <!--体部定义-->
             <div class="modal-body">
                 <!-- 表单定义 -->
-                <form th:action="@{/}" id="addForm" method="post" class="form-horizontal">
+                <form th:action="@{/privilege/menuList/addMenu}" id="addForm" method="post" class="form-horizontal">
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label">菜单名:</label>
                         <div class="col-md-6">
                             <input type="text" name="menuName" class="form-control">
                         </div>
-                        <div class="col-md-offset-1 col-md-2">
-                            <label class="control-label" tip="name">添加成功</label>
-                        </div>
+<!--                        <div class="col-md-offset-1 col-md-2">-->
+<!--                            <label class="control-label" tip="name">添加成功</label>-->
+<!--                        </div>-->
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label ">上级菜单:</label>
                         <div class="col-md-6">
                             <div class="input-group"  style="width: 95%" data-tree-click="true">
+                                <input type="text" name="parentMenuId" value="" hidden=""/>
                                 <input type="text" name="parentMenu" class="form-control" readonly
                                        placeholder="请选择菜单" aria-describedby="icon">
                                 <span class="input-group-addon" style="background-color: #eeeeee"><i
-                                        name="tree-icon" class="glyphicon glyphicon-chevron-left"></i></span>
+                                        name="tree-icon_add" class="glyphicon glyphicon-chevron-left"></i></span>
                             </div>
-                            <div hidden class="treeStyle" name="tree"></div>
+                            <div hidden class="treeStyle" name="menuTree_add"></div>
                         </div>
                     </div>
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label ">菜单描述:</label>
                         <div class="col-md-6">
-                            <textarea name="userGroupDescription" class="form-control" rows="3"></textarea>
+                            <textarea name="menuDescription" class="form-control" rows="3"></textarea>
                         </div>
-                        <div class="col-md-offset-1 col-md-2">
-                            <label class="control-label" tip="description">添加成功</label>
-                        </div>
+<!--                        <div class="col-md-offset-1 col-md-2">-->
+<!--                            <label class="control-label" tip="description">添加成功</label>-->
+<!--                        </div>-->
                     </div>
                 </form>
             </div>
@@ -147,12 +148,12 @@
             <!--体部定义-->
             <div class="modal-body">
                 <!-- 表单定义 -->
-                <form th:action="@{/}" id="editForm" method="post" class="form-horizontal">
-                    <input name="menuId" value="" th:value="" hidden>
+                <form th:action="@{/privilege/menuList/editMenu}" id="editForm" method="post" class="form-horizontal">
+                    <input name="id" value="" th:value="menuId" hidden>
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label">菜单名:</label>
                         <div class="col-md-6">
-                            <input type="text" name="menuName" class="form-control" value="" th:value="">
+                            <input type="text" name="menuName" class="form-control" value="" th:value="menuName">
                         </div>
                         <div class="col-md-offset-1 col-md-2">
                             <label class="control-label" tip="name"></label>
@@ -161,21 +162,21 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label ">上级菜单:</label>
                         <div class="col-md-6">
-                            <div class="input-group" style="width: 95%;" data-tree-click="true">
-                                <input type="text" name="parentMenuId" hidden value="">
+                            <div class="input-group"  style="width: 95%" data-tree-click="true">
+                                <input type="text" name="parentMenuId" value="" hidden=""/>
                                 <input type="text" name="parentMenu" class="form-control" readonly
-                                       th:value="" placeholder="请选择菜单" aria-describedby="icon">
+                                       placeholder="请选择菜单" aria-describedby="icon">
                                 <span class="input-group-addon" style="background-color: #eeeeee"><i
-                                        name="tree-icon" class="glyphicon glyphicon-chevron-left"></i></span>
+                                        name="tree-icon_edit" class="glyphicon glyphicon-chevron-left"></i></span>
                             </div>
-                            <div hidden class="treeStyle" name="tree"></div>
+                            <div hidden class="treeStyle" name="menuTree_edit"></div>
                         </div>
                     </div>
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label ">菜单描述:</label>
                         <div class="col-md-6">
                             <textarea name="menuDescription" class="form-control" rows="3" value=""
-                                      th:value=""></textarea>
+                                      th:value="menuDescription"></textarea>
                         </div>
                         <div class="col-md-offset-1 col-md-2">
                             <label class="control-label" tip="description"></label>
@@ -206,16 +207,16 @@
             <div class="modal-body">
                 <div class="row form-horizontal">
                     <div class="form-group  has-feedback">
-                        <input type="text" id="privilegeId" value="1" th:value="" hidden>
                         <label class="col-md-2 control-label">权限名称:</label>
                         <div class="col-md-6">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="privilegeData">
+                            <div class="input-group" id="permission_SG">
+                                <input type="text" name="permissionId" value="1"  hidden>
+                                <input type="text" class="form-control" id="permissionName" name="permissionName" value="" placeholder="权限名">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <ul class="dropdown-menu dropdown-menu-right" name="permissionList" role="menu">
                                     </ul>
                                 </div>
 
@@ -226,10 +227,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="menuId" value="1" th:value="" hidden>
+                        <input type="text" id="menuId" value="1" th:value="menuId" hidden>
                         <label class="col-md-2 control-label" readonly="">菜单名称:</label>
                         <div class="col-md-6">
-                            <input type="text" name="privilegeName" class="form-control" style="width: 100%" readonly value="" th:value="">
+                            <input type="text" name="menuName" class="form-control" style="width: 100%" readonly value="" th:value="menuName_undefined">
                         </div>
 
                     </div>
@@ -237,7 +238,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">分配行为:</label>
                         <div class="col-md-6">
-                            <div id="menuTree" style="overflow-y:scroll;height: 300px"></div>
+                            <div id="ActionNodeTree" style="overflow-y:scroll;height: 300px"></div>
                         </div>
                     </div>
                 </div>
@@ -260,8 +261,8 @@
         th:src="@{/static/js/plugins/treegrid/jquery.treegrid.min.js}"></script>
 <script src="../../static/js/plugins/treeview/bootstrap-treeview.min.js"
         th:src="@{/static/js/plugins/treeview/bootstrap-treeview.min.js}"></script>
-<script src="../../static/public/privilege/menuAction_treeCheckBox.js"
-        th:src="@/static/public/privilege/menuAction_treeCheckBox.js"></script>
+<script src="../../static/public/privilege/menuList_treeCheckBox.js"
+        th:src="@{/static/public/privilege/menuList_treeCheckBox.js}"></script>
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
         th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
@@ -271,7 +272,8 @@
 
         let $menuListTable = $('#menuListTable');
         $menuListTable.bootstrapTable({
-            url: '../../static/js/demo/privilege/menuList_gridTree_test.json',
+            // url: '../../static/js/demo/privilege/menuList_gridTree_test.json',
+            url:"/owep/privilege/menuList/getTable",
             striped: true,
             toolbar: '#toolbar',
             toolbarAlign: "right",
@@ -284,9 +286,10 @@
 
                 },
                 {
-                    field: 'privilege',
-                    title: '权限识别'
-                }, {
+                    field: 'menuDescription',
+                    title: '菜单描述'
+                },
+                {
                     field: 'operate',
                     title: '操作',
                     width: '300',
@@ -305,7 +308,7 @@
                     initialState: 'expanded',// 所有节点都展开，默认展开
                     treeColumn: 0,//指定哪列 有树形结构
                     expanderExpandedClass: 'glyphicon glyphicon-minus',  //图标样式
-                    expanderCollapsedClass: 'glyphicon glyphicon-plus',
+                    expanderCollapsedClass: 'glyphicon glyphicon-plus'
                 });
             },
 
@@ -314,34 +317,71 @@
 
 
         /*添加按钮事件*/
-        let $tree = $("div[name='tree']");
+        let $tree_add = $("div[name='menuTree_add']");
         $("#btnAdd").click(function () {
-            initSelectTree($tree, null);
+            initSelectTree($tree_add, null);
             $("#addModal").modal();
-            $("#btnAddModal").submit();
+            // $("#btnAddModal").submit();//按键本身不在表单内部，用submit不管用
         });
-        let $inputGroup = $("[data-tree-click=true]");
+
+
+        let $inputGroup =$("[data-tree-click=true]");
+        let $inputGroup_add = $inputGroup;
+        // console.log($inputGroup_add);
         /*绑定树形下拉框点击事件*/
-        let $i = $("i[name='tree-icon']");
-        $inputGroup.click(function (event) {
-            $tree.toggle();
-            $i.toggleClass("glyphicon glyphicon-chevron-down").toggleClass("glyphicon glyphicon-chevron-up");
+        let $i_add = $("i[name='tree-icon_add']");
+        $inputGroup_add.click(function (event) {
+            $tree_add.toggle();
+            $i_add.toggleClass("glyphicon glyphicon-chevron-down").toggleClass("glyphicon glyphicon-chevron-up");
+            event.stopPropagation();
+        });
+        let $tree_edit = $("div[name='menuTree_edit']");
+        let $i_edit = $("i[name='tree-icon_edit']");
+        let $inputGroup_edit = $inputGroup;
+        $inputGroup_edit.click(function (event) {
+            $tree_edit.toggle();
+            $i_edit.toggleClass("glyphicon glyphicon-chevron-down").toggleClass("glyphicon glyphicon-chevron-up");
             event.stopPropagation();
         });
 
+        // // data-toggle="dropdown"
+        // let $permList = $("ul[name='permissionList']");
+        // let $permissionListBtn = $("botton[data-toggle='dropdown']");
+        // console.log($permissionListBtn);
+        // $permissionListBtn.click(function(event){
+        //     console.log("按键被按下了");
+        //     console.log($permList);
+        //     event.stopPropagation();
+        // });
+
+
+
+        /*添加模态窗提交*/
+        $("#btnAddModal").click(function () {
+            $("#addForm").submit();
+        });
+        /*修改模态窗提交*/
+        $("#btnEditModal").click(function () {
+            $("#editForm").submit();
+        });
 
         /*分配行为模态窗向后台传送数据*/
         $("#btnAllocateModal").click(function () {
             let menuId = $("#menuId").val();
             let datas = [];
+            let $menuTree = $("#ActionNodeTree");
             let checks = $menuTree.treeview('getChecked');
+            // let permName = $("input[name='permissionName']").val();
+            let permId = $("input[name='permissionId']").val();
+            // console.log(permId);
+            // console.log(permid.valueOf());
             $.each(checks, function (index, item) {
                 if (item.parentId != undefined) {
                     datas.push(item.tags);
                 }
             });
             console.log(datas);
-            let s = {"id": menuId, "action": datas};
+            let s = {"menuId": menuId, "actionIds": datas, "permissionId":permId};
             s = JSON.stringify(s);
             console.log(s);
             if (datas == 0) {
@@ -351,8 +391,8 @@
                     alert("添加数据:" + s);
                     window.location.reload();
                     //ajax发送异步请求
-                    /*$.ajax({
-                        url:  appName,
+                    $.ajax({
+                        url:  "/owep/privilege/menuList/treeCheck_edit",
                         method: "post",
                         data: s,
                         dataType: "text",
@@ -367,31 +407,56 @@
                             console.log(jqXRH);
                             alert("删除失败")
                         }
-                    })*/
+                    })
                 }
             }
         })
 
         /*搜索自动补全*/
-        $("#privilegeData").bsSuggest({
-            url: '../../static/js/demo/privilege/menuList_suggest_test.json',
-            showBtn: false,
+        $("#permissionName").bsSuggest({
+            // url: '../../static/js/demo/privilege/menuList_suggest_test.json',
+            url:"/owep/privilege/menuList/suggest",
             idField: "id",
-            keyField: "privilegeName",
-            effectiveFields: ['privilegeName'],
-            searchFields:['privilegeName'],
+            keyField: "permissionName",
+            effectiveFields: ['id','permissionName'],
+            effectiveFieldSAlias: {id:'权限id',permissionName:'权限名'},
+            searchFields:['permissionName'],
+            showHeader: true,
+            showBtn: false,
+            clearable:true
         })
+            .on("onDataRequestSuccess", function(e, result) {
+            console.log("onDataRequestSuccess: ", result);
+        }) .on("onSetSelectValue", function(e, keyword) {
+            $("input[name='permissionId']").val(keyword.id);
+            console.log("onSetSelectValue: ", keyword);
+        })
+            .on("onUnsetSelectValue", function() {
+                console.log("onUnsetSelectValue");
+            })
+        //     .on('onSetSelectValue',function (e,keyword,data) {
+        //     console.log(keyword);
+        //     console.log(e);
+        //     console.log(keyword.id);
+        //     console.log(keyword.permissionName);
+        //     $("#permissionId").val(keyword.id);
+        //     $("#permissionName").val(keyword.permissionName)
+        // })
 
     });
 
 
     // 格式化按钮
     function operateFormatter(value, row, index) {
-        console.log();
+        // console.log(row);
+        let parentId ;
+        let parentName;
+
         let va;
         if (row.pid !== 0) {
             /*console.log("打印"+"pid:"+row.pid)*/
-            va = ['<button class="btn btn-white" value="' + row.id + '" type="button" data-toggle="tooltip" data-placement="bottom" title="修改"><i class="glyphicon glyphicon-edit"/> </button>',
+            // console.log(row);
+            va = ['<button class="btn btn-white" value="'+row.id+'"  type="button" data-toggle="tooltip" data-placement="bottom" title="修改"><i class="glyphicon glyphicon-edit"/> </button>',
                 '<button class="btn btn-white" value="' + row.id + '" type="button" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="glyphicon glyphicon-trash text-danger"/></button>',
                 '<button class="btn btn-white" value="' + row.id + '" type="button" data-toggle="tooltip" data-placement="bottom" title="预置行为分配"><i class="glyphicon glyphicon-share text-success"/> </button>'].join('')
         } else {
@@ -404,13 +469,38 @@
     //给动态按钮绑定事件
     window.operateEvents = {
         'click button[title="预置行为分配"]': function (e, value, row, index) {
-            let $menuTree = $("#menuTree");
+            let $actionNodes = $("#ActionNodeTree");
             /*初始化树形复选框（在外部JS中）;*/
-            initCheckTree($menuTree, row.id);
+            // console.log(row);
+            // console.log(row.id);
+            $("input[id='menuId']").val(row.id);
+            $("input[name='menuName']").val(row.menuName);
+            $("input[id='privilegeData']").val(row.permission);
+            initCheckTree($actionNodes, row.id);
             $("#allocateModal").modal();
         },
         'click button[title="修改"]': function (e, value, row, index) {
-            let $tree = $("div[name='tree']");
+            let $tree = $("div[name='menuTree_edit']");
+            // console.log(this.parentNode.parentNode);
+            initSelectTree($tree, null);
+            console.log($(this));
+            console.log(row);
+            let id =row.id;
+            let name = row.menuName;
+            let description = row.menuDescription;
+
+            if(row.parent!==null){//parent可能为null，为null则设置无意义
+                let parentName =row.parent.menuName;
+                let parentId = row.parent.id;
+                $("input[name='parentMenuId']").val(parentId);
+                $("input[name='parentMenu']").val(parentName);
+
+            }
+            $("input[name='id']").val(id);
+            $("input[name='menuName']").val(name);
+            $("textarea[name='menuDescription']").val(description);
+
+            // console.log(id+","+name+","+description+","+parentId+","+parentName);
             initSelectTree($tree, row.id);
             $("#editModal").modal();
             $("#btnEditModal").submit();
@@ -428,27 +518,29 @@
             }, function () {
                 swal("删除成功！", "您已经永久删除了这条信息。", "success");
             });
-            /* let id=$(this).val();
+             let id=$(this).val();
              $.ajax({
-                 url:"",
+                 url:"/owep/privilege/menuList/deleteMenu",
                  method:"post",
-                 data:{id:"id"},
+                 data:id,
                  dataType:"text",
                  contentType:"application/json",
                  success:function () {
                      swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                     window.location.reload();
                  },
                  error:function (jqXHR) {
                      swal("删除失败","后台请求失败"+jqXHR,"error");
                  }
-             })*/
+             })
         }
     };
 
     /*初始化树形下拉框*/
     function initSelectTree(o, id) {
         $.ajax({
-            url: '../../static/js/demo/privilege/menuList_treeSelect_test.json',
+            // url: '../../static/js/demo/privilege/menuList_treeSelect_test.json',
+            url:"/owep/privilege/menuList/treeSelect",
             dataType: "json",
             async: false,
             method: "get",

@@ -2,6 +2,7 @@ package com.kclm.owep;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /****************
@@ -12,10 +13,10 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * 注3：Spring Boot 默认是开启 WEB MVC的
  */
 @SpringBootApplication
+//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 //使得 Servlet、Filter、Listener可以直接通过@WebServlet、@WebFilter、@WebListener注解自动注册,无需其它代码
 @ServletComponentScan
 public class OwepAdminWebControllerApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(OwepAdminWebControllerApplication.class, args);
     }

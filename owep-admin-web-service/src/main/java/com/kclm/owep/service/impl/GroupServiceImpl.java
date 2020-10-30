@@ -18,15 +18,13 @@ import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author: ZhangQi
@@ -38,10 +36,13 @@ import java.util.Set;
 public class GroupServiceImpl implements GroupService {
     private final Logger logger = LoggerFactory.getLogger(GroupServiceImpl.class);
     @Resource
+//    @Autowired
     private GroupMapper groupMapper;
     @Resource
+//    @Autowired
     private RoleMapper roleMapper;
     @Resource
+//    @Autowired
     private MapperFactory mapperFactory;
 
     @Override
@@ -111,9 +112,12 @@ public class GroupServiceImpl implements GroupService {
 
     }
 
+
+
     @Override
     public GroupRoleDTO selectRolesByGroupId(Serializable groupId) {
         if (groupId != null) {
+            System.out.println("========================>"+groupMapper);
             List<Group> groups = groupMapper.selectRolesByGroupId(groupId);
             Group group = groups.get(0);
             mapperFactory.classMap(Group.class, GroupRoleDTO.class)
@@ -122,6 +126,14 @@ public class GroupServiceImpl implements GroupService {
                     .register();
             MapperFacade mapperFacade = mapperFactory.getMapperFacade();
             GroupRoleDTO groupRoleDTO = mapperFacade.map(group, GroupRoleDTO.class);
+//            GroupRoleDTO groupRoleDTO = new GroupRoleDTO();
+//            groupRoleDTO.setGroupId(group.getId());
+//            List<Integer> roleIds = new ArrayList<>();
+//            for(Role r : group.getRoles()) {
+//                roleIds.add(r.getId());
+//            }
+//            groupRoleDTO.setRoleIds(roleIds);
+
             logger.debug("groupRoleDTO:" + groupRoleDTO);
             return groupRoleDTO;
         } else throw new IllegalArgumentException("groupId值不合法");
@@ -130,26 +142,20 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public int assignRoleToGroup(Map<Integer, List<Integer>> map) {
         Assert.notNull(map, "map对象不能为空");
-        int valueSize = 0;
         Set<Map.Entry<Integer, List<Integer>>> entries = map.entrySet();
         try {
             for (Map.Entry<Integer, List<Integer>> next : entries) {
                 Integer key = next.getKey();
-                Integer maxCount = groupMapper.selectById(key).getMaxCount();
                 List<Integer> value = next.getValue();
-                valueSize = value.size();
-                if (value.size() > maxCount) {
-                    return maxCount - (value.size());
-                }
                 groupMapper.deleteByGroupIdInGR(Arrays.asList(key));
                 logger.debug("key:" + key + "_value:" + value);
                 value.forEach(e -> groupMapper.assignRoleToGroup(key, e));
             }
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
             return -2;
         }
-        return valueSize;
     }
 
     @Override

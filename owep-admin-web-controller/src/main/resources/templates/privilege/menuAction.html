@@ -14,9 +14,9 @@
     <link href="../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet"
           th:href="@{/static/css/font-awesome.css(v=4.4.0)}">
     <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
-          th:ref="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
     <link href="../../static/css/plugins/treegrid/jquery.treegrid.css" rel="stylesheet"
-          th:ref="@{/static/css/plugins/treegrid/jquery.treegrid.css}">
+          th:href="@{/static/css/plugins/treegrid/jquery.treegrid.css}">
     <link href="../../static/css/animate.css" rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link href="../../static/css/style.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.css(v=4.1.0)}">
     <style>
@@ -50,10 +50,10 @@
             <div class="modal-body">
                 <div class="row form-horizontal">
                     <div class="form-group  has-feedback">
-                        <input type="text" id="menuId" value="1" th:value="" hidden>
+                        <input type="text" id="menuId" value="1" th:value="menuId" hidden>
                         <label class="col-md-2 control-label" readonly="">菜单名称:</label>
                         <div class="col-md-6">
-                            <input type="text" name="userGroupName" class="form-control" readonly value="" th:value="">
+                            <input type="text" name="menuName" class="form-control" readonly value="" th:value="menuName">
                         </div>
                         <div class="col-md-offset-1 col-md-2">
                             <label class="control-label" tip="name"></label>
@@ -63,7 +63,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">包含行为:</label>
                         <div class="col-md-6">
-                            <div id="menuTree" style="overflow-y:scroll;height: 300px"></div>
+                            <div id="menuActionTree" style="overflow-y:scroll;height: 300px"></div>
                         </div>
                     </div>
                 </div>
@@ -88,15 +88,14 @@
         th:src="@{/static/js/plugins/treeview/bootstrap-treeview.min.js}"></script>
 <!--自定义JS 初始化树形复选框-->
 <script src="../../static/public/privilege/menuAction_treeCheckBox.js"
-        th:src="@/static/public/privilege/menuAction_treeCheckBox.js"></script>
+        th:src="@{/static/public/privilege/menuAction_treeCheckBox.js}"></script>
 <script>
     $(function () {
-        let $menuTree = $("#menuTree");
-        /*初始化树形复选框（在外部JS中）;*/
-        initCheckTree($menuTree);
+
         let $menuActionTable = $('#menuActionTable');
         $menuActionTable.bootstrapTable({
-            url: '../../static/js/demo/privilege/menuAction_gridTree_test.json',
+            // url: '../../static/js/demo/privilege/menuAction_gridTree_test.json',
+            url:"/owep/privilege/menuAction/getTable",
             striped: true,
             mobileResponsive: true,
             idField: 'id',
@@ -113,7 +112,7 @@
                     field: 'operate',
                     title: '操作',
                     width: '300',
-                    events: operateEvents,
+                    events: 'operateEvents',
                     formatter: 'operateFormatter'
                 }
 
@@ -135,18 +134,18 @@
 
         });
 
-
         /*分配行为模态窗想后台传送数据*/
         $("#btnAllocate").click(function () {
             let menuId=$("#menuId").val();
             let datas = [];
-            let checks = $menuTree.treeview('getChecked');
+            let $menuActionTree = $("#menuActionTree");
+            let checks = $menuActionTree.treeview('getChecked');
             $.each(checks, function (index, item) {
                 if (item.parentId!=undefined){
                     datas.push(item.tags);}
             });
             console.log(datas);
-            let s={"id":menuId,"action":datas};
+            let s={"menuId":menuId,"actionIds":datas};
             s=JSON.stringify(s);
             console.log(s);
             if (datas==0){
@@ -156,8 +155,8 @@
                     alert("添加数据:" + s);
                     window.location.reload();
                     //ajax发送异步请求
-                    /*$.ajax({
-                        url:  appName,
+                    $.ajax({
+                        url:  "/owep/privilege/menuAction/treeCheck_edit",
                         method: "post",
                         data: s,
                         dataType: "text",
@@ -172,7 +171,8 @@
                             console.log(jqXRH);
                             alert("删除失败")
                         }
-                    })*/}
+                    })
+                }
             }
         })
 
@@ -180,7 +180,7 @@
 
     // 格式化按钮
     function operateFormatter(value, row, index) {
-        console.log();
+        // console.log("Formatter");
         let va;
         if (row.pid !== 0) {
             /*console.log("打印"+"pid:"+row.pid)*/
@@ -188,12 +188,54 @@
         }
         return va
     }
-    //给动态按钮绑定事件
+
     window.operateEvents = {
-        'click .btn.btn-white': function (e, value, row, index) {
-            $("#allocate").modal();
+        "click button[title='预置行为分配']": function (e,value,row) {
+            console.log("Button Func");
+            let $menuActionTree = $("#menuActionTree");
+            /*初始化树形复选框*/
+            let id=row.id;
+            console.log(id);
+            let name = row.menuName;
+            $("input[id='menuId']").val(id);
+            $("input[name='menuName']").val(name);
+            /*分配角色里的  树形复选框*/
+            $.ajax({
+                url:"/owep/privilege/menuAction/treeCheck",
+                data: {id:id},
+                dataType: "json",
+                method: "get",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data[2]);
+
+                    $menuActionTree.treeview({
+                        data: data[2],
+                        levels: 2,
+                        showCheckbox: 1,
+                        showIcon: false,
+                        showBorder: false,
+                        expandIcon: undefined,
+                        collapseIcon: undefined,
+                        multiSelect: 1,
+                        highlightSelected: 0
+                    });
+                    /*数据加载后 调用模态窗*/
+                    $("#allocate").modal();
+                },
+                error: function (jqXHR) {
+                    alert(jqXHR);
+                }
+            });
+
+            // $("#allocate").modal();//模态框调出 id选择：allocate
+            // /*初始化树形复选框（在外部JS中）;*/
+            // initCheckTree($menuActionTree,id);
         }
     };
+
+
+
 
 </script>
 

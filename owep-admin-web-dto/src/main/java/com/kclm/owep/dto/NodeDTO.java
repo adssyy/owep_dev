@@ -29,17 +29,52 @@ public class NodeDTO {
      */
     private List<NodeDTO> nodes;
 
-    public NodeDTO() {
+
+    private State state;
+    private class State {
+        private Boolean checked = false;
+        private Boolean expanded = true;
+        State(){}
+        public void checkedNode() {
+            this.checked = true;
+        }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof State)) return false;
+            State state = (State) o;
+            if (checked != null ? !checked.equals(state.checked) : state.checked != null) return false;
+            return expanded != null ? expanded.equals(state.expanded) : state.expanded == null;
+        }
+        @Override
+        public int hashCode() {
+            int result = checked != null ? checked.hashCode() : 0;
+            result = 31 * result + (expanded != null ? expanded.hashCode() : 0);
+            return result;
+        }
+        @Override
+        public String toString() {
+            return "State{" +
+                    "checked=" + checked +
+                    ", expanded=" + expanded +
+                    '}';
+        }
+        public Boolean getChecked() {
+            return checked;
+        }
+        public void setChecked(Boolean checked) {
+            this.checked = checked;
+        }
+        public Boolean getExpanded() {
+            return expanded;
+        }
+        public void setExpanded(Boolean expanded) {
+            this.expanded = expanded;
+        }
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("NodeDTO{");
-        sb.append("text='").append(text).append('\'');
-        sb.append(", tags=").append(tags);
-        sb.append(", nodes=").append(nodes);
-        sb.append('}');
-        return sb.toString();
+    public NodeDTO() {
+        this.state = new State();
     }
 
     @Override
@@ -48,6 +83,17 @@ public class NodeDTO {
         if (o == null || getClass() != o.getClass()) return false;
         NodeDTO nodeDTO = (NodeDTO) o;
         return Objects.equals(tags, nodeDTO.tags);
+
+    }
+
+    @Override
+    public String toString() {
+        return "NodeDTO{" +
+                "text='" + text + '\'' +
+                ", tags=" + tags +
+                ", state=" + state +
+                ", nodes=" + nodes +
+                '}';
     }
 
     @Override
@@ -77,5 +123,17 @@ public class NodeDTO {
 
     public void setNodes(List<NodeDTO> nodes) {
         this.nodes = nodes;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void nodeChecked() {
+        this.state.checkedNode();
     }
 }

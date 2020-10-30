@@ -6,7 +6,8 @@ package com.kclm.owep.dto;
 
 
 import com.kclm.owep.entity.Course;
-import jdk.management.resource.ResourceType;
+import com.kclm.owep.entity.ResourceType;
+//import jdk.management.resource.ResourceType;
 
 import java.time.LocalDateTime;
 

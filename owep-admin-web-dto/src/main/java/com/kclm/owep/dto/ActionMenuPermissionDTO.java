@@ -37,14 +37,20 @@ public class ActionMenuPermissionDTO implements Serializable {
         this.permissionId = permissionId;
     }
 
+    public ActionMenuPermissionDTO(Integer menuId, List<Integer> actionIds) {
+        this.menuId = menuId;
+        this.actionIds = actionIds;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ActionMenuPermissionDTO{");
-        sb.append("actionId=").append(actionId);
-        sb.append(", menuId=").append(menuId);
-        sb.append(", permissionId=").append(permissionId);
-        sb.append('}');
-        return sb.toString();
+        return "ActionMenuPermissionDTO{" +
+                "actionId=" + actionId +
+                ", menuId=" + menuId +
+                ", permissionId=" + permissionId +
+                ", actionIds=" + actionIds +
+                ", permissionIds=" + permissionIds +
+                '}';
     }
 
     @Override

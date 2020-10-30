@@ -13,6 +13,7 @@ import com.kclm.owep.entity.Menu;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author: ZhangQi
@@ -77,6 +78,8 @@ public interface MenuService {
      */
     ActionMenuPermissionDTO selectActionByPermissionId(Serializable perId,Serializable menuId);
 
+    Set<ActionMenuPermissionDTO> selectActionByPermissionIdFromAMP(Serializable perId);
+
     /**
      * 查询所有的行为，并封装成Node对象，需写死一个text为行为的父对象，在子（list中）
      * 写入数据库中所拥有的行为数据。text对应名字，tags对应id
@@ -99,4 +102,9 @@ public interface MenuService {
      * @return
      */
     NodeDTO selectActionByMenuId(Serializable menuId);
+
+    Menu selectChildMenus(Serializable menuId);
+
+    int assignActionToMenuAndPermission( ActionMenuPermissionDTO actionMenuPermissionDTO);
+
 }

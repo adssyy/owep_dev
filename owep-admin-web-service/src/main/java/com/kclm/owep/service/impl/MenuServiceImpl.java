@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author: ZhangQi
@@ -70,27 +67,73 @@ public class MenuServiceImpl implements MenuService {
         return -1;
     }
 
+
     @Override
     public MenuDTO selectById(Serializable id) {
         if (id != null) {
-            Menu menu = menuMapper.selectById(id);
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            MenuDTO menuDTO = mapperFacade.map(menu, MenuDTO.class);
+            Menu menu = selectChildMenus(id);
+//            System.out.println(menu);//todo
+            MenuDTO menuDTO = new MenuDTO();
+            menuDTO.setId(menu.getId());
+            menuDTO.setMenuName(menu.getMenuName());
+            menuDTO.setMenuUrl(menu.getMenuUrl());
+            menuDTO.setMenuDescription(menu.getMenuDescription());
+            List<MenuDTO> subMenus = new ArrayList<>();
+            for(Menu childMenu : menu.getChildMenus()) {
+                MenuDTO subMenu = new MenuDTO();
+                subMenu.setId(childMenu.getId());
+                subMenu.setMenuDescription(childMenu.getMenuDescription());
+                subMenu.setMenuName(childMenu.getMenuName());
+                subMenu.setMenuUrl(childMenu.getMenuUrl());
+                subMenu.setPid(menu.getId());
+                subMenus.add(subMenu);
+            }
+            menuDTO.setSubMenus(subMenus);
             return menuDTO;
-        } else {
+        }
+         else {
             throw new IllegalArgumentException("id值不合法");
         }
     }
 
     @Override
     public List<MenuDTO> selectAllMenu() {
-        List<Menu> menus = menuMapper.selectParent(0);
-        mapperFactory.classMap(Menu.class, MenuDTO.class)
-                .field("parent.id", "pid")
-                .byDefault()
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<MenuDTO> menuDTOS = mapperFacade.mapAsList(menus, MenuDTO.class);
+        List<Menu> menus = menuMapper.selectAll();
+        List<MenuDTO> menuDTOS =new ArrayList<>();
+        for (Menu menu: menus) {//
+            menu.setParent(menuMapper.selectParent(menu.getId()).getParent());
+
+                MenuDTO menuDTO = new MenuDTO();
+                menuDTO.setMenuName(menu.getMenuName());
+                menuDTO.setId(menu.getId());
+                menuDTO.setMenuDescription(menu.getMenuDescription());
+                menuDTO.setMenuUrl(menu.getMenuUrl());
+//                {
+//                    List<Menu> childMenus = menuMapper.selectMenuChild(menu.getId()).getChildMenus();
+//                    if(childMenus!=null&&childMenus.size()>0){//存在子菜单非空且不为零
+//                        List<MenuDTO> subMenus = new ArrayList<>();
+//                        for (Menu childMenu: childMenus) {
+//                            MenuDTO childDto = new MenuDTO();
+//                            childDto.setId(childMenu.getId());
+//                            childDto.setMenuName(childMenu.getMenuName());
+//                            childDto.setMenuDescription(childMenu.getMenuDescription());
+//                            childDto.setMenuUrl(childMenu.getMenuUrl());
+//                            childDto.setPid(menu.getId());
+////                        childDto.setSubMenus();//暂不考虑二阶以上菜单
+//                            subMenus.add(childDto);
+//                        }//子菜单队列已遍历
+//                        menuDTO.setSubMenus(subMenus);
+//                    }
+//                }//配置subMenus属性
+            if(menu.getParent()==null){//顶级则不设置pid
+//                System.out.println("一级菜单不设置pid");
+            }else{
+                menuDTO.setPid(menu.getParent().getId());
+//                System.out.println("此menu父为："+menu.getParent());//todo
+//                System.out.println("非一级菜单不处理");//todo
+            }//配置pid属性
+            menuDTOS.add(menuDTO);//平坦设置
+        }//遍历完
         return menuDTOS;
 
     }
@@ -102,8 +145,10 @@ public class MenuServiceImpl implements MenuService {
             for (Map.Entry<Integer, List<Integer>> next : entries) {
                 Integer key = next.getKey();
                 menuMapper.deleteByMenuIdInAPM(Arrays.asList(key));
-                List<Menu> menus = menuMapper.selectPermissionInMenu(key);
-                List<Permission> permissions = menus.get(0).getPermissions();
+                Menu menu = menuMapper.selectPermissionInMenu(key).get(0);
+//                System.out.println("===>"+ menu);//todo
+                List<Permission> permissions = menu.getPermissions();
+//                System.out.println("===>"+permissions);//todo
                 List<Integer> value = next.getValue();
                 for (Permission p : permissions) {
                     value.forEach(e -> menuMapper.assignActionToMenuAndPermission(key, e, p.getId()));
@@ -114,7 +159,23 @@ public class MenuServiceImpl implements MenuService {
             e.printStackTrace();
             return -1;
         }
+    }
 
+    public int assignActionToMenuAndPermission(ActionMenuPermissionDTO actionMenuPermissionDTO){
+        List<Integer> actionIds = actionMenuPermissionDTO.getActionIds();
+        Integer menuId = actionMenuPermissionDTO.getMenuId();
+        Integer permissionId = actionMenuPermissionDTO.getPermissionId();
+        try {
+            menuMapper.deleteByPermIdAndMenuIdInAPM(permissionId,menuId);
+            for (Integer actionId:actionIds){
+                System.out.println("assign action:"+actionId+"to P:"+permissionId+" M:"+menuId);//todo
+                menuMapper.assignActionToMenuAndPermission(menuId,actionId,permissionId);
+            }
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     @Override
@@ -142,6 +203,23 @@ public class MenuServiceImpl implements MenuService {
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         ActionMenuPermissionDTO map = mapperFacade.map(menus.get(0), ActionMenuPermissionDTO.class);
         return map;
+    }
+
+    @Override
+    public Set<ActionMenuPermissionDTO> selectActionByPermissionIdFromAMP(Serializable perId) {
+        List<Menu> menus = menuMapper.selectAllInAPM(0, perId, 0);
+        Set<ActionMenuPermissionDTO> resultSet = new HashSet<>();
+        for (Menu menu:menus) {
+            Integer menuId = menu.getId();
+            for(Action action :menu.getActions()){
+                ActionMenuPermissionDTO actionMenuPermissionDTO = new ActionMenuPermissionDTO();
+                actionMenuPermissionDTO.setActionId(action.getId());
+                actionMenuPermissionDTO.setMenuId(menuId);
+                actionMenuPermissionDTO.setPermissionId((Integer) perId);
+                resultSet.add(actionMenuPermissionDTO);
+            }
+        }
+    return resultSet;
     }
 
     @Override
@@ -191,4 +269,25 @@ public class MenuServiceImpl implements MenuService {
         nodeDTO.setNodes(nodeDTOS);
         return nodeDTO;
     }
+
+    @Override
+    public Menu selectChildMenus(Serializable menuId) {
+        Menu menu = menuMapper.selectMenuChild(menuId);
+//        System.out.println(menu);//TODO
+        List<Menu> childMenus = menu.getChildMenus();
+//        if(childMenus!=null&&childMenus.size()>0) {
+//            List<MenuDTO> subMenus = new ArrayList<>();
+//            for(Menu menu : menus){
+//                MenuDTO menuDTO =  new MenuDTO();
+//                menuDTO.setId(menu.getId());
+//                menuDTO.setMenuDescription(menu.getMenuDescription());
+//                menuDTO.setMenuName(menu.getMenuName());
+//                menuDTO.setMenuUrl(menu.getMenuUrl());
+//                if(menu.getParent()!=null)  menuDTO.setPid(menu.getParent().getId());
+//                subMenus.add(menuDTO);
+//            }//for
+            return menu;
+//        }//if
+//        return null;
+    }//method
 }

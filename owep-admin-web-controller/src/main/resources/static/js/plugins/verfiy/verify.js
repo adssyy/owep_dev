@@ -166,7 +166,7 @@
         	vOffset: 5,
             vSpace : 5,
             explain : '向右滑动完成验证',
-            imgUrl : '../static/public/images/',
+            imgUrl : "/owep/static/public/images/",
             imgName : ['1.jpg', '2.jpg'],
             imgSize : {
 	        	width: '400px',

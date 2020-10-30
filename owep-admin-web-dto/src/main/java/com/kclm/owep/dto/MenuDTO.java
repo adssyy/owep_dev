@@ -8,7 +8,7 @@ package com.kclm.owep.dto;
 import com.kclm.owep.entity.Menu;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author: ZhangQi
@@ -35,6 +35,37 @@ public class MenuDTO extends Menu {
      */
     private Integer pid;
 
+    /**
+     * 下级菜单
+     */
+    private List<MenuDTO> subMenus;
+
+    /**
+     * 图标
+     */
+    private String iconName;
+
+
+    static Map<String,String> name_icon = new TreeMap<>();
+    static{
+        name_icon.put("系统配置","fa fa-home");
+        name_icon.put("用户管理","fa fa-users");
+        name_icon.put("权限管理","fa fa-lock");
+        name_icon.put("资源管理","fa fa-database");
+        name_icon.put("培养方案","fa fa-flask");
+        name_icon.put("班级管理","fa fa-table");
+        name_icon.put("授课管理","fa fa-institution");
+        name_icon.put("考试管理","fa fa-tasks");
+        name_icon.put("考评管理","fa fa-flag");
+        name_icon.put("数据分析","fa fa-bar-chart-o");
+        name_icon.put("组织机构","fa fa-sitemap");
+        name_icon.put("通知公告","fa fa-bell");
+        name_icon.put("咨询管理","fa fa-commenting");
+        name_icon.put("意向客户","fa fa-user-plus");
+        name_icon.put("操作日志","fa fa-file");
+
+    }
+
     public MenuDTO() {
     }
 
@@ -44,16 +75,26 @@ public class MenuDTO extends Menu {
         this.menuDescription = menuDescription;
     }
 
+    public MenuDTO(Integer id, String menuName1, String menuDescription1, String menuUrl1, Integer pid, List<MenuDTO> subMenus) {
+        this.id = id;
+        this.menuName = menuName1;
+        this.menuDescription = menuDescription1;
+        this.menuUrl = menuUrl1;
+        this.pid = pid;
+        this.subMenus = subMenus;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("MenuDTO{");
-        sb.append("id=").append(id);
-        sb.append(", menuName='").append(menuName).append('\'');
-        sb.append(", menuDescription='").append(menuDescription).append('\'');
-        sb.append(", menuUrl='").append(menuUrl).append('\'');
-        sb.append(", pid=").append(pid);
-        sb.append('}');
-        return sb.toString();
+        return "MenuDTO{" +
+                "id=" + id +
+                ", menuName='" + menuName + '\'' +
+                ", menuDescription='" + menuDescription + '\'' +
+                ", menuUrl='" + menuUrl + '\'' +
+                ", pid=" + pid +
+                ", subMenus=" + subMenus +
+                ", iconName='" + iconName + '\'' +
+                '}';
     }
 
     @Override
@@ -88,7 +129,17 @@ public class MenuDTO extends Menu {
 
     @Override
     public void setMenuName(String menuName) {
+        this.iconName = name_icon.get(menuName);
         this.menuName = menuName;
+//        System.out.println("icon for "+menuName+" is "+iconName);
+    }
+
+    public String getIconName() {
+        return iconName;
+    }
+
+    public void setIconName(String iconName) {
+        this.iconName = iconName;
     }
 
     @Override
@@ -117,5 +168,13 @@ public class MenuDTO extends Menu {
 
     public void setPid(Integer pid) {
         this.pid = pid;
+    }
+
+    public List<MenuDTO> getSubMenus() {
+        return subMenus;
+    }
+
+    public void setSubMenus(List<MenuDTO> subMenus) {
+        this.subMenus = subMenus;
     }
 }

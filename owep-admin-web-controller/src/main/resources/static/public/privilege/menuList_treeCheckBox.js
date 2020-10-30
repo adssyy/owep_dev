@@ -9,7 +9,7 @@ function initCheckTree(o,id){
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             o.treeview({
-                data: data,
+                data: data[2],
                 levels: 2,
                 showCheckbox: 1,
                 showIcon: false,

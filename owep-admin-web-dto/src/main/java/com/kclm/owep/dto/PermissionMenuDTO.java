@@ -35,13 +35,13 @@ public class PermissionMenuDTO {
     }
 
     @Override
-    public String
-    toString() {
-        final StringBuilder sb = new StringBuilder("PermissionMenuDTO{");
-        sb.append("permissionId=").append(permissionId);
-        sb.append(", menuId=").append(menuId);
-        sb.append('}');
-        return sb.toString();
+    public String toString() {
+        return "PermissionMenuDTO{" +
+                "permissionId=" + permissionId +
+                ", menuId=" + menuId +
+                ", permissionIds=" + permissionIds +
+                ", menuIds=" + menuIds +
+                '}';
     }
 
     @Override

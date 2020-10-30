@@ -25,12 +25,12 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * 自关联查询 查询菜单的父级菜单
      * 传入0则查出所有菜单 并且查出其父级菜单
      */
-    List<Menu> selectParent(Serializable id);
+    Menu selectParent(Serializable id);
 
     /**
      * 自关联查询 查询子菜单 传入0则查询所有
      */
-    List<Menu> selectMenuChild(Serializable menuId);
+    Menu selectMenuChild(Serializable menuId);
 
     /**
      * 向中间表插入数据 给菜单分配行为 需要传入该菜单所关联的权限
@@ -56,6 +56,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     /**
      * 以行为ID删除中间表数据
+     *
      * @param actionId
      * @return
      */
@@ -63,10 +64,13 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     /**
      * 以权限ID删除中间表数据
+     *
      * @param perId
      * @return
      */
     int deleteByPerIdInAPM(List<Serializable> perId);
+
+    int deleteByPermIdAndMenuIdInAPM(@Param("perId") Serializable perId, @Param("menuId") Serializable menuId);
 
     /**
      * 外联查询 查询菜单所关联的行为 可利用ID查单个对象
