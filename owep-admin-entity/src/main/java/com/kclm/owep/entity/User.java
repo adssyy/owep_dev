@@ -3,6 +3,8 @@
  */
 package com.kclm.owep.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -70,6 +72,7 @@ public class User {
     /**
      * 用户截止有效期限
      */
+    @DateTimeFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime effectiveDate;
 
     /**

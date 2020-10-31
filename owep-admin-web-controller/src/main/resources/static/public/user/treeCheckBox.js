@@ -1,6 +1,7 @@
-function initCheckTree(tree,url){
+function initCheckTree(tree,url,id){
     $.ajax({
         url: url,
+        data:{id:id},
         dataType: "json",
         method: "get",
         contentType: 'application/json; charset=utf-8',

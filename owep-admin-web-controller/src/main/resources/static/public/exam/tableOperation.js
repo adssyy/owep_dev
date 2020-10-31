@@ -36,14 +36,14 @@ function deleteRecord(e, value, row, index, url, event) {
         confirmButtonText: "删除",
         closeOnConfirm: false
     }, function () {
-        alert(row.id);
         let id = row.id;
-        /* //发送ajax 删除
+        alert(id);
+         //发送ajax 删除
               $.ajax({
-                  url: appName+"/book/deleteSelect.do?id="+id,
+                  url: url+"?id="+id,
                   method: "get",
                   async: true,
-                  data: delete_data,
+                  data: id,
                   dataType: "text",   //期望服务端返回的数据类型
                   contentType: "application/json",
                   success: function (data) {
@@ -55,7 +55,7 @@ function deleteRecord(e, value, row, index, url, event) {
                   error: function (jqXHR) {
                       swal("删除失败！", "未知错误", "error");
                   }
-              });*/
+              });
         //根据Id字段删除对应的数据
         $(event).bootstrapTable('removeByUniqueId', id);
 
@@ -69,16 +69,17 @@ function deleteRecord(e, value, row, index, url, event) {
 * */
 function deleteAllRecords(url, event) {
     let rows = $(event).bootstrapTable('getAllSelections');
+    console.log(rows);
     if (rows.length == 0) {
         swal("至少选中一行！", "", "error");
         return false;
     }
-    let delete_data = [];
+    let userIds = [];
     for (let i = 0; i < rows.length; i++) {
-        delete_data.push(rows[i].userName)
+        userIds.push(rows[i].id)
     }
     swal({
-        title: "您确定要删除这" + delete_data.length + "条信息？",
+        title: "您确定要删除这" + userIds.length + "条信息？",
         text: "删除后将无法恢复，请谨慎操作！",
         type: "warning",
         showCancelButton: true,
@@ -86,26 +87,25 @@ function deleteAllRecords(url, event) {
         confirmButtonText: "删除",
         closeOnConfirm: false
     }, function () {
-        delete_data = JSON.stringify(rows);
-        alert(delete_data);
-        /* //发送ajax 删除
-         $.ajax({
-             url: appName+"/book/deleteSelect.do",
-             method: "post",
-             async: true,
-             data: delete_data,
-             dataType: "text",   //期望服务端返回的数据类型
-             contentType: "application/json",
-             success: function (data) {
-                 console.log(data.toString());
-                 swal("删除成功！", "您已经永久删除已选信息", "success");
-                 //重新加载页面
-                 window.location.reload();
-             },
-             error: function (jqXHR) {
-                 swal("删除失败！", "未知错误", "error");
-             }
-         });*/
+        alert(userIds);
+         //发送ajax 删除
+        $.ajax({
+            url: url,
+            method: "post",
+            async: true,
+            data: JSON.stringify(userIds),
+            dataType: "text",   //期望服务端返回的数据类型
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data.toString());
+                swal("删除成功！", "您已经永久删除已选信息", "success");
+                //重新加载页面
+                window.location.reload();
+            },
+            error: function (jqXHR) {
+                swal("删除失败！", "未知错误", "error");
+            }
+        });
         //获取对象
         let ids = $.map(rows, function (row) {
             return row.id
@@ -154,7 +154,7 @@ function promptMessage(url, title, text, btnText) {
 }
 
 /*查询记录操作*/
-function queryRecords(eventParentName, dataList, sunccess) {
+function queryRecords(eventParentName, dataList, success) {
     let queryList = dataList;
     let queryMap = new Map();
     let queryNullList = new Array()
@@ -165,30 +165,38 @@ function queryRecords(eventParentName, dataList, sunccess) {
             : queryMap.set(event.attr('name'), event.val());
     })
     //封装json数据
-    let query_data = '{';
-    queryMap.forEach(function (value, key, map) {
-        query_data += '"' + key + '":"' + value + '",';
-    })
-    query_data = query_data.substr(0, query_data.length - 1);
-    query_data = query_data + '}';
-    query_data.length > 1 ? alert(query_data) : "";
-    /* //发送ajax 查询
+    // let query_data = '{';
+    // queryMap.forEach(function (value, key, map) {
+    //     query_data += '"' + key + '":"' + value + '",';
+    // })
+    // query_data = query_data.substr(0, query_data.length - 1);
+    // query_data = query_data + '}';
+    // query_data.length > 1 ? alert(query_data) : "";
+
+    let formData="";
+        queryMap.forEach(function (value, key){
+        formData += key +'='+value +'&';
+    });
+        formData = formData.substr(0,formData.length - 1);
+     //发送ajax 查询
          $.ajax({
-             url: appName+"/book/deleteSelect.do",
-             method: "post",
+             url: "/owep/user/adminList/search",
+             method: "get",
              async: true,
-             data: query_data,
+             // data: query_data,
+             data:formData,
              dataType: "text",   //期望服务端返回的数据类型
              contentType: "application/json",
              success: function (data) {
                  console.log(data.toString());
                  //重新加载页面
-                 $('#tb_departments').bootstrapTable('load', data);
+                 console.log($('#tb_departments'));
+                 $('#tb_departments').bootstrapTable("load", data);
              },
              error: function (jqXHR) {
                  swal("搜索失败！", "未知错误", "error");
              }
-         });*/
+         });
     if (queryNullList.length > 0) {
         swal("搜索失败", "搜索数据不允许为空", "error");
         /*       queryNullList.forEach(function (item) {
@@ -197,10 +205,10 @@ function queryRecords(eventParentName, dataList, sunccess) {
     } else {
         swal("搜索成功！", "已为你重新加载数据", "success")
     }
-    /*    queryMap.forEach(function (key,value) {
-            console.log(value)
+        queryMap.forEach(function (key,value) {
+            console.log(value);
             $(''+eventParentName+' input[name='+value+']').css('border-color',"");
-        })*/
+        })
 }
 
 /*创建最基本的bootstrap-table表格(通用，使用案例在考试汇总中表创建操作)*/
@@ -237,23 +245,47 @@ function createTable(event, url, toolbar, search, data, method) {
 * 使用按钮详见exam->paperManagementList页面
 * */
 function echoDataForm(eventParentName, echoDataList, row) {
+    // console.log(eventParentName);
+    // console.log(echoDataList);
+    // console.log(row);
+
     function value(item, row) {
+        console.log("item:"+item);
         let value = "";
         for (let i in row) {
-            i == item ? value = row[i] : "";
+
+            if(i === item ){
+                console.log("i："+i);
+                value = row[i];
+            } //从row中找item,找到则复制值
         }
-        value == "" ? value = item : "";
+        value === "" ? value = item : "";//值若为空(row中没有对应值)，用item顶位
+        console.log("value"+value);
         return value;
     }
 
     echoDataList.forEach(function (item, index) {
-        (typeof item) == "object" ?
-            item.length == "3" && item[2] == "sweetalert" ?
-                (value(item[1], row) == '启用' && !item[0].isChecked()) || (value(item[1], row) == '禁用' && item[0].isChecked()) ?
-                    item[0].setPosition(true) : ""
-                : item[1] == "sex" ? $(eventParentName + ' input[value=\"' + value(item[0], row) + '\"]').prop("checked", true) :
-                $(eventParentName + ' input[name=\"' + item[0] + '\"]').val(value(item[1], row)) :
-            $(eventParentName + ' input[name=\"' + item + '\"]').val(value(item, row));
+        if(item === "gender"){//性别特别处理
+            $(eventParentName + 'input[value='+value("gender",row)+' ]').prop("checked", true)//单选value对应的gender框
+        }
+        if(item === "status"){//用户状态特别处理
+            let status_val =value(item[1], row);
+            console.log(status_val);
+            if (status_val==1){
+                item[0].setPosition(true);
+            }
+        }
+        $(eventParentName + ' input[name=\"' + item + '\"]').val(value(item, row));//其他普通文本
+
+
+        //这个不对应
+        // (typeof item) == "object" ?
+        //     item.length == "3" && item[2] == "sweetalert" ?
+        //         (value(item[1], row) == '启用' && !item[0].isChecked()) || (value(item[1], row) == '禁用' && item[0].isChecked()) ?
+        //             item[0].setPosition(true) : ""
+        //         : item[1] == "sex" ? $(eventParentName + ' input[value=\"' + value(item[0], row) + '\"]').prop("checked", true) :
+        //         $(eventParentName + ' input[name=\"' + item[0] + '\"]').val(value(item[1], row)) :
+        //     $(eventParentName + ' input[name=\"' + item + '\"]').val(value(item, row));
     })
 }
 
@@ -291,7 +323,7 @@ function getAjaxAsynchronousData(url, type , ceshi) {
                 type: type,
                 dataType: "json",
                 async: true,
-                success(result) {
+                success: function(result) {
                     pageData = result;
                     callbackData(pageData);
                     console.log("获取json数据的方法成功(异步)")

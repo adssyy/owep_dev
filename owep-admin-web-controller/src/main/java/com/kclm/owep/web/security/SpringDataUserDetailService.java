@@ -74,7 +74,7 @@ public class SpringDataUserDetailService implements UserDetailsService {
                 authoritiesCodes[index++] = menuId.toString()+"-"+actionId.toString();
             }
 
-
+            userService.refreshLoginTime(userDto.getId());
             return User.withUsername(userDto.getUserName()).password(userDto.getUserPwd()).roles().authorities(authoritiesCodes).build();
         }else{
             System.out.println("用户"+name+"无特殊权限");//todo

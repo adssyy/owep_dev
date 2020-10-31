@@ -8,6 +8,7 @@ import com.kclm.owep.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,17 +21,32 @@ public interface UserService {
      */
     int create(@Param("user") User user);
 
-    int updare(@Param("user") User user);
+    int update(@Param("user") User user);
+
+    int delete(@Param("id") Integer id);
 
     UserDto selectById(@Param("id") Integer id);
 
     UserDto selectByName(@Param("name") String name);
 
-//    GroupDTO getGroupByUserId(@Param("id") Integer id);
+    List<User> selectByType(@Param("type") Integer type);
+
+    List<Integer> getGroupIds(@Param("id") Serializable id);
+
+    int setGroups(@Param("userId") Integer userId, @Param("groupIds") List<Integer> groupIds);
+
+    //    GroupDTO getGroupByUserId(@Param("id") Integer id);
 
 //    List<Role> getRoleListByUserId(@Param("id") Integer id);
 
     List<Permission> getPermissionListByUserId(Integer id);
 
+    int refreshLoginTime(@Param("id") Integer id);
+
+    boolean isAvailable(@Param("id") Integer id);
+
+    int activate (@Param("id") Integer id);
+
+    int deactivate (@Param("id") Integer id);
 
 }

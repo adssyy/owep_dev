@@ -46,8 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()//请求url权限过滤
 //                .antMatchers("/static/**").permitAll()//放行对静态资源的请求
                 .antMatchers("/**").authenticated()
-                .antMatchers("/getMenu").authenticated()
-                .antMatchers("/privilege/**").authenticated()//在访问对应url时需要在security系统中已有身份(已登录)；具体的请求在controller中验证权限开放
+//                .antMatchers("/getMenu").authenticated()
+//                .antMatchers("/privilege/**").authenticated()//在访问对应url时需要在security系统中已有身份(已登录)；具体的请求在controller中验证权限开放
                 .anyRequest().permitAll()//对于剩余未作定义的默认为向所有访问公开
                 .and()
                 .exceptionHandling()//定义页面异常处理

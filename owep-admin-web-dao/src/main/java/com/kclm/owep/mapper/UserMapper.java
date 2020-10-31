@@ -79,6 +79,9 @@ public interface UserMapper extends BaseMapper<User> {
     @Override
     User selectById(@Param("id") Serializable id);
 
+    List<User> selectByType(@Param("type") Integer type);
+
+
     /******
      * @Author: ZhangShaowei
      * @Date: 2020/7/15 12:37
@@ -90,5 +93,10 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> selectAll();
 
 
-    Integer getGroupId(@Param("id") Serializable id);
+    List<Integer> getGroupId( Serializable id);
+
+    int deleteUserGroupAllocation( Serializable id);
+
+    int attachGroupToUser( Serializable uid ,  Serializable gid);
+
 }

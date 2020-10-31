@@ -31,7 +31,7 @@
       th:href="@{/static/css/plugins/sweetalert/sweetalert.css }">
 <!--时间控件-->
 <link href="../../static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
-      th:href="@{/static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
+      th:href="@{/static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css}"
       rel="stylesheet">
 <!--滑动按钮-->
 <link href="../../static/css/plugins/switchery/switchery.css"
@@ -794,19 +794,20 @@
     /**
      * 显示下拉按钮
      */
-    let url = '../../static/js/demo/user/stuListTest.json';
+    // let url = '../../static/js/demo/user/stuListTest.json';
+    let url = "/owep/user/stuList/suggest";
     /*班级*/
-    bsSuggest("#testNoBtn", url, "class");
+    bsSuggest("#testNoBtn", url, "clazz.className");
     /*姓名*/
-    bsSuggest("#testNoBtn2", url, "name");
+    bsSuggest("#testNoBtn2", url, "stuName");
     /*学校*/
-    bsSuggest("#testNoBtn3", url, "school");
+    bsSuggest("#testNoBtn3", url, "stuSchool");
     /*学院*/
-    bsSuggest("#testNoBtn4", url, "college");
+    bsSuggest("#testNoBtn4", url, "stuCollege");
     /*客服归属*/
     bsSuggest("#testNoBtn5", url, "customerBelongs");
     /*所在班级*/
-    bsSuggest("#testNoBtn6", url, "class");
+    bsSuggest("#testNoBtn6", url, "clazz");
     /*转到班级*/
     bsSuggest("#testNoBtn7", url, "class");
 
@@ -835,27 +836,27 @@
                 columns: [{
                     checkbox: true
                 }, {
-                    field: 'stuId',
+                    field: 'stuNumber',
                     title: '学号',
                     color: "red"
                 }, {
-                    field: 'name',
+                    field: 'stuName',
                     title: '姓名'
                 }, {
-                    field: 'sex',
+                    field: 'gender',
                     title: '性别'
                 }, {
-                    field: 'phone',
+                    field: 'stuPhone',
                     title: '手机'
                 }, {
-                    field: 'email',
+                    field: 'stuEmail',
                     title: '邮箱'
                 }, {
-                    field: 'startUsing',
+                    field: 'status',
                     title: '有效状态',
-                    formatter: addSlideChoiceBox,
+                    formatter: addSlideChoiceBox
                 }, {
-                    field: 'lastLandingTime',
+                    field: 'lastAccessTime',
                     title: '最后登陆时间'
                 }, {
                     field: 'operate',
@@ -868,9 +869,9 @@
                         },
                         'click button[title=修改]': function (e, value, row, index) {
                             //回显数据
-                            echoDataForm('form[id="form_modification_1"]',new Array('stuId',
-                                'name','phone','email','lastLandingTime',
-                                [switchery,'startUsing','sweetalert'],["sex","sex"]
+                            echoDataForm('form[id="form_modification_1"]',new Array('stuNumber',
+                                'sutName','stuPhone','stuEmail','lastAccessTime',
+                               'status','gender'
                             ),row);
                             $('#modal_modification').modal();
                         },
