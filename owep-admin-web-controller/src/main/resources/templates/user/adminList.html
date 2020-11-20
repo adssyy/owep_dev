@@ -19,13 +19,13 @@
       th:href="@{/static/css/style.css(v=4.1.0) }">
 <!--树形控件-->
 <link href="../../static/css/plugins/treeview/bootstrap-treeview.css" rel="stylesheet"
-      th:ref="@{/static/css/plugins/treeview/bootstrap-treeview.css}">
+      th:href="@{/static/css/plugins/treeview/bootstrap-treeview.css}">
 <!-- 弹出框插件 -->
 <link href="../../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"
       th:href="@{/static/css/plugins/sweetalert/sweetalert.css }">
 <!--时间控件-->
 <link href="../../static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
-      th:href="@{/static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
+      th:href="@{/static/public/user/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css}"
       rel="stylesheet">
 <!--滑动按钮-->
 <link href="../../static/css/plugins/switchery/switchery.css"
@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputName">姓名:</label>
-                        <input type="text" name="name" class="form-control" id="exampleInputName">
+                        <input type="text" name="realName" class="form-control" id="exampleInputName">
                     </div>
                     <button class="btn btn-success query" type="button">查询</button>
                     <button class="btn btn-danger deleteAll" type="button">删除</button>
@@ -69,6 +69,8 @@
     </div>
 </div>
 
+
+<!--添加 模窗-->
 <div class="modal  fade" id="modal_add" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -78,26 +80,26 @@
                 <h4 class="modal-title">添加管理</h4>
             </div>
             <div class="modal-body">
-                <form method="get" class="form-horizontal" id="form_add">
+                <form method="post" th:action="@{/user/adminList/addAdmin}"  class="form-horizontal" id="form_add">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="userName" class="form-control" placeholder="请输入用户名">
+                            <input type="text" id="add_userName" name="userName" class="form-control" placeholder="请输入用户名">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             密码</label>
                         <div class="col-sm-8">
-                            <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                            <input type="password" id="add_userPwd" name="userPwd" class="form-control" placeholder="请输入密码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="name" class="form-control" placeholder="请输入姓名">
+                            <input type="text" id="add_realName" name="realName" class="form-control" placeholder="请输入姓名">
                         </div>
                     </div>
                     <div class="form-group">
@@ -105,12 +107,11 @@
                             性别</label>
                         <div class="col-sm-8">
                             <label class="control-label">
-                                <input type="radio" checked="checked" value="男" name="sex">
+                                <input type="radio" checked="checked" value="1"  name="add_gender">
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
-
                             <label class="control-label">
-                                <input type="radio" value="女" name="sex">
+                                <input type="radio" value="0"  name="add_gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -119,41 +120,42 @@
                         <label class="col-sm-2 control-label">
                             手机</label>
                         <div class="col-sm-8">
-                            <input type="text" name="phone" class="form-control" placeholder="请输入手机号">
+                            <input type="text" id="add_userPhone" name="userPhone" class="form-control" placeholder="请输入手机号">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" name="email" class="form-control" placeholder="请输入邮箱">
+                            <input type="email" id="add_userEmail" name="userEmail" class="form-control" placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" name="lastLandingTime" class="form-control myData_add"
+                            <input type="text" id="add_effectiveDate" name="effectiveDate" class="form-control myData_add"
                                    placeholder="请输入截至日期">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="startUsing" class="js-switch form-control"/>
+                            <input type="checkbox" id="add_status" name="status" class="js-switch form-control"/>
                         </div>
                     </div>
                 </form>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary add">保存</button>
+                <button type="button" id="model_add_submit_btn" class="btn btn-primary add">保存</button>
             </div>
         </div>
     </div>
 </div>
 
+
+<!--模窗 修改-->
 <div class="modal  fade" id="modal_modification" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -163,32 +165,35 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="get" class="form-horizontal" id="form_modification">
+                <form method="post" th:action="@{/user/adminList/edit}" class="form-horizontal" id="form_modification">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
+                            <input type="text" id="edit_id" name="id" hidden>
+                            <input type="password" id="edit_userPwd" name="userPwd"  hidden>
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="userName" disabled="" class="form-control " placeholder="">
+                            <input type="text" id="edit_userName" name="userName" disabled="" class="form-control " placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="name" class="form-control " placeholder="">
+                            <input type="text" id="edit_realName" name="realName" class="form-control " placeholder="">
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             性别</label>
                         <div class="col-sm-8  ">
                             <label class="control-label">
-                                <input type="radio" name="sex" value="男" name="sex">
+                                <input type="radio"  value="1" name="edit_gender" >
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
 
                             <label class="control-label">
-                                <input type="radio" name="sex" value="女" name="sex">
+                                <input type="radio"  value="0" name="edit_gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -197,30 +202,29 @@
                         <label class="col-sm-2 control-label phone">
                             手机</label>
                         <div class="col-sm-8">
-                            <input type="text" name="phone" class="form-control" placeholder="">
+                            <input type="text" id="edit_userPhone" name="userPhone" class="form-control" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" name="email" class="form-control " placeholder="请输入邮箱">
+                            <input type="email" id="edit_userEmail" name="userEmail" class="form-control " placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" name="lastLandingTime" class="form-control myData_add " placeholder="">
+                            <input type="text" id="edit_effectiveDate" name="effectiveDate" class="form-control myData_add " placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="startUsing" class="js-switch form-control "/>
+                            <input type="checkbox" id="edit_status" name="status" class="js-switch form-control "/>
                         </div>
                     </div>
-
                 </form>
             </div>
 
@@ -232,6 +236,7 @@
     </div>
 </div>
 
+<!--模窗 关联-->
 <div class="modal  fade" id="modal_allocation" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -241,14 +246,15 @@
                 <h4 class="modal-title">分配用户组</h4>
             </div>
             <div class="modal-body">
-                <form method="get" class="form-horizontal" id="form_allocation">
+                <form method="post" th:action="@{/user/adminList/treeCheck_edit}" class="form-horizontal" id="form_allocation">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="name" disabled="" class="form-control" placeholder="请输入用户名">
+                            <input type="text" id="allc_userName" name="name" disabled="" class="form-control" placeholder="用户名未获取">
                         </div>
                     </div>
+                    <input type="text" id="allc_id" name="id" hidden>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             分配用户组</label>
@@ -316,37 +322,170 @@
         timeAllocationForTime(object);
     });
 </script>
-<!--树形控制-->
-<script>
-    $(function () {
-        let $treeview = $('#treeview_allocation');
-        let url = "../../static/js/demo/user/user_treeCheck_test.json";
-        initCheckTree($treeview, url);
-    });
-</script>
+
 <!--右上角按钮对的监听处理-->
 <script>
     $(document).ready(function () {
         /*删除多个按钮操作*/
         $('.deleteAll').click(function () {
-            deleteAllRecords("", '#tb_departments');
+            deleteAllRecords("/owep/user/adminList/deleteByGroup", '#tb_departments');
         });
 
         /*添加提交表单*/
-        $('.add').click(function () {
-            $('#form_add').submit();
-        });
-        /*修改提交表单*/
-        $('.modification').click(function () {
-            $('#form_modification').submit();
-        });
-        /*分配角色*/
-        $('.allocation').click(function () {
-            $('#form_allocation').submit();
+        let $add_submit_btn = $('#model_add_submit_btn');
+        $add_submit_btn.click(function () {
+            // console.log("add submit btn");
+            let userName = $("#add_userName").val();
+            let realName = $("#add_realName").val();
+            let userPwd = $("#add_userPwd").val();
+            let userPhone = $("#add_userPhone").val();
+            let userEmail = $("#add_userEmail").val();
+            let gender = $("input[name='add_gender']:checked").val();
+            let effectiveDate = $("#add_effectiveDate").val();
+            let status = $("#add_status").val();
+
+            console.log("status:"+status);
+            if(status === "on"){
+                status = 1;
+            }else{
+                status = 0;
+            }
+            let userData ={
+                userName:userName,
+                realName:realName,
+                userPwd:userPwd,
+                userPhone:userPhone,
+                userEmail:userEmail,
+                gender:gender,
+                effectiveData:effectiveDate,
+                status:status
+            };
+
+            console.log(userData);
+            let userJson = JSON.stringify(userData);
+
+            $.ajax({
+                method:"post",
+                url:"/owep/user/adminList/addAdmin",
+                async: "true",
+                data:userJson,
+                dataType:"text",
+                contentType:"application/json",
+                success:function(feedback){
+                    alert(feedback);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("添加未成功")
+                }
+                });
+            // $('#form_add').submit();
         });
 
+        /*修改提交表单*/
+        $('.modification').click(function () {
+            console.log("修改，提交。");
+            let id = $("#edit_id").val();
+            let userName = $("#edit_userName").val();
+            let realName = $("#edit_realName").val();
+            let userPwd = $("#edit_userPwd").val();
+            let userPhone = $("#edit_userPhone").val();
+            let userEmail = $("#edit_userEmail").val();
+            let gender = $("input[name='edit_gender']:checked").val();
+            let effectiveDate = $("#edit_effectiveDate").val();
+            let status = $("#edit_status").val();
+
+            console.log("status:"+status);
+            if(status === 1||status ===0){
+
+            }else   if(status === "on"){
+                        status = 1;
+                    }else{
+                        status = 0;
+                    }
+            let userData ={
+                id:id,
+                userName:userName,
+                realName:realName,
+                userPwd:userPwd,
+                userPhone:userPhone,
+                userEmail:userEmail,
+                gender:gender,
+                effectiveData:effectiveDate,
+                status:status
+            };
+            console.log(userData);
+            let userJson = JSON.stringify(userData);
+            $.ajax({
+                method:"post",
+                url:"/owep/user/adminList/edit",
+                async: "true",
+                data:userJson,
+                dataType:"text",
+                contentType:"application/json",
+                success:function(feedback){
+                    alert(feedback);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("修改未成功")
+                }
+            });
+            $('#form_modification').submit();
+        });
+
+
+        let $treeview = $('#treeview_allocation');
+
+
+        /*分配角色*/
+        $('.allocation').click(function () {
+            let userId = $("#allc_id").val();
+            var groupIds = [];
+            let checks = $treeview.treeview('getChecked');
+            console.log(checks);
+            $.each(checks, function (index, item) {
+                if (item.parentId!==undefined) {
+                    console.log(item.tags);
+                    groupIds.push(item.tags);
+                }
+            });
+            // s = JSON.stringify(s);
+            if (groupIds.length < 1) {
+                alert("至少选择一个");
+            } else {
+                let result = {userId: userId,groupIds: groupIds};
+                console.log(result);
+                if (confirm("确定添加这些数据么")) {
+                    alert("添加数据:" + result);
+                    // window.location.reload();
+                    //ajax发送异步请求
+                    $.ajax({
+                        url:  "/owep/user/adminList/treeCheck_edit",
+                        method: "post",
+                        data: JSON.stringify(result),
+                        dataType: "text",
+                        async: false,
+                        contentType: "application/json",
+                        success: function (data) {
+                            /!*重新加载本页面*!/
+                            window.location.reload();
+                            alert(data);
+                        },
+                        error: function (jqXRH) {
+                            console.log(jqXRH);
+                            alert("设置未同步")
+                        }
+                    })
+                }
+            }
+             console.log("分配，提交。");
+            $('#form_allocation').submit();
+        });
         $('.query').click(function () {
-            let dataList = new Array('userName','name');
+            let dataList = new Array('userName','realName');
             queryRecords('form[id="admin_query"]',dataList);
         });
         /*导出按钮操作*/
@@ -361,13 +500,18 @@
         //1.初始化Table
         TableInit().Init();
     });
+
+
+
+
+
     let TableInit = function () {
-        let oTableInit = new Object();
+        let oTableInit = {};
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
-                url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
-                // method: 'get',                      //请求方式（*）
+                url: '/owep/user/adminList/getTable',       //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
                 toolbar: '#toolbar',                //工具按钮用哪个容器
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -390,20 +534,20 @@
                     field: 'userName',
                     title: '用户名'
                 }, {
-                    field: 'name',
+                    field: 'realName',
                     title: '姓名'
                 }, {
-                    field: 'phone',
+                    field: 'userPhone',
                     title: '手机'
                 }, {
-                    field: 'email',
+                    field: 'userEmail',
                     title: '邮箱'
                 }, {
-                    field: 'startUsing',
+                    field: 'status',
                     title: '启用',
-                    formatter: addSlideChoiceBox,
+                    formatter: addSlideChoiceBox
                 }, {
-                    field: 'lastLandingTime',
+                    field: 'lastAccessTime',
                     title: '最后登陆时间'
                 }, {
                     field: 'operate',
@@ -411,20 +555,24 @@
                     width: 150,
                     formatter: addFunctionAlty,//表格中增加按钮  
                     events: {
-                        'click button[title=删除]': function (e, value, row, index) {
-                            deleteRecord(e, value, row, index, "", '#tb_departments');
+                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                            // let $adminListTable = $("#tb_departments");
+                           deleteRecord(e, value, row, index, "/owep/user/adminList/delete", '#tb_departments');
                         },
-                        'click button[title=修改]': function (e, value, row, index) {
+
+                        'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
                             //回显数据
-                            echoDataForm('form[id="form_modification"]',new Array(
-                                'userName','name','phone','email','lastLandingTime','major',
-                                [switchery,'startUsing','sweetalert'],["sex","sex"],'customerBelongs'
-                            ),row)
+                            echoDataForm('form[id="form_modification"]', new Array(
+                                'id','userName', 'userPwd','realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status','gender'
+                            ), row);
                             $('#modal_modification').modal();
                         },
-                        'click button[title=分配用户组]': function (e, value, row, index) {
+
+                        'click button[title=分配用户组]': function (e, value, row, index) {//动态嵌入按键：关系绑定
                             //回显数据
-                            $('form[id="form_allocation"] input[name="name"]').val(row.name);
+                            $("#allc_userName").val(row.userName);
+                            $("#allc_id").val(row.id);
+                            getTreeView();
 
                             $('#modal_allocation').modal();
                         },
@@ -433,22 +581,28 @@
             });
         };
 
+        let $treeview = $('#treeview_allocation');
+        function getTreeView() {
+            let url = "/owep/user/adminList/treeCheck";
+            let id = $("#allc_id").val();
+            initCheckTree($treeview, url,id);
+        }
+
+
         function addSlideChoiceBox(value, row, index) {
-            if (value == '启用') {
-                return ' <input type="checkbox" class="js-switch-1 form-control" checked/>'
+            if (value == '1') {
+                return ' <input type="checkbox" class="js-switch-1 form-control" userId="'+row.id+'" checked/>'
             }
-            if (value == '不启用') {
-                return ' <input type="checkbox" class="js-switch-1 form-control"/>'
+            if (value == '0') {
+                return ' <input type="checkbox" class="js-switch-1 form-control" userId="'+row.id+'" />'
             }
         }
 
 
         function addFunctionAlty(value, row, index) {
-            return '<button id = "+id+" type = "button" class = "btn btn-white" title="修改" ' +
-                '> <i class="glyphicon glyphicon-edit"/> </button>' +
-                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
-                '<button id = "+id+" type = "button" class = "btn btn-white" title="分配用户组"' +
-                '> <i class="glyphicon glyphicon-share text-success"/> </button>'
+            return '<button id = "+id+" value="'+row.id+'" type = "button" class = "btn btn-white" title="修改" > <i class="glyphicon glyphicon-edit"/> </button>' +
+                   '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
+                   '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="分配用户组"> <i class="glyphicon glyphicon-share text-success"/> </button>'
                 ;
         }
 
@@ -465,7 +619,7 @@
         return oTableInit;
     };
 
-    /*滑动按钮初始化*/D
+    /*滑动按钮初始化*/
     function switchInit(value, row, index) {
         //页面如何有多个互动按钮必须需要这些js代码
         let elems = Array.prototype.slice.call($('.js-switch-1'));
@@ -473,25 +627,50 @@
             /* size: 'normal' 控制大小*/
             let switchery = new Switchery(html);
             html.onchange = function () {
-                alert(html.checked);
+                console.log("user status:"+html.checked);
+                let userId = $(this).attr("userId");
+                let status;
+                if(html.checked==true){
+                    alert("用户启用"+userId);
+                    status = 1;
+                }else{
+                    alert("禁用用户"+userId);
+                    status = 0;
+                }
+                let switch_data ={
+                    userId: userId,
+                    status: status
+                };
+
+                //Todo Ajax
+                $.ajax({
+                    url: "/owep/user/adminList/switch",
+                    method: "get",
+                    async: true,
+                    data:switch_data,
+                    dataType: "text",   //期望服务端返回的数据类型
+                    contentType: "application/json",
+                    error: function (jqXHR) {
+                        swal("同步失败！", "请稍后重试", "error");
+                    }
+                });
             }
         });
 
     }
 
-</script>
-<!--滑动按钮控制-->
-<script>
+
     //页面如何有多个互动按钮必须需要这些js代码
     let switchery;
     let elems = Array.prototype.slice.call($('.js-switch'));
-    elems.forEach(function (html) {
+    elems.forEach(function (index,row,html) {
         /* size: 'normal' 控制大小*/
         switchery = new Switchery(html);
         html.onchange = function () {
-            //TODO 发送ajax请求
-            alert(html.checked);
+
+
         }
     });
 </script>
+
 </html>

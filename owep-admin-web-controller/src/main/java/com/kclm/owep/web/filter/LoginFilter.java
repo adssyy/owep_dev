@@ -15,9 +15,9 @@ import java.io.IOException;
  * @Author yejf
  * @Description 认证过滤器【登录过滤器】
  */
-@Order(1)
-@WebFilter(urlPatterns = {"/user/*"},filterName = "loginFilter", dispatcherTypes =
-        {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ASYNC})
+//@Order(1)
+//@WebFilter(urlPatterns = {"/user/*"},filterName = "loginFilter", dispatcherTypes =
+//        {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ASYNC})//不使用，过滤交由spring security 完成
 public class LoginFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(LoginFilter.class);

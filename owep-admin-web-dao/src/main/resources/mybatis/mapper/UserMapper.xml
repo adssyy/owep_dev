@@ -52,10 +52,10 @@
   </select>
 
   <!--根据id逻辑删除记录,改变is_delete的状态-->
-  <update id="deleteById" parameterType="java.lang.Integer">
-    update t_user set is_delete = 1
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_user
     where id = #{id,jdbcType=INTEGER}
-  </update>
+  </delete>
 
   <!--逻辑删除查询出来集合里的记录,改变is_delete的状态-->
   <update id="deleteSelect" parameterType="java.lang.Integer">
@@ -283,4 +283,21 @@
     where user_id = #{id}
 
   </select>
+
+  <insert id="attachGroupToUser">
+    insert into t_user_group(user_id, group_id) value(#{uid},#{gid})
+  </insert>
+
+
+  <delete id="deleteUserGroupAllocation">
+    delete from t_user_group where user_id = #{id}
+  </delete>
+
+  <select id="selectByType" resultType="com.kclm.owep.entity.User">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_type =  #{type}
+    </select>
+
 </mapper>

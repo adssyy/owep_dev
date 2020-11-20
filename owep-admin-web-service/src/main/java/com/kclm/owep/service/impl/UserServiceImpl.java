@@ -12,15 +12,28 @@ import com.kclm.owep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.naming.ldap.HasControls;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper mapper;
+
+    @Override
+    public int setGroups(Integer userId, List<Integer> groupIds) {
+        mapper.deleteUserGroupAllocation(userId);
+        for (Integer groupId : groupIds){
+            mapper.attachGroupToUser(userId,groupId);
+        }
+        return 0;
+    }
 
     @Override
     public int create(User user) {
@@ -36,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updare(User user) {
+    public int update(User user) {
         if (user.getId()==null||mapper.selectById(user.getId())==null){
             System.out.println("Id not exist, switch to create.");
             create(user);
@@ -48,6 +61,17 @@ public class UserServiceImpl implements UserService {
             return 0;
         }
         return 1;
+    }
+
+    @Override
+    public int delete(Integer id) {
+        try{
+            mapper.deleteById(id);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
@@ -72,12 +96,26 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    @Override
+    @Override
+    public List<User> selectByType(Integer type) {
+        List<User> users = mapper.selectByType(type);
+        return users;
+    }
+
+    //    @Override
 //    public GroupDTO getGroupByUserId(Integer id) {
 //        Integer groupId = mapper.getGroupId(id);
 //        GroupDTO groupDTO = new GroupServiceImpl().selectById(groupId);
 //        return groupDTO;
 //    }
+
+
+
+    @Override
+    public List<Integer> getGroupIds(Serializable id) {
+        List<Integer> groupIds = mapper.getGroupId(id);
+        return groupIds;
+    }
 
     @Autowired
     GroupService groupService;
@@ -87,11 +125,69 @@ public class UserServiceImpl implements UserService {
     PermissionService permissionService;
 
     @Override
+    public int refreshLoginTime(Integer id) {
+        try{
+            User user = mapper.selectById(id);
+            user.setLastAccessTime(LocalDateTime.now());
+            mapper.update(user);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean isAvailable(Integer id) {
+        User user = mapper.selectById(id);
+        Integer status = user.getStatus();
+        if(status==1){//status：   1:启用  0:禁用
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public int activate(Integer id) {
+        try{
+            User user = mapper.selectById(id);
+            user.setStatus(1);
+            mapper.update(user);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int deactivate(Integer id) {
+        try{
+            User user = mapper.selectById(id);
+            user.setStatus(0);
+            mapper.update(user);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
     public List<Permission> getPermissionListByUserId(Integer id) {
-        Integer groupId = mapper.getGroupId(id);
+        List<Integer> groupIds = mapper.getGroupId(id);
 //        System.out.println("=================>"+groupId);
-        GroupRoleDTO groupRoleDTO = groupService.selectRolesByGroupId(groupId);
-        List<Integer> roleIds = groupRoleDTO.getRoleIds();//从用户组id到角色id
+        Set<Integer> roleIds = new HashSet<>();
+        for (Integer groupId : groupIds){
+            GroupRoleDTO groupRoleDTO = groupService.selectRolesByGroupId(groupId);
+            List<Integer> roleIds1 = groupRoleDTO.getRoleIds();
+            if (roleIds1!=null &&roleIds1.size()>1){
+                roleIds.addAll(roleIds1);//从用户组id到角色id
+            }
+
+        }
+
         List<Integer> permissionIdList = new ArrayList<Integer>();
         for (Integer roleId : roleIds) {
             RolePermissionDTO rolePermissionDTO = roleService.selectPermissionByRoleId(roleId);
