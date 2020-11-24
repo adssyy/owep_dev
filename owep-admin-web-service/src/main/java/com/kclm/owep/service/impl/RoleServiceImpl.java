@@ -93,7 +93,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleDTO> selectAllRoles(int pageNum) {
         if (pageNum >= 0) {
-            PageHelper.startPage(pageNum, PAGE_SIZE);
+            //PageHelper.startPage(pageNum, PAGE_SIZE);
             List<Role> roles = roleMapper.selectAll();
             MapperFacade mapperFacade = mapperFactory.getMapperFacade();
             List<RoleDTO> roleDTOS = mapperFacade.mapAsList(roles, RoleDTO.class);

@@ -14,11 +14,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -37,8 +39,18 @@ public class LoginController {
 //    UserServiceImpl userService ;
 
     @PostMapping("/login")
-    public String loginAuthentication(String username, String password){
+    public String loginAuthentication(String username, String password, HttpSession session){
         System.out.println("having msg: username:"+username+",password:"+password);
+        //可以通过 SecurityContextHolder来获取认证过的对象
+        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            //
+            UserDetails user = (UserDetails)principal;
+            //
+            System.out.println("认证过的用户是："+user.getUsername());
+            //
+            session.setAttribute("LOGIN_USER", user);
+        }
         return "/index.html";
     }
     @Autowired

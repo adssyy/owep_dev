@@ -81,7 +81,7 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public List<ActionDTO> selectAllAction(int pageNum) {
         if (pageNum >= 0) {
-            PageHelper.startPage(pageNum, PAGE_SIZE);
+            //PageHelper.startPage(pageNum, PAGE_SIZE);
             List<Action> actions = actionMapper.selectAll();
             MapperFacade mapperFacade = mapperFactory.getMapperFacade();
             List<ActionDTO> actionDTOS = mapperFacade.mapAsList(actions, ActionDTO.class);
