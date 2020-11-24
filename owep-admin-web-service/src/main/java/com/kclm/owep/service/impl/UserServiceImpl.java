@@ -128,8 +128,11 @@ public class UserServiceImpl implements UserService {
     public int refreshLoginTime(Integer id) {
         try{
             User user = mapper.selectById(id);
-            user.setLastAccessTime(LocalDateTime.now());
-            mapper.update(user);
+            if(user != null) {
+                user.setLastAccessTime(LocalDateTime.now());
+                mapper.update(user);
+            }
+            //
             return 1;
         }catch (Exception e){
             e.printStackTrace();

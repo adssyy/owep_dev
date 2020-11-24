@@ -24,96 +24,12 @@
     <!--<typeAliases>
         <package name="com.kclm.owep.entity"/>
     </typeAliases>-->
-
-    <!-- 在其它的映射文件没有修改好的情况下，需要对自己的mapper进行测试时使用，以后会删除掉 -->
-    <!--<mappers>
-        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
-        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
-        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
-        &lt;!&ndash;Start_Privilege&ndash;&gt;
-        <mapper resource="mybatis/mapper/ActionMapper.xml"/>
-        <mapper resource="mybatis/mapper/PermissionMapper.xml"/>
-        <mapper resource="mybatis/mapper/GroupMapper.xml"/>
-        <mapper resource="mybatis/mapper/RoleMapper.xml"/>
-        <mapper resource="mybatis/mapper/MenuMapper.xml"/>
-        &lt;!&ndash;End&ndash;&gt;
-
-
-        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
-        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
-        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
-
-
-        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
-        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
-
-
-
-        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
-        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
-        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/ResourceTypeMapper.xml"/>
-        <mapper resource="mybatis/mapper/ResourceMapper.xml"/>
-
-
-        <mapper resource="mybatis/mapper/AdviceMapper.xml"/>
-        <mapper resource="mybatis/mapper/QuestionMapper.xml"/>
-        <mapper resource="mybatis/mapper/QuestionReplyMapper.xml"/>
-        <mapper resource="mybatis/mapper/ClazzMapper.xml"/>
-        <mapper resource="mybatis/mapper/ProfessionMapper.xml"/>
-        &lt;!&ndash;yejx 开始&ndash;&gt;
-        <mapper resource="mybatis/mapper/AssignRecordMapper.xml"/>
-        <mapper resource="mybatis/mapper/PlanManagerMapper.xml"/>
-        <mapper resource="mybatis/mapper/ChannelMapper.xml"/>
-        <mapper resource="mybatis/mapper/ChannelTypeMapper.xml"/>
-        <mapper resource="mybatis/mapper/ChapterMapper.xml"/>
-        <mapper resource="mybatis/mapper/ClientMapper.xml"/>
-        <mapper resource="mybatis/mapper/ClientNoteMapper.xml"/>
-        <mapper resource="mybatis/mapper/CourseCategoryMapper.xml"/>
-        <mapper resource="mybatis/mapper/CourseCommentMapper.xml"/>
-        <mapper resource="mybatis/mapper/CourseMapper.xml"/>
-        <mapper resource="mybatis/mapper/CourseReportMapper.xml"/>
-        <mapper resource="mybatis/mapper/PlanManagerCourseMapper.xml"/>
-        <mapper resource="mybatis/mapper/SectionMapper.xml"/>
-        <mapper resource="mybatis/mapper/SectionVideoMapper.xml"/>
-        &lt;!&ndash;yejx结束&ndash;&gt;
-        <mapper resource="mybatis/mapper/NewsMapper.xml"/>
-        <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/ReleaseMapper.xml"/>
-        <mapper resource="mybatis/mapper/ReleaseLogMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/NewsMapper.xml"/>
-        <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/OrgInstituteMapper.xml"/>
-        <mapper resource="mybatis/mapper/BranchInstituteMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/ProfessionMapper.xml"/>
-        <mapper resource="mybatis/mapper/HomeworkMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/NewsMapper.xml"/>
-        <mapper resource="mybatis/mapper/NoticeMapper.xml"/>
-        <mapper resource="mybatis/mapper/StudentMapper.xml"/>
-        <mapper resource="mybatis/mapper/VideoMapper.xml"/>
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-=======
-        <mapper resource="mybatis/mapper/EvaluateMapper.xml"/>
-        <mapper resource="mybatis/mapper/HomeworkAnswerMapper.xml"/>
-        <mapper resource="mybatis/mapper/LeaveMapper.xml"/>
-        <mapper resource="mybatis/mapper/IllegalMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/UserMapper.xml"/>
->>>>>>> 0d9db06f2366397a8e30a699c566bc5ae8e8f112
-        <mapper resource="mybatis/mapper/UserMapper.xml"/>
-
-        <mapper resource="mybatis/mapper/DbCopyMapper.xml"/>
-        <mapper resource="mybatis/mapper/SystemConfigMapper.xml"/>
-        <mapper resource="mybatis/mapper/SystLogMapper.xml"/>
-    </mappers>-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--reasonable：分页合理化参数，默认值为false。 当该参数设置为 true 时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页。
+                默认false 时，直接根据参数进行查询。 -->
+            <property name="reasonable" value="true"/>
+            <property name="properties" value="mysql"/>
+        </plugin>
+    </plugins>
 </configuration>

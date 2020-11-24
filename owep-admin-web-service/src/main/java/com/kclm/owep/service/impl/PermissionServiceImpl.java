@@ -93,7 +93,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public List<PermissionDTO> selectAllPermission(int pageNum) {
         if (pageNum >= 0) {
-            PageHelper.startPage(pageNum, PAGE_SIZE);
+            //PageHelper.startPage(pageNum, PAGE_SIZE);
             List<Permission> permissions = permissionMapper.selectAll();
             MapperFacade mapperFacade = mapperFactory.getMapperFacade();
             List<PermissionDTO> permissionDTOS = mapperFacade.mapAsList(permissions, PermissionDTO.class);

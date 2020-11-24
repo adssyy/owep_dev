@@ -325,7 +325,7 @@ public class PrivilegeController {
     @PreAuthorize("hasAuthority('35-21')")
     @ResponseBody
     public Object getPrivTable(@RequestParam("offset") int offset){
-        System.out.println("priv rolePriv get table");
+        System.out.println("priv rolePriv get table: "+offset);
         List<PermissionDTO> permissionDTOS = permissionService.selectAllPermission(offset);
         System.out.println("rolePriv permiList:"+permissionDTOS);
         return permissionDTOS;

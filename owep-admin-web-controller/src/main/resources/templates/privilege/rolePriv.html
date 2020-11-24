@@ -251,7 +251,7 @@
                         return [
                             '<button class="btn btn-white" value="' + row.id + '" type="button" data-toggle="tooltip" data-placement="bottom" title="修改"><i class="glyphicon glyphicon-edit"/> </button>',
                             '<button class="btn btn-white" value="' + row.id + '" type="button" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="glyphicon glyphicon-trash text-danger"/></button>',
-                            '<button class="btn btn-white" value="' + row.id + '" type="button"  data-toggle="tooltip" data-placement="bottom" title="分配角色"><i class="glyphicon glyphicon-share text-success" /></button>',
+                            '<button class="btn btn-white" value="' + row.id + '" type="button"  data-toggle="tooltip" data-placement="bottom" title="分配菜单"><i class="glyphicon glyphicon-share text-success" /></button>',
                         ].join('');
                     }
 
@@ -326,12 +326,11 @@
              })
         });
 
-        $rolePrivilegeTable.on("click", "button[title='分配角色']", function () {
+        $rolePrivilegeTable.on("click", "button[title='分配菜单']", function () {
             /*初始化树形复选框*/
             let id=$(this).val();
             let name = this.parentNode.parentNode.childNodes[2].textContent;
             initListTree(id,name);
-
         });
 
         /*添加模态窗提交*/

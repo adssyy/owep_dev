@@ -73,7 +73,7 @@ public class SpringDataUserDetailService implements UserDetailsService {
                 Integer actionId = am.getActionId();
                 authoritiesCodes[index++] = menuId.toString()+"-"+actionId.toString();
             }
-
+            //刷新用户登录时间
             userService.refreshLoginTime(userDto.getId());
             return User.withUsername(userDto.getUserName()).password(userDto.getUserPwd()).roles().authorities(authoritiesCodes).build();
         }else{
