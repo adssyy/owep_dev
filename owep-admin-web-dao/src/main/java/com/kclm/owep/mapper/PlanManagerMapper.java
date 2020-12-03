@@ -46,5 +46,8 @@ public interface PlanManagerMapper extends BaseMapper<PlanManager> {
     @Override
     List<PlanManager> selectAll();
 
+    List<PlanManager> selectByField(String planNumber,String planName);
 
+    @Override
+    PlanManager selectById(Serializable id);
 }

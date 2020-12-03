@@ -69,8 +69,10 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
       <if test="videoStatus != null">
         video_status,
       </if>
+      <if test="course != null">
       <if test="course.id != null">
         fk_course_id,
+      </if>
       </if>
       <if test="isDelete != null">
         is_delete,
@@ -104,8 +106,10 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
       <if test="videoStatus != null">
         #{videoStatus,jdbcType=INTEGER},
       </if>
+      <if test="course != null">
       <if test="course.id != null">
         #{course.id,jdbcType=INTEGER},
+      </if>
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=INTEGER},
@@ -141,8 +145,10 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
       <if test="videoStatus != null">
         video_status = #{videoStatus,jdbcType=INTEGER},
       </if>
+      <if test="course != null">
       <if test="course.id != null">
         fk_course_id = #{course.id,jdbcType=INTEGER},
+      </if>
       </if>
         version = version + 1 ,
         last_access_time = now(),
