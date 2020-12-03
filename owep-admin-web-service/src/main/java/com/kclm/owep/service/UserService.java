@@ -35,9 +35,6 @@ public interface UserService {
 
     int setGroups(@Param("userId") Integer userId, @Param("groupIds") List<Integer> groupIds);
 
-    //    GroupDTO getGroupByUserId(@Param("id") Integer id);
-
-//    List<Role> getRoleListByUserId(@Param("id") Integer id);
 
     List<Permission> getPermissionListByUserId(Integer id);
 
