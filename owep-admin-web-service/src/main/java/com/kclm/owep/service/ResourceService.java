@@ -6,6 +6,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.ResourceDTO;
 import com.kclm.owep.entity.Resource;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  *@Create 2020/7/15 0015 17:12
  *@Description 文件管理业务层
  */
+@Service
 public interface ResourceService {
 
     /**
@@ -39,7 +41,7 @@ public interface ResourceService {
     int deleteResource(Serializable id);
 
     /**
-     * 跟新实体对象
+     * 更新实体对象
      */
     int updateResource(Resource resource);
 
@@ -50,7 +52,22 @@ public interface ResourceService {
 
     /**
      * 修改文档管理
+     *
+     * 未实现
      */
-    int alterResource(Resource resource);
+   /* int alterResource(Resource resource);*/
 
+    /**
+     * @author zhang_hy
+     * @date 2020-12-3 11:17
+     * @For 查询所有后缀
+     */
+    List<String> selectResourceSuffix();
+
+    /**
+     * @author zhang_hy
+     * @date 2020-12-3 11:36
+     * @For 根据关键字模糊搜索
+     */
+    List<Resource> findByKeyword(String keyword);
 }

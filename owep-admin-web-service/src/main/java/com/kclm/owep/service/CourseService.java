@@ -137,4 +137,19 @@ public interface CourseService {
      */
     int addSectionVideo(SectionVideo sectionVideo);
 
+    /**
+     * @author zhang_hy
+     * @date 2020-12-2 16:47
+     * @For  根据id查询课程
+     */
+    Course findCourseById(Serializable id);
+
+    /**
+     * @author zhang_hy
+     * @date 2020-12-2 17:29
+     * @For 根据id查询章节
+     */
+
+    List<Section> selectAllById(Serializable id);
+
 }

@@ -34,6 +34,13 @@ public class ResourceTypeDTO implements java.io.Serializable{
      */
     private LocalDateTime createTime;
 
+    /***
+     * 逻辑删除，1表示未删除，0表示已删除
+     */
+    private Integer isDelete;
+
+
+
 
     public Integer getId() {
         return id;
@@ -67,13 +74,22 @@ public class ResourceTypeDTO implements java.io.Serializable{
         this.createTime = createTime;
     }
 
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("ResourceTypeDTO{");
         sb.append("id=").append(id);
         sb.append(", typeName='").append(typeName).append('\'');
         sb.append(", typeDesc='").append(typeDesc).append('\'');
-        sb.append(", createTime=").append(createTime);
+        sb.append(", createTime=").append(createTime).append('\'');
+        sb.append(", isDelete=").append(isDelete);
         sb.append('}');
         return sb.toString();
     }

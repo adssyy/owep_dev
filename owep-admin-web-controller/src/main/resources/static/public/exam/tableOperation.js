@@ -164,14 +164,6 @@ function queryRecords(eventParentName, dataList, success) {
             queryNullList.push($('' + eventParentName + ' input[name=' + item + ']'))
             : queryMap.set(event.attr('name'), event.val());
     })
-    //封装json数据
-    // let query_data = '{';
-    // queryMap.forEach(function (value, key, map) {
-    //     query_data += '"' + key + '":"' + value + '",';
-    // })
-    // query_data = query_data.substr(0, query_data.length - 1);
-    // query_data = query_data + '}';
-    // query_data.length > 1 ? alert(query_data) : "";
 
     let formData="";
         queryMap.forEach(function (value, key){

@@ -13,9 +13,9 @@
     <link href="../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet"
           th:href="@{/static/css/font-awesome.css(v=4.4.0)}">
     <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
-          th:ref="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
     <link href="../../static/css/plugins/treegrid/jquery.treegrid.css" rel="stylesheet"
-          th:ref="@{/static/css/plugins/treegrid/jquery.treegrid.css}">
+          th:href="@{/static/css/plugins/treegrid/jquery.treegrid.css}">
     <!-- Sweet Alert -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"
           th:href="@{/static/css/plugins/sweetalert/sweetalert.css}">
@@ -66,7 +66,7 @@
         }
     </style>
 </head>
-<!--by qi-->
+
 <body class="gray-bg">
 <div id="toolbar">
     <div class="btn-group">
@@ -76,12 +76,11 @@
         </button>
         <ul class="dropdown-menu" style="left: 0;width: 50px">
             <li value="all" name="all"><a href="#">全部</a></li>
-            <li th:value="" name="me"><a href="#">我</a></li>
+            <li value="me" name="me"><a href="#">我</a></li>
         </ul>
 
     </div>
-    <button class="btn btn-success" data-toggle="modal" data-target="#upModal">上传</button>
-    <!--<button class="btn btn-danger" id="delAll">批量删除</button>-->
+    <button class="btn btn-success" data-toggle="modal" data-target="#addModal">上传</button>
 </div>
 <div class="ibox-content">
     <div class="row">
@@ -95,7 +94,7 @@
 </div>
 
 <!--上传模态窗-->
-<div class="modal fade" id="upModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg " role="document">
         <div class="modal-content">
             <!-- 模态框头部定义 -->
@@ -114,8 +113,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="file-loading">
-                            <input id="input-multiple" name="input-fa" type="file" accept="video/*" multiple
-                                   webkitdirectory>
+                            <input id="input-multiple" name="input-fa" type="file" accept="video/*" multiple webkitdirectory /> >
                         </div>
                     </div>
                 </div>
@@ -166,25 +164,19 @@
             </div>
             <!--体部定义-->
             <div class="modal-body">
-                <form th:action="@{/}" class="form-horizontal" name="updateFileNameForm" method="post">
+                <form th:action="@{/resources/videoMgmt/update}" class="form-horizontal" name="updateFileNameForm" method="post">
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label">文件名:</label>
                         <div class="col-md-6">
-                            <input type="text" th:values="" name="fileName" value="" class="form-control">
+                            <input type="text"  name="fileName" value="" class="form-control">
                         </div>
-                        <!--<div class="col-md-offset-1 col-md-2">
-                            <label class="control-label"  hidden tip="name">msg</label>
-                        </div>-->
                     </div>
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label ">文件大小:</label>
                         <div class="col-md-6">
-                            <input type="text" th:value="" value="800MB" readonly name="fileSize" class="form-control"
+                            <input type="text" value="800MB" readonly name="fileSize" class="form-control"
                                    rows="3">
                         </div>
-                        <!--<div class="col-md-offset-1 col-md-2">
-                          &lt;!&ndash;  <label class="control-label" tip="description">msg</label>&ndash;&gt;
-                        </div>-->
                     </div>
                 </form>
             </div>
@@ -211,7 +203,7 @@
                 <div class="kv-zoom-body file-zoom-content explorer-frame">
                     <video class="kv-preview-data file-preview-video file-zoom-detail"
                            controls style="width:auto;height: 100%;max-width: 100%">
-                        <source th:src="" src="" type="video/*">
+                        <source src="" type="video/*">
                     </video>
                     <div class="row text-left">
 
@@ -255,6 +247,12 @@
         th:src="@{/static/js/plugins/fileinput/theme.min.js}"></script>
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
         th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+
+<!-- 自定义js -->
+<!-- 主要用于表格的删除按钮功能实现 -->
+<script src="../../static/public/exam/tableOperation.js"
+        th:src="@{/static/public/exam/tableOperation.js}"></script>
+
 <script>
     $(function () {
         let $videoTable = $("#videoTable");
@@ -372,7 +370,7 @@
     /*初始化表格*/
     function initTable(o) {
         o.bootstrapTable({
-                url: '../../static/js/demo/resources/videoMgmt_table_test.json',
+                url: '/owep/resources/videoMgmt/getVideoMgmt',
                 mobileResponsive: true,
                 idField: 'id',
                 search: true,
@@ -395,14 +393,13 @@
                                 // return ['<a name="va" value="' + row.id + '">' + row.videoMsg + row.videoType+'</a>']
                                 return ['<a name="va" value="' + row.id + '">' + row.videoMsg + ".mp4" + '</a>']
                             } else {
-
                                 return row.videoMsg;
                             }
                         },
                         events: {
                             "click a[name='va']": function (e, value, row, index) {
                                 /*调用视频预览框*/
-                                /*    $.ajax({
+                                   /*$.ajax({
                                        url:'',
                                        method:'post',
                                         dataType:'json',
@@ -437,10 +434,16 @@
                         field: 'operate',
                         title: '操作',
                         events: {
+                            /*'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
+                                //回显数据
+                                echoDataForm('form[id="btnUpdateName"]', new Array(), row);
+                                $("#updateSingleModal").modal();
+                            },*/
+
                             'click button[title="修改"]': function (e, value, row, index) {
                                 let name = row.videoMsg;
-                                //let size=row.fielSize;
                                 console.log(name);
+
                                 $("input[name='fileName']").val(name);
                                 $("input[name='fileSize']").val();
                                 $("#updateSingleModal").modal();
@@ -448,33 +451,8 @@
                                     $("form[name='updateFileNameForm']").submit();
                                 })
                             },
-                            'click button[title="删除"]': function (e, value, row, index) {
-                                swal({
-                                    title: "您确定要删除这条数据吗",
-                                    text: "删除后将无法恢复，请谨慎操作！",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#DD6B55",
-                                    confirmButtonText: "删除",
-                                    cancelButtonText: "取消",
-                                    closeOnConfirm: false
-                                }, function () {
-                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                                });
-                                /* let id=$(this).val();
-                                 $.ajax({
-                                     url:"",
-                                     method:"post",
-                                     data:{id:"id"},
-                                     dataType:"text",
-                                     contentType:"application/json",
-                                     success:function () {
-                                         swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                                     },
-                                     error:function (jqXHR) {
-                                         swal("删除失败","后台请求失败"+jqXHR,"error");
-                                     }
-                                 })*/
+                            'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                                deleteRecord(e, value, row, index, "/owep/resources/videoMgmt/deleteById", o);
                             },
                             'click button[title="上传"]': function (e, value, row, index) {
                                 $("h4[name='dirTitle']").text(row.videoMsg);

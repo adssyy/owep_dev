@@ -217,4 +217,16 @@ public class CourseServiceImpl implements CourseService {
     public int addSectionVideo(SectionVideo sectionVideo) {
         return sectionVideoMapper.save(sectionVideo);
     }
+
+    @Override
+    public Course findCourseById(Serializable id) {
+        return courseMapper.selectById(id);
+    }
+
+
+    @Override
+    public List<Section> selectAllById(Serializable id) {
+        return sectionMapper.selectAllById(id);
+    }
+
 }
