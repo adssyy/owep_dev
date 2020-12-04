@@ -4,10 +4,12 @@
 package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.kclm.owep.convert.PlanManagerCourseConvert;
 import com.kclm.owep.dto.PlanManagerCourseDTO;
 import com.kclm.owep.dto.PlanManagerDTO;
 import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.PlanManagerCourse;
+
 import com.kclm.owep.mapper.PlanManagerCourseMapper;
 import com.kclm.owep.mapper.PlanManagerMapper;
 import com.kclm.owep.service.PlanManagerService;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /************
@@ -129,6 +132,11 @@ public class PlanManagerServiceImpl implements PlanManagerService {
         return mapperFacade.mapAsList(planManagerCourses, PlanManagerCourseDTO.class);
     }
 
+    @Override
+    public PlanManager selectById(Serializable id) {
+        return planManagerMapper.selectById(id);
+    }
+
     /**
      * 方案中添加课程
      *
@@ -165,8 +173,8 @@ public class PlanManagerServiceImpl implements PlanManagerService {
         if(courseOrder == 1){
             return 0;
         }
-        planManagerCourseMapper.update(up);
-        planManagerCourseMapper.update(down);
+        planManagerCourseMapper.courseMoveUp(up);
+        planManagerCourseMapper.courseMoveDown(down);
         return 0;
     }
 
@@ -178,7 +186,30 @@ public class PlanManagerServiceImpl implements PlanManagerService {
     @Override
     public List<PlanManagerCourseDTO> findAllPlanManagerCourse(Serializable id) {
         List<PlanManagerCourse> planManagerCourses = planManagerCourseMapper.selectAllById(id);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        return mapperFacade.mapAsList(planManagerCourses, PlanManagerCourseDTO.class);
+
+        //System.out.println(planManagerCourses.get(0).getCourse());
+        List<PlanManagerCourseDTO> planManagerCourseDTOS = new ArrayList<PlanManagerCourseDTO>();
+        /*MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        return mapperFacade.mapAsList(planManagerCourses, PlanManagerCourseDTO.class);*/
+        for(PlanManagerCourse p:planManagerCourses){
+            PlanManagerCourseDTO planManagerCourseDTO = PlanManagerCourseConvert.INSTANCE.entityToDTO(p);
+            planManagerCourseDTOS.add(planManagerCourseDTO);
+        }
+        return planManagerCourseDTOS;
+    }
+
+    @Override
+    public int addPlanManager(PlanManager planManager) {
+        return planManagerMapper.save(planManager);
+    }
+
+    @Override
+    public Integer findMaxCourseOrder(PlanManagerCourse planManagerCourse) {
+        return planManagerCourseMapper.findMaxCourseOrder(planManagerCourse);
+    }
+
+    @Override
+    public PlanManagerCourse findByCourseOrder(Integer courseOrder, Integer stageNum,PlanManager planManager) {
+        return planManagerCourseMapper.findByCourseOrder(courseOrder,stageNum,planManager);
     }
 }

@@ -33,8 +33,10 @@
       <if test="categoryDesc != null">
         category_desc,
       </if>
+      <if test="courseCategory != null">
       <if test="courseCategory.id != null">
         fk_parent_id,
+      </if>
       </if>
       <if test="createTime != null">
         create_time,
@@ -55,9 +57,12 @@
       <if test="categoryDesc != null">
         #{categoryDesc,jdbcType=VARCHAR},
       </if>
-      <if test="courseCategory.id != null">
-        #{courseCategory.id,jdbcType=INTEGER},
+      <if test="courseCategory != null">
+        <if test="courseCategory.id != null">
+          #{courseCategory.id,jdbcType=INTEGER},
+        </if>
       </if>
+
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
