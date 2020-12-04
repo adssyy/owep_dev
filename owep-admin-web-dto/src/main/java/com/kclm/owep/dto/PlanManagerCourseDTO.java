@@ -6,6 +6,7 @@ package com.kclm.owep.dto;
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.entity.PlanManager;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /************
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
  *@Description 方案中课程 业务接口
  *
  */
-public class PlanManagerCourseDTO {
+public class PlanManagerCourseDTO implements Serializable {
 
     /**
      *方案和课程中间表的主键
@@ -30,7 +31,8 @@ public class PlanManagerCourseDTO {
     /**
      *
      */
-    private CourseDTO courseDTO;
+    //private CourseDTO courseDTO;
+    private String courseName;
 
     /**
      *阶段编号
@@ -47,6 +49,51 @@ public class PlanManagerCourseDTO {
      */
     private Integer courseOrder;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public String getPlanNumber() {
+        return planNumber;
+    }
+
+    public void setPlanNumber(String planNumber) {
+        this.planNumber = planNumber;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public Integer getStageNum() {
+        return stageNum;
+    }
+
+    public void setStageNum(Integer stageNum) {
+        this.stageNum = stageNum;
+    }
+
+    public Integer getStageName() {
+        return stageName;
+    }
+
+    public void setStageName(Integer stageName) {
+        this.stageName = stageName;
+    }
+
+    public Integer getCourseOrder() {
+        return courseOrder;
+    }
+
+    public void setCourseOrder(Integer courseOrder) {
+        this.courseOrder = courseOrder;
+    }
 }

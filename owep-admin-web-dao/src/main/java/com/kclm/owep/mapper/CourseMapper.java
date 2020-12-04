@@ -45,4 +45,5 @@ public interface CourseMapper extends BaseMapper<Course> {
 
     @Override
     List<Course> selectAll();
+
 }

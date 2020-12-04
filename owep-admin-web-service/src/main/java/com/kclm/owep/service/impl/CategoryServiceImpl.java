@@ -112,5 +112,8 @@ public class CategoryServiceImpl implements CategoryService {
         return mapperFacade.mapAsList(courseCategories, CourseCategoryDTO.class);
     }
 
-
+    @Override
+    public CourseCategory selectById(Serializable id) {
+        return courseCategoryMapper.selectById(id);
+    }
 }

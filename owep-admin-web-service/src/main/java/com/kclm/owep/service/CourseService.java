@@ -103,12 +103,16 @@ public interface CourseService {
     int alterChapter(Chapter chapter);
 
     /**
-     * 通过ChapterId,删除章
+     * 通过ChapterId,添加章
      * @param chapter
      * @return
      */
     int addChapter(Chapter chapter);
-
+    /**
+     * 通过id删除章
+     *
+     */
+    int deleteChapterById(Serializable id);
     /**
      * 添加 节
      * @param section
@@ -137,4 +141,5 @@ public interface CourseService {
      */
     int addSectionVideo(SectionVideo sectionVideo);
 
+    Course selectById(Serializable id);
 }
