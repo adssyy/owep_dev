@@ -48,5 +48,51 @@ public class PlanManagerCourseDTO {
     private Integer courseOrder;
 
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPlanNumber() {
+        return planNumber;
+    }
+
+    public void setPlanNumber(String planNumber) {
+        this.planNumber = planNumber;
+    }
+
+    public CourseDTO getCourseDTO() {
+        return courseDTO;
+    }
+
+    public void setCourseDTO(CourseDTO courseDTO) {
+        this.courseDTO = courseDTO;
+    }
+
+    public Integer getStageNum() {
+        return stageNum;
+    }
+
+    public void setStageNum(Integer stageNum) {
+        this.stageNum = stageNum;
+    }
+
+    public Integer getStageName() {
+        return stageName;
+    }
+
+    public void setStageName(Integer stageName) {
+        this.stageName = stageName;
+    }
+
+    public Integer getCourseOrder() {
+        return courseOrder;
+    }
+
+    public void setCourseOrder(Integer courseOrder) {
+        this.courseOrder = courseOrder;
+    }
 }

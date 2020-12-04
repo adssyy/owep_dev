@@ -5,6 +5,7 @@
 package com.kclm.owep.service;
 
 import com.kclm.owep.dto.ClazzDTO;
+import com.kclm.owep.dto.ResourceDTO;
 import com.kclm.owep.entity.Clazz;
 import java.io.Serializable;
 import java.util.List;
@@ -59,6 +60,13 @@ public interface ClazzService {
      */
     List<ClazzDTO> selectAll();
 
+    /**
+     * 根据班级id获取该班级中所有的资源
+     * @param cid
+     * @return
+     */
+    List<ResourceDTO> selectClazzResourceByClazzId(Serializable cid);
+
     /***
      * 向t_class_resource 中间表中插入数据
      * @param cid
@@ -108,4 +116,8 @@ public interface ClazzService {
      * @return
      */
     List<ClazzDTO> selectByPro(int pid);
+
+    List<ClazzDTO> selectByKeyword(String classNumber, String className, String instituteName, String instituteBranchName, Serializable pid);
+
+
 }

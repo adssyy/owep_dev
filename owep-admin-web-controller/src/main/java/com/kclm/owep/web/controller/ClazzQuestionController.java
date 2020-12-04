@@ -4,6 +4,17 @@
 
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.dto.QuestionDTO;
+import com.kclm.owep.entity.Question;
+import com.kclm.owep.service.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 /*****************
  *
  * @author tanj
@@ -12,5 +23,17 @@ package com.kclm.owep.web.controller;
  * @description 班级问题 功能具体控制层
  *
  */
+@RestController
+@RequestMapping("clazz")
 public class ClazzQuestionController {
+
+    @Autowired
+    private QuestionService questionService;
+
+    @RequestMapping(value = "allQuestion",method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<QuestionDTO> selectAll(){
+
+        return questionService.selectAll();
+    }
 }

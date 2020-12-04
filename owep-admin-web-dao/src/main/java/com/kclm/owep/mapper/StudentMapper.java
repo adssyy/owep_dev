@@ -82,4 +82,19 @@ public interface StudentMapper extends BaseMapper<Student> {
     @Override
     List<Student> selectAll();
 
+    /****
+     * 根据班级id查询所有学生
+     * @param id
+     * @return
+     */
+    List<Student> selectByClassId(@Param("cid") Serializable id);
+
+    /****
+     * 根据关键字查询班级中的学生
+     * @param id
+     * @param stuNumber
+     * @param stuRealName
+     * @return
+     */
+    List<Student> selectByKeyword(@Param("id") Serializable id,@Param("stuNumber") String stuNumber,@Param("stuRealName") String stuRealName);
 }

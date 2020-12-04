@@ -34,7 +34,12 @@ public class ProfessionDTO {
     /**
      * 是否启用
      */
-    private int profStatute;
+    private int profStatus;
+
+    /**
+     * 专业描述
+     */
+    private String profDesc;
 
     public Integer getId() {
         return id;
@@ -68,22 +73,30 @@ public class ProfessionDTO {
         this.instituteBranchName = instituteBranchName;
     }
 
-    public int getProfStatute() {
-        return profStatute;
+    public int getProfStatus() {
+        return profStatus;
     }
 
-    public void setProfStatute(int profStatute) {
-        this.profStatute = profStatute;
+    public void setProfStatus(int profStatus) {
+        this.profStatus = profStatus;
+    }
+
+    public String getProfDesc() {
+        return profDesc;
+    }
+
+    public void setProfDesc(String profDesc) {
+        this.profDesc = profDesc;
     }
 
     public ProfessionDTO() {
     }
 
-    public ProfessionDTO(String profName, String instituteName, String instituteBranchName, int profStatute) {
+    public ProfessionDTO(String profName, String instituteName, String instituteBranchName, int profStatus) {
         this.profName = profName;
         this.instituteName = instituteName;
         this.instituteBranchName = instituteBranchName;
-        this.profStatute = profStatute;
+        this.profStatus = profStatus;
     }
 
     @Override
@@ -91,7 +104,7 @@ public class ProfessionDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProfessionDTO that = (ProfessionDTO) o;
-        return profStatute == that.profStatute &&
+        return profStatus == that.profStatus &&
                 Objects.equals(profName, that.profName) &&
                 Objects.equals(instituteName, that.instituteName) &&
                 Objects.equals(instituteBranchName, that.instituteBranchName);
@@ -99,7 +112,7 @@ public class ProfessionDTO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(profName, instituteName, instituteBranchName, profStatute);
+        return Objects.hash(profName, instituteName, instituteBranchName, profStatus);
     }
 
     @Override
@@ -109,7 +122,8 @@ public class ProfessionDTO {
         sb.append(", profName='").append(profName).append('\'');
         sb.append(", instituteName='").append(instituteName).append('\'');
         sb.append(", instituteBranchName='").append(instituteBranchName).append('\'');
-        sb.append(", profStatute=").append(profStatute);
+        sb.append(", profStatus=").append(profStatus);
+        sb.append(", profDesc=").append(profDesc);
         sb.append('}');
         return sb.toString();
     }

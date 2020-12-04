@@ -4,6 +4,7 @@
 package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.kclm.owep.convert.PlanManagerCourseConvert;
 import com.kclm.owep.dto.PlanManagerCourseDTO;
 import com.kclm.owep.dto.PlanManagerDTO;
 import com.kclm.owep.entity.PlanManager;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /************
@@ -80,6 +82,16 @@ public class PlanManagerServiceImpl implements PlanManagerService {
         return mapperFacade.mapAsList(planManagers, PlanManagerDTO.class);
     }
 
+    /***
+     * 通过属性查找培养方案
+     *
+     * @param planManager
+     * @return
+     */
+    @Override
+    public List<PlanManager> findPlanManager(PlanManager planManager){
+        return this.planManagerMapper.selectByField(planManager);
+    }
     /**
      * 修改培养方案
      *
@@ -178,7 +190,14 @@ public class PlanManagerServiceImpl implements PlanManagerService {
     @Override
     public List<PlanManagerCourseDTO> findAllPlanManagerCourse(Serializable id) {
         List<PlanManagerCourse> planManagerCourses = planManagerCourseMapper.selectAllById(id);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        return mapperFacade.mapAsList(planManagerCourses, PlanManagerCourseDTO.class);
+        List<PlanManagerCourseDTO> planManagerCourseDTOS = new ArrayList<>();
+
+        for (PlanManagerCourse planManagerCourse : planManagerCourses){
+            planManagerCourseDTOS.add(PlanManagerCourseConvert.INSTANCE.entityToDTO(planManagerCourse));
+        }
+
+        return planManagerCourseDTOS;
+        /*MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        return mapperFacade.mapAsList(planManagerCourses, PlanManagerCourseDTO.class);*/
     }
 }

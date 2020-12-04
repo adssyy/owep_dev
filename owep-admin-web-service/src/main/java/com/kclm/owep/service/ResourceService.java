@@ -53,4 +53,16 @@ public interface ResourceService {
      */
     int alterResource(Resource resource);
 
+    /**
+     * 根据班级和关键字来查询资源
+     * @param cid
+     * @param resourceName
+     * @param tid
+     * @return
+     */
+    List<ResourceDTO> selectResourceByClassAndKeyword(Serializable cid, String resourceName, Serializable resourceType);
+
+    int deleteFromClass(Serializable cid,Serializable rid);
+
+    int deleteSelectFromClass(Serializable cid, List<Serializable> idList);
 }

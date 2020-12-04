@@ -356,7 +356,7 @@
             //加载之前先格式化 放在查询的时候起冲突
             $("#tb_major").bootstrapTable('destroy')
             $("#tb_major").bootstrapTable({
-                url: '../../static/js/clazz/homework.json',
+                url: '/owep/clazz/allHomework',
                 method: 'get',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
@@ -374,11 +374,11 @@
                     align: "center",
                     visible: false //隐藏 让该字段不可见 为了后面更新和删除做准备
                 }, {
-                    field: 'title',
+                    field: 'workTitle',
                     title: "标题",
                     align: "center",
                 }, {
-                    field: 'context',
+                    field: 'workContent',
                     title: "内容",
                     align: "center",
                 }, {
@@ -386,15 +386,15 @@
                     title: "文件",
                     align: "center",
                 }, {
-                    field: 'course',
+                    field: 'courseName',
                     title: "所属课程",
                     align: "center",
                 },{
-                    field: 'clazz',
+                    field: 'className',
                     title: "所属班级",
                     align: "center",
                 },{
-                    field: 'create_time',
+                    field: 'createTime',
                     title: "创建时间",
                     align: "center",
                 }, {

@@ -4,6 +4,9 @@
 
 package com.kclm.owep.web.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 /*****************
  *
  * @author tanj
@@ -12,5 +15,9 @@ package com.kclm.owep.web.controller;
  * @description 学习进度 的具体功能控制层
  *
  */
+@RestController
+@RequestMapping("clazz")
 public class ClazzStudyProcessController {
+
+
 }

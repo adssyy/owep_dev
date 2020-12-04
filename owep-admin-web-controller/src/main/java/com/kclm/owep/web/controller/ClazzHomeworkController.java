@@ -4,8 +4,16 @@
 
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.dto.HomeworkDTO;
+import com.kclm.owep.entity.Homework;
+import com.kclm.owep.service.HomeworkService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /*****************
  *
@@ -16,6 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping()
+@RequestMapping("clazz")
 public class ClazzHomeworkController {
+
+    @Autowired
+    private HomeworkService homeworkService;
+
+    @RequestMapping(value = "allHomework",method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<HomeworkDTO> list(){
+
+        return this.homeworkService.selectAll();
+    }
 }

@@ -3,6 +3,9 @@
  */
 package com.kclm.owep.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -32,7 +35,9 @@ public class ResourceType implements Serializable {
     /***
      * 创建时间
      */
-    private LocalDateTime createTime = LocalDateTime.now();
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 
     /***
      * 逻辑删除，1表示未删除，0表示已删除
@@ -47,6 +52,8 @@ public class ResourceType implements Serializable {
     /***
      * 最后一次访问时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastAccessTime;
 
     public Integer getId() {

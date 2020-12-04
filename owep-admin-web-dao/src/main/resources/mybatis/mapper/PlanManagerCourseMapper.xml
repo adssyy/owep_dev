@@ -9,7 +9,7 @@
     <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
-    <association column="fk_planmager_id"
+    <association column="fk_planmanager_id"
                  property="planManager"
                  javaType="com.kclm.owep.entity.PlanManager"
                  fetchType="eager"
@@ -141,10 +141,10 @@
   </update>
 
   <!--通过方案id查询所有的课程-->
-  <select id="selectAllById" parameterType="integer" resultType="PlanManagerCourse">
+  <select id="selectAllById" parameterType="integer" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from t_planmanager_course
-    where id = #{id}
+    where fk_planmanager_id = #{id}
   </select>
 
 

@@ -274,7 +274,7 @@
             //加载之前先格式化 放在查询的时候起冲突
             $("#tb_major").bootstrapTable('destroy')
             $("#tb_major").bootstrapTable({
-                url: '../../static/js/clazz/question_list.json',
+                url: '/owep/clazz/allQuestion',
                 method: 'get',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
@@ -292,31 +292,31 @@
                     align: "center",
                     visible: false //隐藏 让该字段不可见 为了后面更新和删除做准备
                 }, {
-                    field: 'field',
+                    field: 'clazz.className',
                     title: "班级",
                     align: "center",
                 }, {
-                    field: 'field',
+                    field: 'clazz.profession.profName',
                     title: "专业方向",
                     align: "center",
                 }, {
-                    field: 'name',
+                    field: 'clazz.instituteName',
                     title: "所属机构",
                     align: "center",
                 }, {
-                    field: 'branch',
+                    field: 'clazz.branchName',
                     title: "所属分支",
                     align: "center",
                 }, {
-                    field: 'branch',
+                    field: 'courseName',
                     title: "相关课程",
                     align: "center",
                 }, {
-                    field: 'branch',
+                    field: 'createTime',
                     title: "提问时间",
                     align: "center",
                 }, {
-                    field: 'branch',
+                    field: 'stuName',
                     title: "提问人",
                     align: "center",
                 }, {

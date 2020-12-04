@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.service.impl;
 
+import com.kclm.owep.convert.OrgInstituteConvert;
 import com.kclm.owep.dto.OrgInstituteDTO;
 import com.kclm.owep.entity.OrgInstitute;
 import com.kclm.owep.mapper.BranchInstituteMapper;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /*******
@@ -41,8 +43,12 @@ public class OrgInstituteServiceImpl implements OrgInstituteService {
     @Override
     public List<OrgInstituteDTO> findAllinstitute() {
         List<OrgInstitute> orgInstituteList = orgInstituteMapper.selectAll();
-        MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
-        List<OrgInstituteDTO> orgInstituteDTOS = mapperFacade.mapAsList(orgInstituteList, OrgInstituteDTO.class);
+        List<OrgInstituteDTO> orgInstituteDTOS = new ArrayList<>();
+        //MapperFacade mapperFacade = this.mapperFactory.getMapperFacade();
+        //List<OrgInstituteDTO> orgInstituteDTOS = mapperFacade.mapAsList(orgInstituteList, OrgInstituteDTO.class);
+        for (OrgInstitute orgInstitute:orgInstituteList){
+            orgInstituteDTOS.add(OrgInstituteConvert.INSTANCE.entityToDTO(orgInstitute));
+        }
         return orgInstituteDTOS;
     }
 
@@ -53,7 +59,7 @@ public class OrgInstituteServiceImpl implements OrgInstituteService {
      * @return
      */
     @Override
-    public List<OrgInstituteDTO> findOrgInstituteByNameAndType(String instituteName, String instituteType) {
+    public List<OrgInstituteDTO> findOrgInstituteByNameAndType(String instituteName, Integer instituteType) {
 
         return null;
     }

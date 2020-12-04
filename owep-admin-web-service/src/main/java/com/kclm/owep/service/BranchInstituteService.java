@@ -5,6 +5,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.BranchInstituteDTO;
 import com.kclm.owep.entity.BranchInstitute;
+import com.kclm.owep.entity.OrgInstitute;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,11 +26,11 @@ public interface BranchInstituteService {
 
     /***
      * 根据分支名称和所属机构来查询
-     * @param instituteName
+     * @param branchName
      * @param orgInstitute
      * @return
      */
-    List<BranchInstituteDTO> findBranchInstituteByNameAndInstitute(String instituteName, String orgInstitute);
+    List<BranchInstituteDTO> findBranchInstituteByNameAndInstitute(String branchName, String orgInstitute);
 
     /***
      * 添加分支机构
@@ -58,4 +59,11 @@ public interface BranchInstituteService {
      * @return
      */
     int deleteBranchInstituteById(Serializable branchId);
+
+    /****
+     * 根据所属机构查询
+     * @param orgInstitute
+     * @return
+     */
+    List<BranchInstituteDTO> findByInstitute(OrgInstitute orgInstitute);
 }
