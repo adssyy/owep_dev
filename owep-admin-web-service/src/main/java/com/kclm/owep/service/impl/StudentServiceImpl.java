@@ -8,12 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import com.kclm.owep.dto.StudentDTO;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import java.io.Serializable;
 import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private MapperFactory mapperFactory;
 
     @Override
     public int create(Student student) {
@@ -93,5 +100,27 @@ public class StudentServiceImpl implements StudentService {
       }
     }
 
+
+    @Override
+    public List<StudentDTO> selectStudentByKeyword(Serializable id,String studentNumber, String studentName) {
+        List<Student> students = this.studentMapper.selectByKeyword(id, studentNumber, studentName);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        List<StudentDTO> studentDTOS = mapperFacade.mapAsList(students, StudentDTO.class);
+        return studentDTOS;
+    }
+
+    @Override
+    public List<StudentDTO> selectStudentByClassId(Serializable id) {
+        List<Student> students = this.studentMapper.selectByClassId(id);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        List<StudentDTO> studentDTOS = mapperFacade.mapAsList(students, StudentDTO.class);
+        return studentDTOS;
+    }
+
+    @Override
+    public int deleteSelect(List<Serializable> idList){
+
+        return this.studentMapper.deleteSelect(idList);
+    }
 
 }

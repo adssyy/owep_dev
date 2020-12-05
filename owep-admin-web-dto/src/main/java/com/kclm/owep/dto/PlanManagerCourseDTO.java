@@ -49,6 +49,8 @@ public class PlanManagerCourseDTO implements Serializable {
      */
     private Integer courseOrder;
 
+    private CourseDTO courseDTO;
+
     public Integer getId() {
         return id;
     }
@@ -71,6 +73,14 @@ public class PlanManagerCourseDTO implements Serializable {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public CourseDTO getCourseDTO() {
+        return this.courseDTO;
+    }
+
+    public void setCourseDTO(CourseDTO courseDTO) {
+        this.courseDTO = courseDTO;
     }
 
     public Integer getStageNum() {

@@ -5,8 +5,13 @@
 package com.kclm.owep.service.impl;
 
 import com.kclm.owep.dto.ClazzDTO;
+import com.kclm.owep.dto.ResourceDTO;
 import com.kclm.owep.entity.Clazz;
+import com.kclm.owep.entity.Resource;
+import com.kclm.owep.entity.ResourceType;
 import com.kclm.owep.mapper.ClazzMapper;
+import com.kclm.owep.mapper.ResourceMapper;
+import com.kclm.owep.mapper.ResourceTypeMapper;
 import com.kclm.owep.service.ClazzService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -30,6 +35,13 @@ import java.util.List;
 public class ClazzServiceImpl implements ClazzService {
     @Autowired
     private ClazzMapper clazzMapper;
+
+    @Autowired
+    private ResourceTypeMapper resourceTypeMapper;
+
+    @Autowired
+    private ResourceMapper resourceMapper;
+
     @Autowired
     private MapperFactory mapperFactory;
 
@@ -43,15 +55,15 @@ public class ClazzServiceImpl implements ClazzService {
         //保存entity
         int save = clazzMapper.save(entity);
         //获取班级id
-        int classId=entity.getId();
+        int classId=clazzMapper.selectByName(entity.getClassName()).get(0).getId();
         //添加班级-方案中间表
         for (int i=0;i<entity.getPlanManagerList().size();i++){
-            clazzMapper.saveClazzPlanmanage(classId,entity.getPlanManagerList().get(i).getId());
+            clazzMapper.saveClazzPlanmanage(entity.getPlanManagerList().get(i).getId(),classId);
         }
         //添加班级-资源中间表
-        for (int i=0;i<entity.getResourceList().size();i++){
+        /*for (int i=0;i<entity.getResourceList().size();i++){
             clazzMapper.saveClazzResource(classId,entity.getResourceList().get(i).getId());
-        }
+        }*/
         //返回班级表影响的行数
         return save;
     }
@@ -63,7 +75,19 @@ public class ClazzServiceImpl implements ClazzService {
      */
     @Override
     public int update(Clazz entity) {
-        return clazzMapper.update(entity);
+
+        int update = clazzMapper.update(entity);
+        //获取班级id
+        int classId=entity.getId();
+        //修改班级-方案中间表
+        clazzMapper.deleteClazzPlanmanage(classId);
+        if (entity.getPlanManagerList() != null){
+            for (int i=0;i<entity.getPlanManagerList().size();i++){
+
+                clazzMapper.saveClazzPlanmanage(entity.getPlanManagerList().get(i).getId(),classId);
+            }
+        }
+        return update;
     }
 
     /***
@@ -109,6 +133,17 @@ public class ClazzServiceImpl implements ClazzService {
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         List<ClazzDTO> clazzDTOS = mapperFacade.mapAsList(clazzes, ClazzDTO.class);
         return clazzDTOS;
+    }
+
+    @Override
+    public List<ResourceDTO> selectClazzResourceByClazzId(Serializable cid){
+        List<Resource> resourceList = resourceMapper.selectByClassId(cid);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        List<ResourceDTO> resourceDTOS = mapperFacade.mapAsList(resourceList, ResourceDTO.class);
+        for (ResourceDTO resourceDTO:resourceDTOS){
+            System.out.println(resourceDTO.toString());
+        }
+        return resourceDTOS;
     }
 
     @Override
@@ -169,4 +204,29 @@ public class ClazzServiceImpl implements ClazzService {
         List<ClazzDTO> clazzDTOS = mapperFacade.mapAsList(clazzes, ClazzDTO.class);
         return clazzDTOS;
     }
+
+    /**
+     * 根据关键词来查询班级
+     * @param classNumber
+     * @param className
+     * @param instituteName
+     * @param instituteBranchName
+     * @param pid
+     * @return
+     */
+    @Override
+    public List<ClazzDTO> selectByKeyword(String classNumber, String className, String instituteName, String instituteBranchName, Serializable pid){
+        List<Clazz> clazzes = clazzMapper.selectByKeyword(classNumber, className, instituteName, instituteBranchName, pid);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        List<ClazzDTO> clazzDTOS = mapperFacade.mapAsList(clazzes, ClazzDTO.class);
+        return clazzDTOS;
+    }
+
+    /*@Override
+    public List<ResourceDTO> selectResourceByClassAndKeyword(Serializable cid, String resourceName, Serializable tid){
+        List<Resource> resources = resourceMapper.selectByClassAndKeyword(cid, resourceName, tid);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        List<ResourceDTO> resourceDTOS = mapperFacade.mapAsList(resources, ResourceDTO.class);
+        return resourceDTOS;
+    }*/
 }

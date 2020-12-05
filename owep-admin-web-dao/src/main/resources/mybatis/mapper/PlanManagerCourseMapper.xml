@@ -9,7 +9,7 @@
     <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
-    <association column="fk_planmager_id"
+    <association column="fk_planmanager_id"
                  property="planManager"
                  javaType="com.kclm.owep.entity.PlanManager"
                  fetchType="eager"
@@ -146,7 +146,6 @@
     from t_planmanager_course
     where fk_planmanager_id = #{id,jdbcType=INTEGER} and is_delete = 1
     order by stage_num,course_order
-   <!--where id=#{id} and is_delete = 1-->
   </select>
 
 <select id="findMaxCourseOrder" parameterType="PlanManagerCourse" resultType="Integer">

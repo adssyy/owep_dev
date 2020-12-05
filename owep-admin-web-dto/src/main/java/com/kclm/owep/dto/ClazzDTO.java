@@ -4,9 +4,11 @@
 
 package com.kclm.owep.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.Profession;
 import com.kclm.owep.entity.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,11 +42,15 @@ public class ClazzDTO{
     /***
      * 开班时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startTime;
 
     /***
      * 结束时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endTime;
 
     /***

@@ -5,8 +5,10 @@
 package com.kclm.owep.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.entity.ResourceType;
+import org.springframework.format.annotation.DateTimeFormat;
 //import jdk.management.resource.ResourceType;
 
 import java.time.LocalDateTime;
@@ -52,7 +54,9 @@ public class ResourceDTO implements java.io.Serializable{
     /**
      * 创建时间
      */
-    private LocalDateTime createTime = LocalDateTime.now();
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 
     /**
      * 逻辑删除，1.表示未删除，0表示已删除
@@ -62,11 +66,15 @@ public class ResourceDTO implements java.io.Serializable{
     /**
      * 查询起始时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime interviewTimeStart;
 
     /**
      * 查询结束时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime interviewTimeEnd;
 
     /**

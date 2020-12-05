@@ -29,7 +29,7 @@
     <select id="selectById" resultType="planManager">
         select
         <include refid="Base_Column_List"></include>
-         from  t_planmanager where id = #{id}
+         from  t_planmanager where id = #{id} and is_delete = 1
     </select>
 
     <!--通过属性查找方案-->
@@ -45,6 +45,7 @@
                 plan_number = #{planNumber,jdbcType=VARCHAR}
             </if>
         </trim>
+                and is_delete = 0
     </select>
 
     <!--保存方案-->

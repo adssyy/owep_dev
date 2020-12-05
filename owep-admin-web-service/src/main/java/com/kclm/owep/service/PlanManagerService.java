@@ -42,6 +42,13 @@ public interface PlanManagerService {
     List<PlanManagerDTO> findPlanManagerByField(PlanManager planManager);
 
     /**
+     * 通过方案名查询
+     * @param planManager
+     * @return
+     */
+    List<PlanManager> findPlanManager(PlanManager planManager);
+
+    /**
      * 修改方案
      * @param planManager
      * @return
