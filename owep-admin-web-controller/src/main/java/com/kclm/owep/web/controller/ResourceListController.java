@@ -3,24 +3,21 @@ package com.kclm.owep.web.controller;
 import com.kclm.owep.dto.ChapterDTO;
 import com.kclm.owep.dto.CourseDTO;
 import com.kclm.owep.dto.ResourceDTO;
-import com.kclm.owep.entity.Chapter;
-import com.kclm.owep.entity.Course;
-import com.kclm.owep.entity.Resource;
-import com.kclm.owep.entity.Section;
+import com.kclm.owep.entity.*;
 import com.kclm.owep.service.CourseService;
 import com.kclm.owep.service.ResourceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * TODO
@@ -35,6 +32,10 @@ import java.util.Map;
 @RequestMapping("/resources")
 public class ResourceListController {
 
+    Logger logger = LoggerFactory.getLogger(ResourceListController.class);
+
+    private static final String FILE_UPLOAD_DIR = "D:/innerTestVideoServer/resources/";
+
     @Autowired
     private ResourceService resourceService;
 
@@ -48,7 +49,7 @@ public class ResourceListController {
      * @For 初始化显示资源列表
      */
     @RequestMapping("/resourceList")
-    public String toResourceList(){
+    public String toResourceList() {
 
         return "resources/resourceList";
     }
@@ -56,11 +57,11 @@ public class ResourceListController {
     /**
      * @author zhang_hy
      * @date 2020-11-26 17:08
-     * @For  显示所有列表资源
+     * @For 显示所有列表资源
      */
     @RequestMapping(value = "/resourceList/getResourceList", produces = "application/json")
     @ResponseBody
-    public Object getResourceList(){
+    public Object getResourceList() {
 
         System.out.println("进入getResourceList()-------------------");
 
@@ -70,24 +71,39 @@ public class ResourceListController {
     /**
      * @author zhang_hy
      * @date 2020-11-26 17:08
-     * @For  增增资源文件
+     * @For 增增资源文件
      */
     @RequestMapping("/resourceList/addResource")
     @ResponseBody
-    public Object addResourceList(HttpServletRequest request,Resource resource, @RequestParam("file") MultipartFile resourcePath) {
+    public Object addResourceList(HttpServletRequest request, Resource resource, @RequestParam("file") MultipartFile resourcePath) {
 
         System.out.println("进入addResourceList()-------------------");
 
-        System.out.println(resource);
+        logger.debug("**********addResourceList:  " + resource);
 
-        System.out.println("*******请求参数add_resourceName："+request.getParameter("resourceName"));
+        //文件上传操作
+        //1.完成文件上传
+        //获取文件名
+        final String originalFilename = resourcePath.getOriginalFilename();
 
-        System.out.println("****"+resourcePath.getOriginalFilename()+"*****"+resourcePath.getSize()+"*******"+resourcePath.getContentType()+"******");
+        //生成薪的文件名=-----选做
+        String fileName = UUID.randomUUID().toString();
+        //获取原来的扩展名
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        fileName += suffix;
+        //IO流操作
+        try {
+            resourcePath.transferTo(new File(FILE_UPLOAD_DIR + File.separatorChar + fileName));
+        } catch (IOException e) {
+            logger.error("上传文件失败", e);
+        }
 
+        //持久化文件
         resource.setIsDelete(1);
         resourceService.addResource(resource);
 
-        return "success";
+        return new Result("200", "okok");
+
     }
 
     /**
@@ -96,11 +112,34 @@ public class ResourceListController {
      * @For 更新资源信息
      */
     @RequestMapping("/resourceList/updateResource")
-    public Object updateResource(Resource resource) {
+    @ResponseBody
+    public Object updateResource(HttpServletRequest request, Resource resource, @RequestParam("file") MultipartFile resourcePath) {
+
+        System.out.println("进入updateResource-------------------");
+
+        logger.debug("**********updateResource:  " + resource);
+
+        //文件上传操作
+        //1.完成文件上传
+        //获取文件名
+        final String originalFilename = resourcePath.getOriginalFilename();
+
+        //生成薪的文件名=-----选做
+        String fileName = UUID.randomUUID().toString();
+        //获取原来的扩展名
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        fileName += suffix;
+        //IO流操作
+        try {
+            resourcePath.transferTo(new File(FILE_UPLOAD_DIR + File.separatorChar + fileName));
+        } catch (IOException e) {
+            logger.error("上传文件失败", e);
+        }
+
+        //持久化文件
 
         resourceService.updateResource(resource);
-
-        return "success";
+        return new Result("200", "okok");
     }
 
     /**
@@ -124,7 +163,7 @@ public class ResourceListController {
      */
     @RequestMapping("/resourceList/deleteSelectResource")
     @ResponseBody
-    public Object deleteSelectResource(@RequestBody List<Serializable> idList){
+    public Object deleteSelectResource(@RequestBody List<Serializable> idList) {
 
         resourceService.deleteSelectResource(idList);
 
@@ -132,42 +171,42 @@ public class ResourceListController {
 
     }
 
-   /**
-    * @author zhang_hy
-    * @date 2020-12-2 16:27
-    * @For 通过id查询课程
-    */
-   @RequestMapping("/resourceList/findAllCourse")
-   @ResponseBody
+    /**
+     * @author zhang_hy
+     * @date 2020-12-2 16:27
+     * @For 通过id查询课程
+     */
+    @RequestMapping("/resourceList/findAllCourse")
+    @ResponseBody
     public Object findAllCourse() {
 
-       final List<CourseDTO> courses = courseService.findAllCourse();
+        final List<CourseDTO> courses = courseService.findAllCourse();
 
-       HashMap map = new HashMap();
+        HashMap map = new HashMap();
 
-       map.put("value",courses);
+        map.put("value", courses);
 
 
-       return map;
-   }
+        return map;
+    }
 
-   /**
-    * @author zhang_hy
-    * @date 2020-12-2 17:07
-    * @For 根据课程id找到对应的章
-    */
-   @RequestMapping("/resourceList/findAllChapterByCourseId")
-   @ResponseBody
+    /**
+     * @author zhang_hy
+     * @date 2020-12-2 17:07
+     * @For 根据课程id找到对应的章
+     */
+    @RequestMapping("/resourceList/findAllChapterByCourseId")
+    @ResponseBody
     public Object findAllChapterByCourseId(Integer id) {
 
-       final List<ChapterDTO> chapters = courseService.findAllChapterByCourseId(id);
+        final List<ChapterDTO> chapters = courseService.findAllChapterByCourseId(id);
 
-       HashMap map = new HashMap();
+        HashMap map = new HashMap();
 
-       map.put("value",chapters);
+        map.put("value", chapters);
 
-       return map;
-   }
+        return map;
+    }
 
     /**
      * @author zhang_hy
@@ -182,7 +221,7 @@ public class ResourceListController {
 
         HashMap map = new HashMap();
 
-        map.put("value",sections);
+        map.put("value", sections);
 
         return map;
     }
@@ -194,12 +233,12 @@ public class ResourceListController {
      */
     @RequestMapping(value = "/resourceList/selectResourceSuffix")
     @ResponseBody
-    public Object selectResourceSuffix(){
+    public Object selectResourceSuffix() {
         final List<String> resourceSuffix = resourceService.selectResourceSuffix();
 
         HashMap map = new HashMap();
 
-        map.put("value",resourceSuffix);
+        map.put("value", resourceSuffix);
         return map;
     }
 
@@ -211,45 +250,23 @@ public class ResourceListController {
      */
     @RequestMapping(value = "/resourceList/search")
     @ResponseBody
-    public Object search(@RequestParam(value = "resourceName") String resourceName, @RequestParam(value = "resourceSuffix") String resourceSuffix ){
+    public Object search(@RequestParam(value = "resourceName") String resourceName, @RequestParam(value = "resourceSuffix") String resourceSuffix) {
+        System.out.println("================================");
 
-        System.out.println(resourceName+","+resourceSuffix);
-        //查到所有的 resource 资源
-        final List<ResourceDTO> lists = resourceService.findAllResource();
-
-        //根据关键字查到符合条件的 resource 资源
-        List<Resource> resources = resourceService.findByKeyword(resourceName);
-
+        System.out.println(resourceName + "," + resourceSuffix);
+        final List<Resource> lists = resourceService.findByKeyword(resourceName);
         ArrayList arr = new ArrayList();
+        for (Resource list : lists) {
+            //匹配后缀名
+            if (list.getResourceSuffix().equals(resourceSuffix)) {
+               arr.add(list);
+            }
+        }
+        System.out.println("================================*************");
+        System.out.println(arr);
+        return arr;
 
-         for(ResourceDTO list:lists) {
-             //匹配后缀名
-             if(list.getResourceSuffix().equals(resourceSuffix)) {
-
-                 for(Resource resource:resources) {
-                    //匹配资源名称
-                     if (list.getResourceName().equals(resource.getResourceName())) {
-
-                         arr.add(resource);
-
-                         return arr;
-                     }
-                 }
-             }
-
-         }
-
-         return "没有匹配的查询结果，请稍后重试";
 
     }
 
-
-
-
-
-
-
-
-
-
-} 
+}

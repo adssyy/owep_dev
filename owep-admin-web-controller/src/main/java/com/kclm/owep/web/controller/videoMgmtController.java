@@ -74,7 +74,7 @@ public class videoMgmtController {
      */
     @RequestMapping("/videoMgmt/deleteById")
     @ResponseBody
-    public Object deleteById(Serializable id) {
+    public Object deleteById(Integer id) {
 
         videoService.deleteById(id);
 

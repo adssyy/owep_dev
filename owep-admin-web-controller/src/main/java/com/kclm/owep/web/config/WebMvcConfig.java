@@ -35,7 +35,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         //配置属性
         //配置每个文件大小
-        //multipartResolver.setMaxUploadSizePerFile();
+        multipartResolver.setMaxUploadSizePerFile(1*1024*100);
         //设置封面大小
         //multipartResolver.setMaxUploadSize();
 
