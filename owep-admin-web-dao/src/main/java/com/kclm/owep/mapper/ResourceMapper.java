@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -47,4 +48,10 @@ public interface ResourceMapper extends BaseMapper<Resource> {
     int deleteFromClass(@Param("cid") Serializable cid,@Param("rid") Serializable rid);
 
     int deleteSelectFromClass(Serializable cid,List<Serializable> idList);
+
+    int addToClass(@Param("cid") Serializable cid,@Param("rid") Serializable rid);
+
+    int addSelectToClass(Serializable cid,List<Serializable> idList);
+
+    List<Resource> selectByKeyword(@Param("name") String name, @Param("fileType") String fileType,@Param("beginTime") LocalDateTime beginTime,@Param("endTime") LocalDateTime endTime);
 }
