@@ -1,34 +1,29 @@
-package com.kclm.owep.mapper;
+package com.kclm.owep.service;
 
 import com.kclm.owep.entity.Video;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.kclm.owep.mapper.common.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 /**
  * @author zhang_hy
- * @date 2020-11-30 11:43
- * @For 视频管理接口
+ * @date 2020-11-30 13:05
+ * @For 视频管理业务层接口
  */
-@Mapper
-public interface VideoMapper extends BaseMapper<Video> {
-    @Override
+@Service
+public interface VideoService {
+
     int deleteById(Serializable id);
 
-    @Override
     int deleteSelect(List<Serializable> idList);
 
-    @Override
     Video selectById(Serializable id);
 
-    @Override
     int save(Video video);
 
-    @Override
     int update(Video video);
 
-    @Override
     List<Video> selectAll();
+
 }

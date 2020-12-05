@@ -3,6 +3,8 @@
  */
 package com.kclm.owep.entity;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ import java.util.Objects;
  * @Create 2020/7/6 16:32
  * @Description 文档管理实体类
  */
+@Data
 public class Resource {
 
     /***
@@ -62,7 +65,7 @@ public class Resource {
     /***
      * 创建时间
      */
-    private LocalDateTime createTime=LocalDateTime.now();
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /***
      * 逻辑删除，1.表示未删除，0表示已删除
@@ -239,6 +242,10 @@ public class Resource {
 
     public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {

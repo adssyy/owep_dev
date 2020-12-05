@@ -1,11 +1,11 @@
-/********************************
- *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
- */
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Resource;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.io.Serializable;
+import java.util.List;
 
 
 /*****
@@ -17,6 +17,27 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ResourceMapper extends BaseMapper<Resource> {
 
+    @Override
+    int save(Resource resource);
+
+    @Override
+    int update(Resource resource);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    Resource selectById(Serializable id);
+
+    @Override
+    List<Resource> selectAll();
+
+    List<String> selectResourceSuffix();
+
+    List<Resource> findByKeyword(String keyword);
 
 
 }

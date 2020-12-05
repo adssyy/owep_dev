@@ -165,6 +165,7 @@ function queryRecords(eventParentName, dataList, success) {
             queryNullList.push($('' + eventParentName + ' input[name=' + item + ']'))
             : queryMap.set(event.attr('name'), event.val());
     })
+
     let formData="";
         queryMap.forEach(function (value, key){
         formData += key +'='+value +'&';
