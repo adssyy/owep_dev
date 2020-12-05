@@ -44,8 +44,8 @@
     <!--根据所选项删除-->
     <delete id="deleteSelect" parameterType="com.kclm.owep.entity.ResourceType">
         delete from t_resource_type where id in
-        <foreach collection="list" item="id" open="(" separator="," close=")">
-            #{id}
+        <foreach collection="list" item="resourceType" open="(" separator="," close=")">
+            #{resourceType.id}
         </foreach>
     </delete>
     <!--根据ID查询-->
@@ -68,4 +68,5 @@
         where
         is_delete=1
     </select>
+
 </mapper>

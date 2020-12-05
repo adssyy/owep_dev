@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.entity;
 
+import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +16,7 @@ import java.util.Objects;
  * @Create 2020/7/6 16:32
  * @Description 文档管理实体类
  */
+@Data
 public class Resource {
 
     /***
@@ -67,7 +69,7 @@ public class Resource {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /***
      * 逻辑删除，1.表示未删除，0表示已删除
@@ -187,10 +189,6 @@ public class Resource {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
     public Integer getIsDelete() {
         return isDelete;
     }
@@ -249,6 +247,10 @@ public class Resource {
 
     public LocalDateTime getLastAccessTime() {
         return lastAccessTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {

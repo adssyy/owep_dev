@@ -98,19 +98,29 @@
     #{id}
  </foreach>
 </delete>
-<!--依主键查询单个对象-->
-<select id="selectById" resultType="com.kclm.owep.entity.Resource">
- select * from t_resource where id=#{id}
-</select>
-<!--查询多个对象-->
-<select id="selectAll" resultMap="BaseResultMap">
- select
- <include refid="Base_Column_List"/>
- from t_resource
- where
- is_delete=1
-<!--根据班级和关键词查询-->
-</select>
+
+    <!--根据资源名查找-->
+    <select id="findByKeyword" resultType="com.kclm.owep.entity.Resource" parameterType="string">
+        select * from t_resource where resource_name like concat('%',#{keyword},'%') and is_delete = 1
+    </select>
+    <!--依主键查询单个对象-->
+    <select id="selectById" resultType="com.kclm.owep.entity.Resource">
+     select * from t_resource where id=#{id}
+    </select>
+    <!--查询多个对象-->
+    <select id="selectAll" resultType="com.kclm.owep.entity.Resource">
+     select
+     <include refid="Base_Column_List"/>
+     from t_resource
+     where
+     is_delete=1
+    <!--根据班级和关键词查询-->
+    </select>
+    <!-- 查询后缀名 -->
+    <select id="selectResourceSuffix" resultType="com.kclm.owep.entity.Resource">
+        select distinct resource_suffix from t_resource where is_delete = 1
+    </select>
+
     <select id="selectByClassAndKeyword" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -182,5 +192,5 @@
           </if>
     </select>
 
-
 </mapper>
+

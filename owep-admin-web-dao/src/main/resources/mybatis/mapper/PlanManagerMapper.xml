@@ -23,13 +23,13 @@
     <select id="selectAll" resultType="planManager">
         select
         <include refid="Base_Column_List"></include>
-        from t_planmanager where is_delete = 0
+        from t_planmanager where is_delete = 1
     </select>
 
     <select id="selectById" resultType="planManager">
         select
         <include refid="Base_Column_List"></include>
-         from  t_planmanager where id = #{id} and is_delete = 0
+         from  t_planmanager where id = #{id} and is_delete = 1
     </select>
 
     <!--通过属性查找方案-->
@@ -126,7 +126,8 @@
 
     <!--通过id删除方案-->
     <delete id="deleteById" parameterType="integer">
-        delete from t_planmanager where id = #{id}
+        <!--delete from t_planmanager where id = #{id}-->
+         update t_planmanager set is_delete = 0 where id = #{id}
     </delete>
 
     <!--删除所选-->
@@ -141,9 +142,9 @@
     <update id="update" parameterType="PlanManager">
         update t_planmanager
         <set>
-            <if test="planNumber != null">
+           <!-- <if test="planNumber != null">
                 plan_number = #{planNumber,jdbcType=VARCHAR},
-            </if>
+            </if>-->
             <if test="planName != null">
                 plan_name = #{planName,jdbcType=VARCHAR},
             </if>
@@ -162,7 +163,7 @@
                 version = version + 1,
                 last_access_time = now(),
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where plan_number=#{planNumber,jdbcType=VARCHAR}
     </update>
 
     <!--查询总记录数-->

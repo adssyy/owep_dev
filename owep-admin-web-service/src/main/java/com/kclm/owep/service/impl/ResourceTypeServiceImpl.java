@@ -1,5 +1,6 @@
 package com.kclm.owep.service.impl;
 
+import com.kclm.owep.convert.ResourceTypeConvert;
 import com.kclm.owep.dto.ResourceTypeDTO;
 import com.kclm.owep.entity.ResourceType;
 import com.kclm.owep.mapper.ResourceTypeMapper;
@@ -10,25 +11,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TODO
+ *
+ * @author zhang_hy
+ * @version v1.0
+ * @date 2020-11-25 11:43
+ * @description
+ */
 @Service
 public class ResourceTypeServiceImpl implements ResourceTypeService {
 
     @Autowired
     private ResourceTypeMapper resourceTypeMapper;
-
     @Autowired
     private MapperFactory mapperFactory;
 
     @Override
     public ResourceTypeDTO findByKeywords(String keyword) {
-        return null;
+
+        List<ResourceType> lists = resourceTypeMapper.findByKeywords(keyword);
+        ResourceTypeDTO resultDTO = null;
+
+        for (ResourceType list : lists) {
+            resultDTO = ResourceTypeConvert.INSTANCE.PO2DTO(list);
+        }
+        return resultDTO;
     }
 
     @Override
     public List<ResourceTypeDTO> findAllResourceType() {
-        return null;
+        List<ResourceType> lists = resourceTypeMapper.selectAll();
+        List<ResourceTypeDTO> listDTO = new ArrayList<>();
+        for(ResourceType list:lists){
+            listDTO.add(ResourceTypeConvert.INSTANCE.PO2DTO(list));
+        }
+        return listDTO;
     }
 
     @Override
@@ -41,21 +62,21 @@ public class ResourceTypeServiceImpl implements ResourceTypeService {
 
     @Override
     public int deleteSelectResourceType(List<Serializable> idList) {
-        return 0;
+        return resourceTypeMapper.deleteSelect(idList);
     }
 
     @Override
     public int deleteResourceType(Serializable id) {
-        return 0;
+        return resourceTypeMapper.deleteById(id);
     }
 
     @Override
     public int updateResourceType(ResourceType resourceType) {
-        return 0;
+        return resourceTypeMapper.update(resourceType);
     }
 
     @Override
     public int addResourcrType(ResourceType resourceType) {
-        return 0;
+        return resourceTypeMapper.save(resourceType);
     }
 }

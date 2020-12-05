@@ -1,6 +1,3 @@
-/********************************
- *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
- */
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Resource;
@@ -10,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -22,12 +22,11 @@ import java.util.List;
 @Mapper
 public interface ResourceMapper extends BaseMapper<Resource> {
 
+    @Override
+    int save(Resource resource);
 
     @Override
-    int save(Resource entity);
-
-    @Override
-    int update(Resource entity);
+    int update(Resource resource);
 
     @Override
     int deleteById(Serializable id);
@@ -40,6 +39,10 @@ public interface ResourceMapper extends BaseMapper<Resource> {
 
     @Override
     List<Resource> selectAll();
+
+    List<String> selectResourceSuffix();
+
+    List<Resource> findByKeyword(String keyword);
 
     List<Resource> selectByClassAndKeyword(@Param("cid") Serializable cid,@Param("name") String name,@Param("resourceType") Serializable resourceType);
 
@@ -55,3 +58,4 @@ public interface ResourceMapper extends BaseMapper<Resource> {
 
     List<Resource> selectByKeyword(@Param("name") String name, @Param("fileType") String fileType,@Param("beginTime") LocalDateTime beginTime,@Param("endTime") LocalDateTime endTime);
 }
+

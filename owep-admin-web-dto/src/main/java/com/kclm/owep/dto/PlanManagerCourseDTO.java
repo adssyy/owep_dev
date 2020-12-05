@@ -6,6 +6,7 @@ package com.kclm.owep.dto;
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.entity.PlanManager;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /************
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
  *@Description 方案中课程 业务接口
  *
  */
-public class PlanManagerCourseDTO {
+public class PlanManagerCourseDTO implements Serializable {
 
     /**
      *方案和课程中间表的主键
@@ -30,7 +31,8 @@ public class PlanManagerCourseDTO {
     /**
      *
      */
-    private CourseDTO courseDTO;
+    //private CourseDTO courseDTO;
+    private String courseName;
 
     /**
      *阶段编号
@@ -47,6 +49,7 @@ public class PlanManagerCourseDTO {
      */
     private Integer courseOrder;
 
+    private CourseDTO courseDTO;
 
     public Integer getId() {
         return id;
@@ -64,8 +67,16 @@ public class PlanManagerCourseDTO {
         this.planNumber = planNumber;
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
     public CourseDTO getCourseDTO() {
-        return courseDTO;
+        return this.courseDTO;
     }
 
     public void setCourseDTO(CourseDTO courseDTO) {

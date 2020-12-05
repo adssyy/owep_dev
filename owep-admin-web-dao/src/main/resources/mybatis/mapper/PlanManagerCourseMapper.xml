@@ -144,11 +144,20 @@
   <select id="selectAllById" parameterType="integer" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from t_planmanager_course
-    where fk_planmanager_id = #{id}
+    where fk_planmanager_id = #{id,jdbcType=INTEGER} and is_delete = 1
+    order by stage_num,course_order
   </select>
 
+<select id="findMaxCourseOrder" parameterType="PlanManagerCourse" resultType="Integer">
+  select max(course_order)
+  from t_planmanager_course
+  where fk_planmanager_id = #{planManager.id,jdbcType=INTEGER} and stage_num = #{stageNum,jdbcType=INTEGER}
+</select>
 
-
-
+<select id="findByCourseOrder" parameterType="Integer" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List"/>
+   from t_planmanager_course
+   where course_order=#{courseOrder,jdbcType=INTEGER} and stage_num = #{stageNum,jdbcType=INTEGER} and fk_planmanager_id = #{planManager.id,jdbcType=INTEGER}
+</select>
 
 </mapper>

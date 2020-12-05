@@ -69,7 +69,7 @@ public interface PlanManagerService {
      */
     int deletePlanManagerById(Serializable id);
 
-
+    PlanManager selectById(Serializable id);
     /**
      * 分页查询     方案中设置的课程
      */
@@ -105,6 +105,10 @@ public interface PlanManagerService {
      */
     List<PlanManagerCourseDTO> findAllPlanManagerCourse(Serializable id);
 
+    int addPlanManager(PlanManager planManager);
 
+    Integer findMaxCourseOrder(PlanManagerCourse planManagerCourse);
+
+    PlanManagerCourse findByCourseOrder(Integer courseOrder,Integer stageNum,PlanManager planManager);
 
 }

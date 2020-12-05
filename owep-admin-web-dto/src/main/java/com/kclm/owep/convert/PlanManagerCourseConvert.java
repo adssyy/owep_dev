@@ -9,9 +9,16 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface PlanManagerCourseConvert {
-
     PlanManagerCourseConvert INSTANCE = Mappers.getMapper(PlanManagerCourseConvert.class);
+    //yao
+    @Mapping(target = "planNumber",source = "planManager.planNumber")
+    @Mapping(target = "courseName",source = "course.courseName")
+    @Mapping(target = "stageNum",source = "stageNum")
+    @Mapping(target = "stageName",source = "stageName")
+    @Mapping(target = "courseOrder",source = "courseOrder")
+    PlanManagerCourseDTO entityToDTO_yjj(PlanManagerCourse planManagerCourse);
 
+    //tian
     @Mapping(target = "courseDTO.id",source = "course.id")
     @Mapping(target = "courseDTO.courseNumber",source = "course.courseNumber")
     @Mapping(target = "courseDTO.courseName",source = "course.courseName")
@@ -21,8 +28,16 @@ public interface PlanManagerCourseConvert {
     @Mapping(target = "courseDTO.courseStatus",source = "course.courseStatus")
     @Mapping(target = "courseDTO.courseImage",source = "course.courseImage")
     @Mapping(target = "courseDTO.courseDesc",source = "course.courseDesc")
-    //@Mapping(target = "courseDTO",source = "course")
+        //@Mapping(target = "courseDTO",source = "course")
     PlanManagerCourseDTO entityToDTO(PlanManagerCourse entity);
+
+
+    @Mapping(target = "planManager.planNumber",source = "planNumber")
+    @Mapping(target = "course.courseName",source = "courseName")
+    @Mapping(target = "stageNum",source = "stageNum")
+    @Mapping(target = "stageName",source = "stageName")
+    @Mapping(target = "courseOrder",source = "courseOrder")
+    PlanManagerCourse updateEntityFromDto(PlanManagerCourseDTO peopleDTO);
 
     @Mapping(target = "course.id",source = "courseDTO.id")
     @Mapping(target = "course.courseNumber",source = "courseDTO.courseNumber")
