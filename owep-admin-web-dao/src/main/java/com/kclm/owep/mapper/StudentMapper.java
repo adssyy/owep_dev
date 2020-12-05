@@ -52,6 +52,14 @@ public interface StudentMapper extends BaseMapper<Student> {
     @Override
     int deleteById(@Param("id") Serializable id);
 
+    /**
+     * 真的删了
+     * @param id
+     * @return
+     */
+    int delete(@Param("id") Serializable id);
+
+
     /******
      * @Author: ZhangShaowei
      * @Date: 2020/7/15 14:06
@@ -81,5 +89,6 @@ public interface StudentMapper extends BaseMapper<Student> {
      */
     @Override
     List<Student> selectAll();
+
 
 }

@@ -62,7 +62,7 @@
                     <button class="btn btn-info" type="button" data-toggle='modal' data-target='#modal_add'>添加</button>
                     <button class="btn btn-primary export" type="button">导出</button>
                 </form>
-                <table id="tb_departments"></table>
+                <table id="tb_departments"  ></table>
             </div>
 
         </div>
@@ -374,12 +374,13 @@
                 success:function(feedback){
                     alert(feedback);
                     window.location.reload();
+
                 },
                 error: function (jqXRH) {
                     console.log(jqXRH);
                     alert("添加未成功")
                 }
-                });
+            });
             // $('#form_add').submit();
         });
 
@@ -400,10 +401,10 @@
             if(status === 1||status ===0){
 
             }else   if(status === "on"){
-                        status = 1;
-                    }else{
-                        status = 0;
-                    }
+                status = 1;
+            }else{
+                status = 0;
+            }
             let userData ={
                 id:id,
                 userName:userName,
@@ -481,13 +482,20 @@
                     })
                 }
             }
-             console.log("分配，提交。");
+            console.log("分配，提交。");
             $('#form_allocation').submit();
         });
+
+
+
+
         $('.query').click(function () {
             let dataList = new Array('userName','realName');
             queryRecords('form[id="admin_query"]',dataList);
         });
+
+
+
         /*导出按钮操作*/
         $('.export').click(function () {
             exportRecord("", "管理员信息");
@@ -553,11 +561,11 @@
                     field: 'operate',
                     title: '操作',
                     width: 150,
-                    formatter: addFunctionAlty,//表格中增加按钮  
+                    formatter: addFunctionAlty,//表格中增加按钮
                     events: {
                         'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
                             // let $adminListTable = $("#tb_departments");
-                           deleteRecord(e, value, row, index, "/owep/user/adminList/delete", '#tb_departments');
+                            deleteRecord(e, value, row, index, "/owep/user/adminList/delete", '#tb_departments');
                         },
 
                         'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
@@ -601,8 +609,8 @@
 
         function addFunctionAlty(value, row, index) {
             return '<button id = "+id+" value="'+row.id+'" type = "button" class = "btn btn-white" title="修改" > <i class="glyphicon glyphicon-edit"/> </button>' +
-                   '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
-                   '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="分配用户组"> <i class="glyphicon glyphicon-share text-success"/> </button>'
+                '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
+                '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="分配用户组"> <i class="glyphicon glyphicon-share text-success"/> </button>'
                 ;
         }
 
