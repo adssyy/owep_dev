@@ -3,6 +3,7 @@ package com.kclm.owep.web.controller;
 import com.kclm.owep.dto.ChapterDTO;
 import com.kclm.owep.entity.Chapter;
 import com.kclm.owep.entity.Course;
+import com.kclm.owep.entity.Section;
 import com.kclm.owep.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -82,6 +84,13 @@ public class ChapterController {
     public String deleteChapterById(@RequestParam("id" ) Integer id){
         courseService.deleteChapterById(id);
         return "success";
+    }
+
+
+    @RequestMapping("/addSection")
+    @ResponseBody
+    public String addSection(Section section, MultipartFile file){
+        return null;
     }
 
 }

@@ -50,4 +50,6 @@ public interface PlanManagerMapper extends BaseMapper<PlanManager> {
 
     @Override
     PlanManager selectById(Serializable id);
+
+    int updateStatus(PlanManager entity);
 }

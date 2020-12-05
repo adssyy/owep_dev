@@ -224,9 +224,10 @@
       <if test="courseType != null">
         course_type = #{courseType,jdbcType=VARCHAR},
       </if>
+      <if test="courseCategory != null">
       <if test="courseCategory.id != null">
         fk_course_category_id = #{courseCategory.id,jdbcType=INTEGER},
-      </if>
+      </if></if>
       <if test="courseSendType != null">
         course_send_type = #{courseSendType,jdbcType=VARCHAR},
       </if>
@@ -272,7 +273,7 @@
   <!--通过课程名查找-->
   <select id="selectByCourseName" resultType="course" parameterType="String">
     select <include refid="Base_Column_List"/>
-    from t_course where course_name = #{courseName} and is_delete = 1
+    from t_course where course_name like #{courseName} and is_delete = 1
   </select>
 
   <!--查询所有课程-->

@@ -104,4 +104,7 @@ public interface PlanManagerService {
 
     PlanManagerCourse findByCourseOrder(Integer courseOrder,Integer stageNum,PlanManager planManager);
 
+    int activate(Integer id);
+    int deactivate(Integer id);
+    int updateStatus(PlanManager planManager);
 }

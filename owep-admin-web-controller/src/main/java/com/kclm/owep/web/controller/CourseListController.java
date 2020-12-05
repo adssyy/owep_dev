@@ -9,10 +9,7 @@ import com.kclm.owep.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -36,7 +33,7 @@ public class CourseListController {
     @ResponseBody
     public Object getCourseList(){
         List<CourseDTO> allCourse = courseService.findAllCourse();
-        allCourse.forEach(System.out::println);
+
         return allCourse;
     }
 
@@ -88,8 +85,11 @@ public class CourseListController {
      * @return
      */
     @RequestMapping("/findCourseByName")
+    @ResponseBody
     public Object findCourseByName(String courseName){
+        System.out.println(courseName);
         List<CourseDTO> courseByCourseName = courseService.findCourseByCourseName(courseName);
+        courseByCourseName.forEach(System.out::println);
         return courseByCourseName;
     }
 
@@ -146,7 +146,22 @@ public class CourseListController {
         return map;
     }
 
-
+    @GetMapping("/switch")
+    @ResponseBody
+    public void postAdminValidSwitch(@RequestParam Integer courseId, @RequestParam Integer status){
+        System.out.println("switching admin user validation:" + courseId+","+status);
+        if(status==null){
+            System.out.println("Warning： status value is null, nothing to do here");
+            return;
+        }
+        if (status==1){
+            System.out.println("user admin validation activated");
+            courseService.activate(courseId);
+        }else{
+            System.out.println("user admin validation canceled");
+            courseService.deactivate(courseId);
+        }
+    }
 
 
 }

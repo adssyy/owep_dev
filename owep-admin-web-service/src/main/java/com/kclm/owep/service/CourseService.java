@@ -142,4 +142,7 @@ public interface CourseService {
     int addSectionVideo(SectionVideo sectionVideo);
 
     Course selectById(Serializable id);
+
+    int activate(Integer id);
+    int deactivate(Integer id);
 }
