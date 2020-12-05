@@ -11,7 +11,9 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 25/11/2020 09:13:56
+ Date: 05/12/2020 13:17:12
+
+ desc: add t_user_class  table
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +34,7 @@ CREATE TABLE `t_action`  (
   `action_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '行为代号',
   `action_value` int(11) NULL DEFAULT NULL COMMENT '行为值，将来可以通过二进制来拆分',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '行为表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '行为表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_action
@@ -131,10 +133,10 @@ CREATE TABLE `t_branch_institute`  (
 -- ----------------------------
 -- Records of t_branch_institute
 -- ----------------------------
-INSERT INTO `t_branch_institute` VALUES (4, '培训机构', 1, 1, '2020-07-10 16:07:44', '2020-07-10 16:07:44');
+INSERT INTO `t_branch_institute` VALUES (4, '计算机', 1, 1, '2020-07-10 16:07:44', '2020-07-10 16:07:44');
 INSERT INTO `t_branch_institute` VALUES (5, '学校', 2, 3, '2020-07-13 09:04:50', '2020-07-14 14:04:25');
-INSERT INTO `t_branch_institute` VALUES (6, '培训机构', 1, 1, '2020-07-13 09:36:11', '2020-07-13 09:36:11');
-INSERT INTO `t_branch_institute` VALUES (7, '培训机构', 1, 1, '2020-07-14 14:03:34', '2020-07-14 14:03:34');
+INSERT INTO `t_branch_institute` VALUES (6, '计算机', 1, 1, '2020-07-13 09:36:11', '2020-07-13 09:36:11');
+INSERT INTO `t_branch_institute` VALUES (7, '计算机', 1, 1, '2020-07-14 14:03:34', '2020-07-14 14:03:34');
 
 -- ----------------------------
 -- Table structure for t_channel
@@ -191,7 +193,7 @@ CREATE TABLE `t_chapter`  (
   `chapter_status` int(1) NOT NULL COMMENT '章状态：1启用、2未启用',
   `chapter_desc` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '章描述',
   `create_time` timestamp(0) NOT NULL COMMENT '创建时间',
-  `video_status` int(1) NOT NULL COMMENT '视频观看状态：1允许观看、2不允许观看',
+  `video_status` int(1) NULL DEFAULT NULL COMMENT '视频观看状态：1允许观看、2不允许观看',
   `fk_course_id` int(11) NOT NULL COMMENT '课程编号',
   `is_delete` int(1) NULL DEFAULT NULL COMMENT '逻辑删除：1未删除、0 已删除',
   `version` int(11) NULL DEFAULT NULL COMMENT '版本',
@@ -199,13 +201,19 @@ CREATE TABLE `t_chapter`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_chapter_course`(`fk_course_id`) USING BTREE,
   CONSTRAINT `fk_chapter_course` FOREIGN KEY (`fk_course_id`) REFERENCES `t_course` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '课程列表中的章表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '课程列表中的章表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_chapter
 -- ----------------------------
-INSERT INTO `t_chapter` VALUES (1, '1', 'oracle基础知识', 'https/b409.jpg', 1, 'oracle基础知识', '2020-07-08 19:04:59', 1, 1, 0, NULL, '2020-07-10 18:46:40');
+INSERT INTO `t_chapter` VALUES (1, '1', 'oracle基础知识', 'https/b409.jpg', 1, 'oracle基础知识', '2020-07-08 19:04:59', 1, 1, 1, NULL, '2020-07-10 18:46:40');
 INSERT INTO `t_chapter` VALUES (2, '1', 'oracle基础知识', 'https://sedn9.jpg', 1, 'oracle基础知识', '2020-07-10 18:46:19', 1, 1, 1, 1, NULL);
+INSERT INTO `t_chapter` VALUES (3, '1', '123', NULL, 1, '123', '2020-11-30 13:58:00', NULL, 1, NULL, 1, NULL);
+INSERT INTO `t_chapter` VALUES (4, '1', '99', NULL, 1, '45', '2020-11-30 14:01:59', NULL, 1, 0, 2, '2020-11-30 14:55:33');
+INSERT INTO `t_chapter` VALUES (5, '89', '89', NULL, 1, '89', '2020-11-30 15:21:12', NULL, 1, 0, 1, NULL);
+INSERT INTO `t_chapter` VALUES (6, '99', '99', NULL, 1, '99', '2020-11-30 15:21:33', NULL, 1, 1, 1, NULL);
+INSERT INTO `t_chapter` VALUES (7, '1', '1', NULL, 1, '1', '2020-12-03 16:19:30', NULL, 5, 1, 1, NULL);
+INSERT INTO `t_chapter` VALUES (8, '1', '22', NULL, 1, '1', '2020-12-03 16:20:19', NULL, 5, 1, 2, '2020-12-03 16:22:03');
 
 -- ----------------------------
 -- Table structure for t_class
@@ -232,16 +240,21 @@ CREATE TABLE `t_class`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_class_profession_id`(`fk_profession_id`) USING BTREE,
   CONSTRAINT `fk_class_profession_id` FOREIGN KEY (`fk_profession_id`) REFERENCES `t_profession` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '班级管理表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '班级管理表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_class
 -- ----------------------------
-INSERT INTO `t_class` VALUES (1, 'JAVAEE20200708', 'updateClassName', '2020-07-08 12:12:50', '2020-07-09 12:12:58', 1, '萍乡学院', '计算机', '计算机', NULL, 1, 1, 2, NULL, '2020-07-10 17:19:41', 'updateClassName', 'JAVAEE20200708');
+INSERT INTO `t_class` VALUES (1, 'JAVAEE20200708', 'updateClassName', '2020-07-08 00:00:00', '2020-07-09 00:00:00', 1, '萍乡学院', '计算机', '计算机', '刘drd', 1, 1, 15, NULL, '2020-12-04 09:14:42', 'updateClassName', 'JAVAEE20200708');
 INSERT INTO `t_class` VALUES (2, 'JAVAEE20200709', 'updateClassName', '2020-07-10 00:00:00', '2020-07-10 00:00:00', 1, '萍乡学院', '计算机', NULL, NULL, 1, 0, 3, '2020-07-10 17:18:37', '2020-07-16 14:46:20', 'updateClassName', 'JAVAEE20200709');
 INSERT INTO `t_class` VALUES (3, 'JAVAEE20200709', 'java企业级开发', '2020-07-13 00:00:00', '2020-07-13 00:00:00', 1, '萍乡学院', '计算机', NULL, NULL, 1, 0, 1, '2020-07-13 13:57:54', '2020-07-16 14:46:19', NULL, NULL);
 INSERT INTO `t_class` VALUES (4, 'JAVAEE20200709', 'java企业级开发', '2020-07-16 00:00:00', '2020-07-16 00:00:00', 1, '萍乡学院', '计算机', NULL, NULL, 1, 0, 1, '2020-07-16 11:14:32', '2020-07-16 14:46:19', NULL, NULL);
-INSERT INTO `t_class` VALUES (5, 'JAVAEE20200709', 'java企业级开发', '2020-07-16 00:00:00', '2020-07-16 00:00:00', 1, '萍乡学院', '计算机', NULL, NULL, 1, 1, 1, '2020-07-16 14:47:27', NULL, NULL, NULL);
+INSERT INTO `t_class` VALUES (5, 'JAVAEE20200709', 'java企业级开发', '2020-07-16 00:00:00', '2020-07-16 00:00:00', 1, '萍乡学院', '计算机', '', 'sfaefwae', 1, 1, 13, '2020-07-16 14:47:27', '2020-12-03 09:08:32', 'java企业级开发', 'JAVAEE20200709');
+INSERT INTO `t_class` VALUES (9, 'JAVAEE20201201', '个税收入', '2020-01-01 00:00:00', '2020-03-01 00:00:00', 1, '萍乡学院', '计算机', '额我热热啊额热', '生日', 1, 0, 1, '2020-12-01 10:59:54', '2020-12-01 11:19:29', NULL, NULL);
+INSERT INTO `t_class` VALUES (10, 'JAVAEE3948952', 'dsaafe', '2020-06-01 00:00:00', '2020-07-09 00:00:00', 1, '萍乡学院', '计算机', '4wtt', 'tggww', 1, 0, 1, '2020-12-01 11:05:32', '2020-12-01 11:19:29', NULL, NULL);
+INSERT INTO `t_class` VALUES (11, 'eeeaffeeefe', 'juyuyukii', '2020-02-01 00:00:00', '2020-03-01 00:00:00', 1, '萍乡学院', '计算机', 'khhnmhf', 'rgrwg', 1, 0, 1, '2020-12-01 11:07:25', '2020-12-01 11:12:19', NULL, NULL);
+INSERT INTO `t_class` VALUES (12, '4t4t4tt4', 'lklgyfds', '2020-02-01 00:00:00', '2020-03-01 00:00:00', 1, '萍乡学院', '计算机', ' vcx xcv bfx', 'jmj,mnn,', 1, 0, 1, '2020-12-01 11:11:13', '2020-12-01 11:13:21', NULL, NULL);
+INSERT INTO `t_class` VALUES (13, 'JAVAEE20201203', '阿色', '2020-02-01 00:00:00', '2020-02-13 00:00:00', 1, '萍乡学院', '计算机', '犬瘟热千万人', '法尔', 1, 1, 2, '2020-12-03 17:31:35', '2020-12-03 17:31:57', '阿色', 'JAVAEE20201203');
 
 -- ----------------------------
 -- Table structure for t_class_planmanager
@@ -260,7 +273,13 @@ CREATE TABLE `t_class_planmanager`  (
 -- Records of t_class_planmanager
 -- ----------------------------
 INSERT INTO `t_class_planmanager` VALUES (1, 1);
-INSERT INTO `t_class_planmanager` VALUES (2, 1);
+INSERT INTO `t_class_planmanager` VALUES (1, 2);
+INSERT INTO `t_class_planmanager` VALUES (1, 5);
+INSERT INTO `t_class_planmanager` VALUES (1, 9);
+INSERT INTO `t_class_planmanager` VALUES (1, 10);
+INSERT INTO `t_class_planmanager` VALUES (1, 11);
+INSERT INTO `t_class_planmanager` VALUES (1, 12);
+INSERT INTO `t_class_planmanager` VALUES (1, 13);
 
 -- ----------------------------
 -- Table structure for t_class_resource
@@ -278,9 +297,9 @@ CREATE TABLE `t_class_resource`  (
 -- ----------------------------
 -- Records of t_class_resource
 -- ----------------------------
-INSERT INTO `t_class_resource` VALUES (1, 1);
 INSERT INTO `t_class_resource` VALUES (1, 6);
 INSERT INTO `t_class_resource` VALUES (1, 7);
+INSERT INTO `t_class_resource` VALUES (1, 8);
 
 -- ----------------------------
 -- Table structure for t_client
@@ -388,10 +407,10 @@ CREATE TABLE `t_course`  (
 -- Records of t_course
 -- ----------------------------
 INSERT INTO `t_course` VALUES (1, 'KC_20181207145339', '企业级框架（SpringBoot）', '2020-07-10 18:55:20', '2020-01-02 18:55:20', 40, 1, 'aaa.jpg', 'Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的', '2020-07-10 18:55:20', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 1, 2, '2020-07-10 18:55:21');
-INSERT INTO `t_course` VALUES (2, 'KC_20181207145339', '企业级框架（SpringBoot）', '2020-07-09 10:37:27', '2020-01-02 10:37:27', 40, 1, 'aaa.jpg', 'Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的', '2020-07-09 10:37:27', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 0, 1, NULL);
-INSERT INTO `t_course` VALUES (3, 'KC_20181207142639', '项目管理工具（Maven）', '2020-07-09 10:38:19', '2020-01-02 10:38:19', 40, 1, 'aaa.jpg', 'Maven项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的项目管理工具软...', '2020-07-09 10:38:19', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 0, 1, NULL);
-INSERT INTO `t_course` VALUES (4, 'KC_20181204113845', '企业级框架（SpringMVC）', '2020-07-09 10:38:58', '2020-01-02 10:38:58', 40, 1, 'aaa.jpg', 'Spring MVC属于SpringFrameWork的后续产品，已经融合在Spring Web F...', '2020-07-09 10:38:58', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 0, 1, NULL);
-INSERT INTO `t_course` VALUES (5, 'KC_20181204113845', '企业级框架（SpringMVC）', '2020-07-10 18:55:13', '2020-01-02 18:55:13', 40, 1, 'aaa.jpg', 'Spring MVC属于SpringFrameWork的后续产品，已经融合在Spring Web F...', '2020-07-10 18:55:13', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 0, 1, NULL);
+INSERT INTO `t_course` VALUES (2, 'KC_20181207145339', '企业级框架（SpringBoot）', '2020-07-09 10:37:27', '2020-01-02 10:37:27', 40, 1, 'aaa.jpg', 'Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的', '2020-07-09 10:37:27', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 1, 5, '2020-12-05 10:30:26');
+INSERT INTO `t_course` VALUES (3, 'KC_20181207142639', '项目管理工具（Maven）', '2020-07-09 10:38:19', '2020-01-02 10:38:19', 40, 1, 'aaa.jpg', 'Maven项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的项目管理工具软...', '2020-07-09 10:38:19', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 1, 3, '2020-12-05 10:30:29');
+INSERT INTO `t_course` VALUES (4, 'KC_20181204113845', '企业级框架（SpringMVC）', '2020-07-09 10:38:58', '2020-01-02 10:38:58', 40, 1, 'aaa.jpg', 'Spring MVC属于SpringFrameWork的后续产品，已经融合在Spring Web F...', '2020-07-09 10:38:58', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 1, 1, NULL);
+INSERT INTO `t_course` VALUES (5, 'KC_20181204113845', '企业级框架（SpringMVC）', '2020-07-10 18:55:13', '2020-01-02 18:55:13', 40, 1, 'aaa.jpg', 'Spring MVC属于SpringFrameWork的后续产品，已经融合在Spring Web F...', '2020-07-10 18:55:13', 1, 1, 1, 1, 1, '框架', 1, '此属性有值，代表是从总控平台传送过来的数据', 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for t_course_category
@@ -409,7 +428,7 @@ CREATE TABLE `t_course_category`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_course_category_parent_id`(`fk_parent_id`) USING BTREE,
   CONSTRAINT `fk_course_category_parent_id` FOREIGN KEY (`fk_parent_id`) REFERENCES `t_course_category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '课程分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '课程分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_course_category
@@ -425,6 +444,17 @@ INSERT INTO `t_course_category` VALUES (9, 'java基础知识', '企业级开发�
 INSERT INTO `t_course_category` VALUES (10, 'java基础知识', '企业级开发框架', 2, '2020-07-10 18:53:42', 1, 1, '2020-07-10 18:53:42');
 INSERT INTO `t_course_category` VALUES (11, 'spring', 'spring框架可以简化开发，解耦', NULL, '2020-07-15 09:46:00', 0, 1, NULL);
 INSERT INTO `t_course_category` VALUES (12, 'springboot', '手脚架，约定大于配置', NULL, '2020-07-15 09:47:49', 1, 1, '2020-07-15 09:47:50');
+INSERT INTO `t_course_category` VALUES (13, 'java', '998888889', NULL, '2020-11-26 16:05:30', 1, 3, '2020-11-30 09:34:54');
+INSERT INTO `t_course_category` VALUES (14, 'springmvc', 'haha', NULL, '2020-11-26 16:08:28', 0, 2, '2020-11-26 16:38:44');
+INSERT INTO `t_course_category` VALUES (15, '123', '8888888888', NULL, '2020-11-27 10:03:33', 0, 2, '2020-11-27 13:40:23');
+INSERT INTO `t_course_category` VALUES (16, '789', '8888', 1, '2020-11-27 11:22:32', 0, 2, '2020-11-27 13:40:39');
+INSERT INTO `t_course_category` VALUES (17, '123', '888', 4, '2020-11-27 13:22:09', 1, 1, '2020-11-27 13:22:06');
+INSERT INTO `t_course_category` VALUES (18, 'thymeleaf', 'nan', 12, '2020-11-27 14:15:53', 1, 1, '2020-11-27 14:15:50');
+INSERT INTO `t_course_category` VALUES (19, '123', '888', NULL, '2020-11-27 14:52:24', 0, 2, '2020-11-27 14:52:47');
+INSERT INTO `t_course_category` VALUES (20, '888', '888', 13, '2020-11-27 14:53:12', 0, 2, '2020-11-27 14:53:19');
+INSERT INTO `t_course_category` VALUES (21, '888', '999', 13, '2020-11-30 09:34:43', 1, 1, '2020-11-30 09:34:40');
+INSERT INTO `t_course_category` VALUES (22, '99999', '88888', NULL, '2020-12-03 16:23:06', 0, 2, '2020-12-03 16:23:15');
+INSERT INTO `t_course_category` VALUES (23, '333', '22', 14, '2020-12-03 16:23:43', 1, 2, '2020-12-03 16:23:53');
 
 -- ----------------------------
 -- Table structure for t_course_comment
@@ -1008,9 +1038,9 @@ CREATE TABLE `t_org_institute`  (
 -- ----------------------------
 -- Records of t_org_institute
 -- ----------------------------
-INSERT INTO `t_org_institute` VALUES (1, '萍乡学院', 2, 0, 1, '2020-07-08 18:28:02', '2020-07-08 18:28:02');
-INSERT INTO `t_org_institute` VALUES (2, '快程乐码', 1, 0, 1, '2020-07-13 08:54:18', '2020-07-08 18:29:51');
-INSERT INTO `t_org_institute` VALUES (8, '快程乐码', 123, 0, 1, '2020-07-17 14:39:40', '2020-07-17 14:39:40');
+INSERT INTO `t_org_institute` VALUES (1, '萍乡学院', 2, 1, 1, '2020-11-26 11:19:49', '2020-07-08 18:28:02');
+INSERT INTO `t_org_institute` VALUES (2, '快程乐码', 1, 1, 1, '2020-11-26 11:19:51', '2020-07-08 18:29:51');
+INSERT INTO `t_org_institute` VALUES (8, '快程乐码', 123, 0, 1, '2020-11-26 14:44:31', '2020-07-17 14:39:40');
 
 -- ----------------------------
 -- Table structure for t_perm_menu
@@ -1146,113 +1176,134 @@ CREATE TABLE `t_planmanager`  (
   `version` int(3) NULL DEFAULT NULL COMMENT '版本',
   `last_access_time` timestamp(0) NULL DEFAULT NULL COMMENT '最后一次访问时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 103 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '方案管理表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '方案管理表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_planmanager
 -- ----------------------------
-INSERT INTO `t_planmanager` VALUES (1, '	FA_20200612143616', '	Android', 1, 'Android方案描述', 1, '2020-01-13 00:00:00', 1, '2020-01-13 00:00:00');
-INSERT INTO `t_planmanager` VALUES (2, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:36:21', 1, '2020-07-14 09:36:21');
-INSERT INTO `t_planmanager` VALUES (3, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 1, '2020-07-14 09:37:15');
-INSERT INTO `t_planmanager` VALUES (4, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 1, '2020-07-14 09:37:15');
-INSERT INTO `t_planmanager` VALUES (5, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 1, '2020-07-14 09:37:15');
-INSERT INTO `t_planmanager` VALUES (6, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 1, '2020-07-14 09:37:15');
-INSERT INTO `t_planmanager` VALUES (7, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 1, '2020-07-14 09:37:15');
-INSERT INTO `t_planmanager` VALUES (8, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (9, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (10, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (11, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (12, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (13, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (14, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (15, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (16, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (17, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (18, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (19, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (20, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (21, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (22, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (23, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (24, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (25, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (26, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:16', 1, '2020-07-14 09:37:16');
-INSERT INTO `t_planmanager` VALUES (27, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (28, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (29, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (30, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (31, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (32, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (33, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (34, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (35, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (36, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (37, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (38, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (39, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (40, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (41, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (42, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (43, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:17', 1, '2020-07-14 09:37:17');
-INSERT INTO `t_planmanager` VALUES (44, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (45, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (46, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (47, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (48, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (49, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (50, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (51, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (52, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:18', 1, '2020-07-14 09:37:18');
-INSERT INTO `t_planmanager` VALUES (53, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (54, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (55, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (56, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (57, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (58, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (59, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (60, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:44', 1, '2020-07-14 09:44:44');
-INSERT INTO `t_planmanager` VALUES (61, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (62, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (63, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (64, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (65, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (66, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (67, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (68, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (69, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (70, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (71, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (72, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (73, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (74, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (75, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (76, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (77, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (78, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (79, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:45', 1, '2020-07-14 09:44:45');
-INSERT INTO `t_planmanager` VALUES (80, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (81, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (82, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (83, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (84, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (85, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (86, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (87, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (88, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (89, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (90, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (91, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (92, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (93, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (94, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (95, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (96, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (97, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:46', 1, '2020-07-14 09:44:46');
-INSERT INTO `t_planmanager` VALUES (98, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:47', 1, '2020-07-14 09:44:47');
-INSERT INTO `t_planmanager` VALUES (99, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:47', 1, '2020-07-14 09:44:47');
-INSERT INTO `t_planmanager` VALUES (100, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:47', 1, '2020-07-14 09:44:47');
-INSERT INTO `t_planmanager` VALUES (101, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:47', 1, '2020-07-14 09:44:47');
-INSERT INTO `t_planmanager` VALUES (102, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', NULL, '2020-07-14 09:44:47', 1, '2020-07-14 09:44:47');
+INSERT INTO `t_planmanager` VALUES (1, '	FA_20200612143616', 'Android', 1, 'Android方案描述', 0, '2020-01-13 00:00:00', 1, '2020-01-13 00:00:00');
+INSERT INTO `t_planmanager` VALUES (2, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 15, '2020-12-05 10:19:09');
+INSERT INTO `t_planmanager` VALUES (3, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (4, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (5, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (6, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 0, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (7, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (8, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (9, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (10, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (11, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (12, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (13, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (14, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (15, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (16, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (17, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (18, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (19, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (20, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (21, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (22, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (23, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (24, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (25, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (26, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (27, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (28, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (29, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (30, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (31, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (32, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (33, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (34, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (35, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (36, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (37, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (38, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (39, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (40, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (41, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (42, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (43, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (44, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (45, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (46, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (47, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (48, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (49, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (50, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (51, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (52, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (53, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (54, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (55, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (56, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (57, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (58, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (59, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (60, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (61, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (62, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (63, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (64, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (65, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (66, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (67, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (68, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (69, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (70, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (71, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (72, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (73, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (74, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (75, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (76, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (77, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (78, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (79, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (80, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (81, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (82, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (83, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (84, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (85, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (86, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (87, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (88, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (89, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (90, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (91, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (92, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (93, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (94, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (95, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (96, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (97, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (98, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (99, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (100, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (101, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (102, 'FA_20200327153221', 'JAVAEE企业全栈开发', 1, 'JAVAEE企业全栈开发描述', 1, '2020-07-14 09:37:15', 7, '2020-12-04 10:58:23');
+INSERT INTO `t_planmanager` VALUES (103, '122', '456', 1, '456', 0, '2020-11-26 14:54:39', 3, '2020-11-26 14:54:37');
+INSERT INTO `t_planmanager` VALUES (104, '789', '456', 1, '888', 1, '2020-11-27 09:12:42', 2, '2020-11-27 09:12:39');
+INSERT INTO `t_planmanager` VALUES (105, '888', '4343', 0, '4343', 1, '2020-12-04 10:19:42', 4, '2020-12-04 10:56:41');
+INSERT INTO `t_planmanager` VALUES (106, '899', '12', 1, '89', 1, '2020-11-27 08:47:18', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (107, '123', '456', 1, '789', 0, '2020-11-27 08:49:44', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (108, '789', '456', 1, '888', 1, '2020-11-27 09:12:42', 2, '2020-11-27 09:12:39');
+INSERT INTO `t_planmanager` VALUES (109, '888', '4343', 0, '4343', 1, '2020-12-04 10:19:42', 4, '2020-12-04 10:56:41');
+INSERT INTO `t_planmanager` VALUES (110, '565', '666', 1, '666', 0, '2020-11-27 15:13:00', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (111, '7879898', '4565656', 1, '89898989', 1, '2020-11-30 09:46:14', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (112, '8888', '9999', 1, '8888', 0, '2020-12-03 16:14:11', 2, '2020-12-03 16:14:07');
+INSERT INTO `t_planmanager` VALUES (113, '999', '9999', 1, '9999', 0, '2020-12-03 16:14:41', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (114, '12', '88', 1, '21', 1, '2020-12-04 09:07:08', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (115, '54', '32', 1, '11', 1, '2020-12-04 09:08:38', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (116, '434', '4343', 1, '4343', 1, '2020-12-04 09:09:46', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (117, '555555', '5555', 1, '555', 1, '2020-12-04 09:11:50', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (118, '99999', '89889', 1, '2323', 1, '2020-12-04 09:12:59', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (119, '1', '1', 0, '1', 1, '2020-12-04 09:14:14', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (120, '434', '34343', 1, '4343', 1, '2020-12-04 09:57:46', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (121, '888', '4343', 0, '4343', 1, '2020-12-04 10:19:42', 4, '2020-12-04 10:56:41');
+INSERT INTO `t_planmanager` VALUES (122, '123', '456', 1, '8/888', 1, '2020-12-04 10:57:19', 1, NULL);
+INSERT INTO `t_planmanager` VALUES (123, '456', '789', 0, '12', 1, '2020-12-04 10:57:34', 7, '2020-12-05 08:34:27');
 
 -- ----------------------------
 -- Table structure for t_planmanager_course
@@ -1273,12 +1324,29 @@ CREATE TABLE `t_planmanager_course`  (
   INDEX `fk_planmanager_course`(`fk_planmanager_id`) USING BTREE,
   CONSTRAINT `fk_course_planmanager` FOREIGN KEY (`fk_course_id`) REFERENCES `t_course` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_planmanager_course` FOREIGN KEY (`fk_planmanager_id`) REFERENCES `t_planmanager` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '方案和课程的中间表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '方案和课程的中间表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_planmanager_course
 -- ----------------------------
 INSERT INTO `t_planmanager_course` VALUES (1, 1, 1, 1, 1, 1, 0, '2020-07-10 18:57:05', 1);
+INSERT INTO `t_planmanager_course` VALUES (12, 3, 1, 1, 1, 1, 0, '2020-12-02 16:32:57', 1);
+INSERT INTO `t_planmanager_course` VALUES (13, 3, 1, 9, 9, 1, 0, '2020-12-02 16:33:12', 1);
+INSERT INTO `t_planmanager_course` VALUES (14, 3, 5, 9, 9, 2, 0, '2020-12-02 16:33:25', 1);
+INSERT INTO `t_planmanager_course` VALUES (15, 108, 1, 1, 1, 1, 0, '2020-12-03 08:45:35', 1);
+INSERT INTO `t_planmanager_course` VALUES (16, 3, 1, 2, 2, 1, 0, '2020-12-03 09:02:05', 1);
+INSERT INTO `t_planmanager_course` VALUES (17, 111, 1, 1, 1, 2, 1, '2020-12-03 09:55:13', 10);
+INSERT INTO `t_planmanager_course` VALUES (18, 111, 3, 1, 1, 1, 1, '2020-12-03 09:55:28', 10);
+INSERT INTO `t_planmanager_course` VALUES (19, 111, 5, 2, 2, 2, 1, '2020-12-03 10:31:13', 12);
+INSERT INTO `t_planmanager_course` VALUES (20, 111, 3, 2, 2, 1, 1, '2020-12-03 10:31:42', 12);
+INSERT INTO `t_planmanager_course` VALUES (21, 111, 1, 9, 9, 1, 1, '2020-12-03 16:16:40', 1);
+INSERT INTO `t_planmanager_course` VALUES (22, 2, 4, 1, 1, 2, 1, '2020-12-04 15:08:55', 30);
+INSERT INTO `t_planmanager_course` VALUES (23, 120, 1, 1, 1, 1, 1, '2020-12-05 08:34:42', 1);
+INSERT INTO `t_planmanager_course` VALUES (24, 123, 1, 1, 1, 1, 1, '2020-12-05 08:35:02', 1);
+INSERT INTO `t_planmanager_course` VALUES (25, 2, 3, 1, 1, 1, 1, '2020-12-05 10:32:38', 18);
+INSERT INTO `t_planmanager_course` VALUES (26, 2, 3, 1, 1, 3, 1, '2020-12-05 10:32:48', 25);
+INSERT INTO `t_planmanager_course` VALUES (27, 2, 1, 4, 4, 2, 1, '2020-12-05 10:32:56', 4);
+INSERT INTO `t_planmanager_course` VALUES (28, 2, 4, 4, 4, 1, 1, '2020-12-05 10:33:06', 4);
 
 -- ----------------------------
 -- Table structure for t_poll_ltem
@@ -1389,13 +1457,22 @@ CREATE TABLE `t_profession`  (
   `create_time` timestamp(0) NOT NULL COMMENT '创建时间',
   `last_access_time` timestamp(0) NULL DEFAULT NULL COMMENT '最后一次访问时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '专业表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '专业表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_profession
 -- ----------------------------
 INSERT INTO `t_profession` VALUES (1, '软件测试', '测试数据内容', 1, '萍乡学院', '计算机', 1, NULL, NULL, '2020-07-08 12:14:55', NULL);
-INSERT INTO `t_profession` VALUES (2, '软件开发', '专业内容2', 1, '萍乡学院', '计算机', 1, NULL, 1, '2020-07-09 09:38:09', NULL);
+INSERT INTO `t_profession` VALUES (2, '软件开发', '专业内容2', 1, '萍乡学院', '计算机', 1, '软件开发', 7, '2020-12-03 17:28:25', '2020-12-03 17:28:23');
+INSERT INTO `t_profession` VALUES (3, '天龙八', 'wqeq', 0, '天龙八部', '书法', 0, '天龙八', 3, '2020-11-25 13:59:32', '2020-11-25 13:59:32');
+INSERT INTO `t_profession` VALUES (4, '32eref', 'we', 1, '神雕侠侣', '钢琴', 0, NULL, 1, '2020-11-25 09:33:39', NULL);
+INSERT INTO `t_profession` VALUES (5, '文青的F', 'QWEQW', 0, '神雕侠侣', '英语', 0, NULL, 1, '2020-11-25 13:32:42', NULL);
+INSERT INTO `t_profession` VALUES (6, '文青的F', 'QWEQW', 0, '神雕侠侣', '英语', 0, NULL, 1, '2020-11-25 14:18:39', NULL);
+INSERT INTO `t_profession` VALUES (7, '温热', 'QWEQW', 0, '天龙八部', '钢琴', 0, NULL, 1, '2020-11-25 14:18:59', NULL);
+INSERT INTO `t_profession` VALUES (8, 'ttdhttdtdh', 'ftftd', 0, '快程乐码', '学校', 0, 'ttdhttdtdh', 7, '2020-11-26 16:00:30', '2020-11-26 16:00:29');
+INSERT INTO `t_profession` VALUES (9, '144呃', '2424', 1, '快程乐码', '学校', 0, '144呃', 4, '2020-11-27 14:16:52', '2020-11-27 14:16:50');
+INSERT INTO `t_profession` VALUES (10, '软件', '学院当时发生的', 1, '快程乐码', '学校', 0, '软件', 2, '2020-12-03 17:29:16', '2020-12-03 17:29:14');
+INSERT INTO `t_profession` VALUES (11, '额而非', '热诶', 1, '快程乐码', '学校', 0, NULL, 1, '2020-12-03 17:30:02', NULL);
 
 -- ----------------------------
 -- Table structure for t_question
@@ -1512,9 +1589,9 @@ CREATE TABLE `t_resource`  (
   `resource_desc` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源描述',
   `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
   `is_delete` int(1) NULL DEFAULT NULL COMMENT '逻辑删除，1表示未删除，0表示已删除',
-  `fk_section_id` int(11) NOT NULL COMMENT '外键，节ID',
-  `fk_chapter_id` int(11) NOT NULL COMMENT '外键，章节ID',
-  `fk_course_id` int(11) NOT NULL COMMENT '外键，课程ID',
+  `fk_section_id` int(11) NULL DEFAULT NULL COMMENT '外键，节ID',
+  `fk_chapter_id` int(11) NULL DEFAULT NULL COMMENT '外键，章节ID',
+  `fk_course_id` int(11) NULL DEFAULT NULL COMMENT '外键，课程ID',
   `fk_resource_type_id` int(11) NULL DEFAULT NULL COMMENT '外键，资源类型ID',
   `old_resourcename` int(11) NULL DEFAULT NULL COMMENT '旧资源名称',
   `version` int(3) NULL DEFAULT NULL COMMENT '版本号',
@@ -1528,18 +1605,18 @@ CREATE TABLE `t_resource`  (
   CONSTRAINT `fk_resource_course_id` FOREIGN KEY (`fk_course_id`) REFERENCES `t_course` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_resource_resource_type_id` FOREIGN KEY (`fk_resource_type_id`) REFERENCES `t_resource_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_resource_section_id` FOREIGN KEY (`fk_section_id`) REFERENCES `t_section` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_resource
 -- ----------------------------
-INSERT INTO `t_resource` VALUES (1, '呵呵呵呵呵', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, NULL, NULL, '2020-07-16 15:10:09');
-INSERT INTO `t_resource` VALUES (6, 'springboot学习笔记', NULL, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-13 09:09:24', 1, 1, 1, 1, NULL, NULL, 1, NULL);
-INSERT INTO `t_resource` VALUES (7, 'springboot学习笔记', NULL, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-13 15:34:47', 1, 1, 1, 1, NULL, NULL, 1, NULL);
-INSERT INTO `t_resource` VALUES (8, 'springboot学习笔记', NULL, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-13 16:37:15', 1, 1, 1, 1, NULL, NULL, 1, NULL);
-INSERT INTO `t_resource` VALUES (9, 'springboot学习笔记', NULL, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-16 14:34:41', 1, 1, 1, 1, NULL, NULL, 1, NULL);
-INSERT INTO `t_resource` VALUES (10, 'Bootstrap学习', NULL, '.ppt', 49445, NULL, NULL, NULL, '前端也挺好', '2020-07-16 15:10:09', 1, 1, 1, 1, NULL, NULL, 1, NULL);
-INSERT INTO `t_resource` VALUES (11, 'Bootstrap学习', NULL, '.ppt', 49445, NULL, NULL, NULL, '前端也挺好', '2020-07-16 15:10:22', 1, 1, 1, 1, NULL, NULL, 1, NULL);
+INSERT INTO `t_resource` VALUES (6, 'springboot学习笔记', 1, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-13 09:09:24', 1, 1, 1, 1, 1, NULL, 1, NULL);
+INSERT INTO `t_resource` VALUES (7, 'springboot学习笔记', 1, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-13 15:34:47', 1, 1, 1, 1, 1, NULL, 1, NULL);
+INSERT INTO `t_resource` VALUES (8, 'springboot学习笔记', 1, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-13 16:37:15', 1, 1, 1, 1, 1, NULL, 1, NULL);
+INSERT INTO `t_resource` VALUES (9, 'springboot学习笔记', 0, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-16 14:34:41', 1, 1, 1, 1, 8, NULL, 1, NULL);
+INSERT INTO `t_resource` VALUES (10, 'Bootstrap学习', 0, '.ppt', 49445, NULL, NULL, NULL, '前端也挺好', '2020-07-16 15:10:09', 1, 1, 1, 1, 8, NULL, 1, NULL);
+INSERT INTO `t_resource` VALUES (11, 'springboot学习', 0, '.pdf', 6165, NULL, NULL, NULL, 'JAVA功夫好呵呵', '2020-07-16 14:34:41', 1, 1, 1, 1, 8, NULL, 1, NULL);
+INSERT INTO `t_resource` VALUES (37, '学习', 1, '.txt', 3, NULL, NULL, NULL, '过分过分过分', '2020-12-04 17:26:13', 1, 1, 1, 1, 1, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for t_resource_type
@@ -1554,26 +1631,19 @@ CREATE TABLE `t_resource_type`  (
   `version` int(3) NULL DEFAULT NULL COMMENT '版本号',
   `last_access_time` timestamp(0) NULL DEFAULT NULL COMMENT '最后一次访问时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源类型 表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源类型 表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_resource_type
 -- ----------------------------
-INSERT INTO `t_resource_type` VALUES (1, '公共资源', '公开的资源 ', '2020-07-08 19:07:12', NULL, NULL, '2020-07-16 14:35:27');
-INSERT INTO `t_resource_type` VALUES (5, '课程资源', '公开的资源哈哈', '2020-07-10 11:59:01', NULL, NULL, NULL);
-INSERT INTO `t_resource_type` VALUES (6, '课程资源', '公开的资源哈哈', '2020-07-10 14:01:01', NULL, NULL, NULL);
-INSERT INTO `t_resource_type` VALUES (7, '课程资源', '公开的资源哈哈', '2020-07-10 15:42:17', NULL, NULL, NULL);
+INSERT INTO `t_resource_type` VALUES (1, '公共资源', '公开的资源 ', '2020-07-08 19:07:12', 1, NULL, '2020-07-16 14:35:27');
+INSERT INTO `t_resource_type` VALUES (5, '课程资源', '公开的资源哈哈', '2020-07-10 11:59:01', 0, NULL, NULL);
+INSERT INTO `t_resource_type` VALUES (6, '课程资源', '公开的资源哈哈', '2020-07-10 14:01:01', 0, NULL, NULL);
+INSERT INTO `t_resource_type` VALUES (7, '课程资源', '公开的资源哈哈', '2020-07-10 15:42:17', 0, NULL, NULL);
 INSERT INTO `t_resource_type` VALUES (8, '课程资源', '公开的资源哈哈', '2020-07-10 16:06:37', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (9, '课程资源', '公开的资源哈哈', '2020-07-11 14:39:15', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (10, '课程资源', '公开的资源哈哈', '2020-07-13 09:09:56', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (11, '课程资源', '公开的资源哈哈', '2020-07-13 15:34:18', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (12, '课程资源', '公开的资源哈哈', '2020-07-13 16:36:50', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (13, '课程资源', '公开的资源哈哈', '2020-07-14 10:50:49', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (14, '私有的资源呵呵呵', '私有的资源', '2020-07-14 11:21:45', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (15, '私有资源', '私有的资源', '2020-07-14 11:23:27', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (16, '私有资源', '私有的资源', '2020-07-15 15:31:50', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (17, '私有资源', '私有的资源', '2020-07-15 15:32:10', 1, 1, NULL);
-INSERT INTO `t_resource_type` VALUES (18, '私有资源', '私有的资源', '2020-07-16 14:35:27', 1, 1, NULL);
+INSERT INTO `t_resource_type` VALUES (9, '课程资源', '公开的资源哈哈', '2020-07-11 14:39:15', 0, 1, NULL);
+INSERT INTO `t_resource_type` VALUES (10, '课程资源', '公开的资源哈哈', '2020-07-13 09:09:56', 0, 1, NULL);
+INSERT INTO `t_resource_type` VALUES (21, '哈哈哈', '笑容', '2020-11-26 09:43:47', NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for t_role
@@ -1677,12 +1747,13 @@ CREATE TABLE `t_section`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_section_chapter`(`fk_chapter_id`) USING BTREE,
   CONSTRAINT `fk_section_chapter` FOREIGN KEY (`fk_chapter_id`) REFERENCES `t_chapter` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '课程列表中的节表，可以关联多段视频' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '课程列表中的节表，可以关联多段视频' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_section
 -- ----------------------------
-INSERT INTO `t_section` VALUES (1, '节名称1', '节编号1', NULL, '2020-07-08 19:06:01', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `t_section` VALUES (1, '节名称1', '节编号1', NULL, '2020-07-08 19:06:01', 1, 1, 1, NULL, NULL, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `t_section` VALUES (2, '节名称2', '节编号2', NULL, '2020-07-08 19:06:01', 1, 2, 1, NULL, NULL, NULL, NULL, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_section_video
@@ -1742,16 +1813,15 @@ CREATE TABLE `t_student`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_student_class_id`(`fk_class_id`) USING BTREE,
   CONSTRAINT `fk_student_class_id` FOREIGN KEY (`fk_class_id`) REFERENCES `t_class` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表，包含管理员，教师，咨询师等用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表，包含管理员，教师，咨询师等用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_student
 -- ----------------------------
-INSERT INTO `t_student` VALUES (1, 'zk', NULL, '17646621', NULL, NULL, '十八', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '应届生', NULL, NULL, NULL, NULL, NULL, 0, 1, '2020-07-08 12:18:10', NULL, 1, 1);
+INSERT INTO `t_student` VALUES (1, 'zk', NULL, '17646621', NULL, NULL, '十八', NULL, NULL, NULL, NULL, '2020-12-31', NULL, NULL, NULL, '应届生', NULL, NULL, NULL, NULL, NULL, 0, 1, '2020-07-08 12:18:10', NULL, 1, 1);
 INSERT INTO `t_student` VALUES (2, '测试学生-4', '17376001', '17376001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '应届生', NULL, NULL, NULL, NULL, NULL, 0, 0, '2020-07-15 16:22:21', NULL, 1, 1);
 INSERT INTO `t_student` VALUES (3, '测试学生-2', NULL, '17376001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '应届生', NULL, NULL, NULL, NULL, NULL, 0, 0, '2020-07-15 16:22:48', NULL, 1, 1);
-INSERT INTO `t_student` VALUES (4, '测试学生-2', NULL, '17376001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '应届生', NULL, NULL, NULL, NULL, NULL, 0, 1, '2020-07-21 18:02:25', NULL, 1, 1);
-INSERT INTO `t_student` VALUES (5, '测试学生-2', NULL, '17376001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '应届生', NULL, NULL, NULL, NULL, NULL, 0, 1, '2020-07-22 10:19:47', NULL, 1, 1);
+INSERT INTO `t_student` VALUES (4, '测试', NULL, '17370003', NULL, NULL, '非', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '应届生', NULL, NULL, NULL, NULL, NULL, 0, 0, '2020-12-02 12:04:58', NULL, 1, 5);
 
 -- ----------------------------
 -- Table structure for t_student_note
@@ -2017,18 +2087,54 @@ CREATE TABLE `t_user`  (
   `last_access_time` timestamp(0) NULL DEFAULT NULL COMMENT '最后一次访问时间',
   `version` int(3) NULL DEFAULT 1 COMMENT '版本号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表，包含管理员，教师，咨询师等用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表，包含管理员，教师，咨询师等用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'admin', '123456', '18626283457', '叶加飞', 'yejf@kclmedu.com', 'yejf_securet@kclmedu.com', 1, '362581190890234456', 1, '2022-01-12', 1, '1980-01-30', NULL, '描述用户', '经理', 0, 1, '2020-07-07 16:35:22', '2020-11-24 17:00:16', 1);
+INSERT INTO `t_user` VALUES (1, 'admin', '123456', '18626283457', '叶加飞', 'yejf@kclmedu.com', 'yejf_securet@kclmedu.com', 1, '362581190890234456', 1, '2022-01-12', 1, '1980-01-30', NULL, '描述用户', '经理', 0, 1, '2020-07-07 16:35:22', '2020-12-05 13:07:33', 1);
 INSERT INTO `t_user` VALUES (7, 'artherine', '123456', '19808055552', 'Artherine', 'wellwsy@163.com', NULL, NULL, NULL, 1, '2020-10-31', 1, NULL, NULL, NULL, 'none', 0, 1, NULL, '2020-11-20 17:25:20', 1);
-INSERT INTO `t_user` VALUES (8, 'tourist', '123456', '13800001111', 'user1', 'wwww@xx.us', NULL, NULL, NULL, 0, '2021-01-28', 1, NULL, NULL, NULL, 'none', 0, 1, NULL, NULL, 1);
-INSERT INTO `t_user` VALUES (9, 'invalid', '123456', '123312231213', 'Invaly', 'wqeqeqeq@xxxx.cn', NULL, 0, NULL, 0, NULL, 1, NULL, NULL, NULL, 'none', 0, 1, NULL, NULL, 1);
+INSERT INTO `t_user` VALUES (8, 'tourist', '123456', '13800001111', 'user1', 'wwww@xx.us', NULL, NULL, NULL, 1, '2021-01-28', 1, NULL, NULL, NULL, 'none', 0, 1, NULL, NULL, 1);
+INSERT INTO `t_user` VALUES (9, 'invalid', '123456', '123312231213', 'Invaly', 'wqeqeqeq@xxxx.cn', NULL, 0, NULL, 1, NULL, 1, NULL, NULL, NULL, 'none', 0, 1, NULL, NULL, 1);
 INSERT INTO `t_user` VALUES (10, 'suspect', '123456', '2345675432', 'own', 'reew@xxx.eu', NULL, NULL, NULL, 0, '2020-11-08', 1, NULL, NULL, NULL, 'none', 0, 1, NULL, NULL, 1);
 INSERT INTO `t_user` VALUES (14, 'test01', '123456', '13600002222', '测试人员2', 'qwe@xx.cn', NULL, 0, NULL, 1, '2021-03-18', 1, NULL, NULL, NULL, 'none', 0, 1, '2020-10-31 11:09:14', '2020-11-24 16:59:00', 1);
-INSERT INTO `t_user` VALUES (20, 'test02', '123456', '13600001111', '测试人员01', 'ceshi@qq.com', NULL, 1, NULL, 1, NULL, 1, NULL, NULL, NULL, 'none', 0, 1, '2020-11-24 15:47:09', '2020-11-24 16:59:34', 1);
+INSERT INTO `t_user` VALUES (20, 'test02', '123456', '13600001111', '测试人员0111', 'ceshi@qq.com', NULL, 1, NULL, 1, '2020-11-29', 1, NULL, NULL, NULL, 'none', 0, 1, '2020-11-24 15:47:09', '2020-11-24 16:59:34', 1);
+INSERT INTO `t_user` VALUES (25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-11-26 09:32:01', NULL, 1);
+INSERT INTO `t_user` VALUES (26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-11-26 09:42:32', NULL, 1);
+INSERT INTO `t_user` VALUES (27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-11-26 09:42:44', NULL, 1);
+INSERT INTO `t_user` VALUES (28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-11-26 09:48:23', NULL, 1);
+INSERT INTO `t_user` VALUES (29, '测试05', '111111', '13600001111', '测试人员05', 'ceshi@qq.com', NULL, 1, NULL, 1, NULL, 1, NULL, NULL, NULL, 'none', 0, 1, '2020-11-26 10:36:03', NULL, 1);
+INSERT INTO `t_user` VALUES (31, 'ceshi', '55555', '13600001111', '测试人员05', 'ceshi@qq.com', NULL, 1, NULL, 1, NULL, 1, NULL, NULL, NULL, 'none', 0, 1, '2020-11-26 16:41:43', NULL, 1);
+INSERT INTO `t_user` VALUES (32, 'test04', '123456', '13600001111', '测试人员014', 'ceshi@qq.com', NULL, 1, NULL, 1, NULL, 1, NULL, NULL, NULL, 'none', 0, 1, '2020-11-26 17:10:29', NULL, 1);
+INSERT INTO `t_user` VALUES (33, '测试教师01', '123456', '13600001111', '测试教师011', 'ceshi@qq.com', NULL, 1, NULL, 1, '2020-11-29', 2, NULL, NULL, NULL, 'none', 0, 1, '2020-12-01 09:30:36', NULL, 1);
+INSERT INTO `t_user` VALUES (34, '测试咨询师01', '123456', '13600002222', '测试咨询师011', 'ceshi@qq.com', NULL, 0, NULL, 1, '2020-10-30', 3, NULL, NULL, NULL, 'none', 0, 1, '2020-12-01 09:31:27', '2020-12-01 10:04:11', 1);
+INSERT INTO `t_user` VALUES (36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-12-01 10:48:40', NULL, 1);
+INSERT INTO `t_user` VALUES (37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-12-02 10:40:08', NULL, 1);
+INSERT INTO `t_user` VALUES (39, '测试教师02', '123456', '13600001111', 'otto2', 'ceshi@qq.com', NULL, 1, NULL, 1, NULL, 2, NULL, NULL, NULL, 'none', 0, 1, '2020-12-03 15:56:43', NULL, 1);
+INSERT INTO `t_user` VALUES (40, '123', '3232', '123', '323', '123', NULL, 1, NULL, 1, '2020-12-03', 1, NULL, NULL, NULL, 'none', 0, 1, '2020-12-04 09:33:38', NULL, 1);
+INSERT INTO `t_user` VALUES (41, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-12-04 09:34:18', NULL, 1);
+INSERT INTO `t_user` VALUES (42, '1577014111', '123456', '136000022', '000', 'ceshi@qq.com', NULL, 1, NULL, 1, '2020-12-20', 2, NULL, NULL, NULL, 'none', 0, 1, '2020-12-04 11:01:43', NULL, 1);
+INSERT INTO `t_user` VALUES (45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-12-04 15:17:06', NULL, 1);
+INSERT INTO `t_user` VALUES (47, '测试教师01', '123456', '136000022', '测试人员0111', 'ceshi@qq.com', NULL, 0, NULL, 1, NULL, 2, NULL, NULL, NULL, 'none', 0, 1, '2020-12-04 15:22:38', NULL, 1);
+INSERT INTO `t_user` VALUES (48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-12-04 15:26:17', NULL, 1);
+INSERT INTO `t_user` VALUES (49, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'none', 0, 1, '2020-12-04 15:26:25', NULL, 1);
+
+-- ----------------------------
+-- Table structure for t_user_class
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user_class`;
+CREATE TABLE `t_user_class`  (
+  `user_id` int(11) NOT NULL COMMENT '用户外键ID',
+  `class_id` int(11) NOT NULL COMMENT '班级外键ID',
+  PRIMARY KEY (`user_id`, `class_id`) USING BTREE,
+  INDEX `fk_class_id_20201204`(`class_id`) USING BTREE,
+  CONSTRAINT `fk_class_id_20201204` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_user_id_20201204` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '老师(用户)和班级的中间表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_user_class
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_user_group
@@ -2049,9 +2155,20 @@ CREATE TABLE `t_user_group`  (
 INSERT INTO `t_user_group` VALUES (1, 24);
 INSERT INTO `t_user_group` VALUES (7, 24);
 INSERT INTO `t_user_group` VALUES (20, 30);
+INSERT INTO `t_user_group` VALUES (33, 30);
+INSERT INTO `t_user_group` VALUES (39, 30);
+INSERT INTO `t_user_group` VALUES (47, 30);
+INSERT INTO `t_user_group` VALUES (29, 32);
+INSERT INTO `t_user_group` VALUES (42, 32);
 INSERT INTO `t_user_group` VALUES (8, 37);
+INSERT INTO `t_user_group` VALUES (29, 37);
+INSERT INTO `t_user_group` VALUES (32, 37);
 INSERT INTO `t_user_group` VALUES (14, 38);
+INSERT INTO `t_user_group` VALUES (29, 38);
+INSERT INTO `t_user_group` VALUES (32, 38);
 INSERT INTO `t_user_group` VALUES (10, 39);
+INSERT INTO `t_user_group` VALUES (29, 39);
+INSERT INTO `t_user_group` VALUES (32, 39);
 
 -- ----------------------------
 -- Table structure for t_video
@@ -2082,6 +2199,9 @@ CREATE TABLE `t_video`  (
 -- Records of t_video
 -- ----------------------------
 INSERT INTO `t_video` VALUES (1, 'java基本语法', 1, NULL, 1, 123456.0, 1234, 'tanj', 1, NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `t_video` VALUES (2, 'java基本语法', 1, NULL, 2, 123456.0, 1234, 'zhang_hy', 1, NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `t_video` VALUES (3, 'jsp视频合集', 2, NULL, 5, 123456.0, 1234, 'zhang_hy', 1, NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `t_video` VALUES (4, 'jspday1', 1, 3, 1, 123456.0, 1234, 'zhang_hy', 1, NULL, NULL, 1, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_video_collect
@@ -2156,6 +2276,5 @@ CREATE TABLE `t_videowatch_record`  (
 -- ----------------------------
 -- Records of t_videowatch_record
 -- ----------------------------
-
 
 SET FOREIGN_KEY_CHECKS = 1;
