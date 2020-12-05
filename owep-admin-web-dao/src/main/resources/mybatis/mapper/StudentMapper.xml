@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--学员表的SQL操作-->
-<mapper namespace="com.kclm.owep.mapper.StudentMapper">
+ <mapper namespace="com.kclm.owep.mapper.StudentMapper">
 
   <!--实体属性对应相应的表字段-->
   <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Student">
@@ -51,13 +51,40 @@
     where id = #{id,jdbcType=INTEGER} and is_delete = 1
   </select>
 
-  <!--查询所有记录-->
-  <select id="selectAll" resultMap="BaseResultMap">
+  <!--根据班级id查询学生记录-->
+  <select id="selectByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from t_student
-    where is_delete = 1
+    where fk_class_id = #{cid,jdbcType=INTEGER} and is_delete = 1
   </select>
+
+  <!--根据学号和姓名查询-->
+  <select id="selectByKeyword" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_student
+    where
+    <if test="id != null and id != ''">
+      id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="stuNumber != null and stuNumber != ''">
+     and stu_number = #{stuNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="stuRealName != null and stuRealName != ''">
+      and stu_real_name = #{stuRealName,jdbcType=VARCHAR}
+    </if>
+     and is_delete = 1
+  </select>
+
+  <!--查询所有记录-->
+  <select id="selectAll" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from t_student
+  where is_delete = 1
+</select>
+
 
   <!--根据id删除记录,改变is_delete的状态-->
   <update id="deleteById" parameterType="java.lang.Integer">
@@ -330,5 +357,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--真的删除-->
+  <delete id="delete">
+    delete from t_student where  id=#{id}
+  </delete>
 
 </mapper>

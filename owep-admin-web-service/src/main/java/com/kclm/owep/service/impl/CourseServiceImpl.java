@@ -53,6 +53,9 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseDTO> findAllCourse() {
         List<Course> courses = courseMapper.selectAll();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+
+        List<CourseDTO> list = mapperFacade.mapAsList(courses, CourseDTO.class);
+
         return mapperFacade.mapAsList(courses, CourseDTO.class);
     }
 
@@ -219,10 +222,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course findCourseById(Serializable id) {
+    public Course selectById(Serializable id) {
         return courseMapper.selectById(id);
     }
 
+    @Override
+    public int deleteChapterById(Serializable id) {
+        return chapterMapper.deleteById(id);
+    }
 
     @Override
     public List<Section> selectAllById(Serializable id) {

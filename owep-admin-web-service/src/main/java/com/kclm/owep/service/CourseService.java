@@ -103,12 +103,16 @@ public interface CourseService {
     int alterChapter(Chapter chapter);
 
     /**
-     * 通过ChapterId,删除章
+     * 通过ChapterId,添加章
      * @param chapter
      * @return
      */
     int addChapter(Chapter chapter);
-
+    /**
+     * 通过id删除章
+     *
+     */
+    int deleteChapterById(Serializable id);
     /**
      * 添加 节
      * @param section
@@ -137,12 +141,8 @@ public interface CourseService {
      */
     int addSectionVideo(SectionVideo sectionVideo);
 
-    /**
-     * @author zhang_hy
-     * @date 2020-12-2 16:47
-     * @For  根据id查询课程
-     */
-    Course findCourseById(Serializable id);
+    Course selectById(Serializable id);
+
 
     /**
      * @author zhang_hy

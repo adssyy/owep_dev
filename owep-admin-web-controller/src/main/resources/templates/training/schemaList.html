@@ -41,7 +41,7 @@
 <div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
     <div class="row" style="margin-top: 25px;padding-left: 25px">
         <div class="col-md-6">
-            <form class="form-inline" th:action="#" method="post">
+            <form class="form-inline"  method="post">
                 <div class="form-group">
                     <label for="schemeNumberSearch">方案编号:</label>
                     <input type="text" class="form-control btn-sm" id="schemeNumberSearch">
@@ -82,29 +82,29 @@
             </div>
             <div class="modal-body">
                 <!--模态框内容-->
-                <form class="form-horizontal" th:action="#">
+                <form class="form-horizontal" th:action="@{/training/schemaList/addPlanManager}" name="addPlanManagerForm" id="addPlanManager">
                     <div class="form-group">
                         <label for="schemeNumberAdd" class="col-sm-2 control-label">方案编号:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="schemeNumberAdd">
+                            <input type="text" class="form-control" id="schemeNumberAdd" name="planNumber">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="schemeNameAdd" class="col-sm-2 control-label">方案名称:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="schemeNameAdd">
+                            <input type="text" class="form-control" id="schemeNameAdd" name="planName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="schemeDescAdd" class="col-sm-2 control-label">方案描述:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="schemeDescAdd">
+                            <input type="text" class="form-control" id="schemeDescAdd" name="planDesc">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用:</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" class="js-switch-1 form-control"/>
+                            <input type="checkbox" class="js-switch-1 form-control" name="planStatus"/>
                         </div>
                     </div>
                 </form>
@@ -128,7 +128,7 @@
             </div>
             <div class="modal-body">
                 <!--模态框内容-->
-                <form class="form-horizontal" th:action="#" id="schemeUpdateForm">
+                <form class="form-horizontal"  id="schemeUpdateForm">
                     <!--隐藏控件，需要被跟新记录的id-->
                     <input class="hidden" type="text" id="schemeUpdateId">
                     <div class="form-group">
@@ -175,7 +175,9 @@
                 <h4 class="modal-title">设置方案</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" th:action="#">
+                <form class="form-horizontal" >
+                    <input class="hidden" type="text" id="planManagerId">
+                    <input class="hidden" type="text" id="planManagerCourseId">
                     <div class="row">
                         <div class="form-group">
                             <label for="schemaNameSet" class="col-sm-2 control-label">方案名称:</label>
@@ -218,19 +220,20 @@
                 <h4 class="modal-title">阶段选择</h4>
             </div>
             <div class="modal-body">
+                <input class="hidden" type="text" id="courseId">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">阶段选择</label>
                     <div class="col-sm-10">
-                        <select class="form-control m-b" name="account">
-                            <option>第一阶段</option>
-                            <option>第二阶段</option>
-                            <option>第三阶段</option>
-                            <option>第四阶段</option>
-                            <option>第五阶段</option>
-                            <option>第六阶段</option>
-                            <option>第七阶段</option>
-                            <option>第八阶段</option>
-                            <option>第九阶段</option>
+                        <select class="form-control m-b" name="account" id="stageNum">
+                            <option stageid="1">第一阶段</option>
+                            <option stageid="2">第二阶段</option>
+                            <option stageid="3">第三阶段</option>
+                            <option stageid="4">第四阶段</option>
+                            <option stageid="5">第五阶段</option>
+                            <option stageid="6">第六阶段</option>
+                            <option stageid="7">第七阶段</option>
+                            <option stageid="8">第八阶段</option>
+                            <option stageid="9">第九阶段</option>
                         </select>
                     </div>
                 </div>
@@ -280,7 +283,7 @@
                 }
                 return temp;
             },
-            url: "../../static/js/demo/training/schemaTable.json",
+            url: "/owep/training/schemaList/getSchemaList",
             onLoadSuccess: checkbox_table,
             onPageChange: checkbox_table,
             columns: [{
@@ -291,19 +294,19 @@
                     title: 'ID',
                     visible: false
                 }, {
-                    field: 'schemaId',
+                    field: 'planNumber',
                     title: '方案编号',
                     align: "center"
                 }, {
-                    field: 'schemaName',
+                    field: 'planName',
                     title: '方案名称',
                     align: "center"
                 }, {
-                    field: 'schemaDesc',
+                    field: 'planDesc',
                     title: '方案描述',
                     align: "center"
                 }, {
-                    field: 'status',
+                    field: 'planStatus',
                     title: '启用状态',
                     align: "center",
                     formatter: switchBox
@@ -314,48 +317,63 @@
                     events: {
                         "click .updateBtn": function (e, value, row, index) {
                             //把数据回显到模态框中
-                            $("#schemeUpdateId").attr("value", row.id);
-                            $("#schemeNumberUpdate").attr("value", row.schemaId);
-                            $("#schemeNameUpdate").attr("value", row.schemaName);
-                            $("#schemeDescUpdate").text(row.schemaDesc);
-                            if (row.status == '启用') {
+
+                            $("#schemeNumberUpdate").val(row.planNumber);
+                            $("#schemeNameUpdate").val( row.planName);
+                            $("#schemeCheckUpdate").val( row.planStatus);
+                            $("#schemeDescUpdate").text(row.planDesc);
+                            if (row.planStatus == '启用') {
                                 setSwitchery(switchery_update, true);
                             } else {
                                 setSwitchery(switchery_update, false);
                             }
                             $('#update_schema_modal').modal('show');
+
                         },
                         "click .deleteBtn": function (e, value, row, index) {
                             swal({
-                                title: "提示",
-                                text: "你确定要删除这记录嘛，请谨慎操作！",
+                                title: '您确定要删除该信息吗？',
                                 type: "warning",
                                 showCancelButton: true,
                                 confirmButtonColor: "#DD6B55",
                                 confirmButtonText: "删除",
                                 closeOnConfirm: false
                             }, function () {
-                                //被删除记录的row.id
-                                //异步请求
-                                /*$.ajax({
-                                    type: "GET",
-                                    url: "",
-                                    data: {},
-                                    dataType: "json",
+                                let id = row.id;
+                                alert(id);
+                                //发送ajax 删除
+                                $.ajax({
+                                    url: "/owep/training/schemaList/deleteById?id="+id,
+                                    method: "get",
+                                    async: true,
+                                    data: id,
+                                    dataType: "text",   //期望服务端返回的数据类型
+                                    contentType: "application/json",
                                     success: function (data) {
-                                       // alert("添加成功");
-                                        swal("删除成功！", "您已经永久删除。", "success");
+                                        console.log(data.toString());
+                                        swal("删除成功！", "您已经永久删除已选信息", "success");
+                                        //重新加载页面
+                                        window.location.reload();
                                     },
-                                    error: function (jqXHQ) {
-                                        swal("删除失败！", "请检查网络。", "error");
+                                    error: function (jqXHR) {
+                                        swal("删除失败！", "未知错误", "error");
                                     }
-                                });*/
-                                swal("删除成功！", "您已经永久删除。", "success");
+                                });
+                                //根据Id字段删除对应的数据
+                                $(event).bootstrapTable('removeByUniqueId', id);
+
+                                swal("删除成功！", "您已经永久删除信息", "success");
                             });
                         },
                         "click .setBtn": function (e, value, row, index) {
                             //回显数据
-                            $("#schemaNameSet").attr("value", row.schemaName);
+                            $("#planManagerId").val(row.id);
+                            $("#schemaNameSet").val( row.planName);
+                            var planManagerId = $("#planManagerId").val();
+                            var opt = {
+                                url:"/owep/training/schemaList/findCourseById?planManagerId="+planManagerId,
+                            }
+                            $("#allocation_table").bootstrapTable('refresh',opt);
                             $('#schema_Set_modal').modal('show');
                         }
                     },
@@ -371,6 +389,7 @@
     });
     /*模态框中的已分配课程bootstrap-table 初始化*/
     $(function () {
+
         $("#allocation_table").bootstrapTable({
             pagination: true,
             pageNumber: 1,                       //初始化加载第一页，默认第一页
@@ -387,7 +406,7 @@
                 }
                 return temp;
             },
-            url: "../../static/js/demo/training/allocation_table.json",
+            url: "/owep/training/schemaList/findCourseById?planManagerId=[[${planManagerId}]]",
             columns:
                 [{
                     /*表中记录的id  主键------*/
@@ -407,14 +426,14 @@
                     visible: false
                 }, {
 
-                    field: 'courseStage',
+                    field: 'stageNum',
                     title: '课程阶段',
                     align: "center"
                 }, {
-                    field: 'rank',
+                    field: 'courseOrder',
                     title: '排序',
                     align: "center",
-                    sortable: true
+
                 }, {
                     field: 'courseName',
                     title: '课程名称',
@@ -426,16 +445,82 @@
                     events: {
 
                         "click .allocation_deleteBtn": function (e, value, row, index) {
-                            alert("删除");
+
                             //todo
+                            swal({
+                                title: '您确定要删除该信息吗？',
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "删除",
+                                closeOnConfirm: false
+                            }, function () {
+                                let id = row.id;
+                                alert(id);
+                                //发送ajax 删除
+                                $.ajax({
+                                    url: "/owep/training/schemaList/deletePlanManagerCourseById?id="+id,
+                                    method: "get",
+                                    async: true,
+                                    data: id,
+                                    dataType: "text",   //期望服务端返回的数据类型
+                                    contentType: "application/json",
+                                    success: function (data) {
+                                        console.log(data.toString());
+                                        swal("删除成功！", "您已经永久删除已选信息", "success");
+                                        //重新加载页面
+                                        window.location.reload();
+                                        //$('#schema_Set_modal').modal('show');
+                                    },
+                                    error: function (jqXHR) {
+                                        swal("删除失败！", "未知错误", "error");
+                                    }
+                                });
+                                //根据Id字段删除对应的数据
+                                $(event).bootstrapTable('removeByUniqueId', id);
+
+                                swal("删除成功！", "您已经永久删除信息", "success");
+                            });
                         },
                         "click .allocation_upBtn": function (e, value, row, index) {
-                            alert("下移");
-                            //todo
-                        },
-                        "click .allocation_downBtn": function (e, value, row, index) {
                             alert("上移");
                             //todo
+                            var courseOrder = row.courseOrder;
+                            var stageNum = row.stageNum;
+                            var planManagerId = $("#planManagerId").val();
+                            $.ajax({
+                                url:"/owep/training/schemaList/courseMoveUp?courseOrder="+courseOrder+"&stageNum="+stageNum+"&planManagerId="+planManagerId,
+                                method:"get",
+                                dataType:"text",
+                                contentType:"application/json",
+                                success:function (data) {
+                                    alert(data);
+                                    window.location.reload();
+                                },
+                                error:function (jqXHR) {
+                                    alert("上移失败");
+                                }
+                            })
+                        },
+                        "click .allocation_downBtn": function (e, value, row, index) {
+                            alert("下移");
+                            //todo
+                            var courseOrder = row.courseOrder;
+                            var stageNum = row.stageNum;
+                            var planManagerId = $("#planManagerId").val();
+                            $.ajax({
+                                url:"/owep/training/schemaList/courseMoveDown?courseOrder="+courseOrder+"&stageNum="+stageNum+"&planManagerId="+planManagerId,
+                                method:"get",
+                                dataType:"text",
+                                contentType:"application/json",
+                                success:function (data) {
+                                    alert(data);
+                                    window.location.reload();
+                                },
+                                error:function (jqXHR) {
+                                    alert("下移失败");
+                                }
+                            })
                         }
 
                     },
@@ -448,37 +533,12 @@
                     },
                 }], onLoadSuccess: function (data) {
                 //   merge("courseStage", $('#allocation_table'));
-                mergeCells($('#allocation_table').bootstrapTable("getData"), "courseStage", "courseStage", 1, $('#allocation_table'));
+                mergeCells($('#allocation_table').bootstrapTable("getData"), "stageNum", "stageNum", 1, $('#allocation_table'));
                 //    mergeCells($('#allocation_table').bootstrapTable("getData"), "courseStage", "rank", 1, $('#allocation_table'));
             }
         });
 
-        /* function merge(fieldName, target) {
-             //获取表单数据
-             let table_data = $(target).bootstrapTable("getData");
-             let length = table_data.length;
-             //冒泡排序
-             let i, j;
-             for (i = 0; i < length - 1; i++) {
-                 for (j = i + 1; j < length; j++) {
-                     if (table_data[i].courseStage == table_data[j].courseStage) {
-                         $(target).bootstrapTable('mergeCells', {
-                             index: i,
-                             field: fieldName,
-                             colspan: 1,
-                             rowspan: 2
-                         });
-                     }
-                 }
-             }
-         }*/
 
-        /*
-        index	从第几行开始合并
-        field	从那一列开始合并
-        colspan	要合并几列
-        rowspan	要合并几行
-        */
         /**
          * 合并单元格
          * @param data  原始数据（在服务端完成排序）
@@ -540,7 +600,7 @@
                 }
                 return temp;
             },
-            url: "../../static/js/demo/training/choose_table.json",
+            url: "/owep/training/schemaList/getCourseList",
             columns: [
                 {
                     field: 'id',
@@ -559,6 +619,7 @@
                     title: "操作",
                     events: {
                         "click .addCourseBtn": function (e, value, row, index) {
+                            $("#courseId").val(row.id);
                             $("#choose_course_stage_modal").modal();
                         }
 
@@ -608,64 +669,85 @@
 <script>
     /*面包屑 模态框中 删除按钮事件*/
     $('.deleteMulti').click(function () {
-        let bootstrapTable = $("#schemaTable").bootstrapTable('getAllSelections');
-        if (bootstrapTable.length == 0 || bootstrapTable == "") {
-            swal({
-                title: "提示",
-                text: "至少选中一行",
-                type: "warning",
-                closeOnConfirm: true,
-            })
+        let rows = $("#schemaTable").bootstrapTable('getAllSelections');
+        //let rows = $("#courseList_table").bootstrapTable('getAllSelections');
+        console.log(rows);
+        if (rows.length == 0) {
+            swal("至少选中一行！", "", "error");
             return false;
         }
-        let ids = [];
-        for (let i = 0; i < bootstrapTable.length; i++) {
-            //获取选中的行的id
-            ids.push(bootstrapTable[i].id);
+        let userIds = [];
+        for (let i = 0; i < rows.length; i++) {
+            userIds.push(rows[i].id)
         }
         swal({
-            title: "提示",
-            text: "你确定要删除这" + ids.length + "记录嘛，请谨慎操作！",
+            title: "您确定要删除这" + userIds.length + "条信息？",
+            text: "删除后将无法恢复，请谨慎操作！",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "删除",
             closeOnConfirm: false
         }, function () {
-            //被删除记录的id
-            //let s = JSON.stringify(ids);
-            //alert(s);
-            //异步请求
-            /*$.ajax({
-                type: "GET",
-                url: "",
-                data: {},
-                dataType: "json",
+            alert(userIds);
+            //发送ajax 删除
+            $.ajax({
+                url: "/owep/training/schemaList/deleteSelected",
+                method: "post",
+                async: true,
+                data: JSON.stringify(userIds),
+                dataType: "text",   //期望服务端返回的数据类型
+                contentType: "application/json",
                 success: function (data) {
-                   // alert("添加成功");
-                    swal("删除成功！", "您已经永久删除。", "success");
+                    console.log(data.toString());
+                    swal("删除成功！", "您已经永久删除已选信息", "success");
+                    //重新加载页面
+                    window.location.reload();
                 },
-                error: function (jqXHQ) {
-                    swal("删除失败！", "请检查网络。", "error");
+                error: function (jqXHR) {
+                    swal("删除失败！", "未知错误", "error");
                 }
-            });*/
-            swal("删除成功！", "您已经永久删除。", "success");
+            });
+            //获取对象
+
         });
     });
     /*面包屑 模态框中 添加按钮事件*/
 
-    $('#add_schema.btn.btn-primary').click(function () {
+    /*$('#add_schema.btn.btn-primary').click(function () {*/
+    $('#add_schema').click(function () {
+
+        /* var form = document.getElementById("#addPlanManager");
+        var formData = new formData(form);*/
+        var planNumber = $("#schemeNumberAdd").val();
+        var planName = $("#schemeNameAdd").val();
+        var planDesc = $("#schemeDescAdd").val()
+        var planStatus = $('.js-switch-1.form-control').val();
+        console.log(planStatus)
+        if(planStatus === "on"){
+            planStatus = 1;
+        }else{
+            planStatus = 0;
+        }
+        var planManager = {
+            "planNumber":planNumber,
+            "planName":planName,
+            "planDesc":planDesc,
+            "planStatus":planStatus
+        }
+        console.log(planManager);
+
+        var planManagerJSON = JSON.stringify(planManager)
         $.ajax({
-            type: "GET",
-            url: "",
-            data: {
-                schemeNumberAdd: $("#schemeNumberAdd").val(),
-                schemeNameAdd: $("#schemeNameAdd").val(),
-                switchFlag: $('.js-switch.form-control').val()
-            },
-            dataType: "json",
+            type: "POST",
+            url: "/owep/training/schemaList/addPlanManager",
+
+            data:planManagerJSON,
+            contentType:"application/json",
+            dataType:"text",
             success: function (data) {
-                alert("添加成功");
+                alert(data);
+                window.location.reload();
             },
             error: function (jqXHQ) {
                 alert("添加失败");
@@ -673,14 +755,47 @@
 
         });
         //重新加载页面
-        window.location.reload();
+
     });
 
     /*表格 模态框中 更新按钮事件*/
     $("#update_schema").click(function () {
         //提交biaodan
-        $("#schemeUpdateForm").submit();
-        window.location.reload();
+
+        var planNumber = $("#schemeNumberUpdate").val();
+        var planName = $("#schemeNameUpdate").val();
+        var planDesc = $("#schemeDescUpdate").val()
+        var planStatus = $('.js-switch.form-control').val();
+        if(planStatus === "on"){
+            planStatus = 1;
+        }else{
+            planStatus = 0;
+        }
+        var planManager = {
+
+            "planNumber":planNumber,
+            "planName":planName,
+            "planDesc":planDesc,
+            "planStatus":planStatus
+        }
+        console.log(planManager);
+
+        var planManagerJSON = JSON.stringify(planManager)
+        $.ajax({
+            type: "POST",
+            url: "/owep/training/schemaList/updatePlanManager",
+            data:planManagerJSON,
+            contentType:"application/json",
+            dataType:"text",
+            success: function (data) {
+                alert(data);
+                window.location.reload();
+            },
+            error: function (jqXHQ) {
+                alert("修改失败");
+            }
+
+        });
         //或者直接发送异步请求
         //将表单数据转换成json数据
     });
@@ -701,11 +816,33 @@
 
     $("#save_stage_modal").click(function () {
         //先获取课程信息
-        //在获取学习阶段
-        //发送ajax
-        alert("添加成功");
+        var courseId = $("#courseId").val();
+        var planManagerId = $("#planManagerId").val();
+        var stageName = $("option:selected").attr("stageId");
+        var stageNum = $("option:selected").attr("stageId");
+        var course={
+            "courseId":courseId,
+            "planManagerId":planManagerId,
+            "stageNum":stageNum,
+            "stageName":stageName
+        }
 
-        $("#choose_course_stage_modal").close();
+        alert(stageNum);
+        $.ajax({
+            type: "POST",
+            url: "/owep/training/schemaList/addCourseToPlanManager",
+            data: course,
+            dataType:"text",
+            success: function (data) {
+                alert(data);
+                window.location.reload();
+            },
+            error: function (jqXHQ) {
+                alert("添加失败");
+            }
+
+        });
+
     })
 </script>
 </body>

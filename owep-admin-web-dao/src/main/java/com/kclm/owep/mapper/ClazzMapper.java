@@ -101,7 +101,9 @@ public interface ClazzMapper extends BaseMapper<Clazz> {
      * @param pid
      * @return
      */
-    int saveClazzPlanmanage(@Param("cid") Serializable cid,@Param("pid") Serializable pid);
+    int saveClazzPlanmanage(@Param("pid") Serializable pid,@Param("cid") Serializable cid);
+
+
 
     /***
      * 根据班级id来删除班级方案中间表
@@ -131,4 +133,14 @@ public interface ClazzMapper extends BaseMapper<Clazz> {
      */
     List<Clazz> selectByPro(int pid);
 
+    /***
+     * 根据关键词来查询
+     * @param classNumber
+     * @param className
+     * @param instituteName
+     * @param instituteBranchName
+     * @param pid
+     * @return
+     */
+    List<Clazz> selectByKeyword(@Param("classNumber") String classNumber,@Param("className") String className,@Param("instituteName") String instituteName,@Param("instituteBranchName") String instituteBranchName,@Param("pid") Serializable pid);
 }

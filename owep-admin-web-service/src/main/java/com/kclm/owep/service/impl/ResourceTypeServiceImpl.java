@@ -5,6 +5,8 @@ import com.kclm.owep.dto.ResourceTypeDTO;
 import com.kclm.owep.entity.ResourceType;
 import com.kclm.owep.mapper.ResourceTypeMapper;
 import com.kclm.owep.service.ResourceTypeService;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,26 +27,19 @@ public class ResourceTypeServiceImpl implements ResourceTypeService {
 
     @Autowired
     private ResourceTypeMapper resourceTypeMapper;
-
+    @Autowired
+    private MapperFactory mapperFactory;
 
     @Override
     public ResourceTypeDTO findByKeywords(String keyword) {
 
         List<ResourceType> lists = resourceTypeMapper.findByKeywords(keyword);
         ResourceTypeDTO resultDTO = null;
-        /**
-         * @author zhang_hy
-         * @date 2020-11-25 14:58
-         * @For
-         *
-         * TO  DO
-         *
-         */
-        for(ResourceType list:lists){
+
+        for (ResourceType list : lists) {
             resultDTO = ResourceTypeConvert.INSTANCE.PO2DTO(list);
         }
         return resultDTO;
-
     }
 
     @Override
@@ -59,7 +54,10 @@ public class ResourceTypeServiceImpl implements ResourceTypeService {
 
     @Override
     public ResourceTypeDTO findById(Serializable id) {
-        return null;
+        ResourceType resourceType = this.resourceTypeMapper.selectById(id);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        ResourceTypeDTO resourceTypeDTO = mapperFacade.map(resourceType, ResourceTypeDTO.class);
+        return resourceTypeDTO;
     }
 
     @Override

@@ -4,6 +4,7 @@
 
 package com.kclm.owep.service.impl;
 
+import com.kclm.owep.convert.QuestionConvert;
 import com.kclm.owep.dto.QuestionDTO;
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.entity.Question;
@@ -102,12 +103,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionDTO> selectAll() {
         List<Question> questions = questionMapper.selectAll();
-        mapperFactory.classMap(Question.class,QuestionDTO.class)
-                .field("course.courseName","courseName")
-                .byDefault()
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        return mapperFacade.mapAsList(questions,QuestionDTO.class);
+        List<QuestionDTO> questionDTOS = new ArrayList<>();
+
+        for (Question question:questions){
+            questionDTOS.add(QuestionConvert.INSTANCE.entityToDTO(question));
+        }
+        return questionDTOS;
     }
 
     /**

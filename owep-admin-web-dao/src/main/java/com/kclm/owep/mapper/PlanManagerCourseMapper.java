@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.mapper;
 
+import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.PlanManagerCourse;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -49,4 +50,7 @@ public interface PlanManagerCourseMapper extends BaseMapper<PlanManagerCourse> {
     @Override
     int deleteById(Serializable id);
 
+    Integer findMaxCourseOrder(PlanManagerCourse planManagerCourse);
+
+    PlanManagerCourse findByCourseOrder(Integer courseOrder, Integer stageNum, PlanManager planManager);
 }

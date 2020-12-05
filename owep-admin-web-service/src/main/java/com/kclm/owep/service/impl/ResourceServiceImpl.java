@@ -5,6 +5,8 @@ import com.kclm.owep.dto.ResourceDTO;
 import com.kclm.owep.entity.Resource;
 import com.kclm.owep.mapper.ResourceMapper;
 import com.kclm.owep.service.ResourceService;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +22,14 @@ import java.util.List;
  * @date 2020-11-26 16:21
  * @description  文档管理业务层实现
  */
-
 @Service
 public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private ResourceMapper resourceMapper;
+
+    @Autowired
+    private MapperFactory mapperFactory;
 
     @Override
     public List<ResourceDTO> findAllResource() {
@@ -41,6 +45,7 @@ public class ResourceServiceImpl implements ResourceService {
         }
         return listDTO;
     }
+
 
     @Override
     public ResourceDTO findById(Serializable id) {
@@ -81,5 +86,24 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<String> selectResourceSuffix() {
         return resourceMapper.selectResourceSuffix();
+    }
+
+
+    @Override
+    public List<ResourceDTO> selectResourceByClassAndKeyword(Serializable cid, String resourceName, Serializable resourceType) {
+        List<Resource> resources = resourceMapper.selectByClassAndKeyword(cid, resourceName, resourceType);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        List<ResourceDTO> resourceDTOS = mapperFacade.mapAsList(resources, ResourceDTO.class);
+        return resourceDTOS;
+    }
+
+    @Override
+    public int deleteFromClass(Serializable cid, Serializable rid) {
+        return this.resourceMapper.deleteFromClass(cid,rid);
+    }
+
+    @Override
+    public int deleteSelectFromClass(Serializable cid, List<Serializable> idList){
+        return this.resourceMapper.deleteSelectFromClass(cid,idList);
     }
 }

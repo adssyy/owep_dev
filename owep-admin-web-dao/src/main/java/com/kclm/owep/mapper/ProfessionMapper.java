@@ -72,8 +72,15 @@ public interface ProfessionMapper extends BaseMapper<Profession> {
     List<Profession> selectByProName(String proName);
 
     /***
+     * 根据机构查询
+     * @return
+     */
+    List<Profession> selectByInstituteName(String institutionName);
+
+    /***
      * 根据分支类查询
      * @return
      */
     List<Profession> selectByBranchName(String branName);
+
 }

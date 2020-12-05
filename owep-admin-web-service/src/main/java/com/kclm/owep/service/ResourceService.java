@@ -58,6 +58,7 @@ public interface ResourceService {
    /* int alterResource(Resource resource);*/
 
     /**
+<<<<<<< HEAD
      * @author zhang_hy
      * @date 2020-12-3 11:17
      * @For 查询所有后缀
@@ -70,4 +71,16 @@ public interface ResourceService {
      * @For 根据关键字模糊搜索
      */
     List<Resource> findByKeyword(String keyword);
+    /*
+     * 根据班级和关键字来查询资源
+     * @param cid
+     * @param resourceName
+     * @param tid
+     * @return
+     */
+    List<ResourceDTO> selectResourceByClassAndKeyword(Serializable cid, String resourceName, Serializable resourceType);
+
+    int deleteFromClass(Serializable cid,Serializable rid);
+
+    int deleteSelectFromClass(Serializable cid, List<Serializable> idList);
 }

@@ -45,9 +45,11 @@
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
+
         <div class="col-sm-12">
             <table id="chapter_table" data-mobile-responsive="true"></table>
         </div>
+
     </div>
     <div id="toolbar2">
         <button type="button" class="btn btn-primary" id="addChapterBtn">添加章</button>
@@ -114,6 +116,7 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
+                    <input class="hidden" id="alter_chapterId">
                     <div class="form-group">
                         <label for="alter_courseName" class="col-sm-2 control-label">课程名称:</label>
                         <div class="col-sm-8">
@@ -148,7 +151,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="alter_chapter">保存</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -163,7 +166,7 @@
                 <h4 class="modal-title">新增</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="addNode_chapterName" class="col-sm-2 control-label">章名称:</label>
                         <div class="col-sm-8">
@@ -407,6 +410,8 @@
 
 <script>
     $(function () {
+        var cid = "[[${courseId}]]";
+        console.log("cid====="+cid);
         /*初始化章表格*/
         $("#chapter_table").bootstrapTable({
             pagination: true,
@@ -427,9 +432,9 @@
                 return temp;
             },
             onPostBody: checkbox_table,
-            url: "../../static/js/demo/training/chapter_table.json",
+            url: "/owep/training/chapter/getAllChapter?courseId="+cid,
             columns: [{
-                field: 'cid',
+                field: 'id',
                 title: 'ID',
                 visible: false
             }, {
@@ -438,7 +443,7 @@
                 visible: false
             },
                 {
-                    field: 'id',
+                    field: 'chapterNumber',
                     title: '章节编号',
                     align: "center"
                 }, {
@@ -450,7 +455,7 @@
                     title: '章节描述',
                     align: "center"
                 }, {
-                    field: 'status',
+                    field: 'chapterStatus',
                     title: '是否启用',
                     formatter: function (value, row, index) {
                         if (row.status == "启用") {
@@ -464,12 +469,14 @@
                     title: "操作",
                     events: {
                         "click .alterBtn": function (e, value, row, index) {
+
                             //把表格数据回显到模态框中
-                            $("#alter_courseName").val(row.courseName);
-                            $("#alter_chapterNumber").val(row.id);
+                            $("#alter_courseName").val("[[${courseName}]]");
+                            $("#alter_chapterId").val(row.id);
+                            $("#alter_chapterNumber").val(row.chapterNumber);
                             $("#alter_chapterName").val(row.chapterName);
                             $("#alter_chapterDesc").val(row.chapterDesc);
-                            if (row.status == '启用') {
+                            if (row.chapterStatus == '启用') {
                                 setSwitchery(switchery, true);
                             } else {
                                 setSwitchery(switchery, false);
@@ -489,9 +496,26 @@
                                 cancelButtonText: "取消",
                                 closeOnConfirm: false
                             }, function () {
-                                // todo
-                                console.log("要删除的记录是：" + row.id);
-                                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                    let id = row.id;
+                                    alert(id);
+                                    //发送ajax 删除
+                                    $.ajax({
+                                        url: "/owep/training/chapter/deleteChapterById?id=" + id,
+                                        method: "get",
+                                        async: true,
+                                        data: id,
+                                        dataType: "text",   //期望服务端返回的数据类型
+                                        contentType: "application/json",
+                                        success: function (data) {
+                                            //console.log(data.toString());
+                                            swal("删除成功！", "您已经永久删除已选信息", "success");
+                                            //重新加载页面
+                                            window.location.reload();
+                                        },
+                                        error: function (jqXHR) {
+                                            swal("删除失败！", "未知错误", "error");
+                                        }
+                                    });
                             });
                         },
                         "click .addBtn": function (e, value, row, index) {
@@ -727,13 +751,83 @@
     $(function () {
         /*添加章*/
         $("#addChapterBtn").click(function () {
-
+            $("#add_courseName").val("[[${courseName}]]")
             $("#addChapterModel").modal();
         })
         /*添加章模态框 保存 单击事件*/
         $("#save_chapter").click(function () {
-            $("#addChapterForm").submit();
-            alert("添加章成功");
+            var chapterNumber = $("#add_chapterNumber").val();
+            var chapterName = $("#add_chapterName").val();
+            var chapterStatus = $("#add_status").val();
+            var chapterDesc = $("#add_chapterDesc").val();
+            var courseId = "[[${courseId}]]";
+
+            if(chapterStatus === "on"){
+                chapterStatus = 1;
+            }else{
+                chapterStatus = 0;
+            }
+            var chapter = {
+                "chapterNumber":chapterNumber,
+                "chapterName":chapterName,
+                "chapterStatus":chapterStatus,
+                "chapterDesc":chapterDesc,
+                "courseId":courseId
+            }
+            //var chapterJSON = JSON.stringify(chapter);
+            $.ajax({
+                type: "POST",
+                url: "/owep/training/chapter/saveChapter",
+
+                data:chapter,
+                //contentType:"application/json",
+                dataType:"text",
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (jqXHQ) {
+                    alert("添加失败");
+                }
+
+            });
+        })
+        $("#alter_chapter").click(function () {
+            var id = $("#alter_chapterId").val();
+            alert(id);
+            var chapterNumber = $("#alter_chapterNumber").val();
+            var chapterNmae = $("#alter_chapterName").val();
+            var chapterStatus = $("#alter_status").val();
+            var chapterDesc = $("#alter_chapterDesc").val();
+            if(chapterStatus === "on"){
+                chapterStatus = 1;
+            }else{
+                chapterStatus = 0;
+            }
+            var chapter = {
+                "id":id,
+                "chapterNumber":chapterNumber,
+                "chapterName":chapterNmae,
+                "chapterStatus":chapterStatus,
+                "chapterDesc":chapterDesc
+            }
+            var chapterJSON = JSON.stringify(chapter);
+            $.ajax({
+                type: "POST",
+                url: "/owep/training/chapter/updateChapter",
+
+                data:chapterJSON,
+                contentType:"application/json",
+                dataType:"text",
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (jqXHQ) {
+                    alert("添加失败");
+                }
+
+            });
         })
     })
 

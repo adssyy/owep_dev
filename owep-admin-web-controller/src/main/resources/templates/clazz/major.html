@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label>&nbsp;&nbsp;所属机构:</label>
                 <div class="input-group">
-                    <input type="text" class="form-control org">
+                    <input type="text" class="form-control org" id="org-search">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -55,7 +55,7 @@
             <div class="form-group">
                 <label>&nbsp;&nbsp; 所属分支:</label>
                 <div class="input-group">
-                    <input type="text" class="form-control branch">
+                    <input type="text" class="form-control branch" id="branch-search">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -88,18 +88,19 @@
             </div>
 
             <div class="modal-body" style="min-height: 300px;margin-top: 20px">
-                <form action="#" class="form-horizontal" method="post">
+                <form action="#" name="updateMajorForm" class="form-horizontal" method="post">
+                    <input type="hidden" name="id">
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">专业名称：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="author">
+                            <input type="text" class="form-control" name="profName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">所属机构：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" name="instituteName" id="org-update">
                                 <div class="input-group-btn" style="z-index:99999 !important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -114,7 +115,7 @@
                         <label class="col-sm-3 control-label right">所属分支：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control branch">
+                                <input type="text" class="form-control branch" name="instituteBranchName" id="branch-update">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -125,19 +126,11 @@
                             </div>
                         </div>
                     </div>
-                  <!--  <div class="form-group">
-                        <label class="col-sm-3 control-label">是否启用：</label>
-                        <div class="col-sm-7">
-                            <select class="form-control m-b" name="account">
-                                <option value="1">启用</option>
-                                <option>不启用</option>
-                            </select>
-                        </div>
-                    </div>-->
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">描述：</label>
                         <div class="col-sm-7">
-                            <textarea class="form-control" type="text" placeholder="乐码学院，JavaEE企业级开发人才培养。"></textarea>
+                            <textarea class="form-control" type="text" placeholder="乐码学院，JavaEE企业级开发人才培养。" name="profDesc"></textarea>
                         </div>
 
                     </div>
@@ -160,18 +153,18 @@
             </div>
 
             <div class="modal-body" style="min-height: 400px;margin-top: 20px">
-                <form action="#" class="form-horizontal" method="post">
+                <form action="/owep/clazz/saveMajor" name="saveMajorForm" class="form-horizontal" method="post">
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">专业名称：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="author">
+                            <input type="text" class="form-control" name="profName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">所属机构：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" name="instituteName" id="org-save">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -186,7 +179,7 @@
                         <label class="col-sm-3 control-label right">所属分支：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control branch">
+                                <input type="text" class="form-control branch" name="instituteBranchName" id="branch-save">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -200,16 +193,16 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">是否启用：</label>
                         <div class="col-sm-7">
-                            <select class="form-control m-b" name="account">
+                            <select class="form-control m-b" name="profStatus">
                                 <option value="1">启用</option>
-                                <option>不启用</option>
+                                <option value="0">不启用</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">描述：</label>
                         <div class="col-sm-7">
-                            <textarea class="form-control" type="text" placeholder="乐码学院，JavaEE企业级开发人才培养。"></textarea>
+                            <textarea class="form-control" type="text" placeholder="乐码学院，JavaEE企业级开发人才培养。" name="profDesc"></textarea>
                         </div>
 
                     </div>
@@ -246,19 +239,22 @@
     $(function () {
         //初始化表格
         var init = new initdata();
-        init.Init();
+        var a = init.Init('/owep/clazz/majorList');
+        console.log(a);
         //点击按钮开始搜索
         $("#queryBtn").click(function () {
             let name = $("#name").val();
-            let org = $("#org").val();
-            let branch = $("#branch").val();
+            let org = $("#org-search").val();
+            let branch = $("#branch-search").val();
             //判断条件是否存在
             if (name==""&&org==""&&branch==""){
                 alert("请选择查询条件");
                 return ;
+            }else {
+                //执行查询
+                init.Init('/owep/clazz/selectByKeyword?profName='+name+'&instituteName='+org+"&instituteBranchName="+branch);
             }
-            //执行查询
-            init.Init();
+
         });
         //删除所有
         $('#deleteAll').click(function () {
@@ -274,19 +270,74 @@
                     $(rows).each(function() {// 通过获得别选中的来进行遍历
                         ids.push(this.id);// cid为获得到的整条数据中的一列
                     });
+                    var idList=JSON.stringify(ids);
                     //TODO 发送ajax请求
+                    $.ajax({
+                        url:"/owep/clazz/deleteSelectMajor",
+                        method:"POST",
+                        async:true,
+                        data:idList,
+                        dataType:"text",
+                        contentType:"application/json",
+                        processData:false,
+                        success:function (data) {
+                            alert(data);
+                            window.location.reload();
+                        },
+                        error:function(jqXHR){
+                            alert("删除失败");
+                        }
+                    });
                 }
         });
         //动态搜索选择下拉框
-        testdataBsSuggest1;
-        testdataBsSuggest2;
+        /*testdataBsSuggest1;
+        testdataBsSuggest2;*/
         //添加事件
         $('#add_sure').click(function () {
-            alert("添加成功");
+            //获取表单数据
+            var form = document.forms["saveMajorForm"];
+            var formData = new FormData(form);
+            //AJAX去提交表单数据
+            $.ajax({
+                url:"/owep/clazz/saveMajor",
+                method:"POST",
+                async:true,
+                data:formData,  //综合表单，使用formData来封装，不能用Serializable，否则无法提交
+                dataType:"text",
+                contentType:false,
+                processData:false,
+                success:function(data){
+                    alert(data);
+                    window.location.reload();
+                },
+                error:function(jqXHR){
+                    alert("添加失败");
+                }
+            });
         });
-        //更新时间
+        //更新事件
         $('#update_sure').click(function () {
-            alert("更新成功");
+            //获取表单数据
+            var form = document.forms["updateMajorForm"];
+            var formData = new FormData(form);
+            //AJAX去提交表单数据
+            $.ajax({
+                url:"/owep/clazz/updateMajor",
+                method:"POST",
+                async:true,
+                data:formData,  //综合表单，使用formData来封装，不能用Serializable，否则无法提交
+                dataType:"text",  //期望服务端发送给客户端的数据类型。不能写成application/json
+                contentType:false,
+                processData:false,
+                success:function(data){
+                    alert(data);
+                    window.location.reload();
+                },
+                error:function(jqXHR){
+                    alert("修改失败");
+                }
+            });
         });
 
     });
@@ -294,65 +345,67 @@
         var status=  $(this).prop("checked");
         alert(status);
     });*/
-    var testdataBsSuggest1 = $(".org").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'id': "",
-                    'word': '天龙八部',
-                },
-                {
-                    'id': "",
-                    'word': '神雕侠侣',
-                },
-                {
-                    'id': "",
-                    'word': '仙剑奇侠传',
-                },
-                {
-                    'id': "",
-                    'word': 'flyme',
-                }
-            ]
-        }
-    });
+    var testdataBsSuggest1 = $("#org-search").bsSuggest({
+        url:"/owep/clazz/getAllInstitute",
+        idField:"instituteId",
+        keyField:"instituteName",
+        effectiveFields: ["instituteName"],
 
-    var testdataBsSuggest2 = $(".branch").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'id': "",
-                    'word': '英语',
-                },
-                {
-                    'id': "",
-                    'word': '书法',
-                },
-                {
-                    'id': "",
-                    'word': '钢琴',
-                },
-                {
-                    'id': "",
-                    'word': 'flyme',
-                }
-            ]
+    }).on('onSetSelectValue',function (e,keyword) {
+        $("#branch-search").bsSuggest("destroy");
+        $("#branch-search").bsSuggest({
+            url:"/owep/clazz/getBranchByInstitute?id="+keyword.id,
+            idField:"branchId",
+            keyField: "branchName",
+            effectiveFields: ["branchName"],
+        })
         }
-    });
+
+    );
+
+    var testdataBsSuggest2 = $("#org-update").bsSuggest({
+        url:"/owep/clazz/getAllInstitute",
+        idField:"instituteId",
+        keyField:"instituteName",
+        effectiveFields: ["instituteName"],
+
+    }).on('onSetSelectValue',function (e,keyword) {
+            $("#branch-update").bsSuggest("destroy");
+            $("#branch-update").bsSuggest({
+                url:"/owep/clazz/getBranchByInstitute?id="+keyword.id,
+                idField:"branchId",
+                keyField: "branchName",
+                effectiveFields: ["branchName"],
+            })
+        }
+
+    );
+
+    var testdataBsSuggest3 = $("#org-save").bsSuggest({
+        url:"/owep/clazz/getAllInstitute",
+        idField:"instituteId",
+        keyField:"instituteName",
+        effectiveFields: ["instituteName"],
+
+    }).on('onSetSelectValue',function (e,keyword) {
+            $("#branch-save").bsSuggest("destroy");
+            $("#branch-save").bsSuggest({
+                url:"/owep/clazz/getBranchByInstitute?id="+keyword.id,
+                idField:"branchId",
+                keyField: "branchName",
+                effectiveFields: ["branchName"],
+            })
+        }
+
+    );
 
     var initdata = function () {
         var init = new Object();
-        init.Init = function () {
+        init.Init = function (url) {
             //加载之前先格式化 放在查询的时候起冲突
             $("#tb_major").bootstrapTable('destroy')
             $("#tb_major").bootstrapTable({
-                url: '/clazz/majorList',
+                url: url,
                 method: 'get',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
@@ -372,19 +425,19 @@
                     align: "center",
                     visible: false //隐藏 让该字段不可见 为了后面更新和删除做准备
                 }, {
-                    field: 'name',
+                    field: 'profName',
                     title: "专业名称",
                     align: "center",
                 }, {
-                    field: 'org',
+                    field: 'instituteName',
                     title: "所属机构",
                     align: "center",
                 }, {
-                    field: 'branch',
+                    field: 'instituteBranchName',
                     title: "所属分支",
                     align: "center",
                 }, {
-                    field: 'isUse',
+                    field: 'profStatus',
                     title: "是否启用",
                     align: "center",
                     formatter:addSlideChoiceBox
@@ -407,9 +460,50 @@
                                 closeOnConfirm: false
                             }, function () {
                                 //TODO 发送ajax请求
-                                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                $.ajax({
+                                    //发送AJAX请求
+                                    url:"/owep/clazz/deleteMajor?id="+row.id,
+                                    method:"GET",
+                                    async:true,
+                                    dataType:"text",
+                                    success:function (data) {
+                                        if (data == "成功"){
+                                            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                        }else {
+                                            alert("删除失败");
+                                        }
+                                        window.location.reload();
+                                    },
+                                    error:function(jqXHR){
+                                        alert("删除失败");
+                                    }
+
+                                });
                             });
                         },
+                        
+                        'click button[title=修改]':function (e, value, row, index) {
+                            $.ajax({
+                                //发送AJAX请求
+                                url:"/owep/clazz/toUpdateMajor?id="+row.id,
+                                method:"GET",
+                                async:true,
+                                dataType:"json",  //拿到json
+                                success:function (professionJson) {
+                                    //把返回的json对象添加到弹出层的更新表单域中
+                                    $("form[name='updateMajorForm'] input[name='id']").val(professionJson.id);
+                                    $("form[name='updateMajorForm'] input[name='profName']").val(professionJson.profName);
+                                    $("form[name='updateMajorForm'] input[name='instituteName']").val(professionJson.instituteName);
+                                    $("form[name='updateMajorForm'] input[name='instituteBranchName']").val(professionJson.instituteBranchName);
+                                    $("form[name='updateMajorForm'] textarea[name='profDesc']").val(professionJson.profDesc);
+                                },
+                                error:function(jqXHR){
+                                    alert("获取数据失败");
+                                    //重新加载页面
+                                    window.location.reload();
+                                }
+                            });
+                        }
                     }
                 }]
 
@@ -426,57 +520,63 @@
                 branch: $("#branch").val()
             };
         };
-        //是否启用按钮
-        function addSlideChoiceBox(value, row, index) {
-            var check="checked";
-            //判断状态
-            if (row.isUse==0){
-                check="";
-            }
-            return "<input type=\"checkbox\" class=\"js-switch-1 form-control\""+check+"/>"
-        }
-        //操作栏的格式化
-        function actionFormatter(value, row, index) {
-            var id = value;
-            var result = "";
-            // console.log(row.id);
-            // console.log(row.name+"--"+index +"--"+value);
-            result += "<button class='btn btn-primary btn-sm' title='修改' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#update\"><span class='glyphicon glyphicon-edit'></span></button>";
-            result += "<button class='btn btn-danger btn-sm delete'  title='删除'><span class='glyphicon glyphicon-trash'></span></button>";
-            return result;
-        };
 
-        /*初始化滑动按钮*/
-        function check(data) {
-            //页面有多个互动按钮
-            $(".js-switch-1").each(function (index,elements) {
-                new Switchery(elements);
-                //监听按钮点击事件
-                $(elements).on("change",function () {
-                    //TODO 发送ajax请求s
-                    //获取滑动按钮爷级元素tr里面data-index的值
-                    // let index = $(elements).parent().parent().attr("data-index");
-                    let index = $(elements).parents("tr").attr("data-index");
-                    //获取id
-                    let id=data[index].id;
-                    console.log(id);
-                    alert(elements.checked+",当前id->"+id);
-                })
-            })
-        };
 
         return init;
     }
+
+    //是否启用按钮
+    function addSlideChoiceBox(value, row, index) {
+        var check="checked";
+        //判断状态
+        if (row.profStatus==0){
+            check="";
+        }
+        return "<input type=\"checkbox\" class=\"js-switch-1 form-control\""+check+"/>"
+    }
+    //操作栏的格式化
+    function actionFormatter(value, row, index) {
+        var id = value;
+        var result = "";
+        // console.log(row.id);
+        // console.log(row.name+"--"+index +"--"+value);
+        result += "<button class='btn btn-primary btn-sm' title='修改' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#update\"><span class='glyphicon glyphicon-edit'></span></button>";
+        result += "<button class='btn btn-danger btn-sm delete'  title='删除'><span class='glyphicon glyphicon-trash'></span></button>";
+        return result;
+    };
+
+    /*初始化滑动按钮*/
+    function check(data) {
+        //页面有多个互动按钮
+        $(".js-switch-1").each(function (index,elements) {
+            new Switchery(elements);
+            //监听按钮点击事件
+            $(elements).on("change",function () {
+                //TODO 发送ajax请求s
+                //获取滑动按钮爷级元素tr里面data-index的值
+                let index = $(elements).parents("tr").attr("data-index");
+                //获取id
+                let id=data[index].id;
+                console.log(id);
+
+                $.ajax({
+                    //发送AJAX请求
+                    url:"/owep/clazz/professionTrigger?id="+id+"&check="+elements.checked,
+                    method:"GET",
+                    async:true,
+                    dataType:"text",
+                    success:function (data) {
+                        alert(data);
+                    },
+                    error:function(jqXHR){
+                        alert("操作失败");
+                    }
+
+                });
+            })
+        })
+    };
 </script>
-<!--<script>
-    $(function () {
-        let elems =document.querySelectorAll(".js-switch-1");
-        elems.forEach(function(html) {
-          html.onchange=function () {
-              alert("haha");
-          }
-        });
-    })
-</script>-->
+
 </body>
 </html>

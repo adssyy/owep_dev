@@ -39,6 +39,7 @@ public interface CategoryService {
      */
     List<CourseCategoryDTO> findAllCourseCategory();
 
+    CourseCategory selectById(Serializable id);
     /**
      * 通过上级id 查询所有下级分类
      * @param parentId

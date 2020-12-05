@@ -66,9 +66,18 @@ public interface ProfessionService {
      */
     List<ProfessionDTO> selectByProName(String proName);
 
+    Profession selectByName(String proName);
+
     /***
      * 根据分支类查询
      * @return
      */
     List<ProfessionDTO> selectByBranchName(String branName);
+
+    /***
+     *根据所属机构来查询
+     * @return
+     */
+    List<ProfessionDTO> selectByInstituteName(String institutionName);
+
 }

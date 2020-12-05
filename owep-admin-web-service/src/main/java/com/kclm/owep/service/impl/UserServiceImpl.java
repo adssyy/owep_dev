@@ -235,6 +235,7 @@ public class UserServiceImpl implements UserService {
             userDto.setId(user.getId());
             userDto.setUserName(user.getUserName());
             userDto.setUserPwd(user.getUserPwd());
+
             return userDto;
         }catch (Exception e){
             return null;
