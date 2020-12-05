@@ -5,9 +5,11 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.ResourceType;
 import com.kclm.owep.mapper.common.BaseMapper;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -26,4 +28,22 @@ public interface ResourceTypeMapper extends BaseMapper<ResourceType> {
      * @return
      */
     List<ResourceType> findByKeywords(@Param("keyword") String keyword);
+
+    @Override
+    int save(ResourceType entity);
+
+    @Override
+    int update(ResourceType entity);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    ResourceType selectById(Serializable id);
+
+    @Override
+    List<ResourceType> selectAll();
 }

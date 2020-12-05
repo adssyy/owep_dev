@@ -228,6 +228,7 @@ public class CourseServiceImpl implements CourseService {
         return chapterMapper.deleteById(id);
     }
 
+
     @Override
     public int activate(Integer id) {
         try{
@@ -253,4 +254,15 @@ public class CourseServiceImpl implements CourseService {
         }
         return 0;
     }
+
+    public Course findCourseById(Serializable id) {
+        return courseMapper.selectById(id);
+    }
+
+    @Override
+    public List<Section> selectAllById(Serializable id) {
+        return sectionMapper.selectAllById(id);
+    }
+
+
 }

@@ -3,8 +3,10 @@
  */
 package com.kclm.owep.service.impl;
 
+import com.kclm.owep.convert.BranchInstituteConvert;
 import com.kclm.owep.dto.BranchInstituteDTO;
 import com.kclm.owep.entity.BranchInstitute;
+import com.kclm.owep.entity.OrgInstitute;
 import com.kclm.owep.mapper.BranchInstituteMapper;
 import com.kclm.owep.mapper.OrgInstituteMapper;
 import com.kclm.owep.service.BranchInstituteService;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /*******
@@ -41,19 +44,23 @@ public class BranchInstituteServiceImpl implements BranchInstituteService {
     @Override
     public List<BranchInstituteDTO> findAllBranch() {
         List<BranchInstitute> branchInstitutes = this.branchInstituteMapper.selectAll();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<BranchInstituteDTO> branchInstituteDTOS = mapperFacade.mapAsList(branchInstitutes , BranchInstituteDTO.class);
+        List<BranchInstituteDTO> branchInstituteDTOS = new ArrayList<>();
+
+        for (BranchInstitute branchInstitute:branchInstitutes){
+            branchInstituteDTOS.add(BranchInstituteConvert.INSTSNCE.entityToDTO(branchInstitute));
+        }
         return branchInstituteDTOS;
     }
 
     /***
      * 根据分支名称和所属机构自定义查询
-     * @param instituteName
+     * @param branchName
      * @param orgInstitute
      * @return
      */
     @Override
-    public List<BranchInstituteDTO> findBranchInstituteByNameAndInstitute(String instituteName, String orgInstitute) {
+    public List<BranchInstituteDTO> findBranchInstituteByNameAndInstitute(String branchName, String orgInstitute) {
+
         return null;
     }
 
@@ -97,5 +104,20 @@ public class BranchInstituteServiceImpl implements BranchInstituteService {
         return branchInstituteMapper.deleteById(branchId);
     }
 
+    /****
+     * 根据所属机构查询
+     * @param orgInstitute
+     * @return
+     */
+    public List<BranchInstituteDTO> findByInstitute(OrgInstitute orgInstitute){
+        BranchInstitute branchInstitute = new BranchInstitute();
+        branchInstitute.setOrgInstitute(orgInstitute);
+        List<BranchInstitute> byBranchNameAndinstitute = branchInstituteMapper.findByBranchNameAndinstitute(branchInstitute);
+        List<BranchInstituteDTO> branchInstituteDTOS = new ArrayList<>();
+        for (BranchInstitute entity:byBranchNameAndinstitute){
+            branchInstituteDTOS.add(BranchInstituteConvert.INSTSNCE.entityToDTO(entity));
+        }
 
+        return branchInstituteDTOS;
+    }
 }

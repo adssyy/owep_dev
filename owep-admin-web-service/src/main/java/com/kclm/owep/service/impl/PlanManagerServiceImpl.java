@@ -84,6 +84,16 @@ public class PlanManagerServiceImpl implements PlanManagerService {
         return mapperFacade.mapAsList(planManagers, PlanManagerDTO.class);
     }
 
+    /***
+     * 通过属性查找培养方案
+     *
+     * @param planManager
+     * @return
+     */
+    @Override
+    public List<PlanManager> findPlanManager(PlanManager planManager){
+        return this.planManagerMapper.selectByField(planManager);
+    }
     /**
      * 修改培养方案
      *
@@ -187,7 +197,6 @@ public class PlanManagerServiceImpl implements PlanManagerService {
     @Override
     public List<PlanManagerCourseDTO> findAllPlanManagerCourse(Serializable id) {
         List<PlanManagerCourse> planManagerCourses = planManagerCourseMapper.selectAllById(id);
-
         //System.out.println(planManagerCourses.get(0).getCourse());
         List<PlanManagerCourseDTO> planManagerCourseDTOS = new ArrayList<PlanManagerCourseDTO>();
         /*MapperFacade mapperFacade = mapperFactory.getMapperFacade();
@@ -212,6 +221,7 @@ public class PlanManagerServiceImpl implements PlanManagerService {
     @Override
     public PlanManagerCourse findByCourseOrder(Integer courseOrder, Integer stageNum,PlanManager planManager) {
         return planManagerCourseMapper.findByCourseOrder(courseOrder,stageNum,planManager);
+
     }
 
     @Override

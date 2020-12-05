@@ -6,6 +6,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.ResourceTypeDTO;
 import com.kclm.owep.entity.ResourceType;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
  *@Create 2020/7/15 0015 13:52
  *@Description 资源类型业务层
  */
+
+@Service
 public interface ResourceTypeService {
 
     /**

@@ -133,6 +133,7 @@ function exportRecord(url, title, format) {
         closeOnConfirm: false
     }, function () {
         //ajax请求
+
         swal("导出成功！", "您已经永久导出信息", "success");
     });
 }
@@ -164,14 +165,6 @@ function queryRecords(eventParentName, dataList, success) {
             queryNullList.push($('' + eventParentName + ' input[name=' + item + ']'))
             : queryMap.set(event.attr('name'), event.val());
     })
-    //封装json数据
-    // let query_data = '{';
-    // queryMap.forEach(function (value, key, map) {
-    //     query_data += '"' + key + '":"' + value + '",';
-    // })
-    // query_data = query_data.substr(0, query_data.length - 1);
-    // query_data = query_data + '}';
-    // query_data.length > 1 ? alert(query_data) : "";
 
     let formData="";
         queryMap.forEach(function (value, key){
@@ -183,7 +176,7 @@ function queryRecords(eventParentName, dataList, success) {
              url: "/owep/user/adminList/search",
              method: "get",
              async: true,
-             // data: query_data,
+             //sidePagination:'client',
              data:formData,
              dataType: "text",   //期望服务端返回的数据类型
              contentType: "application/json",
@@ -199,9 +192,6 @@ function queryRecords(eventParentName, dataList, success) {
          });
     if (queryNullList.length > 0) {
         swal("搜索失败", "搜索数据不允许为空", "error");
-        /*       queryNullList.forEach(function (item) {
-                   item.css('border-color',"#f8ac59");
-               })*/
     } else {
         swal("搜索成功！", "已为你重新加载数据", "success")
     }

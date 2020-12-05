@@ -38,7 +38,7 @@
 
   <!--根据id查找记录-->
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_user
     where id = #{id,jdbcType=INTEGER} and is_delete = 1
@@ -299,5 +299,6 @@
     from t_user
     where user_type =  #{type}
     </select>
+
 
 </mapper>

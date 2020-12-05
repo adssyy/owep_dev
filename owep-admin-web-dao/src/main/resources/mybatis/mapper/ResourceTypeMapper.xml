@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kclm.owep.mapper.ResourceTypeMapper">
-      <resultMap id="BaseResultMap" type="com.kclm.owep.entity.ResourceType">
+      <resultMap id="ResourceTypeResultMap" type="com.kclm.owep.entity.ResourceType">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="type_name" jdbcType="VARCHAR" property="typeName" />
         <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
@@ -44,18 +44,18 @@
     <!--根据所选项删除-->
     <delete id="deleteSelect" parameterType="com.kclm.owep.entity.ResourceType">
         delete from t_resource_type where id in
-        <foreach collection="list" item="id" open="(" separator="," close=")">
-            #{id}
+        <foreach collection="list" item="resourceType" open="(" separator="," close=")">
+            #{resourceType.id}
         </foreach>
     </delete>
     <!--根据ID查询-->
-    <select id="selectById" resultMap="BaseResultMap">
+    <select id="selectById" resultMap="ResourceTypeResultMap">
         select * from t_resource_type where
         id = #{id}
         and is_delete=1
     </select>
     <!--查询所有记录-->
-    <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="ResourceTypeResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_resource_type
@@ -68,4 +68,5 @@
         where
         is_delete=1
     </select>
+
 </mapper>
