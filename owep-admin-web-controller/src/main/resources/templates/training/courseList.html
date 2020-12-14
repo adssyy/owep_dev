@@ -63,7 +63,7 @@
                            id="courseNameSearch" name="courseName">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">查询</button>
+                    <button type="button" class="btn btn-primary" id="searchCourse">查询</button>
                 </div>
             </form>
         </div>
@@ -401,15 +401,19 @@
             pageList: [5, 8, 10],        //可供选择的每页的行数（*）
             clickToSelect: true,
             uniqueId: "id",
-            queryParams: function (params) {
+            /*queryParams: function (params) {
                 var temp = {
-                    "a": 1,
-                    "b": 2,
+                    "courseName": $("#courseNameSearch").val(),
+
                     "limits": params.limit,
                     "offset": params.offset
                 }
                 return temp;
+            },*/
+            queryParams:{
+                courseName:$("#courseNameSearch").val()
             },
+            queryParamsType:1,
             /*url: '../../static/js/demo/training/courseList.json',*/
             url:"/owep/training/courseList/getCourseList",
             onPostBody: checkbox_table,
@@ -453,7 +457,7 @@
                     align: "center"
                 },
                 {
-                    field: 'status',
+                    field: 'courseStatus',
                     title: '状态',
                     align: "center",
                     formatter: switchBox
@@ -562,12 +566,55 @@
             elems.forEach(function (html) {
                 swit = new Switchery(html, {size: 'normal'});
                 $(html).change(function () {
-                    let prop = $(this).prop("checked");
-                    alert(prop);
+                    let courseId = $(this).attr("courseId");
+                    let status;
+                    if(html.checked==true){
+                        alert("课程启用"+courseId);
+                        status = 1;
+                    }else{
+                        alert("禁用课程"+courseId);
+                        status = 0;
+                    }
+                    let switch_data ={
+                        "courseId": courseId,
+                        "status": status
+                    };
+
+                    //Todo Ajax
+                    $.ajax({
+                        url: "/owep/training/courseList/switch",
+                        method: "get",
+                        async: true,
+                        data:switch_data,
+                        dataType: "text",   //期望服务端返回的数据类型
+                        contentType: "application/json",
+                        error: function (jqXHR) {
+                            swal("同步失败！", "请稍后重试", "error");
+                        }
+                    });
                 })
 
             });
         }
+        $("#searchCourse").click(function () {
+            var courseName = "%"+$("#courseNameSearch").val()+"%";
+
+            var course = {
+                "courseName":courseName
+            }
+            $.ajax({
+                url:"/owep/training/courseList/findCourseByName",
+                data:course,
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    $("#courseList_table").bootstrapTable("load",data);
+                },
+                error:function (jqXHR) {
+                    alert("查询失败");
+                }
+            })
+        })
 
     });
 </script>
@@ -586,10 +633,10 @@
 
     /*根据json数据给滑动按钮设置状态*/
     function switchBox(value, row, index) {
-        if (value == "启用") {
-            return '<input type="checkbox" class="js-switch form-control" checked/>';
+        if (value == "1") {
+            return '<input type="checkbox" class="js-switch form-control" courseId="'+row.id+'" checked/>';
         }
-        return '<input type="checkbox" class="js-switch form-control"/>';
+        return '<input type="checkbox" class="js-switch form-control" courseId="'+row.id+'"/>';
     }
 
     /*改变滑动按钮的状态*/
@@ -710,7 +757,7 @@
             format: "yyyy-mm-dd",
             language: 'zh-CN',// 汉化
         });
-        $('#add_cc.btn.btn-primary').click(function () {
+       /* $('#add_cc.btn.btn-primary').click(function () {
             $.ajax({
                 type: "GET",
                 url: "",
@@ -731,7 +778,7 @@
 
             //重新加载页面
             window.location.reload();
-        })
+        })*/
     })
     /*公开状态suggest*/
     $("#publicStatus,#alter_publicStatus").bsSuggest({
@@ -767,6 +814,7 @@
         }
     });
     $("#alter_cc").click(function () {
+
         alert("hehe");
         $("form[name='course_list_form']").submit();
         window.location.reload();

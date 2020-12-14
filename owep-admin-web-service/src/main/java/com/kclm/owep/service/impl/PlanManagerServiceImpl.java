@@ -10,6 +10,7 @@ import com.kclm.owep.dto.PlanManagerDTO;
 import com.kclm.owep.entity.PlanManager;
 import com.kclm.owep.entity.PlanManagerCourse;
 
+import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.PlanManagerCourseMapper;
 import com.kclm.owep.mapper.PlanManagerMapper;
 import com.kclm.owep.service.PlanManagerService;
@@ -221,5 +222,36 @@ public class PlanManagerServiceImpl implements PlanManagerService {
     public PlanManagerCourse findByCourseOrder(Integer courseOrder, Integer stageNum,PlanManager planManager) {
         return planManagerCourseMapper.findByCourseOrder(courseOrder,stageNum,planManager);
 
+    }
+
+    @Override
+    public int activate(Integer id) {
+        try{
+            PlanManager planManager = planManagerMapper.selectById(id);
+            planManager.setPlanStatus(1);
+            planManagerMapper.updateStatus(planManager);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int deactivate(Integer id) {
+        try{
+            PlanManager planManager = planManagerMapper.selectById(id);
+            planManager.setPlanStatus(0);
+            planManagerMapper.updateStatus(planManager);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int updateStatus(PlanManager planManager) {
+        return planManagerMapper.updateStatus(planManager);
     }
 }

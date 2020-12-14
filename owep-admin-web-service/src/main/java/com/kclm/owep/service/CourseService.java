@@ -143,6 +143,9 @@ public interface CourseService {
 
     Course selectById(Serializable id);
 
+
+    int activate(Integer id);
+    int deactivate(Integer id);
     /**
      * @author zhang_hy
      * @date 2020-12-2 16:47
@@ -157,5 +160,6 @@ public interface CourseService {
      */
 
     List<Section> selectAllById(Serializable id);
+
 
 }

@@ -88,12 +88,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<<<<<<< HEAD
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-=======
+
 
         <!-- mapstruct -->
         <dependency>
@@ -108,9 +108,8 @@
             <version>1.2.0.Final</version>
         </dependency>
 
-<<<<<<< HEAD
->>>>>>> 402de1d9a00a763bec45bfa8512be304960c733f
-=======
+
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <!-- jdk8以下就使用mapstruct -->
@@ -139,7 +138,7 @@
             <version>2.10.0</version>
         </dependency>
 
->>>>>>> 75899b060a36f819ecbe5b385aeb675e51a0ea55
+
     </dependencies>
 
     <build>
