@@ -231,10 +231,6 @@ public class CourseServiceImpl implements CourseService {
         return chapterMapper.deleteById(id);
     }
 
-    public Course findCourseById(Serializable id) {
-        return courseMapper.selectById(id);
-    }
-
     @Override
     public List<Section> selectAllById(Serializable id) {
         return sectionMapper.selectAllById(id);

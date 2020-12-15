@@ -143,12 +143,6 @@ public interface CourseService {
 
     Course selectById(Serializable id);
 
-    /**
-     * @author zhang_hy
-     * @date 2020-12-2 16:47
-     * @For  根据id查询课程
-     */
-    Course findCourseById(Serializable id);
 
     /**
      * @author zhang_hy

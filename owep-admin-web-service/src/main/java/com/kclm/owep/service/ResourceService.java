@@ -63,6 +63,7 @@ public interface ResourceService {
      * @For 根据关键字模糊搜索
      */
     List<Resource> findByKeyword(String keyword);
+
     /**
      * 根据班级和关键字来查询资源
      * @param cid
