@@ -202,7 +202,7 @@ public class PlanManagerServiceImpl implements PlanManagerService {
         /*MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         return mapperFacade.mapAsList(planManagerCourses, PlanManagerCourseDTO.class);*/
         for(PlanManagerCourse p:planManagerCourses){
-            PlanManagerCourseDTO planManagerCourseDTO = PlanManagerCourseConvert.INSTANCE.entityToDTO(p);
+            PlanManagerCourseDTO planManagerCourseDTO = PlanManagerCourseConvert.INSTANCE.entityToDTO_yjj(p);
             planManagerCourseDTOS.add(planManagerCourseDTO);
         }
         return planManagerCourseDTOS;

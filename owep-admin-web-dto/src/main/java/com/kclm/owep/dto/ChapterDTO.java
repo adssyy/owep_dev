@@ -38,9 +38,21 @@ public class ChapterDTO implements Serializable {
      */
     private String chapterDesc;
 
+    private Integer chapterStatus;
+
+    public Integer getChapterStatus() {
+        return chapterStatus;
+    }
+
+    public void setChapterStatus(Integer chapterStatus) {
+        this.chapterStatus = chapterStatus;
+    }
+
     /**
      * 一个章包含多个节
      */
+
+
     private List<SectionDTO> sectionDTOList;
 
     public Integer getId() {

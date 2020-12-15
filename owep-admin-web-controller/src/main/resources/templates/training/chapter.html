@@ -87,7 +87,7 @@
                     <div class="form-group">
                         <label for="alter_status" class="col-sm-2 control-label">是否启用:</label>
                         <div class="col-sm-8">
-                            <input type="checkbox" class="form-control js-switch" id="add_status" checked/>
+                            <input type="checkbox" class="js-switch-1 form-control " id="add_status" checked/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -138,7 +138,7 @@
                     <div class="form-group">
                         <label for="alter_status" class="col-sm-2 control-label">是否启用:</label>
                         <div class="col-sm-8">
-                            <input type="checkbox" class="form-control" id="alter_status" checked/>
+                            <input type="checkbox" class="js-switch-1 form-control" id="alter_status" checked/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -166,12 +166,12 @@
                 <h4 class="modal-title">新增</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" method="post" enctype="multipart/form-data" name="add_section_from">
-                    <input type="hidden" id="chapterId">
+                <form class="form-horizontal" method="post" enctype="multipart/form-data" name="add_section_form">
+                    <input type="hidden" id="chapterId" name="chapterId">
                     <div class="form-group">
                         <label for="addNode_chapterName" class="col-sm-2 control-label">章名称:</label>
                         <div class="col-sm-8">
-                            <input type="text" disabled class="form-control" id="addNode_chapterName">
+                            <input type="text" disabled class="form-control" id="addNode_chapterName" name="chapterName">
                         </div>
                     </div>
                     <div class="form-group">
@@ -211,17 +211,20 @@
                     </div>
                     <div class="form-group  hidden n_hidden">
                         <label for="addNode_experiment" class="col-sm-2 control-label">实验简介:</label>
-                        <div class="col-sm-8">
-                            <!-- <input type="text" class="form-control" id="addNode_experimentDesc">-->
-                            <!--富文本框编辑器-->
+                       <!-- <div class="col-sm-8">
+                            &lt;!&ndash; <input type="text" class="form-control" id="addNode_experimentDesc">&ndash;&gt;
+                            &lt;!&ndash;富文本框编辑器&ndash;&gt;
                             <div id="addNode_experimentDesc" name="experimentInstrusction"></div>
+                        </div>-->
+                        <div class="col-sm-8">
+                            <textarea rows="4" class="form-control" id="addNode_experimentDesc" name="experimentInstrusction"></textarea>
                         </div>
                     </div>
                     <div class="form-group  hidden n_hidden" id="file-pretty">
                         <label for="addNode_experimentDoc" class="col-sm-2 control-label">实验文档:</label>
                         <div class="col-sm-8">
                             <!-- <input type="file" class="form-control" id="addNode_experimentDoc">-->
-                            <input type="file" class="form-control" id="addNode_experimentDoc" name="experimentDucumentFile">
+                            <input type="file" class="form-control" id="addNode_experimentDoc" name="file">
                         </div>
                     </div>
                     <div class="form-group  hidden n_hidden">
@@ -256,7 +259,9 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal" method="post" enctype="multipart/form-data" name="update_section_form">
+                    <input type="hidden" id="alterChapterId" name="alterChapterId">
+                    <input type="hidden" id="sectionId" name="id">
                     <div class="form-group">
                         <label for="alterNode_chapterName" class="col-sm-2 control-label">章名称:</label>
                         <div class="col-sm-8">
@@ -266,13 +271,13 @@
                     <div class="form-group">
                         <label for="alterNode_nodeNum" class="col-sm-2 control-label">节编号:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="alterNode_nodeNum">
+                            <input type="number" class="form-control" id="alterNode_nodeNum" name="sectionNumber">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="alterNode_nodeName" class="col-sm-2 control-label">节名称:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="alterNode_nodeName">
+                            <input type="text" class="form-control" id="alterNode_nodeName" name="sectionName">
                         </div>
                     </div>
                     <!-- <div class="form-group">
@@ -285,7 +290,7 @@
                         <label for="alterNode_experiment" class="col-sm-2 control-label">是否实验:</label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="alterNode_experiment">
+                                <input type="text" class="form-control" id="alterNode_experiment" name="experiment">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-white dropdown-toggle"
                                             data-toggle="dropdown">
@@ -301,43 +306,41 @@
                     <div class="form-group  hidden n_hidden">
                         <label for="addNode_experiment" class="col-sm-2 control-label">实验简介:</label>
                         <div class="col-sm-8">
-                            <!-- <input type="text" class="form-control" id="addNode_experimentDesc">-->
-                            <!--富文本框编辑器-->
-                            <div id="alterNode_experimentDesc"></div>
+                            <textarea rows="4" class="form-control" id="alterNode_experimentDesc" name="experimentInstrusction"></textarea>
                         </div>
                     </div>
                     <div class="form-group  hidden n_hidden" id="alter_file-pretty">
                         <label for="alterNode_experimentDoc" class="col-sm-2 control-label">实验文档:</label>
                         <div class="col-sm-8">
                             <!-- <input type="file" class="form-control" id="addNode_experimentDoc">-->
-                            <input type="file" class="form-control" id="alterNode_experimentDoc">
+                            <input type="file" class="form-control" id="alterNode_experimentDoc" name="file">
                         </div>
                     </div>
                     <div class="form-group  hidden n_hidden">
                         <label for="alterNode_experimentAddr" class="col-sm-2 control-label">实验环境地址:</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="alterNode_experimentAddr"
-                                   placeholder="实验环境地址为放入服务器硬盘上的虚拟机文件地址">
+                                   placeholder="实验环境地址为放入服务器硬盘上的虚拟机文件地址" name="experimentEnvironmentAddr">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="alterNode_NodeDesc" class="col-sm-2 control-label">节描述:</label>
                         <div class="col-sm-8">
-                            <textarea rows="4" class="form-control" id="alterNode_NodeDesc"></textarea>
+                            <textarea rows="4" class="form-control" id="alterNode_NodeDesc" name="sectionDesc"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="update_section">保存</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!--上传视频 模态框-->
 <div class="modal fade" tabindex="-1" role="dialog" id="uploadVideoModel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog model-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
@@ -345,36 +348,37 @@
                 <h4 class="modal-title">上传视频</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="upload_videoTitle" class="col-sm-2 control-label">视频标题:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="upload_videoTitle" placeholder="请输入视频标题">
+                <form class="form-horizontal" >
+                    <input class="hidden" type="text" id="sectionVideoId">
+                    <input class="hidden" type="text" id="planManagerCourseId">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="sectionNameSet" class="col-sm-2 control-label">节名称:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="schemaNameSet" readonly class="form-control"
+                                       id="sectionNameSet">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="upload_videoTime" class="col-sm-2 control-label">视频时长:</label>
-                        <div class="col-sm-10">
-                            <input type="number" class="form-control" id="upload_videoTime">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <button type="button" class="btn btn-primary allocation">已分配视频</button>
+                                <button type="button" class="btn btn-default choose_video">选择新视频</button>
+                            </div>
                         </div>
+
                     </div>
-                    <div class="form-group">
-                        <label for="upload_video" class="col-sm-2 control-label">视频上传:</label>
-                        <div class="col-sm-10">
-                            <input type="file" class="form-control" id="upload_video">
-                        </div>
+                    <div class="row" id="allocation_content">
+                        <table class="table table-striped" id="allocation_table">
+                        </table>
                     </div>
-                    <div class="form-group">
-                        <label for="upload_videoAddr" class="col-sm-2 control-label">视频地址:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="upload_videoAddr" placeholder="请输入视频上传(服务器)地址">
-                        </div>
+                    <div class="row" id="choose_video_content" style="display: none">
+                        <table class="table table-striped" id="choose_video_table"></table>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -412,7 +416,7 @@
 <script>
     $(function () {
         var cid = "[[${courseId}]]";
-        console.log("cid====="+cid);
+
         /*初始化章表格*/
         $("#chapter_table").bootstrapTable({
             pagination: true,
@@ -432,7 +436,10 @@
                 }
                 return temp;
             },
-            onPostBody: checkbox_table,
+            /*onLoadSuccess: checkbox_table,
+            onPostBody: checkbox_table,*/
+            onLoadSuccess: checkbox_table,
+            onPageChange: checkbox_table,
             url: "/owep/training/chapter/getAllChapter?courseId="+cid,
             columns: [{
                 field: 'id',
@@ -458,12 +465,8 @@
                 }, {
                     field: 'chapterStatus',
                     title: '是否启用',
-                    formatter: function (value, row, index) {
-                        if (row.status == "启用") {
-                            return "<input type='checkbox' class='js-switch' checked/>";
-                        }
-                        return "<input type='checkbox' class='js-switch'/>";
-                    }
+                    align: "center",
+                    formatter: switchBox
                 }, {
                     align: "center",
                     width: '20%',
@@ -477,7 +480,7 @@
                             $("#alter_chapterNumber").val(row.chapterNumber);
                             $("#alter_chapterName").val(row.chapterName);
                             $("#alter_chapterDesc").val(row.chapterDesc);
-                            if (row.chapterStatus == '启用') {
+                            if (row.chapterStatus == 1) {
                                 setSwitchery(switchery, true);
                             } else {
                                 setSwitchery(switchery, false);
@@ -485,7 +488,7 @@
                             $("#alterChapterModel").modal();
                         },
                         "click .deleteBtn": function (e, value, row, index) {
-                            //alert("确定要删除吗？");
+
                             //采用 sweetalert 组件
                             swal({
                                 title: "您确定要删除这条数据吗",
@@ -498,7 +501,7 @@
                                 closeOnConfirm: false
                             }, function () {
                                     let id = row.id;
-                                    alert(id);
+
                                     //发送ajax 删除
                                     $.ajax({
                                         url: "/owep/training/chapter/deleteChapterById?id=" + id,
@@ -508,7 +511,7 @@
                                         dataType: "text",   //期望服务端返回的数据类型
                                         contentType: "application/json",
                                         success: function (data) {
-                                            //console.log(data.toString());
+
                                             swal("删除成功！", "您已经永久删除已选信息", "success");
                                             //重新加载页面
                                             window.location.reload();
@@ -521,6 +524,7 @@
                         },
                         "click .addBtn": function (e, value, row, index) {
                             $("#addNode_chapterName").val(row.chapterName);
+                            $("#chapterId").val(row.id);
                             $("#addNodeModel").modal();
                         },
                     },
@@ -537,12 +541,20 @@
                 initSubTable(index, row, $detail);
             },
         });
+        function switchBox(value, row, index) {
+
+            if (value==1) {
+                return '<input type="checkbox" class="js-switch form-control" chapterId="'+row.id+'" checked/>';
+            }
+            return '<input type="checkbox" class="js-switch form-control" chapterId="'+row.id+'" />';
+        }
         //初始化子表
         let initSubTable = function (index, row, $detail) {
             let parentId = row.id;
+            let chapterName = row.chapterName;
             let cur_table = $detail.html('<table id="nodeTable"></table>').find('table');
             $(cur_table).bootstrapTable({
-                url: '../../static/js/demo/training/chapter_subTable.json',
+                url: '/owep/training/chapter/getSectionById?id='+parentId,
                 //   method: 'get',
                 queryParams: {id: parentId},
                 ajaxOptions: {id: parentId},
@@ -552,16 +564,16 @@
                 pageNumber: 1,
                 height: $(window).height() - 450,
                 columns: [{
-                    field: 'jid',
+                    field: 'id',
                     title: '节记录id',
                     visible: false
                 }, {
-                    field: 'id',
+                    field: 'sectionNumber',
                     title: '节编号',
                     width: '10%',
                     align: "center"
                 }, {
-                    field: 'nodeName',
+                    field: 'sectionName',
                     title: '节名称',
                     align: "center"
                 }, {
@@ -573,24 +585,31 @@
                     title: '是否实验',
                     visible: false
                 }, {
-                    field: 'experimentDesc',
+                    field: 'experimentInstrusction',
                     title: '实验简介',
                     visible: false
                 }
-                    , {
-                        field: 'videoVisible',
+                    ,
+                    {
+                        field: 'experimentDucumentFile',
+                        title: '实验文档路径',
+                        visible: false
+                    }
+                    ,
+                    {
+                        field: 'experimentEnvironmentAddr',
+                        title: '实验环境地址',
+                        visible: false
+                    }
+                    ,
+                    {
+                        field: 'lookVideoStatus',
                         title: '未登录不可见',
                         visible: false,
-                        /* formatter: function (value, row, index) {
-                             if (row.videoVisible == "可见") {
-                                 return "<input type='checkbox' class='videoVisible' checked/>";
-                             }
-                             return "<input type='checkbox' class='videoVisible'/>";
-                         }*/
                     }
                     , {
 
-                        field: 'nodeDesc',
+                        field: 'sectionDesc',
                         title: '节描述',
                         align: "center"
                     }, {
@@ -600,20 +619,28 @@
                         title: '操作',
                         events: {
                             "click .editNodeBtn": function (e, value, row, index) {
+
                                 //隐藏id
-                                $("#alterNode_chapterName").val(row.chapterName);
-                                $("#alterNode_nodeNum").val(row.id);
-                                $("#alterNode_nodeName").val(row.nodeName);
-                                $("#alterNode_experiment").val(row.experiment);
+
+                                $("#alterChapterId").val(parentId);
+                                $("#sectionId").val(row.id);
+                                $("#alterNode_chapterName").val(chapterName);
+                                $("#alterNode_nodeNum").val(row.sectionNumber);
+                                $("#alterNode_nodeName").val(row.sectionName);
+                                if(row.experiment==1){$("#alterNode_experiment").val("开启实验");}
+                                else{$("#alterNode_experiment").val("不开启实验");}
                                 //将是否开启实验的隐藏控件显示
-                                if (row.experiment != "开启实验") {
+                                if (row.experiment != 1) {
                                     $(".n_hidden").addClass("hidden", "hidden");
                                 } else {
                                     $(".n_hidden").removeClass("hidden", "hidden");
                                 }
-                                $("#alterNode_experimentDesc").val(row.experimentDesc);
+
+                                $("#alterNode_experimentDesc").val(row.experimentInstrusction);
+                                $("#alterNode_experimentAddr").val(row.experimentEnvironmentAddr)
                                 //还有两个控件没有回显数据。
-                                $("#alterNode_NodeDesc").val(row.nodeDesc);
+                                $("#alterNode_NodeDesc").val(row.sectionDesc);
+
                                 //弹出模态框
                                 $("#alterNodeModel").modal();
                                 //弹出模态框
@@ -622,55 +649,94 @@
                             "click .deleteNodeBtn": function (e, value, row, index) {
                                 //采用 sweetalert 组件
                                 swal({
-                                    title: "您确定要删除这条数据吗",
-                                    text: "删除" + row.id + "，请谨慎操作！",
+                                    title: '您确定要删除该信息吗？',
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText: "删除",
-                                    cancelButtonText: "取消",
                                     closeOnConfirm: false
                                 }, function () {
-                                    // todo
-                                    console.log("要删除的记录是：" + row.id);
-                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                    let id = row.id;
+
+                                    //发送ajax 删除
+                                    $.ajax({
+                                        url: "/owep/training/chapter/deleteSectionById?id="+id,
+                                        method: "get",
+                                        async: true,
+                                        data: id,
+                                        dataType: "text",   //期望服务端返回的数据类型
+                                        contentType: "application/json",
+                                        success: function (data) {
+                                            ;
+                                            swal("删除成功！", "您已经永久删除已选信息", "success");
+                                            //重新加载页面
+                                            $(cur_table).bootstrapTable("refresh");
+                                        },
+                                        error: function (jqXHR) {
+                                            swal("删除失败！", "未知错误", "error");
+                                        }
+                                    });
+                                    //根据Id字段删除对应的数据
+                                    $(event).bootstrapTable('removeByUniqueId', id);
+
+                                    swal("删除成功！", "您已经永久删除信息", "success");
                                 });
 
                             },
                             "click .uploadVideoBtn": function (e, value, row, index) {
                                 //TODO
                                 //弹出模态框
+                                $("#sectionVideoId").val(row.id);
+                                $("#sectionNameSet").val(row.sectionName);
                                 $("#uploadVideoModel").modal();
+                                var opt={
+                                    url: "/owep/training/chapter/getVideoById?id="+row.id
+                                }
+                                $("#allocation_table").bootstrapTable("refresh",opt);
                                 //弹出模态框
 
                             }
                             , "click .unLoginVisibleBtn": function (e, value, row, index) {
+
+                                var videoStatus;
                                 //判断 是否可见，再改变图标状态
-                                if (row.videoVisible == '可见') {
-                                    $("#lock").removeClass("fa-lock").addClass("fa-unlock");
-                                } else {
+                                if (row.lookVideoStatus == 1) {
                                     $("#lock").removeClass("fa-unlock").addClass("fa-lock");
+                                    videoStatus=0;
+                                } else {
+                                    $("#lock").removeClass("fa-lock").addClass("fa-unlock");
+                                    videoStatus=1;
                                 }
-                                //发送异步请求
-                                /*   $.ajax({
-                                   url: '?id="+row.id+"+"+row.videoVisible+"',
-                                   type: "get",
-                                   success: function () {
+                                $.ajax({
+                                    url:"/owep/training/chapter/changeVideoStatus?videoStatus="+videoStatus+"&sectionId="+row.id,
+                                    method:"get",
+                                    success:function () {
+                                        swal("修改状态成功！", "您已经修改视频状态", "success");
+                                       /* if (row.lookVideoStatus == 0) {
+                                            $("#lock").removeClass("fa-unlock").addClass("fa-lock");
+                                            //videoStatus=0;
+                                        } else {
+                                            $("#lock").removeClass("fa-lock").addClass("fa-unlock");
+                                            //videoStatus=1;
+                                        }*/
+                                        $(cur_table).bootstrapTable("refresh");
+                                    },
+                                    error:function () {
+                                        swal("修改状态失败！", "遇到了一些错误", "error");
+                                    }
+                                })
 
-                                   },
-                                   error: function () {
-
-                                   }
-                               })*/
                             }
                         },
+
                         formatter: function (value, row, index) {
                             return [
                                 "<button type='button' class='editNodeBtn btn btn-primary btn-xs' title='修改' style='margin-right: 15px;'><i class='fa fa-edit'></i> </button>",
                                 "<button type='button' class='deleteNodeBtn btn btn-danger btn-xs' title='删除' style='margin-right: 15px;'><i class='fa fa-trash'></i> </button>",
-                                "<button type='button' class='uploadVideoBtn btn btn-danger btn-xs' title='视频上传' style='margin-right: 15px;'><i class='fa fa-wrench'></i> </button>"
-                                , "<button type='button' class='unLoginVisibleBtn btn btn-danger btn-xs' title='未登录可观看' style='margin-right: 15px;'><i class='fa fa-lock' id='lock'></i> </button>"
+                                "<button type='button' class='uploadVideoBtn btn btn-danger btn-xs' title='视频上传' style='margin-right: 15px;'><i class='fa fa-wrench'></i> </button>",
+                                lockVideo(row.lookVideoStatus)
                             ].join("");
+
                         }
                     }],
                 //无线循环取子表，直到子表里面没有记录
@@ -680,27 +746,64 @@
             });
         }
     });
+    function lockVideo(value){
+        if(value==1){
+            return "<button type='button' class='unLoginVisibleBtn btn btn-danger btn-xs' title='未登录可观看' style='margin-right: 15px;'><i class='fa fa-unlock' id='lock'></i> </button>";
+        }else{
+            return "<button type='button' class='unLoginVisibleBtn btn btn-danger btn-xs' title='未登录可观看' style='margin-right: 15px;'><i class='fa fa-lock' id='lock'></i> </button>";
+        }
+    }
 </script>
 <script>
-    let switchery;
 
+    /*滑动按钮*/
     function checkbox_table() {
-        $(".js-switch,#alter_status,#videoVisible").each(function (index, element) {
-            console.log(element);
-            //判断 element是否已经是 switchery 组件了
-            if ($(element).attr("data-switchery") != 'true') {
-                //重新创建switchery对象
-                switchery = new Switchery(element, {size: 'normal'});
-                //绑定事件, 以 element 为参数，以便里面的代码通过 event.data 来获取此element对象，并进一步拿到ic的值
-                $(element).on('change', element, function (event) {
-                    //todo 发送请求到服务端，更新状态
-                    alert($(event.data).val() + "--------------" + element.checked);
+        let elems = Array.prototype.slice.call($('.js-switch'));
+        let swit;
+        elems.forEach(function (html) {
+            swit = new Switchery(html, {size: 'normal'});
+            $(html).change(function () {
+                let chapterId = $(this).attr("chapterId");
+                let status;
+                if(html.checked==true){
+                    alert("章启用"+chapterId);
+                    status = 1;
+                }else{
+                    alert("禁用章"+chapterId);
+                    status = 0;
+                }
+                let switch_data ={
+                    "chapterId": chapterId,
+                    "status": status
+                };
+
+                //Todo Ajax
+                $.ajax({
+                    url: "/owep/training/chapter/switch",
+                    method: "get",
+                    async: true,
+                    data:switch_data,
+                    dataType: "text",   //期望服务端返回的数据类型
+                    contentType: "application/json",
+                    error: function (jqXHR) {
+                        swal("同步失败！", "请稍后重试", "error");
+                    }
                 });
-            } else {
-                console.log("已经添加过了");
-            }
+            })
+
         });
     }
+    /*模态框中的滑动按钮*/
+    let elems = Array.prototype.slice.call($('.js-switch-1'));
+    let switchery;
+    elems.forEach(function (html) {
+        switchery = new Switchery(html, {size: 'normal'});
+        $(html).change(function () {
+            let prop = $(this).prop("checked");
+            let parentNode = $(this).parentNode;
+            alert(prop);
+        })
+    });
 
     /*改变滑动按钮的状态*/
     function setSwitchery(switchElement, checkedBool) {
@@ -713,19 +816,7 @@
 <script>
     /*suggest */
     $("#addNode_experiment,#alterNode_experiment").bsSuggest({
-        //indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        //indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        /*data: {
-            "value": [
-                {
-                    //"id":0,
-                    "keyName": "开启实验",
-                }, {
-                    //"id":1,
-                    "keyName": "不开启实验",
-                }
-            ]
-        }*/
+
         indexId: 2, //data.value 的第几个数据，作为input输入框的内容
         indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
         //TODO 通过json显示数据
@@ -742,20 +833,7 @@
             ]
         }
     })
-    /*富文本框编辑器*/
-    $(function () {
-        $('#addNode_experimentDesc,#alterNode_experimentDesc').summernote({
-            height: "130px",
-            fontsize: '18',
-            styleWithSpan: false,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol']]
-            ]
 
-        });
-    })
     /*给是否实验添加失去焦点事件*/
     $("#addNode_experiment,#alterNode_experiment").blur(function () {
         if ($(this).val() != "开启实验") {
@@ -782,7 +860,7 @@
             var chapterDesc = $("#add_chapterDesc").val();
             var courseId = "[[${courseId}]]";
 
-            if(chapterStatus === "on"){
+            if($("#add_status").prop("checked")==true){
                 chapterStatus = 1;
             }else{
                 chapterStatus = 0;
@@ -814,7 +892,7 @@
         })
         $("#alter_chapter").click(function () {
             var id = $("#alter_chapterId").val();
-            alert(id);
+
             var chapterNumber = $("#alter_chapterNumber").val();
             var chapterNmae = $("#alter_chapterName").val();
             var chapterStatus = $("#alter_status").val();
@@ -851,10 +929,24 @@
         })
 
         $("#add_section").click(function () {
+
+
+
+
             var form = document.forms["add_section_form"];
+
             var formData = new FormData(form);
-            var ise =$("#addNode_experiment").val();
-            alert(ise);
+            var experiment =$("#addNode_experiment").val();
+            if(experiment =="开启实验"){
+                formData.set("experiment",1);
+            }else if(experiment == "不开启实验"){
+                formData.set("experiment",0)
+            }
+
+            /*var sectionName = $("#addNode_nodeName").val();
+            var sectionNumber = $("#addNode_nodeNum").val();
+            var experimentDucumentFile*/
+
             $.ajax({
                 url: "/owep/training/chapter/addSection",
                 data: formData,
@@ -863,19 +955,196 @@
                 cache: false,//上传文件无需缓存
                 processData: false,//用于对data参数进行序列化处理 这里必须false
                 contentType: false, //必须
-                success: function (result) {
-                    alert("上传完成!");
-                    console.log(result);
+                success: function (data) {
+                    alert("添加成功");
+                    console.log(data)
                     window.location.reload();
                 },
                 error: function (jqXRH) {
                     console.log("jqXRH = " + jqXRH);
-                    alert("上传失败")
+                    alert("添加失败")
+                }
+            })
+        })
+        $("#update_section").click(function () {
+
+            var form = document.forms["update_section_form"];
+            var formData = new FormData(form);
+            var id = formData.get("id");
+            var experiment =$("#alterNode_experiment").val();
+            if(experiment =="开启实验"){
+                formData.set("experiment",1);
+            }else if(experiment == "不开启实验"){
+                formData.set("experiment",0)
+            }
+            $.ajax({
+                url: "/owep/training/chapter/updateSection",
+                data: formData,
+                type: "Post",
+                dataType: "json",
+                cache: false,//上传文件无需缓存
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    alert("修改成功");
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log("jqXRH = " + jqXRH);
+                    alert("修改失败")
                 }
             })
         })
     })
 
+
+</script>
+<script>
+    $(function () {
+        var id = $("#sectionVideoId").val();
+        $("#allocation_table").bootstrapTable({
+            pagination: true,
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 6,                      //每页的记录行数（*）
+            server: "client",
+            uniqueId: "id",
+            sortOrder: "asc",
+            queryParams: function (params) {
+                var temp = {
+                    "a": 1,
+                    "b": 2,
+                    "limits": params.limit,
+                    "offset": params.offset
+                }
+                return temp;
+            },
+            url: "/owep/training/chapter/getVideoById?id="+id,
+            columns: [
+                {
+                    field: 'id',
+                    title: 'ID',
+                    visible: false
+                },
+                {
+                    field: 'sectionId',
+                    title: 'ID',
+                    visible: false
+                }, {
+                    field: 'videoName',
+                    title: '视频名称'
+                }, {
+                    field: 'videoLength',
+                    title: '视频时长',
+
+                }, {
+                    align: "center",
+                    width: '30%',
+                    title: "操作",
+                    events: {
+                        "click .deleteVideoBtn": function (e, value, row, index) {
+                            swal({
+                                title: '您确定要删除该信息吗？',
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "删除",
+                                closeOnConfirm: false
+                            }, function () {
+                                let id = row.id;
+                                let sectionId = row.sectionId;
+                                var opt = {
+                                    url:"/owep/training/chapter/deleteVideoById?id="+id+"&sectionId="+sectionId
+                                }
+                                $("#allocation_table").bootstrapTable("refresh",opt);
+                                swal("删除成功！", "您已经永久删除已选信息", "success");
+
+
+                            });
+                        }
+
+                    },
+                    formatter: function (value, row, index) {
+                        return [
+                            "<button type='button' class='deleteVideoBtn btn btn-danger btn-xs' title='删除' style='margin-right: 15px;'><i class='fa fa-trash'></i></button>",
+                        ].join("");
+                    },
+                }]
+        });
+    });
+    $(function () {
+    $("#choose_video_table").bootstrapTable({
+        pagination: true,
+        pageNumber: 1,                       //初始化加载第一页，默认第一页
+        pageSize: 4,                       //每页的记录行数（*）
+        //  pageList: [2, 5, 8, 10],        //可供选择的每页的行数（*）
+        search: true,
+        //   toolbar: '#toolbar2',            //包含工具栏中的元素
+        //  showColumns: true,                  //是否显示所有的列
+        //  showRefresh: true,                  //是否显示刷新按钮
+        //   showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+        uniqueId: "id",
+        queryParams: function (params) {
+            var temp = {
+                "a": 1,
+                "b": 2,
+                "limits": params.limit,
+                "offset": params.offset
+            }
+            return temp;
+        },
+        url: "/owep/training/chapter/getVideo",
+        columns: [
+            {
+                field: 'id',
+                title: 'ID',
+                visible: false
+            }, {
+                field: 'videoName',
+                title: '视频名称'
+            }, {
+                field: 'videoLength',
+                title: '视频时长',
+
+            }, {
+                align: "center",
+                width: '30%',
+                title: "操作",
+                events: {
+                    "click .addVideoBtn": function (e, value, row, index) {
+                        var videoId = row.id;
+                        var sectionId = $("#sectionVideoId").val();
+                        var sectionVideo ={
+                            "videoId":videoId,
+                            "sectionId":sectionId
+                        }
+                        var opt={
+                            url:"/owep/training/chapter/addVideoToSection?videoId="+videoId+"&sectionId="+sectionId
+                        }
+                        $("#allocation_table").bootstrapTable("refresh",opt);
+                        alert("添加成功");
+                    }
+
+                },
+                formatter: function (value, row, index) {
+                    return [
+                        "<button type='button' class='addVideoBtn btn btn-primary btn-xs' style='margin-right: 15px;'><i class='fa fa-plus'></i> </button>",
+                    ].join("");
+                },
+            }]
+    });
+});
+    $('.allocation').click(function () {
+        $("#allocation_content").css("display", "block");
+        $("#choose_video_content").css("display", "none");
+        $('.choose_video').removeClass("btn-primary").addClass("btn-default");
+        $('.allocation').removeClass("btn-default").addClass("btn-primary");
+    });
+    $(".choose_video").click(function () {
+        $("#allocation_content").css("display", "none");
+        $("#choose_video_content").css("display", "block");
+        $('.allocation').removeClass("btn-primary").addClass("btn-default");
+        $('.choose_video').removeClass("btn-default").addClass("btn-primary");
+    })
 </script>
 </body>
 </html>

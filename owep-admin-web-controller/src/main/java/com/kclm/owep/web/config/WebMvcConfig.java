@@ -1,17 +1,23 @@
 package com.kclm.owep.web.config;
 
+import com.kclm.owep.utils.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /******************
  * @Author yejf
@@ -72,4 +78,25 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //
         return messageSource;
     }*/
+    @Bean
+    public Converter<String, LocalDate> localDateConverter() {
+        return new Converter<String, LocalDate>() {
+            @Override
+            public LocalDate convert(String source) {
+                System.out.println("============="+source);
+                return LocalDate.parse(source, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            }
+        };
+    }
+
+    @Bean
+    public Converter<String, LocalDateTime> localDateTimeConverter() {
+        return new Converter<String, LocalDateTime>() {
+            @Override
+            public LocalDateTime convert(String source) {
+                System.out.println("localDateTimeConverter============="+source);
+                return DateUtil.stringToLocalDateTime(source);
+            }
+        };
+    }
 }
