@@ -244,4 +244,49 @@ public class ClazzListController {
             return "删除失败！";
         }
     }
+
+    @RequestMapping(value = "selectResourceByClassAndKeyword" ,method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<ResourceDTO> selectResourceByClassAndKeyword(@RequestParam("cid") Integer cid,@RequestParam("resourceName") String resourceName, @RequestParam("resourceType") Integer resourceType){
+        List<ResourceDTO> resourceDTOS = this.resourceService.selectResourceByClassAndKeyword(cid, resourceName, resourceType);
+        return resourceDTOS;
+    }
+
+    @RequestMapping(value = "selectAllResource" ,method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<ResourceDTO> selectAllResource(){
+        return this.resourceService.findAllResource();
+    }
+
+    @RequestMapping(value = "addResourceToClass" ,method = RequestMethod.GET,produces = "text/plain;charset=utf-8")
+    @ResponseBody
+    public String addResourceToClass(Integer cid,Integer rid){
+        int result = this.resourceService.addToClass(cid, rid);
+        if (result > 0){
+            return "分配成功";
+        }else {
+            return "该资源已被分配到该班级";
+        }
+    }
+
+    @RequestMapping(value = "addSelectResourceToClass" ,method = RequestMethod.POST,produces = "text/plain;charset=utf-8")
+    @ResponseBody
+    public String addSelectResourceToClass(Integer cid,@RequestBody List<Integer> idList){
+        List<Serializable> list = new ArrayList<>();
+        for (Integer id:idList){
+            list.add(id);
+        }
+        if (this.resourceService.addSelectToClass(cid,list) > 0){
+            return "分配成功";
+        }else {
+            return "该资源已被分配到该班级";
+        }
+    }
+
+    @RequestMapping(value = "selectResourceByKeyword" ,method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<ResourceDTO> selectResourceByKeyword(String resourceName,String fileType,String beginTime,String endTime){
+        List<ResourceDTO> resourceDTOS = this.resourceService.selectResourceByKeyword(resourceName,fileType,beginTime,endTime);
+        return resourceDTOS;
+    }
 }

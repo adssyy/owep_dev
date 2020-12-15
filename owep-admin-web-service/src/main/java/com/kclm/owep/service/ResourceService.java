@@ -70,7 +70,6 @@ public interface ResourceService {
      * @For 根据关键字模糊搜索
      */
     List<Resource> findByKeyword(String keyword);
-
     /**
      * 根据班级和关键字来查询资源
      * @param cid
@@ -83,5 +82,11 @@ public interface ResourceService {
     int deleteFromClass(Serializable cid,Serializable rid);
 
     int deleteSelectFromClass(Serializable cid, List<Serializable> idList);
+
+    int addToClass(Serializable cid, Serializable rid);
+
+    int addSelectToClass(Serializable cid, List<Serializable> idList);
+
+    List<ResourceDTO> selectResourceByKeyword(String resourceName,String fileType,String beginTime,String endTime);
 
 }

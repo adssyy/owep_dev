@@ -33,6 +33,7 @@ public interface ResourceConvert {
     @Mapping(target = "createTime", source = "createTime")
     @Mapping(target = "isDelete", source = "isDelete")
     @Mapping(target = "resourceType", source = "resourceType")
+    @Mapping(target = "resourcePath", source = "resourcePath")
     @Mapping(target = "course", source = "course")
     ResourceDTO PO2DTO(Resource resource);
 
@@ -52,6 +53,7 @@ public interface ResourceConvert {
     @Mapping(target = "createTime", source = "createTime")
     @Mapping(target = "isDelete", source = "isDelete")
     @Mapping(target = "resourceType", source = "resourceType")
+    @Mapping(target = "resourcePath", source = "resourcePath")
     @Mapping(target = "course", source = "course")
     Resource updatePOFromDTO(ResourceDTO resourceDTO);
 
