@@ -7,6 +7,7 @@ import com.kclm.owep.mapper.ResourceMapper;
 import com.kclm.owep.service.ResourceService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO
  *
  * @author zhang_hy
  * @version v1.0
@@ -27,7 +27,6 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private ResourceMapper resourceMapper;
-
     @Autowired
     private MapperFactory mapperFactory;
 
@@ -46,9 +45,9 @@ public class ResourceServiceImpl implements ResourceService {
         return listDTO;
     }
 
-
     @Override
     public ResourceDTO findById(Serializable id) {
+
         final Resource resource = resourceMapper.selectById(id);
 
         // 将 Resource 类型变量 转为 ResourceDTO 类型变量

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -97,5 +99,18 @@ public class CourseCategoryController {
     public String deleteById(Integer id){
         categoryService.deleteCourseCategory(id);
         return "success";
+    }
+
+    @RequestMapping(value = "/search")
+    @ResponseBody
+    public Object search(String categoryName){
+        //CourseCategoryDTO categoryDTO = categoryService.findByCourseCategoryName("%java%");
+
+        System.out.println(categoryName);
+        List<CourseCategoryDTO> categoryDTO = categoryService.findByCourseCategoryName(categoryName);
+       /* System.out.println(categoryDTO);
+        List<CourseCategoryDTO> list = new ArrayList<CourseCategoryDTO>();
+        list.add(categoryDTO);*/
+        return categoryDTO;
     }
 }

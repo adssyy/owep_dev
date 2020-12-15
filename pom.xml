@@ -45,7 +45,7 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.73</version>
         </dependency>
-<!--解决log4j冲突-->
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <!-- jdk8以下就使用mapstruct -->
@@ -88,27 +88,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
-<<<<<<< HEAD
-=======
-        <!-- mapstruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <!-- jdk8以下就使用mapstruct -->
-            <artifactId>mapstruct-jdk8</artifactId>
-            <version>1.2.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>1.2.0.Final</version>
-        </dependency>
-
->>>>>>> 66f55a0f3482dc180f6bfa9d11b97eceeb6233f4
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>

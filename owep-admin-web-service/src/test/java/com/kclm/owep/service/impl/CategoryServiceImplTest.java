@@ -21,7 +21,7 @@ class CategoryServiceImplTest {
      */
     @Test
     void findByCourseCategoryName() {
-        CourseCategoryDTO byCourseCategoryName = categoryService.findByCourseCategoryName("reids");
+        List<CourseCategoryDTO> byCourseCategoryName = categoryService.findByCourseCategoryName("reids");
         System.out.println(byCourseCategoryName);
     }
 

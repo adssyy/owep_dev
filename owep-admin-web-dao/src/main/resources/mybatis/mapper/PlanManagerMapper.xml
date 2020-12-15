@@ -38,12 +38,13 @@
         <include refid="Base_Column_List"/>
         from t_planmanager where
         <trim  suffixOverrides="and">
-            <if test="planName != null">
-                plan_name = #{planName,jdbcType=VARCHAR} and
-            </if>
             <if test="planNumber != null">
-                plan_number = #{planNumber,jdbcType=VARCHAR}
+            plan_number like #{planNumber,jdbcType=VARCHAR} and
+        </if>
+            <if test="planName != null">
+                plan_name like #{planName,jdbcType=VARCHAR}
             </if>
+
         </trim>
                 and is_delete = 0
     </select>
@@ -164,6 +165,33 @@
                 last_access_time = now(),
         </set>
         where plan_number=#{planNumber,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateStatus" parameterType="PlanManager">
+        update t_planmanager
+        <set>
+            <!-- <if test="planNumber != null">
+                 plan_number = #{planNumber,jdbcType=VARCHAR},
+             </if>-->
+            <if test="planName != null">
+                plan_name = #{planName,jdbcType=VARCHAR},
+            </if>
+            <if test="planStatus != null">
+                plan_status = #{planStatus,jdbcType=INTEGER},
+            </if>
+            <if test="planDesc != null">
+                plan_desc = #{planDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            version = version + 1,
+            last_access_time = now(),
+        </set>
+        where id=#{id,jdbcType=INTEGER}
     </update>
 
     <!--查询总记录数-->

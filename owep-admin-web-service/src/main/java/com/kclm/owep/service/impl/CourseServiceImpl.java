@@ -7,10 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.kclm.owep.dto.ChapterDTO;
 import com.kclm.owep.dto.CourseDTO;
 import com.kclm.owep.dto.SectionDTO;
-import com.kclm.owep.entity.Chapter;
-import com.kclm.owep.entity.Course;
-import com.kclm.owep.entity.Section;
-import com.kclm.owep.entity.SectionVideo;
+import com.kclm.owep.entity.*;
 import com.kclm.owep.mapper.ChapterMapper;
 import com.kclm.owep.mapper.CourseMapper;
 import com.kclm.owep.mapper.SectionMapper;
@@ -229,6 +226,36 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public int deleteChapterById(Serializable id) {
         return chapterMapper.deleteById(id);
+    }
+
+    @Override
+    public int activate(Integer id) {
+        try{
+            Course course = courseMapper.selectById(id);
+            course.setCourseStatus(1);
+            courseMapper.update(course);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int deactivate(Integer id) {
+        try{
+            Course course = courseMapper.selectById(id);
+            course.setCourseStatus(0);
+            courseMapper.update(course);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Course findCourseById(Serializable id) {
+        return courseMapper.selectById(id);
     }
 
     @Override

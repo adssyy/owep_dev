@@ -23,7 +23,7 @@ public interface CategoryService {
      * @param courseCategoryName
      * @return
      */
-    CourseCategoryDTO findByCourseCategoryName(String courseCategoryName);
+    List<CourseCategoryDTO> findByCourseCategoryName(String courseCategoryName);
 
 
     /**
@@ -70,4 +70,6 @@ public interface CategoryService {
      * @return
      */
     List<CourseCategoryDTO> findAllByPaging(int page, int size);
+
+
 }

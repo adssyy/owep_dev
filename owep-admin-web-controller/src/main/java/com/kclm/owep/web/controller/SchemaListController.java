@@ -1,5 +1,6 @@
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.dto.CourseCategoryDTO;
 import com.kclm.owep.dto.CourseDTO;
 import com.kclm.owep.dto.PlanManagerCourseDTO;
 import com.kclm.owep.dto.PlanManagerDTO;
@@ -11,10 +12,7 @@ import com.kclm.owep.service.PlanManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -172,14 +170,16 @@ public class SchemaListController {
      * @param planManagerId
      * @return
      */
-    @RequestMapping("/courseMoveUp")
+    @RequestMapping(value="/courseMoveUp",produces = "application/json")
     @ResponseBody
-    public String courseMoveUp(Integer courseOrder,Integer stageNum,Integer planManagerId){
+    public Object courseMoveUp(Integer courseOrder,Integer stageNum,Integer planManagerId){
         PlanManager planManager = planManagerService.selectById(planManagerId);
         PlanManagerCourse up = planManagerService.findByCourseOrder(courseOrder,stageNum,planManager);
         PlanManagerCourse down = planManagerService.findByCourseOrder(courseOrder-1,stageNum,planManager);
         planManagerService.shiftCellsUpOrDown(up,down);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+
+        return all;
     }
 
     /**
@@ -189,13 +189,44 @@ public class SchemaListController {
      * @param planManagerId
      * @return
      */
-    @RequestMapping("/courseMoveDown")
+    @RequestMapping(value="/courseMoveDown",produces = "application/json")
     @ResponseBody
-    public String courseMoveDown(Integer courseOrder,Integer stageNum,Integer planManagerId){
+    public Object courseMoveDown(Integer courseOrder,Integer stageNum,Integer planManagerId){
         PlanManager planManager = planManagerService.selectById(planManagerId);
         PlanManagerCourse up = planManagerService.findByCourseOrder(courseOrder+1,stageNum,planManager);
         PlanManagerCourse down = planManagerService.findByCourseOrder(courseOrder,stageNum,planManager);
         planManagerService.shiftCellsUpOrDown(up,down);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+        return all;
+    }
+
+    @GetMapping("/switch")
+    @ResponseBody
+    public void postAdminValidSwitch(@RequestParam Integer planManagerId, @RequestParam Integer status){
+        System.out.println("switching admin user validation:" + planManagerId+","+status);
+        if(status==null){
+            System.out.println("Warning： status value is null, nothing to do here");
+            return;
+        }
+        if (status==1){
+            System.out.println("user admin validation activated");
+            planManagerService.activate(planManagerId);
+        }else{
+            System.out.println("user admin validation canceled");
+            planManagerService.deactivate(planManagerId);
+        }
+    }
+
+    @RequestMapping(value = "/search")
+    @ResponseBody
+    public Object search(String planNumber,String planName){
+       PlanManager planManage = new PlanManager();
+       planManage.setPlanNumber(planNumber);
+       planManage.setPlanName(planName);
+
+
+        List<PlanManagerDTO> planManagerDTOS = planManagerService.findPlanManagerByField(planManage);
+
+        return planManagerDTOS;
     }
 }

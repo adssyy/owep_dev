@@ -51,6 +51,13 @@ public interface ResourceService {
     int addResource(Resource resource);
 
     /**
+     * 修改文档管理
+     *
+     * 未实现
+     */
+   /* int alterResource(Resource resource);*/
+
+    /**
      * @author zhang_hy
      * @date 2020-12-3 11:17
      * @For 查询所有后缀
@@ -76,4 +83,5 @@ public interface ResourceService {
     int deleteFromClass(Serializable cid,Serializable rid);
 
     int deleteSelectFromClass(Serializable cid, List<Serializable> idList);
+
 }
