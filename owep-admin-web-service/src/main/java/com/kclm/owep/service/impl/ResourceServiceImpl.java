@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO
  *
  * @author zhang_hy
  * @version v1.0
@@ -28,10 +27,8 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private ResourceMapper resourceMapper;
-
     @Autowired
     private MapperFactory mapperFactory;
-
     @Override
     public List<ResourceDTO> findAllResource() {
 
@@ -87,7 +84,6 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceMapper.selectResourceSuffix();
     }
 
-
     @Override
     public List<ResourceDTO> selectResourceByClassAndKeyword(Serializable cid, String resourceName, Serializable resourceType) {
         List<Resource> resources = resourceMapper.selectByClassAndKeyword(cid, resourceName, resourceType);
@@ -129,4 +125,3 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceDTOS;
     }
 }
-

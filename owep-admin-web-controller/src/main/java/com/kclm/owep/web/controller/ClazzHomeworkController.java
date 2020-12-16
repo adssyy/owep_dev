@@ -43,7 +43,7 @@ public class ClazzHomeworkController {
     @Autowired
     private ClazzService clazzService;
 
-    private static final String FILE_UPLOAD_DIR = "D:\\szkj";
+    private static final String FILE_UPLOAD_DIR = "D:\\innerTestVideoServer\\resources";
 
     @RequestMapping(value = "allHomework",method = RequestMethod.GET,produces = "application/json")
     @ResponseBody

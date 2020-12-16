@@ -30,7 +30,7 @@ class CourseCategoryMapperTest {
     @Test
     void selectByCategoryName() {
         /*只能查询父类的*/
-        CourseCategory redis = courseCategoryMapper.selectByCategoryName("redis");
+        List<CourseCategory> redis = courseCategoryMapper.selectByCategoryName("redis");
         System.out.println(redis);
 
 

@@ -32,7 +32,7 @@ public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
      * @param categoryName
      * @return
      */
-    CourseCategory selectByCategoryName(String categoryName);
+    List<CourseCategory> selectByCategoryName(String categoryName);
 
     @Override
     int save(CourseCategory entity);

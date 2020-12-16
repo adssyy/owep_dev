@@ -9,8 +9,8 @@
     <association property="video"
                  javaType="com.kclm.owep.entity.Video"
                  fetchType="eager"
-                 column="fk_video"
-                 select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+                 column="fk_video_id"
+                 select="com.kclm.owep.mapper.VideoMapper.selectById"/>
     <association property="section"
                  javaType="com.kclm.owep.entity.Section"
                  fetchType="eager"
@@ -74,7 +74,7 @@
   </delete>
 
   <!--通过节id查询所有的节视频-->
-  <select id="selectAllById" resultType="sectionVideo">
+  <select id="selectAllById" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List"/>
     from t_section_video where fk_section_id = #{id}
   </select>

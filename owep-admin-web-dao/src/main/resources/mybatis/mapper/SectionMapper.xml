@@ -11,6 +11,7 @@
     <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
     <result column="experiment_ducument_file" jdbcType="VARCHAR" property="experimentDucumentFile" />
     <result column="experiment_environment_addr" jdbcType="VARCHAR" property="experimentEnvironmentAddr" />
+    <result column="experiment_instrusction" jdbcType="VARCHAR" property="experimentInstrusction" />
     <result column="experiment" jdbcType="INTEGER" property="experiment" />
     <result column="look_video_status" jdbcType="INTEGER" property="lookVideoStatus" />
     <result column="version" jdbcType="INTEGER" property="version" />
@@ -26,7 +27,7 @@
   <sql id="Base_Column_List">
     id,section_name, section_number, section_desc, create_time, video_status, fk_chapter_id,
     is_delete, experiment_ducument_file, experiment_environment_addr, experiment, look_video_status,
-    version, last_access_time
+    version, last_access_time,experiment_instrusction
   </sql>
 
   <!--添加节-->
@@ -125,7 +126,7 @@
   <!--查询所有的节-->
   <select id="selectAllById" resultType="section">
     select <include refid="Base_Column_List"/>
-    from t_section where fk_chapter_id = #{id}
+    from t_section where fk_chapter_id = #{id} and is_delete = 1
   </select>
 
   <select id="selectById"  resultType="section">
@@ -148,9 +149,10 @@
       <if test="videoStatus != null">
         video_status = #{videoStatus,jdbcType=INTEGER},
       </if>
+      <if test="chapter != null">
       <if test="chapter.id != null">
         fk_chapter_id = #{chapter.id,jdbcType=INTEGER},
-      </if>
+      </if></if>
       <if test="experimentDucumentFile != null">
         experiment_ducument_file = #{experimentDucumentFile,jdbcType=VARCHAR},
       </if>
@@ -171,7 +173,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-
+  <delete id="deleteById" parameterType="integer">
+    <!--delete from t_planmanager where id = #{id}-->
+    update t_section set is_delete = 0 where id = #{id}
+  </delete>
 
 
 </mapper>

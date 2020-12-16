@@ -1,5 +1,6 @@
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.dto.CourseCategoryDTO;
 import com.kclm.owep.dto.CourseDTO;
 import com.kclm.owep.dto.PlanManagerCourseDTO;
 import com.kclm.owep.dto.PlanManagerDTO;
@@ -11,10 +12,7 @@ import com.kclm.owep.service.PlanManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,11 +43,11 @@ public class SchemaListController {
     @RequestMapping("/addPlanManager")
     @ResponseBody
     public String addPlanManager(@RequestBody(required = false) PlanManager planManager){
-        System.out.println("==========================*****************************************===============================");
+
         planManager.setIsDelete(1);
         planManagerService.addPlanManager(planManager);
         /*return "forward:/owep/training/schemaList";*/
-        return "success";
+        return "添加成功";
     }
 
     /**
@@ -60,9 +58,9 @@ public class SchemaListController {
     @RequestMapping("/deleteById")
     @ResponseBody
     public String deleteById(@RequestParam("id") Integer id){
-        System.out.println("***************************************************************************"+id);
+
         planManagerService.deletePlanManagerById(id);
-        //return "forward:/owep/training/courseList";
+
         return "success";
     }
 
@@ -76,7 +74,7 @@ public class SchemaListController {
     public String deleteSelected(@RequestBody List<Integer> ids){
         //courseService.deleteCourseByIds(ids);
         for(Integer id : ids){
-            System.out.println("delete userId:"+id);
+
             planManagerService.deletePlanManagerById(id);
         }
         return "success";
@@ -91,7 +89,7 @@ public class SchemaListController {
     @ResponseBody
     public String updatePlanManager(@RequestBody PlanManager planManager){
         planManagerService.alterPlanManager(planManager);
-        return "success";
+        return "修改成功";
     }
 
     /**
@@ -102,7 +100,7 @@ public class SchemaListController {
     @RequestMapping(value="/findCourseById",produces = "application/json")
     @ResponseBody
     public Object findCourseById(@RequestParam("planManagerId") Integer planManagerId){
-        System.out.println("**************************************"+planManagerId);
+
         List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
         return all;
     }
@@ -115,7 +113,7 @@ public class SchemaListController {
     @ResponseBody
     public Object getCourseList(){
         List<CourseDTO> allCourse = courseService.findAllCourse();
-        allCourse.forEach(System.out::println);
+
         return allCourse;
     }
 
@@ -128,9 +126,9 @@ public class SchemaListController {
      * @param model
      * @return
      */
-    @RequestMapping("/addCourseToPlanManager")
+    @RequestMapping(value="/addCourseToPlanManager",produces = "application/json")
     @ResponseBody
-    public String addCourseToPlanManager(Integer planManagerId, Integer courseId, Integer stageNum, Integer stageName, Model model){
+    public Object addCourseToPlanManager(Integer planManagerId, Integer courseId, Integer stageNum, Integer stageName, Model model){
         PlanManagerCourse planManagerCourse = new PlanManagerCourse();
         planManagerCourse.setStageNum(stageNum);
         planManagerCourse.setStageName(stageName);
@@ -149,7 +147,8 @@ public class SchemaListController {
         planManagerCourse.setIsDelete(1);
 
         planManagerService.addPlanManagerCourse(planManagerCourse);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+        return all;
     }
 
     /**
@@ -157,12 +156,13 @@ public class SchemaListController {
      * @param id
      * @return
      */
-    @RequestMapping("/deletePlanManagerCourseById")
+    @RequestMapping(value = "/deletePlanManagerCourseById",produces = "application/json")
     @ResponseBody
-    public String deletePlanManagerCourseById(Integer id){
-        System.out.println(id);
+    public Object deletePlanManagerCourseById(Integer id,Integer planManagerId){
+
         planManagerService.deltePlanManagerCourseById(id);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+        return all;
     }
 
     /**
@@ -172,14 +172,16 @@ public class SchemaListController {
      * @param planManagerId
      * @return
      */
-    @RequestMapping("/courseMoveUp")
+    @RequestMapping(value="/courseMoveUp",produces = "application/json")
     @ResponseBody
-    public String courseMoveUp(Integer courseOrder,Integer stageNum,Integer planManagerId){
+    public Object courseMoveUp(Integer courseOrder,Integer stageNum,Integer planManagerId){
         PlanManager planManager = planManagerService.selectById(planManagerId);
         PlanManagerCourse up = planManagerService.findByCourseOrder(courseOrder,stageNum,planManager);
         PlanManagerCourse down = planManagerService.findByCourseOrder(courseOrder-1,stageNum,planManager);
         planManagerService.shiftCellsUpOrDown(up,down);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+
+        return all;
     }
 
     /**
@@ -189,13 +191,55 @@ public class SchemaListController {
      * @param planManagerId
      * @return
      */
-    @RequestMapping("/courseMoveDown")
+    @RequestMapping(value="/courseMoveDown",produces = "application/json")
     @ResponseBody
-    public String courseMoveDown(Integer courseOrder,Integer stageNum,Integer planManagerId){
+    public Object courseMoveDown(Integer courseOrder,Integer stageNum,Integer planManagerId){
         PlanManager planManager = planManagerService.selectById(planManagerId);
         PlanManagerCourse up = planManagerService.findByCourseOrder(courseOrder+1,stageNum,planManager);
         PlanManagerCourse down = planManagerService.findByCourseOrder(courseOrder,stageNum,planManager);
         planManagerService.shiftCellsUpOrDown(up,down);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+        return all;
+    }
+
+    /**
+     * 滑动按钮改变状态
+     * @param planManagerId
+     * @param status
+     */
+    @GetMapping("/switch")
+    @ResponseBody
+    public void postAdminValidSwitch(@RequestParam Integer planManagerId, @RequestParam Integer status){
+
+        if(status==null){
+
+            return;
+        }
+        if (status==1){
+
+            planManagerService.activate(planManagerId);
+        }else{
+
+            planManagerService.deactivate(planManagerId);
+        }
+    }
+
+    /**
+     * 通过方案编号或者方案名查询方案
+     * @param planNumber
+     * @param planName
+     * @return
+     */
+    @RequestMapping(value = "/search")
+    @ResponseBody
+    public Object search(String planNumber,String planName){
+       PlanManager planManage = new PlanManager();
+       planManage.setPlanNumber(planNumber);
+       planManage.setPlanName(planName);
+
+
+        List<PlanManagerDTO> planManagerDTOS = planManagerService.findPlanManagerByField(planManage);
+
+        return planManagerDTOS;
     }
 }

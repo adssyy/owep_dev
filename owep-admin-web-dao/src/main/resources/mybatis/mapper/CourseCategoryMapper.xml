@@ -14,7 +14,19 @@
                 fetchType="lazy"
                 column="fk_parent_id"/>
   </resultMap>
-
+  <resultMap id="NewResultMap" type="com.kclm.owep.entity.CourseCategory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="category_desc" jdbcType="VARCHAR" property="categoryDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="courseCategory"
+                 column="fk_parent_id"
+                 javaType="com.kclm.owep.entity.CourseCategory"
+                 select="com.kclm.owep.mapper.CourseCategoryMapper.selectById"/>
+  </resultMap>
   <!--所有字段-->
   <sql id="Base_Column_List">
     id, category_name, category_desc, fk_parent_id, create_time, is_delete, version, last_access_time
@@ -128,8 +140,9 @@
   </select>
 
   <!--通过CourseCategory id查询-->
-  <select id="selectById" resultType="courseCategory">
+  <select id="selectById" resultMap="NewResultMap">
     select <include refid="Base_Column_List"/> from t_course_category where id = #{id} and is_delete = 1
+
   </select>
 
   <!--通过上级id 查询下级所有的课程分类-->

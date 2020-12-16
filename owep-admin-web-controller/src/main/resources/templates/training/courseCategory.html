@@ -42,7 +42,7 @@
                        id="schemeNumberSearch">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">查询</button>
+                <button type="button" class="btn btn-primary" id="searchCategory">查询</button>
             </div>
         </form>
     </div>
@@ -215,6 +215,7 @@
 <script>
     $(function () {
         /*初始化bootstrap-table*/
+
         $("#courseCategory_table").bootstrapTable({
             pagination: true,
             pageNumber: 1,                       //初始化加载第一页，默认第一页
@@ -222,7 +223,12 @@
             pageList: [6, 10],        //可供选择的每页的行数（*）
             detailView: true,       //父子表
             uniqueId: "id",
+            queryParams:{
+                categoryName:$("#schemeNumberSearch").val()
+            },
+            queryParamsType:1,
             url: "/owep/training/courseCategory/getCourseCategory",
+
             columns: [
                 {
                     field: 'categoryName',
@@ -240,7 +246,6 @@
                     events: {
 
                         "click .addCourseCategoryBtn": function (e, value, row, index) {
-                            //   alert("确定要更新 id=" + row.id + " 的记录吗？");
                             //回显数据
                             $("#parentCategoryId").val(row.id);
                                   $("#parentCategoryName").val(row.categoryName);
@@ -262,7 +267,7 @@
 
                         },
                         "click .deleteBtn": function (e, value, row, index) {
-                            //alert("确定要删除吗？");
+
                             //采用 sweetalert 组件
                             swal({
                                 title: '您确定要删除该信息吗？',
@@ -283,7 +288,7 @@
                                     dataType: "text",   //期望服务端返回的数据类型
                                     contentType: "application/json",
                                     success: function (data) {
-                                        console.log(data.toString());
+
                                         swal("删除成功！", "您已经永久删除已选信息", "success");
                                         //重新加载页面
                                         window.location.reload();
@@ -366,7 +371,7 @@
 
                         },
                         "click .deleteLowerTableBtn": function (e, value, row, index) {
-                            //alert("确定要删除吗？");
+
                             //采用 sweetalert 组件
                             swal({
                                 title: '您确定要删除该信息吗？',
@@ -377,7 +382,7 @@
                                 closeOnConfirm: false
                             }, function () {
                                 let id = row.id;
-                                alert(id);
+
                                 //发送ajax 删除
                                 $.ajax({
                                     url: "/owep/training/courseCategory/deleteById?id="+id,
@@ -387,7 +392,7 @@
                                     dataType: "text",   //期望服务端返回的数据类型
                                     contentType: "application/json",
                                     success: function (data) {
-                                        console.log(data.toString());
+
                                         swal("删除成功！", "您已经永久删除已选信息", "success");
                                         //重新加载页面
                                         window.location.reload();
@@ -417,11 +422,34 @@
                 }
             });
         }
+        $("#searchCategory").click(function () {
+            var categoryName = "%"+$("#schemeNumberSearch").val()+"%";
+
+            var courseCategory = {
+                "categoryName":categoryName
+            }
+            $.ajax({
+                url:"/owep/training/courseCategory/search",
+                method:"post",
+                data:courseCategory,
+                dataType:"json",
+               // contentType:"application/json",
+                success:function (data) {
+                    $("#courseCategory_table").bootstrapTable("load",data);
+                },
+                error:function(jqXHR){
+                    alert("查询失败");
+                }
+
+            })
+
+        })
     })
 
 </script>
 <script>
     $(function () {
+
         /*添加父表内容模态框*/
         $('#add_model').click(function () {
             //获取add_form_model表单并提交
@@ -457,8 +485,6 @@
         });
         /*添加子表内容模态框*/
         $("#submitLowerContentForm").click(function () {
-            //$("#addLowerContent_form").submit();
-            console.log("111111111111111111111111111111111111111111")
             var categoryName = $("#categoryName").val();
             var categoryDesc = $("#desc").val();
             var parentId = $("#parentCategoryId").val();

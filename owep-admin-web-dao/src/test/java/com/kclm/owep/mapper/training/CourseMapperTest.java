@@ -40,8 +40,8 @@ class CourseMapperTest {
         course.setStartTime(LocalDateTime.now());
         course.setEndTime(LocalDateTime.now().withDayOfYear(2));
         course.setFree(1);
-        course.setListener(true);
-        course.setHot(true);
+        course.setListener(1);
+        course.setHot(1);
         course.setIsDelete(0);
         CourseCategory courseCategory = new CourseCategory();
         courseCategory.setId(1);
@@ -66,8 +66,8 @@ class CourseMapperTest {
         course.setStartTime(LocalDateTime.now());
         course.setEndTime(LocalDateTime.now().withDayOfYear(2));
         course.setFree(1);
-        course.setListener(true);
-        course.setHot(true);
+        course.setListener(1);
+        course.setHot(1);
         course.setIsDelete(0);
         CourseCategory courseCategory = new CourseCategory();
         courseCategory.setId(1);

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class CourseCategoryController {
     public String addCourseCategory(@RequestBody CourseCategory courseCategory){
 
         categoryService.addCourseCategory(courseCategory);
-        return "success";
+        return "添加成功";
     }
 
     /**
@@ -52,7 +54,7 @@ public class CourseCategoryController {
     @RequestMapping("/addSonCourseCategory")
     @ResponseBody
     public String addSonCourseCategory(String categoryName,String categoryDesc,Integer parentId){
-        System.out.println(categoryName+","+categoryDesc+","+parentId);
+
         CourseCategory courseCategory = new CourseCategory();
         courseCategory.setCategoryName(categoryName);
         courseCategory.setCategoryDesc(categoryDesc);
@@ -60,7 +62,7 @@ public class CourseCategoryController {
             courseCategory.setCourseCategory(categoryService.selectById(parentId));
         }
         categoryService.addCourseCategory(courseCategory);
-        return "success";
+        return "添加成功";
     }
 
     /**
@@ -72,11 +74,12 @@ public class CourseCategoryController {
     @ResponseBody
     public String updateCourseCategory(@RequestBody CourseCategory courseCategory){
         categoryService.alterCourseCategory(courseCategory);
-        return "success";
+        return "修改成功";
     }
 
     /**
      * 通过父分类的id获取子分类
+     * @author
      * @param id
      * @return
      */
@@ -97,5 +100,21 @@ public class CourseCategoryController {
     public String deleteById(Integer id){
         categoryService.deleteCourseCategory(id);
         return "success";
+    }
+
+    /**
+     * 通过课程分类名称查询
+     * @param categoryName
+     * @return
+     */
+    @RequestMapping(value = "/search")
+    @ResponseBody
+    public Object search(String categoryName){
+        //CourseCategoryDTO categoryDTO = categoryService.findByCourseCategoryName("%java%");
+
+
+        List<CourseCategoryDTO> categoryDTO = categoryService.findByCourseCategoryName(categoryName);
+
+        return categoryDTO;
     }
 }
