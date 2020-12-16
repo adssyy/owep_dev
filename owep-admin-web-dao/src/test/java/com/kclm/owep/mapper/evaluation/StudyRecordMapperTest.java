@@ -5,6 +5,7 @@
 package com.kclm.owep.mapper.evaluation;
 
 import com.kclm.owep.OwepAdminWebDaoApplication;
+import com.kclm.owep.entity.Student;
 import com.kclm.owep.entity.StudyRecord;
 import com.kclm.owep.mapper.StudyRecordMapper;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class StudyRecordMapperTest {
 
     @Test
     void testSave(){
-        StudyRecord studyRecord = new StudyRecord(1,1,"Html网页设计");
+        StudyRecord studyRecord = new StudyRecord(1,new Student(),"Html网页设计");
         studyRecordMapper.save(studyRecord);
     }
 

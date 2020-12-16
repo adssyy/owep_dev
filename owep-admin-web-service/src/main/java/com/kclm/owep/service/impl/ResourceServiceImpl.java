@@ -43,6 +43,7 @@ public class ResourceServiceImpl implements ResourceService {
 
             // 将 Resource 类型变量 转为 ResourceDTO 类型变量
             listDTO.add(ResourceConvert.INSTANCE.PO2DTO(list));
+            System.out.println(ResourceConvert.INSTANCE.PO2DTO(list).toString());
         }
         return listDTO;
     }

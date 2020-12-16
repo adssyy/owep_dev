@@ -5,8 +5,12 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.StudyRecord;
+import com.kclm.owep.entity.StudyRecordStatistics;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.io.Serializable;
+import java.util.List;
 
 
 /*******************
@@ -25,4 +29,17 @@ public interface StudyRecordMapper extends BaseMapper<StudyRecord> {
      */
     int countStudyRecord();
 
+    /***
+     * 根据关键词查找学习记录
+     * @param orgName
+     * @param branchName
+     * @param pid
+     * @param cid
+     * @return
+     */
+    List<StudyRecord> selectByKeyword(String orgName, String branchName, Serializable pid, Serializable cid);
+
+    List<StudyRecordStatistics> selectAllStudyRecordStatistics();
+
+    List<StudyRecordStatistics> selectStudyRecordStatisticsByKeyword(String orgName, String branchName, Serializable pid, Serializable cid);
 }

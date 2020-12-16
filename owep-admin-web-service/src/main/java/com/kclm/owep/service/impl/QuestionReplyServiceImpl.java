@@ -86,4 +86,16 @@ public class QuestionReplyServiceImpl implements QuestionReplyService {
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         return mapperFacade.mapAsList(questionReplies,QuestionReplyDTO.class);
     }
+
+    /**
+     * 根据Question的id查询
+     * @param id
+     * @return
+     */
+    @Override
+    public List<QuestionReplyDTO> selectByQuestionId(Serializable id){
+        List<QuestionReply> questionReplies = questionReplyMapper.selectByQuestionId(id);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        return mapperFacade.mapAsList(questionReplies,QuestionReplyDTO.class);
+    }
 }

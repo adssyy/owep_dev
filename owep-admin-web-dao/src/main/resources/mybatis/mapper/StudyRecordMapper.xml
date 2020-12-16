@@ -16,7 +16,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="progress_status" jdbcType="INTEGER" property="progressStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />
+<!--    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />-->
     <result column="fk_section_id" jdbcType="INTEGER" property="fkSectionId" />
     <result column="course_name" jdbcType="VARCHAR" property="courseName" />
     <result column="chapter_name" jdbcType="VARCHAR" property="chapterName" />
@@ -25,8 +25,14 @@
     <result column="video_length" jdbcType="INTEGER" property="videoLength" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="student" column="fk_student_id" javaType="student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
   </resultMap>
 
+  <resultMap id="Statistics" type="com.kclm.owep.entity.StudyRecordStatistics">
+    <result column="total_video_rate" jdbcType="DOUBLE" property="totalVideoRate"/>
+    <result column="total_video_length" jdbcType="DOUBLE" property="totalVideoLength"/>
+    <association property="student" column="fk_student_id" javaType="student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+  </resultMap>
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select * from t_studyrecord
     where id = #{value}
@@ -168,7 +174,7 @@
     select count(*) from t_studyrecord
   </select>
 
-    <select id="selectAll" resultType="StudyRecord">
+    <select id="selectAll" resultMap="BaseResultMap">
         select * from t_studyrecord
     </select>
 
@@ -178,4 +184,66 @@
       #{id}
     </foreach>
   </delete>
+
+  <select id="selectByKeyword" resultMap="BaseResultMap">
+    select *
+    from t_studyrecord
+    where
+    fk_student_id in
+    (select id from t_student
+    where fk_class_id in
+    (select id from t_class
+    where
+    <if test="orgName != null and orgName != ''">
+      institute_name = #{orgName}
+    </if>
+    <if test="branchName != null and branchName != ''">
+      and branch_name = #{branchName}
+    </if>
+    <if test="pid != null">
+      and fk_profession_id = #{pid}
+    </if>
+    )
+    <if test="cid != null">
+      and fk_class_id = #{cid}
+    </if>
+    )
+  </select>
+
+    <select id="selectAllStudyRecordStatistics" resultMap="Statistics">
+        select sum(video_rate) total_video_rate,
+        sum(video_length) total_video_length,
+        fk_student_id
+        from t_studyrecord
+        group by fk_student_id
+    </select>
+
+  <select id="selectStudyRecordStatisticsByKeyword" resultMap="Statistics">
+    select sum(video_rate) total_video_rate,
+    sum(video_length) total_video_length,
+    fk_student_id
+    from t_studyrecord
+    where
+    fk_student_id in
+    (select id from t_student
+    where fk_class_id in
+    (select id from t_class
+    where
+    <if test="orgName != null and orgName != ''">
+      institute_name = #{orgName}
+    </if>
+    <if test="branchName != null and branchName != ''">
+      and branch_name = #{branchName}
+    </if>
+    <if test="pid != null">
+      and fk_profession_id = #{pid}
+    </if>
+    )
+    <if test="cid != null">
+      and fk_class_id = #{cid}
+    </if>
+    )
+  </select>
+
+
 </mapper>

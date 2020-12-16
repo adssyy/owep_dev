@@ -165,4 +165,27 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="selectByKeyword" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from t_question where
+      fk_class_id in
+      (select id from t_class where is_delete = 1
+      <if test="orgName != null and orgName != ''">
+       and institute_name = #{orgName,jdbcType=VARCHAR} 
+      </if>
+       <if test="branchName != null and branchName != ''">
+         and branch_name = #{branchName,jdbcType=VARCHAR} 
+       </if>
+        <if test="professionId != null">
+          and fk_profession_id = #{professionId}
+        </if>
+      )
+      <if test="classId != null">
+        and fk_class_id = #{classId}
+      </if>
+       <if test="courseId != null">
+         and fk_course_id = #{courseId}
+       </if>
+    </select>
 </mapper>

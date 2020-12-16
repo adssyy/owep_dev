@@ -66,4 +66,11 @@ public interface QuestionReplyMapper extends BaseMapper<QuestionReply> {
      */
     @Override
     List<QuestionReply> selectAll();
+
+    /***
+     * 根据外键来查询
+     * @param id
+     * @return
+     */
+    List<QuestionReply> selectByQuestionId(Serializable id);
 }

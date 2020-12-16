@@ -355,7 +355,7 @@
     and c.class_name like "%"#{className,jdbcType=VARCHAR}"%"
   </select>
   <!--根据专业id来查询-->
-  <select id="selectByPro" parameterType="integer" resultMap="BaseResultMap">
+  <select id="selectByPro" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select <include refid="clazz_res_plan"/>
     and c.fk_profession_id = #{pid,jdbcType=VARCHAR}
   </select>

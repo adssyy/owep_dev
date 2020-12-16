@@ -36,7 +36,8 @@
             <div class="form-group">
                 <label>所属课程:</label>
                 <div class="input-group">
-                    <input type="text" class="form-control org">
+                    <input type="hidden" id="course_id">
+                    <input type="text" class="form-control org" id="course_search">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -68,13 +69,14 @@
             </div>
 
             <div class="modal-body" style="min-height: 400px;margin-top: 20px">
-                <form action="#" class="form-horizontal" method="post">
-
+                <form action="#" class="form-horizontal" method="post" name="updateHomeworkForm">
+                    <input type="hidden" name="id" id="homeworkId">
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">所属班级：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="clazz_update" name="clazzName">
+                                <input type="hidden" id="clazz_update_id" name="clazzId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -89,7 +91,8 @@
                         <label class="col-sm-3 control-label right">课程：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="course_update" name="courseName">
+                                <input type="hidden" id="course_update_id" name="courseId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -104,7 +107,8 @@
                         <label class="col-sm-3 control-label right">所属章：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="chapter_update" name="chapterName">
+                                <input type="hidden" id="chapter_update_id" name="chapterId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -119,7 +123,8 @@
                         <label class="col-sm-3 control-label right">所属节：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="section_update" name="sectionName">
+                                <input type="hidden" id="section_update_id" name="sectionId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -133,19 +138,19 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">作业标题：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="author" placeholder="请输入标题">
+                            <input type="text" class="form-control" name="workTitle" placeholder="请输入标题" id="updateTitle">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">附件上传：</label>
                         <div class="col-sm-7">
-                            <input type="file" class="form-control" name="author">
+                            <input type="file" class="form-control" name="workFile">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">作业内容：</label>
                         <div class="col-sm-7">
-                            <textarea class="form-control" type="text"></textarea>
+                            <textarea class="form-control" type="workContent" id="updateContent"></textarea>
                         </div>
                     </div>
 
@@ -168,13 +173,14 @@
             </div>
 
             <div class="modal-body" style="min-height: 400px;margin-top: 20px">
-                <form action="#" class="form-horizontal" method="post">
+                <form action="#" class="form-horizontal" method="post" name="addHomeworkForm">
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">所属班级：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="clazz_add" name="clazzName">
+                                <input type="hidden" id="clazz_add_id" name="clazzId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -189,7 +195,8 @@
                         <label class="col-sm-3 control-label right">课程：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="course_add" name="courseName">
+                                <input type="hidden" id="course_add_id" name="courseId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -204,7 +211,8 @@
                         <label class="col-sm-3 control-label right">所属章：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="chapter_add" name="chapterName">
+                                <input type="hidden" id="chapter_add_id" name="chapterId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -219,7 +227,8 @@
                         <label class="col-sm-3 control-label right">所属节：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org">
+                                <input type="text" class="form-control org" id="section_add" name="sectionName">
+                                <input type="hidden" id="section_add_id" name="sectionId">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -233,19 +242,19 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">作业标题：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="author" placeholder="请输入标题">
+                            <input type="text" class="form-control" name="workTitle" placeholder="请输入标题">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">附件上传：</label>
                         <div class="col-sm-7">
-                            <input type="file" class="form-control" name="author">
+                            <input type="file" class="form-control" name="workFile">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">作业内容：</label>
                         <div class="col-sm-7">
-                            <textarea class="form-control" type="text"></textarea>
+                            <textarea class="form-control" type="workContent" name="workContent"></textarea>
                         </div>
                     </div>
                 </form>
@@ -282,18 +291,18 @@
     $(function () {
         //初始化表格
         var init = new initdata();
-        init.Init();
+        init.Init('/owep/clazz/allHomework');
         //点击按钮开始搜索
         $("#queryBtn").click(function () {
-            let org = $(".org").val();
+            let course = $("#course_id").val();
             //判断条件是否存在
-            if (org==""){
+            if (course==""){
                 alert("请选择查询条件");
                 return ;
             }
-            alert(org);
+
             //执行查询
-            init.Init();
+            init.Init('/owep/clazz/selectByCourseId?courseId='+course);
         });
         //删除所有
         $('#deleteAll').click(function () {
@@ -309,54 +318,164 @@
                 $(rows).each(function() {// 通过获得别选中的来进行遍历
                     ids.push(this.id);// cid为获得到的整条数据中的一列
                 });
+                var idList=JSON.stringify(ids);
                 //TODO 发送ajax请求
-                alert(ids);
+                $.ajax({
+                    url:"/owep/clazz/deleteSelectHomework",
+                    method:"POST",
+                    async:true,
+                    data:idList,
+                    dataType:"text",
+                    contentType:"application/json",
+                    processData:false,
+                    success:function (data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error:function(jqXHR){
+                        alert("删除失败");
+                    }
+                });
             }
         });
         //动态搜索选择下拉框
         testdataBsSuggest1;
+        testdataBsSuggest2;
+        testdataBsSuggest3;
         //添加事件
         $('#add_sure').click(function () {
-            alert("添加成功");
+            var form = document.forms["addHomeworkForm"];
+            var formData = new FormData(form);
+            $.ajax({
+                url:"/owep/clazz/saveHomework",
+                method:"POST",
+                async:true,
+                data:formData,  //综合表单，使用formData来封装，不能用Serializable，否则无法提交
+                dataType:"text",  //期望服务端发送给客户端的数据类型。不能写成application/json
+                contentType:false,  //必需使用false，这样才能使用form表单采用multipart/form-data传输
+                processData:false,
+                success:function (data) {
+                    //成功的回调
+                    alert(data);
+                    window.location.reload();
+                },
+                error:function (jqXHR) {
+                    alert("添加失败");
+                }
+            });
         });
         //更新时间
         $('#update_sure').click(function () {
-            alert("更新成功");
+            var form = document.forms["updateHomeworkForm"];
+            var formData = new FormData(form);
+            $.ajax({
+                url:"/owep/clazz/updateHomework",
+                method:"POST",
+                async:true,
+                data:formData,  //综合表单，使用formData来封装，不能用Serializable，否则无法提交
+                dataType:"text",  //期望服务端发送给客户端的数据类型。不能写成application/json
+                contentType:false,  //必需使用false，这样才能使用form表单采用multipart/form-data传输
+                processData:false,
+                success:function (data) {
+                    //成功的回调
+                    alert(data);
+                    window.location.reload();
+                },
+                error:function (jqXHR) {
+                    alert("更新失败");
+                }
+            });
         });
 
     });
-    var testdataBsSuggest1 = $(".org").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'id': "",
-                    'word': '天龙八部',
-                },
-                {
-                    'id': "",
-                    'word': '神雕侠侣',
-                },
-                {
-                    'id': "",
-                    'word': '仙剑奇侠传',
-                },
-                {
-                    'id': "",
-                    'word': 'flyme',
-                }
-            ]
-        }
+    var testdataBsSuggest1 = $("#course_search").bsSuggest({
+        url:"/owep/clazz/selectAllCourse",
+        idField:"id",
+        keyField:"courseName",
+        effectiveFields: ["courseName"]
+    }).on('onSetSelectValue',function (e,keyword) {
+        $("#course_id").val(keyword.id);
     });
+    
+    var testdataBsSuggest2 = $("#clazz_add").bsSuggest({
+        url:"/owep/clazz/selectAllClass",
+        idField:"id",
+        keyField:"className",
+        effectiveFields: ["className"]
+    }).on('onSetSelectValue',function (e,keyword) {
+        $("#clazz_add_id").val(keyword.id);
+        $("#course_add").bsSuggest("destroy");
+        $("#course_add").bsSuggest({
+            url: "/owep/clazz/findCourseByClass?classId=" + keyword.id,
+            idField: "id",
+            keyField: "courseName",
+            effectiveFields: ["courseName"],
+        }).on('onSetSelectValue',function (e,keyword) {
+            $("#course_add_id").val(keyword.id);
+            $("#chapter_add").bsSuggest("destroy");
+            $("#chapter_add").bsSuggest({
+                url:"/owep/clazz/selectChapterByCourseId?courseId=" + keyword.id,
+                idField: "id",
+                keyField: "chapterName",
+                effectiveFields: ["chapterName"],
+            }).on('onSetSelectValue',function (e,keyword) {
+                $("#chapter_add_id").val(keyword.id);
+                $("#section_add").bsSuggest("destroy");
+                $("#section_add").bsSuggest({
+                    url:"/owep/clazz/selectSectionByChapterId?chapterId=" + keyword.id,
+                    idField: "id",
+                    keyField: "sectionName",
+                    effectiveFields: ["sectionName"],
+                }).on('onSetSelectValue',function (e,keyword) {
+                    $("#section_add_id").val(keyword.id);
+                })
+            })
+        })
+    });
+
+    var testdataBsSuggest3 = $("#clazz_update").bsSuggest({
+        url:"/owep/clazz/selectAllClass",
+        idField:"id",
+        keyField:"className",
+        effectiveFields: ["className"]
+    }).on('onSetSelectValue',function (e,keyword) {
+        $("#clazz_update_id").val(keyword.id);
+        $("#course_update").bsSuggest("destroy");
+        $("#course_update").bsSuggest({
+            url: "/owep/clazz/findCourseByClass?classId=" + keyword.id,
+            idField: "id",
+            keyField: "courseName",
+            effectiveFields: ["courseName"],
+        }).on('onSetSelectValue',function (e,keyword) {
+            $("#course_update_id").val(keyword.id);
+            $("#chapter_update").bsSuggest("destroy");
+            $("#chapter_update").bsSuggest({
+                url:"/owep/clazz/selectChapterByCourseId?courseId=" + keyword.id,
+                idField: "id",
+                keyField: "chapterName",
+                effectiveFields: ["chapterName"],
+            }).on('onSetSelectValue',function (e,keyword) {
+                $("#chapter_update_id").val(keyword.id);
+                $("#section_update").bsSuggest("destroy");
+                $("#section_update").bsSuggest({
+                    url:"/owep/clazz/selectSectionByChapterId?chapterId=" + keyword.id,
+                    idField: "id",
+                    keyField: "sectionName",
+                    effectiveFields: ["sectionName"],
+                }).on('onSetSelectValue',function (e,keyword) {
+                    $("#section_update_id").val(keyword.id);
+                })
+            })
+        })
+    });
+
     var initdata = function () {
         var init = new Object();
-        init.Init = function () {
+        init.Init = function (url) {
             //加载之前先格式化 放在查询的时候起冲突
             $("#tb_major").bootstrapTable('destroy')
             $("#tb_major").bootstrapTable({
-                url: '/owep/clazz/allHomework',
+                url: url,
                 method: 'get',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
@@ -382,7 +501,7 @@
                     title: "内容",
                     align: "center",
                 }, {
-                    field: 'file',
+                    field: 'workFileName',
                     title: "文件",
                     align: "center",
                 }, {
@@ -404,6 +523,33 @@
                     valign: "middle",
                     formatter: actionFormatter, //方法调用
                     events: {
+                        'click button[title=修改]': function (e, value, row, index) {
+                            $.ajax({
+                                url:"/owep/clazz/toUpdateHomework?id="+row.id,
+                                method:"GET",
+                                async:true,
+                                dataType:"json",  //拿到json
+                                success:function (homeworkJson) {
+                                    console.log(homeworkJson);
+                                    $("#homeworkId").val(homeworkJson.id);
+                                    $("#clazz_update").val(homeworkJson.clazz.className);
+                                    $("#clazz_update_id").val(homeworkJson.clazz.id);
+                                    $("#course_update").val(homeworkJson.course.courseName);
+                                    $("#course_update_id").val(homeworkJson.course.id);
+                                    $("#chapter_update").val(homeworkJson.chapter.chapterName);
+                                    $("#chapter_update_id").val(homeworkJson.chapter.id);
+                                    $("#section_update").val(homeworkJson.section.sectionName);
+                                    $("#section_update_id").val(homeworkJson.section.id);
+                                    $("#updateTitle").val(homeworkJson.workTitle);
+                                    $("#updateContent").val(homeworkJson.workContent);
+                                },
+                                error:function(jqXHR){
+                                    alert("获取数据失败");
+                                    //重新加载页面
+                                    window.location.reload();
+                                }
+                            })
+                        },
                         'click button[title=删除]': function (e, value, row, index) {
                             // console.log(row.id);
                             swal({
@@ -415,12 +561,36 @@
                                 confirmButtonText: "删除",
                                 closeOnConfirm: false
                             }, function () {
-                                //TODO 发送ajax请求
-                                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                $.ajax({
+                                    //发送AJAX请求
+                                    url: "/owep/clazz/deleteHomework?id=" + row.id,
+                                    method: "GET",
+                                    async: true,
+                                    dataType: "text",
+                                    success: function (data) {
+                                        if (data == "成功") {
+                                            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                        } else {
+                                            alert("删除失败");
+                                        }
+                                        window.location.reload();
+                                    },
+                                    error: function (jqXHR) {
+                                        alert("删除失败");
+                                    }
+
+                                });
                             });
                         },
                         'click button[title=下载]': function (e, value, row, index) {
-                            alert("下载成功");
+                            var $eleForm = $("<form method='get'></form>");
+
+                            $eleForm.attr("action","http://192.168.124.88:8886/" + row.workFileName);
+
+                            $(document.body).append($eleForm);
+
+                            //提交表单，实现下载
+                            $eleForm.submit();
                         }
                     }
                 }]

@@ -45,7 +45,7 @@
                 plan_number = #{planNumber,jdbcType=VARCHAR}
             </if>
         </trim>
-                and is_delete = 0
+                and is_delete = 1
     </select>
 
     <!--保存方案-->
