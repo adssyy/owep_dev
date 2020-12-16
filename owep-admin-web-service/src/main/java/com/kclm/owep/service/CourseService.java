@@ -6,6 +6,7 @@ package com.kclm.owep.service;
 import com.kclm.owep.dto.ChapterDTO;
 import com.kclm.owep.dto.CourseDTO;
 import com.kclm.owep.dto.SectionDTO;
+import com.kclm.owep.dto.SectionVideoDTO;
 import com.kclm.owep.entity.Chapter;
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.entity.Section;
@@ -160,5 +161,21 @@ public interface CourseService {
      */
 
     List<Section> selectAllById(Serializable id);
+
+    Chapter selectChapterById(Integer id);
+
+    List<SectionVideoDTO> selectVideoById(Serializable id);
+
+    Section selectSectionById(Serializable id);
+
+    int deleteVideoById(Serializable id);
+
+    int unlock(Integer id);
+
+    int lock(Integer id);
+
+    int unlockChapter(Integer id);
+
+    int lockChapter(Integer id);
 
 }

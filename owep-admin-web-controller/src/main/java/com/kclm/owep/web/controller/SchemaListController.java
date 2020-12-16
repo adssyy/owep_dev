@@ -43,11 +43,11 @@ public class SchemaListController {
     @RequestMapping("/addPlanManager")
     @ResponseBody
     public String addPlanManager(@RequestBody(required = false) PlanManager planManager){
-        System.out.println("==========================*****************************************===============================");
+
         planManager.setIsDelete(1);
         planManagerService.addPlanManager(planManager);
         /*return "forward:/owep/training/schemaList";*/
-        return "success";
+        return "添加成功";
     }
 
     /**
@@ -58,9 +58,9 @@ public class SchemaListController {
     @RequestMapping("/deleteById")
     @ResponseBody
     public String deleteById(@RequestParam("id") Integer id){
-        System.out.println("***************************************************************************"+id);
+
         planManagerService.deletePlanManagerById(id);
-        //return "forward:/owep/training/courseList";
+
         return "success";
     }
 
@@ -74,7 +74,7 @@ public class SchemaListController {
     public String deleteSelected(@RequestBody List<Integer> ids){
         //courseService.deleteCourseByIds(ids);
         for(Integer id : ids){
-            System.out.println("delete userId:"+id);
+
             planManagerService.deletePlanManagerById(id);
         }
         return "success";
@@ -89,7 +89,7 @@ public class SchemaListController {
     @ResponseBody
     public String updatePlanManager(@RequestBody PlanManager planManager){
         planManagerService.alterPlanManager(planManager);
-        return "success";
+        return "修改成功";
     }
 
     /**
@@ -100,7 +100,7 @@ public class SchemaListController {
     @RequestMapping(value="/findCourseById",produces = "application/json")
     @ResponseBody
     public Object findCourseById(@RequestParam("planManagerId") Integer planManagerId){
-        System.out.println("**************************************"+planManagerId);
+
         List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
         return all;
     }
@@ -113,7 +113,7 @@ public class SchemaListController {
     @ResponseBody
     public Object getCourseList(){
         List<CourseDTO> allCourse = courseService.findAllCourse();
-        allCourse.forEach(System.out::println);
+
         return allCourse;
     }
 
@@ -126,9 +126,9 @@ public class SchemaListController {
      * @param model
      * @return
      */
-    @RequestMapping("/addCourseToPlanManager")
+    @RequestMapping(value="/addCourseToPlanManager",produces = "application/json")
     @ResponseBody
-    public String addCourseToPlanManager(Integer planManagerId, Integer courseId, Integer stageNum, Integer stageName, Model model){
+    public Object addCourseToPlanManager(Integer planManagerId, Integer courseId, Integer stageNum, Integer stageName, Model model){
         PlanManagerCourse planManagerCourse = new PlanManagerCourse();
         planManagerCourse.setStageNum(stageNum);
         planManagerCourse.setStageName(stageName);
@@ -147,7 +147,8 @@ public class SchemaListController {
         planManagerCourse.setIsDelete(1);
 
         planManagerService.addPlanManagerCourse(planManagerCourse);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+        return all;
     }
 
     /**
@@ -155,12 +156,13 @@ public class SchemaListController {
      * @param id
      * @return
      */
-    @RequestMapping("/deletePlanManagerCourseById")
+    @RequestMapping(value = "/deletePlanManagerCourseById",produces = "application/json")
     @ResponseBody
-    public String deletePlanManagerCourseById(Integer id){
-        System.out.println(id);
+    public Object deletePlanManagerCourseById(Integer id,Integer planManagerId){
+
         planManagerService.deltePlanManagerCourseById(id);
-        return "success";
+        List<PlanManagerCourseDTO> all = planManagerService.findAllPlanManagerCourse(planManagerId);
+        return all;
     }
 
     /**
@@ -200,23 +202,34 @@ public class SchemaListController {
         return all;
     }
 
+    /**
+     * 滑动按钮改变状态
+     * @param planManagerId
+     * @param status
+     */
     @GetMapping("/switch")
     @ResponseBody
     public void postAdminValidSwitch(@RequestParam Integer planManagerId, @RequestParam Integer status){
-        System.out.println("switching admin user validation:" + planManagerId+","+status);
+
         if(status==null){
-            System.out.println("Warning： status value is null, nothing to do here");
+
             return;
         }
         if (status==1){
-            System.out.println("user admin validation activated");
+
             planManagerService.activate(planManagerId);
         }else{
-            System.out.println("user admin validation canceled");
+
             planManagerService.deactivate(planManagerId);
         }
     }
 
+    /**
+     * 通过方案编号或者方案名查询方案
+     * @param planNumber
+     * @param planName
+     * @return
+     */
     @RequestMapping(value = "/search")
     @ResponseBody
     public Object search(String planNumber,String planName){
