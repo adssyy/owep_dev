@@ -1225,6 +1225,24 @@ public class DateUtil {
 
 	}
 
+	/**
+	 *
+	 * @param string
+	 * @return
+	 */
+	public static LocalDateTime stringToLocalDateTime(String string){
+		final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+				.appendPattern("yyyy-MM-dd[['T'hh][:mm][:ss]]")
+				.parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+				.parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+				.parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+				.parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
+				.toFormatter();
+		final LocalDateTime localDateTime = LocalDateTime.parse(string, formatter);
+		return localDateTime;
+	}
+
+
 	public static void main(String[] args) throws Exception {
 		// System.out.println(getStringToTimestamp(new Date()));
 		// System.out.println(getTimestampToDate("160310171411"));
@@ -1292,16 +1310,5 @@ public class DateUtil {
 
 		// System.out.println(timeSubSecond("2015-05-23 23:10:55",
 		// "2016-05-23 23:10:55") / 60 / 60 / 24);
-	}
-	public static LocalDateTime stringToLocalDateTime(String string){
-		final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-				.appendPattern("yyyy-MM-dd[['T'hh][:mm][:ss]]")
-				.parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-				.parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-				.parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
-				.parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
-				.toFormatter();
-		final LocalDateTime localDateTime = LocalDateTime.parse(string, formatter);
-		return localDateTime;
 	}
 }

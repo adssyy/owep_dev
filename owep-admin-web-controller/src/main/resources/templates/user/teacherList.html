@@ -48,16 +48,16 @@
     <div class="ibox-title">
         <div class="row row-lg">
             <div class="col-sm-12">
-                <form class="form-inline" id="admin_query">
+                <form class="form-inline" id="teacher_query">
                     <div class="form-group">
-                        <label for="exampleInputUserName">用户名:</label>
+                        <label for="exampleInputUserName">教师编号:</label>
                         <input type="text" name="userName" class="form-control" id="exampleInputUserName">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputName">姓名:</label>
+                        <label for="exampleInputName">教师姓名:</label>
                         <input type="text" name="realName" class="form-control" id="exampleInputName">
                     </div>
-                    <button class="btn btn-success query" type="button">查询</button>
+                    <button class="btn btn-success query" id="queryBtn" type="button">查询</button>
                     <button class="btn btn-danger deleteAll" type="button">删除</button>
                     <button class="btn btn-info" type="button" data-toggle='modal' data-target='#modal_add'>添加</button>
                     <button class="btn btn-primary export" type="button">导出</button>
@@ -80,26 +80,29 @@
                 <h4 class="modal-title">添加管理</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/addAdmin}"  class="form-horizontal" id="form_add">
+                <form method="post" th:action="@{/user/teacherList/addTeacher}" class="form-horizontal" id="form_add">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_userName" name="userName" class="form-control" placeholder="请输入用户名">
+                            <input type="text" id="add_userName" name="userName" class="form-control"
+                                   placeholder="请输入用户名">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             密码</label>
                         <div class="col-sm-8">
-                            <input type="password" id="add_userPwd" name="userPwd" class="form-control" placeholder="请输入密码">
+                            <input type="password" id="add_userPwd" name="userPwd" class="form-control"
+                                   placeholder="请输入密码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_realName" name="realName" class="form-control" placeholder="请输入姓名">
+                            <input type="text" id="add_realName" name="realName" class="form-control"
+                                   placeholder="请输入姓名">
                         </div>
                     </div>
                     <div class="form-group">
@@ -107,11 +110,11 @@
                             性别</label>
                         <div class="col-sm-8">
                             <label class="control-label">
-                                <input type="radio" checked="checked" value="1"  name="add_gender">
+                                <input type="radio" checked="checked" value="1" name="add_gender">
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
                             <label class="control-label">
-                                <input type="radio" value="0"  name="add_gender">
+                                <input type="radio" value="0" name="add_gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -120,21 +123,24 @@
                         <label class="col-sm-2 control-label">
                             手机</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_userPhone" name="userPhone" class="form-control" placeholder="请输入手机号">
+                            <input type="text" id="add_userPhone" name="userPhone" class="form-control"
+                                   placeholder="请输入手机号">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" id="add_userEmail" name="userEmail" class="form-control" placeholder="请输入邮箱">
+                            <input type="email" id="add_userEmail" name="userEmail" class="form-control"
+                                   placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_effectiveDate" name="effectiveDate" class="form-control myData_add"
+                            <input type="text" id="add_effectiveDate" name="effectiveDate"
+                                   class="form-control myData_add"
                                    placeholder="请输入截至日期">
                         </div>
                     </div>
@@ -165,14 +171,16 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/edit}" class="form-horizontal" id="form_modification">
+                <form method="post" th:action="@{/user/teacherList/edit}" class="form-horizontal"
+                      id="form_modification">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             <input type="text" id="edit_id" name="id" hidden>
-                            <input type="password" id="edit_userPwd" name="userPwd"  hidden>
+                            <input type="password" id="edit_userPwd" name="userPwd" hidden>
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="edit_userName" name="userName" disabled="" class="form-control " placeholder="">
+                            <input type="text" id="edit_userName" name="userName" disabled="" class="form-control "
+                                   placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -188,12 +196,12 @@
                             性别</label>
                         <div class="col-sm-8  ">
                             <label class="control-label">
-                                <input type="radio"  value="1" name="edit_gender" >
+                                <input type="radio" value="1" name="edit_gender" checked>
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
 
                             <label class="control-label">
-                                <input type="radio"  value="0" name="edit_gender">
+                                <input type="radio" value="0" name="edit_gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -209,14 +217,16 @@
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" id="edit_userEmail" name="userEmail" class="form-control " placeholder="请输入邮箱">
+                            <input type="email" id="edit_userEmail" name="userEmail" class="form-control "
+                                   placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" id="edit_effectiveDate" name="effectiveDate" class="form-control myData_add " placeholder="">
+                            <input type="text" id="edit_effectiveDate" name="effectiveDate"
+                                   class="form-control myData_add " placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -236,7 +246,50 @@
     </div>
 </div>
 
+
 <!--模窗 关联-->
+<!--分配班级-->
+<div class="modal  fade" id="modal_class" tabindex="-1" role="dialog" >
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">分配班级</h4>
+            </div>
+            <div class="modal-body">
+<!--                <form class="form-horizontal" id="form_allocation_1">-->
+                <form method="post" class="form-horizontal"
+                      id="form_allocation_1">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            姓名</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="class_userName" name="name" disabled="" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <input type="text" id="allClass_id" name="id" hidden>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            分配班级</label>
+                        <div class="col-sm-8">
+                            <div class="ibox-content">
+                                <div id="treeview_allocation_class"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary allocation_1">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--分配用户组-->
 <div class="modal  fade" id="modal_allocation" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -246,12 +299,15 @@
                 <h4 class="modal-title">分配用户组</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/treeCheck_edit}" class="form-horizontal" id="form_allocation">
+                <form method="post"  class="form-horizontal"
+                      id="form_allocation">
+<!--                    th:action="@{/user/teacherList/treeCheck_edit}"-->
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="allc_userName" name="name" disabled="" class="form-control" placeholder="用户名未获取">
+                            <input type="text" id="allc_userName" name="name" disabled="" class="form-control"
+                                   placeholder="用户名未获取">
                         </div>
                     </div>
                     <input type="text" id="allc_id" name="id" hidden>
@@ -344,34 +400,34 @@
             let effectiveDate = $("#add_effectiveDate").val();
             let status = $("#add_status").val();
 
-            console.log("status:"+status);
-            if(status === "on"){
+            console.log("status:" + status);
+            if (status === "on") {
                 status = 1;
-            }else{
+            } else {
                 status = 0;
             }
-            let userData ={
-                userName:userName,
-                realName:realName,
-                userPwd:userPwd,
-                userPhone:userPhone,
-                userEmail:userEmail,
-                gender:gender,
-                effectiveData:effectiveDate,
-                status:status
+            let userData = {
+                userName: userName,
+                realName: realName,
+                userPwd: userPwd,
+                userPhone: userPhone,
+                userEmail: userEmail,
+                gender: gender,
+                effectiveData: effectiveDate,
+                status: status
             };
 
             console.log(userData);
             let userJson = JSON.stringify(userData);
 
             $.ajax({
-                method:"post",
-                url:"/owep/user/teacherList/addTeacher",
+                method: "post",
+                url: "/owep/user/teacherList/addTeacher",
                 async: "true",
-                data:userJson,
-                dataType:"text",
-                contentType:"application/json",
-                success:function(feedback){
+                data: userJson,
+                dataType: "text",
+                contentType: "application/json",
+                success: function (feedback) {
                     alert(feedback);
                     window.location.reload();
                 },
@@ -396,35 +452,35 @@
             let effectiveDate = $("#edit_effectiveDate").val();
             let status = $("#edit_status").val();
 
-            console.log("status:"+status);
-            if(status === 1||status ===0){
+            console.log("status:" + status);
+            if (status === 1 || status === 0) {
 
-            }else   if(status === "on"){
+            } else if (status === "on") {
                 status = 1;
-            }else{
+            } else {
                 status = 0;
             }
-            let userData ={
-                id:id,
-                userName:userName,
-                realName:realName,
-                userPwd:userPwd,
-                userPhone:userPhone,
-                userEmail:userEmail,
-                gender:gender,
-                effectiveData:effectiveDate,
-                status:status
+            let userData = {
+                id: id,
+                userName: userName,
+                realName: realName,
+                userPwd: userPwd,
+                userPhone: userPhone,
+                userEmail: userEmail,
+                gender: gender,
+                effectiveData: effectiveDate,
+                status: status
             };
             console.log(userData);
             let userJson = JSON.stringify(userData);
             $.ajax({
-                method:"post",
-                url:"/owep/user/teacherList/edit",
+                method: "post",
+                url: "/owep/user/teacherList/edit",
                 async: "true",
-                data:userJson,
-                dataType:"text",
-                contentType:"application/json",
-                success:function(feedback){
+                data: userJson,
+                dataType: "text",
+                contentType: "application/json",
+                success: function (feedback) {
                     alert(feedback);
                     window.location.reload();
                 },
@@ -437,33 +493,31 @@
         });
 
 
+        /*-----------------------------------------------------------------------------------------------------------------------------------------*/
+
         let $treeview = $('#treeview_allocation');
-
-
         /*分配角色*/
         $('.allocation').click(function () {
             let userId = $("#allc_id").val();
-            var groupIds = [];
+            let groupIds = [];
             let checks = $treeview.treeview('getChecked');
             console.log(checks);
             $.each(checks, function (index, item) {
-                if (item.parentId!==undefined) {
+                if (item.parentId !== undefined) {
                     console.log(item.tags);
                     groupIds.push(item.tags);
                 }
             });
-            // s = JSON.stringify(s);
             if (groupIds.length < 1) {
                 alert("至少选择一个");
             } else {
-                let result = {userId: userId,groupIds: groupIds};
+                let result = {userId: userId, groupIds: groupIds};
                 console.log(result);
                 if (confirm("确定添加这些数据么")) {
                     alert("添加数据:" + result);
-                    // window.location.reload();
                     //ajax发送异步请求
                     $.ajax({
-                        url:  "/owep/user/teacherList/treeCheck_edit",
+                        url: "/owep/user/teacherList/treeCheck_edit",
                         method: "post",
                         data: JSON.stringify(result),
                         dataType: "text",
@@ -482,41 +536,99 @@
                 }
             }
             console.log("分配，提交。");
-            $('#form_allocation').submit();
+           // $('#form_allocation').submit();
         });
-        $('.query').click(function () {
-            let dataList = new Array('userName','realName');
-            queryRecords('form[id="teacher_query"]',dataList);
-        });
+
+
+        //*班级/
+        /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+        let $classtreeview = $('#treeview_allocation_class');
+        /*分配班级*/
+        $('.allocation_1').click(function () {
+            let userId = $("#allClass_id").val();
+            let classIds = [];
+            let checks = $classtreeview.treeview('getChecked');
+            console.log(checks);
+            $.each(checks, function (index, item) {
+                if (item.parentId !== undefined) {
+                    console.log(item.tags);
+                    classIds.push(item.tags);
+                }
+            });
+            if (classIds.length < 1) {
+                alert("至少选择一个");
+            } else {
+                let result = {userId: userId, classIds: classIds};
+                console.log(result);
+                if (confirm("确定添加这些数据么")) {
+                    alert("添加数据:" + result);
+                    //ajax发送异步请求
+                    $.ajax({
+                        url: "/owep/user/teacherList/classTreeCheck_edit",
+                        method: "post",
+                        data: JSON.stringify(result),
+                        dataType: "text",
+                        async: false,
+                        contentType: "application/json",
+                        success: function (data) {
+                            /!*重新加载本页面*!/
+                            window.location.reload();
+                            alert(data);
+                        },
+                        error: function (jqXRH) {
+                            console.log(jqXRH);
+                            alert("设置未同步")
+                        }
+                    })
+                }
+            }
+            console.log("分配，提交。");
+        })
+        /*----------------------------------------导出----------------------------------------------------------------*/
         /*导出按钮操作*/
         $('.export').click(function () {
-            exportRecord("", "管理员信息");
+            location = "/owep/user/export";
         });
+
     });
-</script>
-<!--表单数据控制-->
-<script>
+    /*---------------------------------------------查询-------------------------------------------------------------------------*/
+    $("#queryBtn").click(function () {
+        let userName = $("#exampleInputUserName").val();
+        let realName = $("#exampleInputName").val();
+        let keyword = {
+            "userName": userName,
+            "realName": realName
+        }
+        //执行查询
+        $.ajax({
+            url: "/owep/user/teacherList/search",
+            data: keyword,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#tb_departments").bootstrapTable("load", data);
+            },
+            error: function (jqXHR) {
+                alert("查询失败");
+            }
+        })
+    });
+    /*--------------------------------------主表-----------------------------------------------------------*/
     $(function () {
         //1.初始化Table
         TableInit().Init();
     });
-
-
-
-
-
     let TableInit = function () {
         let oTableInit = {};
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
                 url: '/owep/user/teacherList/getTable',       //请求后台的URL（*）
-                method: 'get',                      //请求方式（*）
                 toolbar: '#toolbar',                //工具按钮用哪个容器
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,                   //是否显示分页（*）
-                queryParams: oTableInit.queryParams,//传递参数（*）
                 sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber: 1,                       //初始化加载第一页，默认第一页
                 pageSize: 10,                       //每页的记录行数（*）
@@ -540,84 +652,108 @@
                     field: 'userPhone',
                     title: '手机'
                 }, {
-                    field: 'userEmail',
-                    title: '邮箱'
-                }, {
-                    field: 'status',
-                    title: '启用',
-                    formatter: addSlideChoiceBox
-                }, {
-                    field: 'lastAccessTime',
-                    title: '最后登陆时间'
-                }, {
-                    field: 'operate',
-                    title: '操作',
-                    width: 150,
-                    formatter: addFunctionAlty,//表格中增加按钮
-                    events: {
-                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
-                            deleteRecord(e, value, row, index, "/owep/user/teacherList/delete", '#tb_departments');
-                        },
+                    field: 'gender',
+                    title: '性别',
+                    formatter: changeType
+                },
+                    {
+                        field: 'userEmail',
+                        title: '邮箱'
+                    }, {
+                        field: 'status',
+                        title: '启用',
+                        formatter: addSlideChoiceBox
+                    }, {
+                        field: 'lastAccessTime',
+                        title: '最后登陆时间'
+                    }, {
+                        field: 'operate',
+                        title: '操作',
+                        width: 180,
+                        formatter: addFunctionAlty,//表格中增加按钮
+                        events: {
+                            'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                                deleteRecord(e, value, row, index, "/owep/user/teacherList/delete", '#tb_departments');
+                            },
 
-                        'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
-                            //回显数据
-                            echoDataForm('form[id="form_modification"]', new Array(
-                                'id','userName', 'userPwd','realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status','gender'
-                            ), row);
-                            $('#modal_modification').modal();
-                        },
+                            'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
+                                //回显数据
+                                echoDataForm('form[id="form_modification"]', new Array(
+                                    'id', 'userName', 'userPwd', 'realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status', 'gender'
+                                ), row);
+                                $('#modal_modification').modal();
+                            },
+                            'click button[title=分配班级]': function (e, value, row, index) {
+                                //回显数据
+                                $("#class_userName").val(row.userName);
+                                $("#allClass_id").val(row.id);
 
-                        'click button[title=分配用户组]': function (e, value, row, index) {//动态嵌入按键：关系绑定
-                            //回显数据
-                            $("#allc_userName").val(row.userName);
-                            $("#allc_id").val(row.id);
-                            getTreeView();
+                                getClassTreeView();
+                                $('#modal_class').modal();
+                            },
 
-                            $('#modal_allocation').modal();
-                        },
-                    }
-                }]
+                            'click button[title=分配用户组]': function (e, value, row, index) {//动态嵌入按键：关系绑定
+                                //回显数据
+                                $("#allc_userName").val(row.userName);
+                                $("#allc_id").val(row.id);
+                                getTreeView();
+
+                                $('#modal_allocation').modal();
+                            },
+                        }
+                    }]
             });
         };
-
         let $treeview = $('#treeview_allocation');
+
         function getTreeView() {
             let url = "/owep/user/teacherList/treeCheck";
             let id = $("#allc_id").val();
-            initCheckTree($treeview, url,id);
+            initCheckTree($treeview, url, id);
+        }
+
+        let $classtreeview = $('#treeview_allocation_class');
+
+        function getClassTreeView() {
+            let url = "/owep/user/teacherList/classTreeCheck";
+            let id = $("#allClass_id").val();
+            initCheckTree($classtreeview, url, id);
         }
 
 
-        function addSlideChoiceBox(value, row, index) {
+        function changeType(value) {
             if (value == '1') {
-                return ' <input type="checkbox" class="js-switch-1 form-control" userId="'+row.id+'" checked/>'
+                return '男'
             }
             if (value == '0') {
-                return ' <input type="checkbox" class="js-switch-1 form-control" userId="'+row.id+'" />'
+                return '女'
+            }
+        }
+
+        function addSlideChoiceBox(value, row, index) {
+            if (value == '1') {
+                return ' <input type="checkbox" class="js-switch-1 form-control" userId="' + row.id + '" checked/>'
+            }
+            if (value == '0') {
+                return ' <input type="checkbox" class="js-switch-1 form-control" userId="' + row.id + '" />'
             }
         }
 
 
         function addFunctionAlty(value, row, index) {
-            return '<button id = "+id+" value="'+row.id+'" type = "button" class = "btn btn-white" title="修改" > <i class="glyphicon glyphicon-edit"/> </button>' +
-                '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
-                '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="分配用户组"> <i class="glyphicon glyphicon-share text-success"/> </button>'
+            return '<button id = "+id+" type = "button" class = "btn btn-white" title="修改" ' +
+                '> <i class="glyphicon glyphicon-edit"/> </button>' +
+                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
+                '<button id = "+id+" type = "button" class = "btn btn-white" title="分配班级" ' +
+                '> <i class="glyphicon glyphicon-wrench text-info"/> </button>' +
+                '<button id = "+id+" type = "button" class = "btn btn-white" title="分配用户组"' +
+                '> <i class="glyphicon glyphicon-share text-success"/> </button>'
                 ;
         }
 
-        //得到查询的参数
-        oTableInit.queryParams = function (params) {
-            let temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                limit: params.limit,   //页面大小
-                offset: params.offset,  //页码
-                departmentname: $("#txt_search_departmentname").val(),
-                statu: $("#txt_search_statu").val()
-            };
-            return temp;
-        };
         return oTableInit;
     };
-
+    /*--------------------------------------不用修改--------------------------------------------------------------------------------------*/
     /*滑动按钮初始化*/
     function switchInit(value, row, index) {
         //页面如何有多个互动按钮必须需要这些js代码
@@ -626,27 +762,27 @@
             /* size: 'normal' 控制大小*/
             let switchery = new Switchery(html);
             html.onchange = function () {
-                console.log("user status:"+html.checked);
+                console.log("user status:" + html.checked);
                 let userId = $(this).attr("userId");
                 let status;
-                if(html.checked==true){
-                    alert("用户启用"+userId);
+                if (html.checked == true) {
+                    alert("用户启用" + userId);
                     status = 1;
-                }else{
-                    alert("禁用用户"+userId);
+                } else {
+                    alert("禁用用户" + userId);
                     status = 0;
                 }
-                let switch_data ={
+                let switch_data = {
                     userId: userId,
                     status: status
                 };
 
                 //Todo Ajax
                 $.ajax({
-                    url: "/owep/user/teacherList/switch",
+                    url: "/owep/user/adminList/switch",
                     method: "get",
                     async: true,
-                    data:switch_data,
+                    data: switch_data,
                     dataType: "text",   //期望服务端返回的数据类型
                     contentType: "application/json",
                     error: function (jqXHR) {
@@ -659,17 +795,17 @@
     }
 
 
-    //页面如何有多个互动按钮必须需要这些js代码
-    let switchery;
+    var switchery;
     let elems = Array.prototype.slice.call($('.js-switch'));
-    elems.forEach(function (index,row,html) {
+    elems.forEach(function (html) {
         /* size: 'normal' 控制大小*/
         switchery = new Switchery(html);
         html.onchange = function () {
-
-
+            alert(html.checked);
         }
     });
+
 </script>
+
 
 </html>

@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 /*****
@@ -81,7 +82,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<User> selectByType(@Param("type") Integer type);
 
+    List<User> selectByKeyword(  @Param("userName") String userName,@Param("realName") String realName);
 
+    List<User> selectByKeywordAtAdvisor(  @Param("userName") String userName,@Param("realName") String realName);
     /******
      * @Author: ZhangShaowei
      * @Date: 2020/7/15 12:37
@@ -95,8 +98,14 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<Integer> getGroupId( Serializable id);
 
+    List<Integer> getClassId(Serializable id);
+
     int deleteUserGroupAllocation( Serializable id);
 
     int attachGroupToUser( Serializable uid ,  Serializable gid);
+
+    int deleteUserClassAllocation(Serializable id);
+
+    int attachClassToUser(Serializable uid,Serializable cid);
 
 }

@@ -152,7 +152,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-1">
-                                            <button class="btn btn-success query" type="button">查询</button>
+                                            <button class="btn btn-success query" type="button" id="queryBtn">查询</button>
                                         </div>
                                         <div class="col-md-4" style="padding: 0">
                                             <div style="float: right">
@@ -169,7 +169,7 @@
                                         </div>
                                     </form>
                                 </div>
-
+                                <!--   第一个页面，也就是主页面  -->
                                 <table id="tb_departments_1"></table>
                             </div>
                         </div>
@@ -180,7 +180,8 @@
                                             data-target="#modal_allocation_2">批量班级分配
                                     </button>
                                 </div>
-<!--                                <table id="tb_departments_2"></table>-->
+                                <!--   没有分班级的页面   -->
+                                <table id="tb_departments_2"></table>
                             </div>
                         </div>
                     </div>
@@ -199,57 +200,59 @@
                 <h4 class="modal-title">添加学生</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/stuList/addStudent}" class="form-horizontal" id="form_add">
+                <form method="get" class="form-horizontal" id="form_add">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             学号</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_stuNumber" name="stuNumber" class="form-control" placeholder="请输入学号">
+                            <input type="text" name="stuNumber" class="form-control" placeholder="请输入学号"
+                                   id="add_stuNumber">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_stuName" name="stuName" class="form-control" placeholder="请输入姓名">
+                            <input type="text" name="stuName" class="form-control" placeholder="请输入姓名" id="add_stuName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             手机</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_stuPhone" name="stuPhone" class="form-control" placeholder="请输入手机号">
+                            <input type="text" name="stuPhone" class="form-control" placeholder="请输入手机号"
+                                   id="add_stuPhone">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" id="add_stuEmail" name="stuEmail" class="form-control" placeholder="请输入邮箱">
+                            <input type="email" name="stuEmail" class="form-control" placeholder="请输入邮箱"
+                                   id="add_stuEmail">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             密码</label>
                         <div class="col-sm-8">
-                            <input type="password" id="add_stuPwd" name="stuPwd" class="form-control"
-                                   placeholder="请输入密码">
+                            <input type="password" name="stuPassword" class="form-control" placeholder="请输入密码"
+                                   id="add_stuPassword">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_effectiveDate" name="effectiveDate"
-                                   class="form-control myData_add"
+                            <input type="text" name="effectiveDate" class="form-control myData_add"
+                                   id="add_effectiveDate"
                                    placeholder="请输入截至日期">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="add_status" name="status"
-                                   class="js-switch form-control"/>
+                            <input type="checkbox" name="status" class="js-switch form-control" id="add_status"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -257,42 +260,42 @@
                             性别</label>
                         <div class="col-sm-8">
                             <label class="control-label">
-                                <input type="radio" checked="checked" value="1" name="add_gender">
+                                <input type="radio" checked="checked" value="1" name="gender">
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
 
                             <label class="control-label">
-                                <input type="radio" value="0" name="add_gender">
+                                <input type="radio" value="0" name="gender">
                                 <span>女</span>
                             </label>
                         </div>
                     </div>
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-sm-2 control-label">-->
-<!--                            毕业院校</label>-->
-<!--                        <div class="col-sm-8">-->
-<!--                            <input type="text" name="school" disabled="" class="form-control " placeholder="">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-sm-2 control-label">-->
-<!--                            省市区</label>-->
-<!--                        <div class="col-sm-8">-->
-<!--                            <input type="text" name="region" disabled="" class="form-control " placeholder="">-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            毕业院校</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="school" disabled="" class="form-control " placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            省市区</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="region" disabled="" class="form-control " placeholder="">
+                        </div>
+                    </div>
 
                 </form>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="button" id="model_add_submit_btn" class="btn btn-primary add">保存</button>
+                <button type="button" class="btn btn-primary add" id="model_add_submit_btn">保存</button>
             </div>
         </div>
     </div>
 </div>
-<!--模窗 修改-->
+<!--编辑-->
 <div class="modal  fade" id="modal_modification" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content">
@@ -302,54 +305,61 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/stuList/edit}" class="form-horizontal" id="form_modification">
+                <form method="post" th:action="@{/user/stuList/edit}" class="form-horizontal" id="form_modification_1">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
+                            <input type="text" id="edit_id" name="id" hidden>
                             学号</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_stuNumber" disabled="" class="form-control" placeholder="">
+                            <input type="text" name="stuNumber" disabled="" class="form-control" placeholder=""
+                                   id="edit_stuNumber">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_stuName" class="form-control" placeholder="请输入姓名">
+                            <input type="text" name="stuName" class="form-control" placeholder="请输入姓名"
+                                   id="edit_stuName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             手机</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_stuPhone" class="form-control" placeholder="请输入手机号">
+                            <input type="text" name="stuPhone" class="form-control" placeholder="请输入手机号"
+                                   id="edit_stuPhone">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" name="edit_stuEmail" class="form-control" placeholder="请输入邮箱">
+                            <input type="email" name="stuEmail" class="form-control" placeholder="请输入邮箱"
+                                   id="edit_stuEmail">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             密码</label>
                         <div class="col-sm-8">
-                            <input type="password" name="edit_stuPwd" class="form-control" placeholder="请输入密码">
+                            <input type="password" name="stuPassword" class="form-control" placeholder="请输入密码"
+                                   id="edit_stuPwd">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_effectiveDate" class="form-control myData_add"
+                            <input type="text" name="effectiveDate" class="form-control myData_add"
+                                   id="edit_effectiveDate"
                                    placeholder="请输入截至日期">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="edit_status" class="js-switch form-control"/>
+                            <input type="checkbox" name="status" class="js-switch form-control" id="edit_status"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -387,12 +397,84 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary modification">保存</button>
+                <button type="button" class="btn btn-primary modification_1">保存</button>
             </div>
         </div>
     </div>
 </div>
+<!--编辑-模块二-->
+<div class="modal  fade" id="modal_modification_1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">修改</h4>
+            </div>
+            <div class="modal-body">
+                <form method="get" class="form-horizontal" id="form_modification_2">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            序号</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="id" disabled="" class="form-control" placeholder=""
+                                   id="id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            学号</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="stuNumber" id="stuNumber" disabled="" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            姓名</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="stuName" id="stuName" class="form-control" placeholder="请输入姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            性别</label>
+                        <div class="col-sm-8">
+                            <label class="control-label">
+                                <input type="radio" checked="checked" value="男" name="gender">
+                                <span>男</span>
+                            </label>&nbsp;&nbsp;
 
+                            <label class="control-label">
+                                <input type="radio" value="女" name="gender">
+                                <span>女</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            手机</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="stuPhone" id="stuPhone" class="form-control" placeholder="请输入手机号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            客户归属</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="customerBelongs" class="form-control" placeholder="请输入客户归属">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary modification_2">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--分配班级-->
 <div class="modal  fade" id="modal_allocation" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
@@ -406,9 +488,18 @@
                 <form class="form-horizontal" id="form_allocation_1">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
+                            学生编号</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="stuId" disabled="" class="form-control" id="classChooseStuId"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
                             学生姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="name" disabled="" class="form-control" placeholder="">
+                            <input type="text" name="stuName" disabled="" class="form-control" id="classChooseStuName"
+                                   placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -424,18 +515,24 @@
                                 分配班级</label>
                             <div class="col-sm-8">
                                 <div class="ibox-content">
-                                    <div class="treeview_allocation"></div>
+                                    <div id="treeview_allocation"></div>
                                 </div>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary allocation_1">保存</button>
+                        </div>
                     </div>
+                    <!---------------------------------------------------------------------------------------------->
                     <div id="class_transfer" style="display:none;">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
                                 所在班级</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" name="class_start" class="form-control" id="testNoBtn6">
+                                    <input type="text" name="class_start" class="form-control" id="class_start"
+                                        disabled="">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-white dropdown-toggle"
                                                 data-toggle="dropdown">
@@ -449,11 +546,12 @@
                             </div>
                         </div>
                         <div class="form-group ">
+                            <input type="hidden"    name="classId" id="class_end_id">
                             <label class="col-sm-2 control-label">
                                 转到班级</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" name="class_end" class="form-control" id="testNoBtn7">
+                                    <input type="text" name="class_end" class="form-control" id="class_end">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-white dropdown-toggle"
                                                 data-toggle="dropdown">
@@ -474,15 +572,12 @@
                                 <!-- /btn-group -->
                             </div>
                         </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary class_transfer_button_1"  >保存</button>
+                        </div>
                     </div>
-
-
                 </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary allocation_1">保存</button>
             </div>
         </div>
     </div>
@@ -667,9 +762,10 @@
 <!--树形控制-->
 <script>
     $(function () {
-        let $treevie = $('.treeview_allocation');
-        let url = "../../static/js/demo/user/class_treeCheck_test.json";
-        initCheckTree($treevie, url);
+        let $treevie = $('#treeview_allocation');
+        let url = "/owep/user/stuList/classTreeCheck";
+        let id = $("#classChooseStuId").val();
+        initCheckTree($treevie, url, id);
     });
 
 </script>
@@ -699,13 +795,154 @@
 <!--表单数据-->
 <script>
     $(function () {
-        //1.初始化Table
         TableInit().Init();
+        //1.初始化Table
+        BsSuggest;
+        /*添加提交表单*/
+        let $add_submit_btn = $('#model_add_submit_btn');
+        $add_submit_btn.click(function () {
+            let stuNumber = $('#add_stuNumber').val();
+            let stuName = $('#add_stuName').val();
+            let stuPhone = $('#add_stuPhone').val();
+            let stuEmail = $('#add_stuEmail').val();
+            let stuPwd = $('#add_stuPassword').val();
+            let effectiveDate = $('#add_effectiveDate').val();
+            let status = $('#add_status').val();
+            let gender = $("input[name='gender']:checked").val();
+
+            console.log('status:' + status);
+            if (status === "on") {
+                status = 1;
+            } else {
+                status = 0;
+            }
+            let stuData = {
+                stuNumber: stuNumber,
+                stuName: stuName,
+                stuPhone: stuPhone,
+                stuEmail: stuEmail,
+                stuPwd: stuPwd,
+                effectiveDate: effectiveDate,
+                status: status,
+                gender: gender
+            };
+            console.log(stuData);
+            let stuJson = JSON.stringify(stuData);
+
+            $.ajax({
+                method: "post",
+                url: "/owep/user/stuList/addStudent",
+                async: "true",
+                data: stuJson,
+                dataType: "text",
+                contentType: "application/json",
+                success: function (feedback) {
+                    alert(feedback);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("添加未成功")
+                }
+            })
+        })
+
+        $('.deleteAll').click(function () {
+            deleteAllRecords("/owep/user/stuList/deleteByGroup", '#tb_departments_1');
+        });
+
+
+        /*修改提交表单*/
+        $('.modification_1').click(function () {
+            console.log("修改，提交。");
+            let id = $('#edit_id').val();
+            let stuName = $('#edit_stuName').val();
+            let stuNumber = $('#edit_stuNumber').val();
+            let stuPhone = $('#edit_stuPhone').val();
+            let stuEmail = $('#edit_stuEmail').val();
+            let stuPwd = $('#edit_stuPwd').val();
+            let effectiveDate = $('#edit_effectiveDate').val();
+            let status = $('#edit_status').val();
+            let gender = $("input[name='edit_gender']:checked").val();
+
+            console.log("status:" + status);
+            if (status === "on") {
+                status = 1;
+            } else {
+                status = 0;
+            }
+
+            let stuData = {
+                id: id,
+                stuName: stuName,
+                stuNumber: stuNumber,
+                stuPhone: stuPhone,
+                stuEmail: stuEmail,
+                stuPwd: stuPwd,
+                effectiveDate: effectiveDate,
+                status: status,
+                gender: gender
+            };
+            console.log(stuData);
+            let stuJson = JSON.stringify(stuData);
+            console.log(stuJson);
+            $.ajax({
+                method: "post",
+                url: "/owep/user/stuList/edit",
+                async: "true",
+                data: stuJson,
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (feedback) {
+                    alert(feedback);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("修改未成功")
+                }
+            });
+            //$('#form_modification_1').submit();
+        });
+
+        /*没有分班的修改哦*/
+        $('.modification_2').click(function () {
+            console.log("修改，提交。");
+            let id = $('#id').val();
+            let stuName = $('#stuName').val();
+            let stuNumber = $('#stuNumber').val();
+            let stuPhone = $('#stuPhone').val();
+            let gender = $("input[name='gender']:checked").val();
+            alert(id);
+            let stuData = {
+                id: id,
+                stuName: stuName,
+                stuNumber: stuNumber,
+                stuPhone: stuPhone,
+                gender: gender
+            };
+            console.log(stuData);
+            let stuJson = JSON.stringify(stuData);
+            console.log(stuJson);
+            $.ajax({
+                method: "post",
+                url: "/owep/user/stuList/edit",
+                async: "true",
+                data: stuJson,
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (feedback) {
+                    alert(feedback);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("修改未成功")
+                }
+            });
+        });
 
         /*分配角色*/
-        $('.allocation_1').click(function () {
-            $('#form_allocation_1').submit();
-        });
         $('.allocation_2').click(function () {
             $('#form_allocation_2').submit();
         });
@@ -713,7 +950,9 @@
             $('#form_allocation_3').submit();
         });
 
-
+        $('.deleteAll').click(function () {
+            deleteAllRecords("", '#tb_departments_1')
+        });
 
 
         $('.query').click(function () {
@@ -723,37 +962,52 @@
 
         /*导出按钮操作*/
         $('.export').click(function () {
-            exportRecord("", "学生信息")
+            location="/owep/user/export";
         });
     });
     /**
-    * 显示下拉按钮
-    */
-
-    let url = "/owep/user/stuList/suggest";
+     * 显示下拉按钮
+     */
+    let url = '../../static/js/demo/user/stuListTest.json';
     /*班级*/
-    bsSuggest("#testNoBtn", url, "clazz.className");
+    bsSuggest("#testNoBtn", "/owep/user/stuList/findAllClass", "className");
     /*姓名*/
-    bsSuggest("#testNoBtn2", url, "stuName");
+    bsSuggest("#testNoBtn2", "/owep/user/stuList/findAllStudent", "stuName");
     /*学校*/
-    bsSuggest("#testNoBtn3", url, "stuSchool");
+    bsSuggest("#testNoBtn3", "/owep/user/stuList/findAllSchool", "stuSchool");
     /*学院*/
-    bsSuggest("#testNoBtn4", url, "stuCollege");
+    bsSuggest("#testNoBtn4", "/owep/user/stuList/findAllCollege", "stuCollege");
     /*客服归属*/
     bsSuggest("#testNoBtn5", url, "customerBelongs");
     /*所在班级*/
-    bsSuggest("#testNoBtn6", url, "clazz");
+    bsSuggest("#testNoBtn6", url, "class");
     /*转到班级*/
-    bsSuggest("#testNoBtn7", url, "class");
+    //bsSuggest("#class_end", "/owep/user/stuList/findAllClass", "className");
 
+    let BsSuggest=$("#class_end").bsSuggest( {
+        // $(object).bsSuggest({
+        url: "/owep/user/stuList/findAllClass",
+        showBtn: true,
+        getDataMethod: "url",
+        idField: "id",
+        keyField: "className",
+        effectiveFields: ["className"],
+        //searchFields:"[className]",
+    }).on('onSetSelectValue', function (e, keyword) {
+        $("#class_end_id").val(keyword.id);
 
-    let TableInit = function () {
-        let oTableInit = new Object();
+    })
+    // function bsSuggest(object,url,fieldName)
+
+    // }
+
+    var TableInit = function () {
+        var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments_1').bootstrapTable({
                 url: '/owep/user/stuList/getTable',       //请求后台的URL（*）
-                method: 'get',                      //请求方式（*）
+                // method: 'get',                      //请求方式（*）
                 toolbar: '#toolbar_1',                //工具按钮用哪个容器
                 toolbarAlign: "right",
                 striped: true,                      //是否显示行间隔色
@@ -771,112 +1025,130 @@
                 columns: [{
                     checkbox: true
                 }, {
+                    field: 'id',
+                    title: '编号',
+                },
+                    {
+                        field: 'stuNumber',
+                        title: '学号',
+                        color: "red"
+                    }, {
+                        field: 'stuName',
+                        title: '姓名'
+                    }, {
+                        field: 'gender',
+                        title: '性别',
+                        formatter: changeType,
+                    }, {
+                        field: 'stuPhone',
+                        title: '手机'
+                    }, {
+                        field: 'stuEmail',
+                        title: '邮箱'
+                    }, {
+                        field: 'status',
+                        title: '有效状态',
+                        formatter: addSlideChoiceBox,
+                    }, {
+                        field: 'lastAccessTime',
+                        title: '最后登陆时间'
+                    },
+                    {
+                        field: 'operate',
+                        title: '操作',
+                        width: 150,
+                        formatter: addFunctionAlty,//表格中增加按钮  
+                        events: {
+                            'click button[title=删除]': function (e, value, row, index) {
+                                deleteRecord(e, value, row, index, "/owep/user/stuList/delete", '#tb_departments_1')
+                            },
+                            'click button[title=修改]': function (e, value, row, index) {
+                                //回显数据
+                                echoDataForm('form[id="form_modification_1"]', new Array('id', 'stuNumber',
+                                    'stuName', 'stuPhone', 'stuEmail', 'effectiveDate', "gender", "status"
+                                ), row);
+                                $('#modal_modification').modal();
+                            },
+                            'click button[title=分配班级]': function (e, value, row, index) {
+                                //回显数据
+                                $("#classChooseStuId").val(row.id);
+                                $('#classChooseStuName').val(row.stuName);
+                                $.ajax({
+                                    url:"/owep/user/stuList/findClassName?id="+row.id,
+                                    method:"get",
+                                    dataType:"text",
+                                    success:function (data) {
+                                        $('#class_start').val(data);
+                                    }
+                                })
+                                $('#modal_allocation').modal();
+                            },
+                        }
+                    }]
+            });
+            /*这个是没有分配班级的页面*/
+            $('#tb_departments_2').bootstrapTable({
+                url: '/owep/user/stuList/getTableNoClass',       //请求后台的URL（*）
+                // method: 'get',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                showSearchButton: true,
+                searchAlign: "left",
+                toolbarAlign: "right",
+                searchFields: "customerBelongs",
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                columns: [{
+                    checkbox: true
+                }, {
                     field: 'stuNumber',
                     title: '学号',
-                    color: "red"
                 }, {
                     field: 'stuName',
                     title: '姓名'
                 }, {
                     field: 'gender',
-                    title: '性别'
+                    title: '性别',
+                    formatter: changeType
                 }, {
                     field: 'stuPhone',
                     title: '手机'
                 }, {
-                    field: 'stuEmail',
-                    title: '邮箱'
-                }, {
-                    field: 'status',
-                    title: '有效状态',
-                    formatter: addSlideChoiceBox
-                }, {
-                    field: 'lastAccessTime',
-                    title: '最后登陆时间'
+                    field: 'customerBelongs',
+                    title: '客户归属'
                 }, {
                     field: 'operate',
                     title: '操作',
                     width: 150,
-                    formatter: addFunctionAlty,//表格中增加按钮  
+                    formatter: addFunctionAlty_1,//表格中增加按钮  
                     events: {
-                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
-                            console.log(row);
-                            deleteRecord(e, value, row, index, "/owep/user/stuList/delete", '#tb_departments_1');
-
-
+                        'click button[title=删除]': function (e, value, row, index) {
+                            deleteRecord(e, value, row, index, "/owep/user/stuList/delete", '#tb_departments_2')
                         },
-
                         'click button[title=修改]': function (e, value, row, index) {
-                            //回显数据
-                            echoDataForm('form[id="form_modification"]', new Array('stuNumber',
-                                'sutName', 'stuPhone', 'stuEmail', 'lastAccessTime','effectiveDate',
-                                'status', 'gender'
+                            echoDataForm('form[id="form_modification_2"]', new Array('id', 'stuNumber',
+                                'stuName', 'stuPhone', 'gender', 'customerBelongs',
                             ), row);
-                            $('#modal_modification').modal();
+                            $('#modal_modification_1').modal();
                         },
                         'click button[title=分配班级]': function (e, value, row, index) {
                             //回显数据
-                            $('form[id="form_allocation_1"] input[name="name"]').val(row.name);
-                            $('#modal_allocation').modal();
+                            $('form[id="form_allocation_2"] input[name="name"]').val(row.name);
+                            $('#modal_allocation_1').modal();
                         },
                     }
                 }]
             });
-
-
-            /*修改提交表单*/
-            $('.modification').click(function () {
-                console.log("修改，提交");
-                let stuNumber=$("#edit_stuNumber").val();
-                let stuName=$("#edit_stuName").val();
-                let stuPhone=$("#edit_stuPhone").val();
-                let stuEmail=$("#edit_stuEmail").val();
-                let stuPwd=$("#edit_stuPwd").val();
-                let effectiveDate=$("#edit_effectiveDate").val();
-                let status=$("#edit_status").val();
-                let gender=$("#edit_gender").val();
-
-                console.log("status"+status);
-                if(status === 1||status ===0){
-
-                }else   if(status === "on"){
-                    status = 1;
-                }else{
-                    status = 0;
-                }
-                let stuData={
-                    stuNumber:stuNumber,
-                    stuName:stuName,
-                    stuPhone:stuPhone,
-                    stuEmail:stuEmail,
-                    stuPwd:stuPwd,
-                    effectiveDate:effectiveDate,
-                    status:status,
-                    gender:gender
-
-                };
-                console.log(stuData);
-                let stuJson=JSON.stringify(stuData);
-
-                $.ajax({
-                    method:"post",
-                    url:"/owep/user/stuList/edit",
-                    async: "true",
-                    data:stuJson,
-                    dataType:"text",
-                    contentType:"application/json",
-                    success:function(feedback){
-                        alert(feedback);
-                        window.location.reload();
-                    },
-                    error: function (jqXRH) {
-                        console.log(jqXRH);
-                        alert("修改未成功")
-                    }
-                })
-
-            })
-
         };
         /*滑动按钮初始化*/
         let switchInit = function () {
@@ -884,19 +1156,45 @@
             let elems = Array.prototype.slice.call($('.js-switch-1'));
             elems.forEach(function (html) {
                 /* size: 'normal' 控制大小*/
-                var switchery = new Switchery(html);
+                let switchery = new Switchery(html);
                 html.onchange = function () {
-                    alert(html.checked);
+                    console.log("student status:" + html.checked);
+                    let userId = $(this).attr("userId");
+                    let status;
+                    if (html.checked == true) {
+                        alert("用户启用" + userId);
+                        status = 1;
+                    } else {
+                        alert("禁用用户" + userId);
+                        status = 0;
+                    }
+                    let switch_data = {
+                        userId: userId,
+                        status: status
+                    };
+
+                    //Todo Ajax
+                    $.ajax({
+                        url: "/owep/user/stuList/switch",
+                        method: "get",
+                        async: true,
+                        data: switch_data,
+                        dataType: "text",   //期望服务端返回的数据类型
+                        contentType: "application/json",
+                        error: function (jqXHR) {
+                            swal("同步失败！", "请稍后重试", "error");
+                        }
+                    });
                 }
             });
         }
 
         function addSlideChoiceBox(value, row, index) {
-            if (value == '启用') {
-                return ' <input type="checkbox" class="js-switch-1 form-control" checked/>'
+            if (value == '1') {
+                return ' <input type="checkbox" class="js-switch-1 form-control"  userId="' + row.id + '"checked/>'
             }
-            if (value == '不启用') {
-                return ' <input type="checkbox" class="js-switch-1 form-control"/>'
+            if (value == '0') {
+                return ' <input type="checkbox" class="js-switch-1 form-control"  userId="' + row.id + '"/>'
             }
         }
 
@@ -918,6 +1216,15 @@
                 ;
         }
 
+        function changeType(value) {
+            if (value == '1') {
+                return '男'
+            }
+            if (value == '0') {
+                return '女'
+            }
+        }
+
         //得到查询的参数
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
@@ -928,8 +1235,110 @@
             };
             return temp;
         };
+
         return oTableInit;
     };
+
+    $("#queryBtn").click(function () {
+        let className = $("#testNoBtn").val();
+        let stuName = $("#testNoBtn2").val();
+        let
+        let keyword = {
+            "className": className,
+            "stuName": stuName
+
+        }
+        //执行查询
+        $.ajax({
+            url: "/owep/user/advisorList/search",
+            data: keyword,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#tb_departments").bootstrapTable("load", data);
+            },
+            error: function (jqXHR) {
+                alert("查询失败");
+            }
+        })
+    });
+
+
+
+    //--------------------------分配班级的按钮------------------------------------------------------
+    let $treeview = $('#treeview_allocation');
+    $('.allocation_1').click(function () {
+        let stuId = $('#classChooseStuId').val();
+        let classIds = [];
+        let checks = $treeview.treeview('getChecked');
+        console.log(checks);
+        $.each(checks, function (index, item) {
+            if (item.parentId !== undefined) {
+                console.log(item.tags);
+                classIds.push(item.tags);
+            }
+        });
+        if (classIds.length < 1) {
+            alert("请选择一个");
+        }
+        if (classIds.length > 1) {
+            alert("只能选择一个");
+        } else {
+            let result = {stuId: stuId, classIds: classIds};
+            console.log(result);
+            if (confirm("确定添加这些数据么")) {
+                alert("添加数据:" + result);
+                $.ajax({
+                    url: "/owep/user/stuList/treeCheck_edit",
+                    method: "post",
+                    data: JSON.stringify(result),
+                    dataType: "text",
+                    async: false,
+                    contentType: "application/json",
+                    success: function (data) {
+                        /!*重新加载本页面*!/
+                        window.location.reload();
+                        alert(data);
+                    },
+
+                    error: function (jqXRH) {
+                        console.log(jqXRH);
+                        alert("设置未同步")
+                    }
+                })
+            }
+        }
+    })
+
+    //-----------------------------------------转班的按钮---------------------------------------------
+    // let $class_transfer_button=$('#class_transfer_button');
+       $('.class_transfer_button_1').click(function () {
+        let stuId=$('#classChooseStuId').val();
+        let classId=$('#class_end_id').val();
+        if(!classId) {
+            let result = {
+                stuId: stuId,
+                classId: classId
+            }
+            $.ajax({
+                url:'/owep/user/stuList/treeCheck_edit',
+                method:'get',
+                dataType: "text",
+                data: JSON.stringify(result),
+                async: false,
+                contentType: "application/json",
+                success: function (data) {
+                    /!*重新加载本页面*!/
+                    window.location.reload();
+                    alert(data);
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("设置未同步")
+                }
+            })
+        }
+    })
 </script>
 <!--分配按钮切换-->
 <script>
@@ -946,64 +1355,6 @@
             $('.class_transfer').attr("class", "btn btn-primary class_transfer");
             $('#class_transfer').css("display", "");
         });
-    });
-</script>
-<!--右上角按钮对的监听处理-->
-<script>
-    $(document).ready(function () {
-    /*删除多个按钮操作*/
-   $('.deleteAll').click(function () {
-       deleteAllRecords("/owep/user/stuList/deleteByGroup", '#tb_departments_1')
-   })
-    /*添加提交表单*/
-    let $add_submit_btn = $('#model_add_submit_btn');
-    $add_submit_btn.click(function () {
-        let stuNumber=$("#add_stuNumber").val();
-        let stuName = $("#add_stuName").val();
-        let stuPhone = $("#add_stuPhone").val();
-        let stuEmail = $("#add_stuEmail").val();
-        let stuPwd = $("#add_stuPwd").val();
-        let effectiveDate = $("#add_effectiveDate").val();
-        let status = $("#add_status").val();
-        let gender = $("input[name='add_gender']:checked").val();
-
-        console.log("status:"+status);
-        if(status === "on"){
-            status = 1;
-        }else{
-            status = 0;
-        }
-
-        let stuData = {
-            stuNumber:stuNumber,
-            stuName: stuName,
-            stuPhone: stuPhone,
-            stuEmail: stuEmail,
-            stuPwd: stuPwd,
-            effectiveDate: effectiveDate,
-            status: status,
-            gender: gender
-        };
-        console.log(stuData);
-        let stuJson = JSON.stringify(stuData);
-
-        $.ajax({
-            method: "POST",
-            url: "/owep/user/stuList/addStudent",
-            async: "true",
-            data: stuJson,
-            dataType: "text",
-            contentType: "application/json",
-            success: function (feedback) {
-                alert(feedback);
-                window.location.reload();
-            },
-            error: function (jqXRH) {
-                console.log(jqXRH);
-                alert("添加未成功")
-            }
-        })
-    });
     });
 </script>
 </html>

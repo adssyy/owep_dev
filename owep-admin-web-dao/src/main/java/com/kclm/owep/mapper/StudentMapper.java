@@ -90,6 +90,19 @@ public interface StudentMapper extends BaseMapper<Student> {
     @Override
     List<Student> selectAll();
 
+
+    List<Student> selectAllSchool();
+
+    List<Student> selectAllCollege();
+
+    List<Student> findByKeyword(String keyword);
+
+    List<Student> selectNoClass();
+
+    List<Integer> getClassId(Serializable id);
+
+    int changeClassId(Serializable id,Serializable classIds);
+
     /****
      * 根据班级id查询所有学生
      * @param id
@@ -106,3 +119,4 @@ public interface StudentMapper extends BaseMapper<Student> {
      */
     List<Student> selectByKeyword(@Param("id") Serializable id,@Param("stuNumber") String stuNumber,@Param("stuRealName") String stuRealName);
 }
+

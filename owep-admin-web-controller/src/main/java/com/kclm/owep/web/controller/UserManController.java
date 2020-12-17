@@ -1,28 +1,48 @@
 package com.kclm.owep.web.controller;
 
 
-import com.alibaba.fastjson.JSON;
-import com.kclm.owep.dto.GroupDTO;
-import com.kclm.owep.dto.NodeDTO;
-import com.kclm.owep.dto.UserDto;
-import com.kclm.owep.dto.UserGroupDTO;
+
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+
+import com.alibaba.fastjson.JSONArray;
+import com.kclm.owep.dto.*;
+
 import com.kclm.owep.entity.Group;
+import com.kclm.owep.entity.Result;
 import com.kclm.owep.entity.Student;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.StudentMapper;
-import com.kclm.owep.service.GroupService;
-import com.kclm.owep.service.RoleService;
-import com.kclm.owep.service.StudentService;
-import com.kclm.owep.service.UserService;
-import com.kclm.owep.service.impl.StudentServiceImpl;
+import com.kclm.owep.service.*;
+import com.kclm.owep.utils.util.DateUtil;
+import org.apache.ibatis.annotations.Param;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /***
@@ -48,6 +68,10 @@ public class UserManController {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    ClazzService clazzService;
+
 
     /**
      *方法级请求拦截器
@@ -139,7 +163,6 @@ public class UserManController {
     @GetMapping(value = "/adminList/search", produces = "application/json")
     @ResponseBody
     public Object postAdminSearch(@RequestParam("userName") String userName, @RequestParam("realName") String realName) {
-
         System.out.println("搜索用户：" + userName + "-" + realName);//todo
         List<User> users = userService.selectByType(1);
         for (User user : users) {
@@ -155,6 +178,7 @@ public class UserManController {
             }
         }
         return "return:{'msg':'User not found'}";
+
     }
 
 
@@ -185,7 +209,7 @@ public class UserManController {
     public String postAdminDeleteAction(@RequestParam("id") Integer id) {//@RequestParam解析表单，Json得用@RequestBody转译,或者干脆点什么都不加
         userService.delete(id);
         System.out.println("删除用户：" + id);//todo
-        return "forward:/user/adminList";
+        return "";
     }
 
     /***
@@ -202,7 +226,7 @@ public class UserManController {
             System.out.println("delete userId:" + id);
             userService.delete(id);
         }
-        return "forward:/user/adminList";
+        return "";
     }
 
     /***
@@ -217,7 +241,7 @@ public class UserManController {
         System.out.println("编辑管理员用户：" + user);//todo
         userService.update(user);
         String feedback = "success";
-        return /*"forward:/user/adminList"*/feedback;
+        return feedback;
     }
 
     /***
@@ -243,7 +267,6 @@ public class UserManController {
         }
     }
 
-
     /***
      * @By Artherine
      * @For 修改 对应用户的 用户-用户组 关系
@@ -252,11 +275,7 @@ public class UserManController {
      */
     @PostMapping(value = "/adminList/treeCheck_edit")
     @ResponseBody
-    //        public Object postTreeCheckEdit( UserGroupDTO userGroupDTO){
-//    public Object postTreeCheckEdit( String str){
     public Object postTreeCheckEdit(@RequestBody UserGroupDTO userGroupDTO) {
-//        System.out.println(str);
-//        UserGroupDTO userGroupDTO = (UserGroupDTO) JSON.parse(str);
         System.out.println("U-G dto: " + userGroupDTO);
         Integer userId = userGroupDTO.getUserId();
         List<Integer> groupIds = userGroupDTO.getGroupIds();
@@ -275,9 +294,7 @@ public class UserManController {
     @GetMapping(value = "/adminList/treeCheck", produces = "application/json")
     @ResponseBody
     public Object getTreeCheckData(@RequestParam("id") Integer userId) {
-//    public Object getTreeCheckData(){//不需要设置原状态，不用id
         System.out.println("User manager adminList get Tree&Check Data");
-
         {//数据库数据 TODO
             List<GroupDTO> groupDTOS = groupService.selectAllGroups(0);//从库中获得所有对象
             List<Integer> groupIds = userService.getGroupIds(userId);//查询用户之前归属的用户组id
@@ -302,10 +319,8 @@ public class UserManController {
             return nodeArr;
 
         }
-
-
-}
-
+    }
+/*----------------------------------------------------------------------学生方法---------------------------------------------------------------------------------------------------------*/
 
     /***
      * @By: Artherine
@@ -337,6 +352,18 @@ public class UserManController {
         }//数据库
     }
 
+    @GetMapping(value = "/stuList/getTableNoClass", produces = "application/json")
+    @ResponseBody
+    public Object getStuListTableDataNoClass(@RequestParam("offset") int offset) {
+
+        System.out.println("User manager stuList get NoClassStudents table data");
+        {
+            List<Student> students = studentService.selectNoClass();
+            System.out.println("没有班级的学生用户列表：");
+            students.forEach(System.out::println);
+            return students;
+        }//数据库
+    }
     /***
      * @By:SakuraFallen
      * @param student
@@ -346,13 +373,11 @@ public class UserManController {
     @PostMapping(value = "/stuList/addStudent")
     @ResponseBody
     public String postStudentAddAction(@RequestBody Student student) {
-//        student.setIsDelete(1); //
-//        student.setStuNumber("10700000");
-//        student.setStuType("应届生");
+        student.setIsDelete(1);
         studentService.create(student);
         System.out.println("增加学生用户" + student);
-        String feedback = "success";
-        return feedback;
+       // String feedback = "success";
+        return "success";
     }
 
     /***
@@ -377,11 +402,10 @@ public class UserManController {
      */
     @PostMapping(value = "/stuList/edit")
     @ResponseBody
-    public String postStudentEditAction(Student student) {
+    public Object postStudentEditAction(@RequestBody Student student) {
         System.out.println("编辑学生信息：" + student);//todo
         studentService.update(student);
-        String feedback = "success";
-        return feedback;
+        return   new Result("200","OK");
     }
 
     /***
@@ -401,6 +425,232 @@ public class UserManController {
         return "";
     }
 
+    @GetMapping(value = "/stuList/search", produces = "application/json")
+    @ResponseBody
+    public Object postStudentSearch( String className,  String stuName,
+                                    String schoolName, String collegeName ,
+                                    String interviewTimeStart, String interviewTimeEnd) {
+        System.out.println("---------------------------------------------------------------------------------------------------");
+        final LocalDateTime start=DateUtil.stringToLocalDateTime(interviewTimeStart);
+        final LocalDateTime end = DateUtil.stringToLocalDateTime(interviewTimeEnd);
+        System.out.println(className+","+stuName+","+schoolName+","+collegeName);
+        final List<Student> list=studentService.findByKeyword(stuName);
+        ArrayList arr = new ArrayList();
+        for (Student lists : list) {
+            //匹配姓名
+            if (lists.getStuName().equals(stuName)) {
+                //用时间判断
+                if(lists.getCreateTime().isAfter(start) && lists.getCreateTime().isBefore(end)) {
+                    arr.add(list);
+                }
+            }
+        }
+        System.out.println("================================*************");
+        System.out.println(arr);
+        return arr;
+    }
+
+    /***
+     * @By Artherine
+     * @For 同步账户激活状态
+     * @param userId
+     * @param status
+     */
+    @GetMapping("/stuList/switch")
+    @ResponseBody
+    public void StudentValidSwitch(@RequestParam Integer userId, @RequestParam Integer status) {
+        System.out.println("switching student validation:" + userId + "," + status);
+        if (status == null) {
+            System.out.println("Warning： status value is null, nothing to do here");
+            return;
+        }
+        if (status == 1) {
+            System.out.println("student  validation activated");
+            studentService.activate(userId);
+        } else {
+            System.out.println("student  validation activated");
+            studentService.deactivate(userId);
+        }
+    }
+
+
+
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("/stuList/findAllClass")
+    @ResponseBody
+    public Object findAllClass(){
+        final List<ClazzDTO> className=clazzService.selectAll();
+        HashMap map=new HashMap();
+        map.put("value",className);
+        System.out.println(map);
+        return map;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("/stuList/findAllStudent")
+    @ResponseBody
+    public  Object findAllStudent(){
+        final  List<Student> students=studentService.selectAll();
+        HashMap map=new HashMap();
+        map.put("value",students);
+        return map;
+    }
+
+
+    @RequestMapping("/stuList/findAllSchool")
+    @ResponseBody
+    public  Object findAllSchool(){
+        final List<Student> schools=studentService.selectAllSchool();
+        HashMap map=new HashMap();
+        map.put("value",schools);
+        System.out.println(map);
+        return map;
+    }
+
+
+    @RequestMapping("/stuList/findAllCollege")
+    @ResponseBody
+    public  Object findAllCollege(){
+        final List<Student> colleges=studentService.selectAllCollege();
+        HashMap map=new HashMap();
+        map.put("value",colleges);
+        return map;
+    }
+
+    @RequestMapping("/stuList/findClassName")
+    @ResponseBody
+    public String findClassName(Integer id){
+        return studentService.selectById(id).getClazz().getClassName();
+    }
+
+    @RequestMapping("/stuList/import")
+    @ResponseBody
+    public String studentImport(@RequestParam("file")MultipartFile file) throws IOException{
+        // 获取上传文件的输入流
+       try{
+           String fileName=file.getOriginalFilename();
+           InputStream inputStream=file.getInputStream();
+           if(!fileName.matches("^.+\\.(?i)(xlsx)$")){
+               return "文件格式有误";
+           }
+           XSSFWorkbook workbook=new XSSFWorkbook(inputStream);
+           XSSFSheet sheet=workbook.getSheetAt(0);
+           Row titleRow=sheet.getRow(0);
+           int lastRpwNum =sheet.getLastRowNum();
+           int lastCellNum=titleRow.getLastCellNum();
+
+           List<Map<String,Object>> list=new ArrayList<>();
+           for (int i=1;i<lastRpwNum;i++){
+               Map<String, Object> map = new HashMap<>();
+               XSSFRow row = sheet.getRow(i);
+              // Student student = new Student();
+               for(int j = 0; j < lastCellNum; j++){
+                   // 得到列名
+                   String key = titleRow.getCell(j).getStringCellValue();
+                   System.out.println(key);
+                   XSSFCell cell = row.getCell(j);
+                   DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   if (cell != null){
+                       if (key.equals("effectiveDate") || key.equals("birth")){
+                           cell.setCellType(CellType.STRING);
+                           Instant instant = cell.getDateCellValue().toInstant();
+                           ZoneId zoneId = ZoneId.systemDefault();
+                           LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);
+                           map.put(key,LocalDateTime.parse(df.format(localDateTime),df));
+                       }else {
+                           cell.setCellType(CellType.STRING);
+                           map.put(key, cell.getStringCellValue());
+                       }
+                   }
+               }
+               list.add(map);
+           }
+           workbook.close();
+           JSONArray jsonArray = new JSONArray();
+           jsonArray.addAll(list);
+           List<Student> students = jsonArray.toJavaList(Student.class);
+        if(this.studentService.insertAllStudent(students)>0){
+            return "插入成功";
+        }else {
+            return "插入失败";
+        }
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+       return "插入失败";
+    }
+
+    /***
+     * @By Artherine
+     * @For 为前端提供学生多选框表 并预设当前学生的班级组关系
+     * @param stuId
+     * @return NodeDTO(..., List < NodeDTO > nodes)
+     */
+    @GetMapping(value = "/stuList/classTreeCheck", produces = "application/json")
+    @ResponseBody
+    public Object studentGetClassTreeCheckData(@RequestParam("id") Integer stuId) {
+        System.out.println(stuId);
+        System.out.println("Student manager teacherList get Tree&Check Data");
+
+        {//数据库数据 TODOTe
+            List<ClazzDTO> classDTOS = clazzService.selectAll();
+            List<Integer> classIds = studentService.getClassIds(stuId);
+            List<NodeDTO> nodes = new ArrayList<>();
+            for (ClazzDTO clazz : classDTOS) {
+                NodeDTO subNode = new NodeDTO();
+                Integer classId = clazz.getId();
+                System.out.println(classId);
+                subNode.setTags(classId);
+                subNode.setText(clazz.getClassName());
+                if (classIds.contains(classId)) {        //id在记录列表中则激活此节点
+                    subNode.nodeChecked();
+                }
+                nodes.add(subNode);//节点入列
+            }
+            NodeDTO topNode = new NodeDTO();//把用户组节点包装在一个父节点下
+            topNode.setTags(0);
+            topNode.setText("班级组");
+            topNode.setNodes(nodes);
+            NodeDTO[] nodeArr = new NodeDTO[1];
+            nodeArr[0] = topNode;
+            System.out.println("班级组节点树和状态：" + nodeArr[0]);//todo
+            return nodeArr;
+        }
+    }
+
+    /***
+     * @By Artherine
+     * @For 修改 对应学生的 班级组 关系
+     * @param
+     * @return msg
+     */
+    @PostMapping(value = "/stuList/treeCheck_edit")
+    @ResponseBody
+    public Object postStudentTreeCheckEdit(@RequestBody StudentClassDTO studentClassDTO) {
+        System.out.println("SCD " + studentClassDTO);
+        Integer stuId = studentClassDTO.getStuId();
+        List<Integer> classIds = studentClassDTO.getClassIds();
+        studentService.setClass(stuId,classIds.get(0));
+        return "success";
+    }
+
+
+    public String changeClass(Student student){
+        return "" ;
+    }
+
+
+
+
+
+    /*--------------------------------------以下为为教师界面的方法----------------------------------------------------------------------*/
     /***
      * @By: Artherine
      * @For: 跳转至教师管理页面
@@ -451,14 +701,19 @@ public class UserManController {
      */
     @GetMapping(value = "/teacherList/delete", produces = "application/json")
     @ResponseBody
-    public String postTeacherDeleteAction(@RequestParam("id") Integer id) {//@RequestParam解析表单，Json得用@RequestBody转译,或者干脆点什么都不加
-        userService.delete(id);
-        System.out.println("删除教师用户：" + id);//todo
+    public String postTeacherDeleteAction(@RequestParam("id") List<Serializable> id) throws Exception{//@RequestParam解析表单，Json得用@RequestBody转译,或者干脆点什么都不加
+        try {
+            userService.deleteSelect(id);
+            System.out.println("删除教师用户：" + id);//todo
+        } catch (Exception e) {
+            return "该单位有分配";
+        }
         return "";
     }
 
     /**
-     *  教师界面的集群删除功能
+     * 教师界面的集群删除功能
+     *
      * @param userIds
      * @return
      */
@@ -473,6 +728,19 @@ public class UserManController {
         return "";
     }
 
+//    /**
+//     * 教师界面的集群删除功能
+//     *
+//     * @param userIds
+//     * @return
+//     */
+//    @PostMapping("/teacherList/deleteByGroup")
+//    @ResponseBody
+//    public String postTeacherDeleteByGroup(@RequestBody List<Serializable> userIds) {
+//        System.out.println("delete by group - ids:" + userIds);
+//            userService.deleteSelect(userIds);
+//        return "";
+//    }
     /***
      *
      *  教师页面的 修改功能
@@ -496,7 +764,6 @@ public class UserManController {
      */
     @PostMapping(value = "/teacherList/treeCheck_edit")
     @ResponseBody
-
     public Object postTeacherTreeCheckEdit(@RequestBody UserGroupDTO userGroupDTO) {
         System.out.println("U-G dto: " + userGroupDTO);
         Integer userId = userGroupDTO.getUserId();
@@ -506,6 +773,161 @@ public class UserManController {
         return result;
     }
 
+
+    /***
+     * @By Artherine
+     * @For 为前端提供用户组多选框表 并预设当前用户的用户组关系
+     * @param userId
+     * @return NodeDTO(..., List < NodeDTO > nodes)
+     */
+    @GetMapping(value = "/teacherList/treeCheck", produces = "application/json")
+    @ResponseBody
+    public Object getTeacherTreeCheckData(@RequestParam("id") Integer userId) {
+
+        System.out.println("User manager teacherList get Tree&Check Data");
+
+        {//数据库数据 TODOTe
+            List<GroupDTO> groupDTOS = groupService.selectAllGroups(0);//从库中获得所有对象
+            List<Integer> groupIds = userService.getGroupIds(userId);//查询用户之前归属的用户组id
+            List<NodeDTO> nodes = new ArrayList<>();
+            for (GroupDTO group : groupDTOS) {//封装为NodeDTO
+                NodeDTO subNode = new NodeDTO();
+                Integer groupId = group.getId();
+                subNode.setTags(groupId);
+                subNode.setText(group.getGroupName());
+                if (groupIds.contains(groupId)) {//id在记录列表中则激活此节点
+                    subNode.nodeChecked();
+                }
+                nodes.add(subNode);//节点入列
+            }
+            NodeDTO topNode = new NodeDTO();//把用户组节点包装在一个父节点下
+            topNode.setTags(0);
+            topNode.setText("用户组");
+            topNode.setNodes(nodes);
+            NodeDTO[] nodeArr = new NodeDTO[1];
+            nodeArr[0] = topNode;
+            System.out.println("用户组节点树和状态：" + nodeArr[0]);//todo
+            return nodeArr;
+
+        }
+    }
+
+    /***
+     * @By Artherine
+     * @For 修改 对应教师的 班级-班级组组 关系
+     * @param
+     * @return msg
+     */
+    @PostMapping(value = "/teacherList/classTreeCheck_edit")
+    @ResponseBody
+    public Object postTeacherClassTreeCheckEdit(@RequestBody UserClassDTO userClassDTO) {
+        System.out.println("U-C dto: " + userClassDTO);
+        Integer userId= userClassDTO.getUserId();
+        List<Integer> classIds=userClassDTO.getClassIds();
+        userService.setClass(userId,classIds);
+        String result = "success";
+        return result;
+    }
+
+
+
+    /***
+     * @By Artherine
+     * @For 为前端提供教师组多选框表 并预设当前教师的班级组关系
+     * @param userId
+     * @return NodeDTO(..., List < NodeDTO > nodes)
+     */
+    @GetMapping(value = "/teacherList/classTreeCheck", produces = "application/json")
+    @ResponseBody
+    public Object getClassTreeCheckData(@RequestParam("id") Integer userId) {
+        System.out.println(userId);
+        System.out.println("User manager teacherList get Tree&Check Data");
+
+        {//数据库数据 TODOTe
+            List<ClazzDTO> classDTOS = clazzService.selectAll();
+            System.out.println(classDTOS);
+            List<Integer> classIds = userService.getClassIds(userId);
+            List<NodeDTO> nodes = new ArrayList<>();
+            for (ClazzDTO clazz : classDTOS) {
+                NodeDTO subNode = new NodeDTO();
+                Integer classId = clazz.getId();
+                subNode.setTags(classId);
+                subNode.setText(clazz.getClassName());
+                if (classIds.contains(classId)) {        //id在记录列表中则激活此节点
+                    subNode.nodeChecked();
+                }
+                nodes.add(subNode);//节点入列
+            }
+            NodeDTO topNode = new NodeDTO();//把用户组节点包装在一个父节点下
+            topNode.setTags(0);
+            topNode.setText("班级组");
+            topNode.setNodes(nodes);
+            NodeDTO[] nodeArr = new NodeDTO[1];
+            nodeArr[0] = topNode;
+            System.out.println("班级组节点树和状态：" + nodeArr[0]);//todo
+            return nodeArr;
+        }
+    }
+
+    /***
+     * @By: Artherine
+     * @For: 根据前端的用户名信息返回用户对象(表 单一元素)
+     * @param userName
+     * @param realName
+     * @return User
+     */
+    @GetMapping(value = "/teacherList/search", produces = "application/json")
+    @ResponseBody
+    public Object postTeacherSearch(@Param("userName") String userName, @Param("realName") String realName) {
+        System.out.println(userName + realName);
+        List<User> list = userService.selectByKeyword(userName, realName);
+        list.forEach(System.out::println);
+        return list;
+    }
+
+    /** 导出数据的方法，也就是下载Excel文件，把数据库里的文件通过流的方式读取，在存入
+     *  由ExcelWrite创建的xls中，存放在内存中，
+     *  最后通过通过Location传递URl的方法提供下载功能
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("export")
+    public void export(HttpServletResponse response) throws IOException {
+        List<User> list = userService.selectByType(2);
+        System.out.println(list);
+        /* 通过工具类创建writer，默认创建xls格式 */
+        ExcelWriter writer = ExcelUtil.getWriter();
+        /* 自定义标题别名 测试完记得转会工具类*/
+        writer.addHeaderAlias("userName", "用户名");
+        writer.addHeaderAlias("userPwd", "密码");
+        writer.addHeaderAlias("userPhone", "手机");
+        writer.addHeaderAlias("realName", "姓名");
+        writer.addHeaderAlias("userEmail", "邮箱");
+        writer.addHeaderAlias("gender", "性别");
+
+        /* 一次性写出内容，使用默认样式，强制输出标题 */
+        writer.write(list, true);
+        System.out.println(writer);
+        /* out为OutputStream，需要写出到的目标流 */
+        /* response为HttpServletResponse对象 */
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        /* test.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码 */
+        String name = "测试";
+        response.setHeader("Content-Disposition", "attachment;filename=" + name + ".xls");
+        ServletOutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            writer.flush(out, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            /* 关闭writer，释放内存 */
+            writer.close();
+        }
+        IoUtil.close(out);
+    }
+
+/*-----------------------------------------------以下是咨询师页面的方法--------------------------------------------------------------------------------*/
     /***
      * @By: Artherine
      * @For: 跳转至咨询师管理页面
@@ -565,7 +987,6 @@ public class UserManController {
     }
 
     /**
-     *
      * @param user
      * @return
      */
@@ -579,20 +1000,18 @@ public class UserManController {
     }
 
     /**
-     *
      * @param id
      * @return
      */
     @GetMapping(value = "/advisorList/delete", produces = "application/json")
     @ResponseBody
-    public String postAdvisorDeleteAction(@RequestParam("id") Integer id) {
-        userService.delete(id);
+    public String postAdvisorDeleteAction(@RequestParam("id") List<Serializable> id) {
+        userService.deleteSelect(id);
         System.out.println("删除咨询师：" + id);//todo
         return "";
     }
 
     /**
-     *
      * @param userIds
      * @return
      */
@@ -605,6 +1024,55 @@ public class UserManController {
             userService.delete(id);
         }
         return "";
+    }
+
+    @GetMapping(value = "/advisorList/search", produces = "application/json")
+    @ResponseBody
+    public Object postAdvisorSearch(@Param("userName") String userName, @Param("realName") String realName) {
+        System.out.println(userName + realName);
+        List<User> list = userService.selectByKeywordAtAdvisor(userName, realName);
+        list.forEach(System.out::println);
+        return list;
+    }
+
+    /**
+     *
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/advisor/export")
+    public void advisorExport(HttpServletResponse response) throws IOException {
+        List<User> list = userService.selectByType(3);
+        /* 通过工具类创建writer，默认创建xls格式 */
+        ExcelWriter writer = ExcelUtil.getWriter();
+        /* 自定义标题别名 测试完记得转会工具类*/
+        writer.addHeaderAlias("userName", "用户名");
+        writer.addHeaderAlias("userPwd", "密码");
+        writer.addHeaderAlias("userPhone", "手机");
+        writer.addHeaderAlias("realName", "姓名");
+        writer.addHeaderAlias("userEmail", "邮箱");
+        writer.addHeaderAlias("gender", "性别(“1”代表男，“0”代表女)");
+
+        /* 一次性写出内容，使用默认样式，强制输出标题 */
+        writer.write(list, true);
+        System.out.println(writer);
+        /* out为OutputStream，需要写出到的目标流 */
+        /* response为HttpServletResponse对象 */
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        /* test.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码 */
+        String name = "advisor";
+        response.setHeader("Content-Disposition", "attachment;filename=" + name + ".xls");
+        ServletOutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            writer.flush(out, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            /* 关闭writer，释放内存 */
+            writer.close();
+        }
+        IoUtil.close(out);
     }
 
 

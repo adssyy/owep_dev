@@ -118,7 +118,9 @@
   <!--根据主键id来查询一条记录-->
   <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
-    <include refid="clazz_res_plan" />
+    *
+    from t_class
+    where  is_delete=1
   </select>
 
  <!-- &lt;!&ndash;多表操作 根据id来class 和resource&ndash;&gt;
