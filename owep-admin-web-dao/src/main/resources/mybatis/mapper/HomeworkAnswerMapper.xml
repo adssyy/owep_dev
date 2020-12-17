@@ -82,4 +82,10 @@
     delete from t_homework_answer where id = #{id}
   </delete>
 
+    <select id="countByStudentId" resultType="double">
+        select count(*)
+        from t_homework_answer
+        where fk_student_id = #{studentId}
+    </select>
+
 </mapper>

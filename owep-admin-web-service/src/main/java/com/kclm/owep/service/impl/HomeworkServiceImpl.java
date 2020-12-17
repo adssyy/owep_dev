@@ -85,6 +85,15 @@ public class HomeworkServiceImpl implements HomeworkService {
         return homeworkDTO;
     }
 
+    /**
+     * 进行修改操作之前获取所修改对象的所有信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Homework toUpdate(Serializable id){
+        return homeworkMapper.selectById(id);
+    }
     /***
      * 查询所有的班级作业
      * @return
@@ -110,6 +119,24 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkDTO> selectByCourseName(String courseName) {
         List<Homework> homework = homeworkMapper.selectByCourseName(courseName);
+        mapperFactory.classMap(Homework.class,HomeworkDTO.class)
+                .field("course.courseName","courseName")
+                .field("clazz.className","className")
+                .byDefault()
+                .register();
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        List<HomeworkDTO> homeworkDTOS = mapperFacade.mapAsList(homework, HomeworkDTO.class);
+        return homeworkDTOS;
+    }
+
+    /**
+     * 根据课程id来查找班级作业
+     * @param id
+     * @return
+     */
+    @Override
+    public  List<HomeworkDTO> selectByCourseId(Serializable id){
+        List<Homework> homework = homeworkMapper.selectByCourseId(id);
         mapperFactory.classMap(Homework.class,HomeworkDTO.class)
                 .field("course.courseName","courseName")
                 .field("clazz.className","className")

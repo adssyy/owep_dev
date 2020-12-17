@@ -24,7 +24,7 @@
     <!--switchery-->
     <link href="../../static/css/plugins/switchery/switchery.css"
           th:href="@{/static/css/plugins/switchery/switchery.css}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../../static/css/plugins/simditor/simditor.css" th:href="@{/static/css//plugins/simditor/simditor.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/plugins/simditor/simditor.css" th:href="@{/static/css/plugins/simditor/simditor.css}"/>
     <style type="text/css">
         .table>thead>tr>th{
             color: #2a62bc;
@@ -38,9 +38,9 @@
 <div class="wrapper wrapper-content animated fadeInRight">
 
     <form class="form-inline" style="margin:20px 5px">
-        <div class="form-group">
-            <input type="text" class="form-control" id="name" placeholder="专业名称">
-        </div>
+        <input type="hidden" class="form-control" id="profession_id">
+        <input type="hidden" class="form-control" id="class_id">
+        <input type="hidden" class="form-control" id="course_id">
         <div class="form-group">
             <div class="input-group">
                 <input type="text" class="form-control org" placeholder="所属机构">
@@ -68,7 +68,7 @@
         </div>
         <div class="form-group">
             <div class="input-group">
-                <input type="text" class="form-control branch" placeholder="专业方向">
+                <input type="text" class="form-control profession" placeholder="专业方向">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -81,7 +81,7 @@
         </div>
         <div class="form-group">
             <div class="input-group">
-                <input type="text" class="form-control branch" placeholder="班级">
+                <input type="text" class="form-control clazz" placeholder="班级">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -94,7 +94,7 @@
         </div>
         <div class="form-group">
             <div class="input-group">
-                <input type="text" class="form-control branch" placeholder="相关课程">
+                <input type="text" class="form-control course" placeholder="相关课程">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -113,6 +113,7 @@
 </div>
 <!--详情模态框-->
 <div class="modal fade" id="details" tabindex="-1">
+    <input type="hidden" id="question_id">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -121,7 +122,7 @@
             </div>
 
             <div class="modal-body" style="min-height: 350px">
-                <div class="ibox">
+                <div class="ibox" id="question_box">
                     <div class="ibox-content">
                         <div class="team-members">
                             <a href="#"><img alt="member" class="img-circle" src="../../static/img/a1.jpg"></a>
@@ -135,7 +136,7 @@
                     </div>
                 </div>
                 <h2 class="lead">全部回答</h2>
-                <div class="ibox">
+                <div class="ibox" id="reply_box">
                     <div class="ibox-content">
                         <div class="team-members">
                             <a href="#"><img alt="member" class="img-circle" src="../../static/img/a2.jpg"></a>
@@ -205,20 +206,22 @@
     $(function () {
         //初始化表格
         var init = new initdata();
-        init.Init();
+        init.Init('/owep/clazz/allQuestion');
         //点击按钮开始搜索
         $("#queryBtn").click(function () {
             alert("开始搜索");
-            let name = $("#name").val();
-            let org = $("#org").val();
-            let branch = $("#branch").val();
+            let org = $(".org").val();
+            let branch = $(".branch").val();
+            let professionId = $("#profession_id").val();
+            let classId = $("#class_id").val();
+            let courseId = $("#course_id").val();
             //判断条件是否存在
-            if (name == "" && org == "" && branch == "") {
+            if (org == "" && branch == "" && professionId =="" && classId =="" && courseId =="") {
                 alert("请选择查询条件");
                 return;
             }
             //执行查询
-            init.Init();
+            init.Init('/owep/clazz/selectQuestionByKeyword?orgName=' + org + '&branchName=' + branch + '&professionId=' + professionId + '&classId=' + classId + '&courseId=' + courseId);
         });
         //删除所有
         $('#deleteAll').click(function () {
@@ -234,15 +237,47 @@
                 $(rows).each(function () {// 通过获得别选中的来进行遍历
                     ids.push(this.id);// cid为获得到的整条数据中的一列
                 });
+                var idList=JSON.stringify(ids);
                 //TODO 发送ajax请求
+                $.ajax({
+                    url:"/owep/clazz/deleteSelectQuestion",
+                    method:"POST",
+                    async:true,
+                    data:idList,
+                    dataType:"text",
+                    contentType:"application/json",
+                    processData:false,
+                    success:function (data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error:function(jqXHR){
+                        alert("删除失败");
+                    }
+                });
             }
         });
         //动态搜索选择下拉框
         testdataBsSuggest1;
-        testdataBsSuggest2;
         //添加事件
         $('#add_sure').click(function () {
-            alert("添加成功");
+            var reply = $("#editor").val();
+            $.ajax({
+                url:"/owep/clazz/saveQuestionReply?questionId="+$("#question_id").val()+"&reply="+reply,
+                method:"POST",
+                async:true,
+                data:reply,
+                dataType:"text",
+                contentType:"application/json",
+                processData:false,
+                success:function (data) {
+                    alert(data);
+                },
+                error:function(jqXHR){
+                    alert("失败");
+                }
+            })
+            window.location.reload();
         });
 
         var editor = new Simditor({
@@ -255,26 +290,57 @@
     });
 
     var testdataBsSuggest1 = $(".org").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        url: '../../static/js/clazz/suggest.json'
+        url:"/owep/clazz/getAllInstitute",
+        idField:"instituteId",
+        keyField:"instituteName",
+        effectiveFields: ["instituteName"],
+    }).on('onSetSelectValue',function (e,keyword) {
+        $(".branch").bsSuggest("destroy");
+        $(".branch").bsSuggest({
+            url: "/owep/clazz/getBranchByInstitute?id=" + keyword.id,
+            idField: "branchId",
+            keyField: "branchName",
+            effectiveFields: ["branchName"],
+        }).on('onSetSelectValue',function () {
+            $(".profession").bsSuggest("destroy");
+            $(".profession").bsSuggest({
+                url: "/owep/clazz/getProfession?instituteName=" + $(".org").val() + "&instituteBranchName=" + $(".branch").val(),
+                idField: "id",
+                keyField: "profName",
+                effectiveFields: ["profName"],
+            }).on('onSetSelectValue',function (e,keyword) {
+                $("#profession_id").val(keyword.id);
+                $(".clazz").bsSuggest("destroy");
+                $(".clazz").bsSuggest({
+                    url: "/owep/clazz/findClassByProfession?professionId=" + keyword.id,
+                    idField: "id",
+                    keyField: "className",
+                    effectiveFields: ["className"],
+                }).on('onSetSelectValue',function (e,keyword) {
+                    $("#class_id").val(keyword.id);
+                    $(".course").bsSuggest("destroy");
+                    $(".course").bsSuggest({
+                        url: "/owep/clazz/findCourseByClass?classId=" + keyword.id,
+                        idField: "id",
+                        keyField: "courseName",
+                        effectiveFields: ["courseName"],
+                    }).on('onSetSelectValue',function (e,keyword) {
+                        $("#course_id").val(keyword.id);
+                    })
+                })
+            })
+        })
     });
 
-    var testdataBsSuggest2 = $(".branch").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        url: '../../static/js/clazz/suggest.json'
-        //TODO 通过json显示数据
-    });
+
 
     var initdata = function () {
         var init = new Object();
-        init.Init = function () {
+        init.Init = function (url) {
             //加载之前先格式化 放在查询的时候起冲突
             $("#tb_major").bootstrapTable('destroy')
             $("#tb_major").bootstrapTable({
-                url: '/owep/clazz/allQuestion',
+                url: url,
                 method: 'get',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
@@ -337,10 +403,74 @@
                                 confirmButtonText: "删除",
                                 closeOnConfirm: false
                             }, function () {
-                                //TODO 发送ajax请求
-                                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                $.ajax({
+                                    //发送AJAX请求
+                                    url: "/owep/clazz/deleteQuestion?id=" + row.id,
+                                    method: "GET",
+                                    async: true,
+                                    dataType: "text",
+                                    success: function (data) {
+                                        if (data == "删除成功") {
+                                            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                        } else {
+                                            alert("删除失败");
+                                        }
+                                        window.location.reload();
+                                    },
+                                    error: function (jqXHR) {
+                                        alert("删除失败");
+                                    }
+
+                                });
                             });
                         },
+                        'click button[title=详情]':function (e, value, row, index) {
+                            $("#question_id").val(row.id);
+                            $.ajax({
+                                //发送AJAX请求
+                                url: "/owep/clazz/selectQuestionReplyByQuestionId?questionId=" + row.id,
+                                method: "GET",
+                                async: true,
+                                dataType: "json",
+                                success: function (data) {
+                                    var dataObj = data;
+                                    var question = "";
+                                    var reply = "";
+                                    for (var key in dataObj){
+                                        question = "<div class=\"ibox-content\">\n" +
+                                            "                        <div class=\"team-members\">\n" +
+                                            "                            <a href=\"#\"><img alt=\"member\" class=\"img-circle\" src=\"http://192.168.124.88:8886/"+JSON.parse(key).student.imageUrl+"\"></a>\n" +
+                                            "                            <span class=\"lead\">"+JSON.parse(key).stuName+"</span>\n" +
+                                            "                            <span class=\"label pull-right\">"+JSON.parse(key).createTime+"</span>\n" +
+                                            "                        </div>\n" +
+                                            "\n" +
+                                            "                        <p>\n" +
+                                            JSON.parse(key).questionContent +
+                                            "                        </p>\n" +
+                                            "                    </div>";
+                                        $.each(dataObj[key],function (index,item) {
+                                            reply += "<div class=\"ibox-content\">\n" +
+                                                "                        <div class=\"team-members\">\n" +
+                                                "                            <a href=\"#\"><img alt=\"member\" class=\"img-circle\" src=\"\"></a>\n" +
+                                                "                            <span class=\"lead\">"+item.replyAuthor+"</span>\n" +
+                                                "                            <span class=\"label pull-right\">"+item.createTime+"</span>\n" +
+                                                "                        </div>\n" +
+                                                "                        <p>\n" +
+                                                item.replyContent +
+                                                "                        </p>\n" +
+                                                "                    </div>";
+                                        });
+                                    }
+
+                                    $("#question_box").html(question);
+                                    $("#reply_box").html(reply);
+                                },
+                                error: function (jqXHR) {
+                                    alert("删除失败");
+                                }
+
+                            });
+                        }
                     }
                 }]
 
@@ -370,7 +500,6 @@
         };
         return init;
     }
-
 </script>
 </body>
 </html>

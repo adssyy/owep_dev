@@ -53,6 +53,8 @@ public interface HomeworkService {
      */
     HomeworkDTO selectById(Serializable id);
 
+    Homework toUpdate(Serializable id);
+
     /***
      * 查询所有的记录
      * @return
@@ -65,4 +67,6 @@ public interface HomeworkService {
      * @return
      */
     List<HomeworkDTO> selectByCourseName(String courseName);
+
+    List<HomeworkDTO> selectByCourseId(Serializable id);
 }

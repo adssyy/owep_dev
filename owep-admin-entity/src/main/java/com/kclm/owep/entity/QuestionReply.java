@@ -3,6 +3,9 @@
  */
 package com.kclm.owep.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,10 +22,14 @@ public class QuestionReply implements Serializable {
 
     private String replyContent;    //回复内容
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime=LocalDateTime.now();        //回复时间
 
     private String replyAuthor;   //回复人名字
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastAccessTime;    //最后一次修改时间
 
     private Integer version;        //版本号

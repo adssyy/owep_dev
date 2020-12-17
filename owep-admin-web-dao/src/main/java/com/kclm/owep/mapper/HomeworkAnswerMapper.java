@@ -24,4 +24,10 @@ public interface HomeworkAnswerMapper extends BaseMapper<HomeworkAnswer> {
      */
     List<HomeworkAnswer> selectByClassId(Serializable classId);
 
+    /***
+     * 根据学生id统计回答数量
+     * @param studentId
+     * @return
+     */
+    double countByStudentId(Serializable studentId);
 }

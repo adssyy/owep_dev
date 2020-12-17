@@ -4,14 +4,37 @@
 
 package com.kclm.owep.web.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.*;
 import com.kclm.owep.service.*;
 import ma.glasnost.orika.MapperFacade;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.DateFormatter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -190,6 +213,77 @@ public class ClazzListController {
         }
     }
 
+    @RequestMapping(value = "addStudentToClass",method = RequestMethod.POST,produces = "text/plain;charset=utf-8")
+    @ResponseBody
+    public String addStudentToClass(@RequestParam("stu_file") MultipartFile mFile,@RequestParam("cid") Integer classId){
+
+        // 获取上传文件的输入流
+        try {
+            String fileName = mFile.getOriginalFilename();
+            InputStream inputStream = mFile.getInputStream();
+            if (!fileName.matches("^.+\\.(?i)(xlsx)$")){
+                return "文件格式有误";
+            }
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            // 得到标题行
+            Row titleRow = sheet.getRow(0);
+
+            int lastRowNum = sheet.getLastRowNum();
+            int lastCellNum = titleRow.getLastCellNum();
+
+            List<Map<String, Object>> list = new ArrayList<>();
+
+            for(int i = 1; i <= lastRowNum; i++ ){
+                Map<String, Object> map = new HashMap<>();
+                XSSFRow row = sheet.getRow(i);
+                Student student = new Student();
+                for(int j = 0; j < lastCellNum; j++){
+                    // 得到列名
+                    String key = titleRow.getCell(j).getStringCellValue();
+                    System.out.println(key);
+                    XSSFCell cell = row.getCell(j);
+                    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    if (cell != null){
+                        if (key.equals("effectiveDate") || key.equals("birth")){
+                            Instant instant = cell.getDateCellValue().toInstant();
+                            ZoneId zoneId = ZoneId.systemDefault();
+                            LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);
+                            map.put(key,LocalDateTime.parse(df.format(localDateTime),df));
+                        }else {
+                            cell.setCellType(CellType.STRING);
+                            map.put(key, cell.getStringCellValue());
+                        }
+                    }
+                }
+                list.add(map);
+            }
+            workbook.close();
+           /* ObjectMapper objMapper = new ObjectMapper();
+            String infos = objMapper.writeValueAsString(list);
+            List<Student> students = objMapper.readValue(infos, new TypeReference<List<Student>>() {});*/
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.addAll(list);
+            List<Student> students = jsonArray.toJavaList(Student.class);
+            for (Student student : students){
+                Clazz clazz = new Clazz();
+                clazz.setId(classId);
+                student.setClazz(clazz);
+                System.out.println(student.toString());
+            }
+            if (this.studentService.insertAllStudentToClass(students) > 0){
+                return "插入成功";
+            }else {
+                return "插入失败";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "插入失败";
+    }
+
     @RequestMapping(value = "findResourceByClassId",method = RequestMethod.GET,produces = "application/json")
     @ResponseBody
     public List<ResourceDTO> findResourceByClassId(Integer classId){
@@ -289,4 +383,6 @@ public class ClazzListController {
         List<ResourceDTO> resourceDTOS = this.resourceService.selectResourceByKeyword(resourceName,fileType,beginTime,endTime);
         return resourceDTOS;
     }
+
+
 }

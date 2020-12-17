@@ -67,4 +67,5 @@ public interface QuestionService {
      */
     List<QuestionDTO> selectByCourseName(String courseName);
 
+    List<QuestionDTO> selectByKeyword(String orgName, String branchName, Serializable professionId, Serializable classId, Serializable courseId);
 }

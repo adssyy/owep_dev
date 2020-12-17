@@ -82,6 +82,13 @@ public interface HomeworkMapper extends BaseMapper<Homework> {
     List<Homework> selectByClassId(@Param("id")Serializable id);
 
     /***
+     * 根据班级id统计该班级作业数量
+     * @param id
+     * @return
+     */
+    double countByClassId(@Param("id")Serializable id);
+
+    /***
      * 根据课程id来查询班级作业
      * @param id
      * @return

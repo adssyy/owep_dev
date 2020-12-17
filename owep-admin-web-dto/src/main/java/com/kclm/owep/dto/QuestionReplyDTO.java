@@ -4,7 +4,10 @@
 
 package com.kclm.owep.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kclm.owep.entity.Question;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -29,6 +32,8 @@ public class QuestionReplyDTO {
     /**
      * 回复时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
     /***
      * 班级问题
