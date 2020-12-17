@@ -51,4 +51,6 @@ public interface QuestionReplyService {
      * @return
      */
     List<QuestionReplyDTO> selectAll();
+
+    List<QuestionReplyDTO> selectByQuestionId(Serializable id);
 }

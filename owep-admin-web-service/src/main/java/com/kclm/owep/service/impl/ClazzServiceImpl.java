@@ -81,6 +81,7 @@ public class ClazzServiceImpl implements ClazzService {
         int classId=entity.getId();
         //修改班级-方案中间表
         clazzMapper.deleteClazzPlanmanage(classId);
+        System.out.println(entity.getPlanManagerList() != null);
         if (entity.getPlanManagerList() != null){
             for (int i=0;i<entity.getPlanManagerList().size();i++){
 
@@ -222,11 +223,5 @@ public class ClazzServiceImpl implements ClazzService {
         return clazzDTOS;
     }
 
-    /*@Override
-    public List<ResourceDTO> selectResourceByClassAndKeyword(Serializable cid, String resourceName, Serializable tid){
-        List<Resource> resources = resourceMapper.selectByClassAndKeyword(cid, resourceName, tid);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<ResourceDTO> resourceDTOS = mapperFacade.mapAsList(resources, ResourceDTO.class);
-        return resourceDTOS;
-    }*/
+
 }

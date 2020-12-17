@@ -4,8 +4,22 @@
 
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.StudyRecordStatisticsDTO;
+import com.kclm.owep.dto.StudyRecordDTO;
+import com.kclm.owep.entity.Clazz;
+import com.kclm.owep.entity.StudyRecord;
+import com.kclm.owep.mapper.ClazzMapper;
+import com.kclm.owep.service.StudyRecordService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*****************
  *
@@ -19,5 +33,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("clazz")
 public class ClazzStudyProcessController {
 
+    @Autowired
+    private StudyRecordService studyRecordService;
+
+    private ClazzMapper clazzMapper;
+
+    @RequestMapping(value = "allStudyRecord",method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<StudyRecordStatisticsDTO> selectAll(){
+
+        return this.studyRecordService.selectAll();
+    }
+
+    @RequestMapping(value = "selectStudyRecordByKeyword",method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<StudyRecordStatisticsDTO> selectByKeyword(String orgName,String branchName, Integer pid, Integer cid){
+        System.out.println(orgName);
+        return this.studyRecordService.selectByKeyword(orgName,branchName,pid,cid);
+    }
 
 }

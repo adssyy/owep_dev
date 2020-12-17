@@ -88,12 +88,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public QuestionDTO selectById(Serializable id) {
         Question question = questionMapper.selectById(id);
-        mapperFactory.classMap(Question.class,QuestionDTO.class)
-                .field("course.courseName","courseName")
-                .byDefault()
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        return mapperFacade.map(question,QuestionDTO.class);
+        return QuestionConvert.INSTANCE.entityToDTO(question);
     }
 
     /**
@@ -138,5 +133,27 @@ public class QuestionServiceImpl implements QuestionService {
                 .register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         return mapperFacade.mapAsList(questions,QuestionDTO.class);
+    }
+
+    /**
+     * 根据关键词来搜索问题
+     * @Author TianYanwei
+     * @param orgName
+     * @param branchName
+     * @param professionId
+     * @param classId
+     * @param courseId
+     * @return
+     */
+    @Override
+    public List<QuestionDTO> selectByKeyword(String orgName,String branchName,Serializable professionId,Serializable classId,Serializable courseId){
+        List<Question> questions = this.questionMapper.selectByKeyword(orgName, branchName, professionId, classId, courseId);
+        List<QuestionDTO> questionDTOS = new ArrayList<>();
+
+        for (Question question:questions){
+            System.out.println(question.toString());
+            questionDTOS.add(QuestionConvert.INSTANCE.entityToDTO(question));
+        }
+        return questionDTOS;
     }
 }

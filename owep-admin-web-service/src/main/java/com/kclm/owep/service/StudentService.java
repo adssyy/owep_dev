@@ -63,4 +63,12 @@ public interface StudentService {
      * @return
      */
     int deleteSelect(List<Serializable> idList);
+
+    /**
+     * 批量导入学生到班级
+     * @Author TianYanwei
+     * @param list
+     * @return
+     */
+    int insertAllStudentToClass(List<Student> list);
 }

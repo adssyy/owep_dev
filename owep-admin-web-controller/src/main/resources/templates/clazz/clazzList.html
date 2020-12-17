@@ -698,7 +698,7 @@
                     processData:false,
                     success:function (data) {
                         alert(data);
-                        $("#stu").bootstrapTable('refresh');
+                        $(".stu").bootstrapTable('refresh');
                     },
                     error:function(jqXHR){
                         alert("删除失败");
@@ -731,8 +731,22 @@
                 return;
             }
             //TODO 发送A级ax请求
-
-            alert("文件上传成功")
+            $.ajax({
+                url:"/owep/clazz/addStudentToClass?cid=" + $("input[name='classId']").val(),
+                method:"POST",
+                async:true,
+                data:formData,
+                dataType:"text",
+                contentType:false,
+                processData:false,
+                success:function (data) {
+                    alert(data);
+                    $(".stu").bootstrapTable('refresh');
+                },
+                error:function(jqXHR){
+                    alert("导入失败");
+                }
+            });
         });
 
         /***********资源管理************/
@@ -868,7 +882,7 @@
                 effectiveFields: ["profName"],
             }).on('onSetSelectValue',function (e,keyword) {
                 $("#profession-search-id").val(keyword.id);
-            })
+                })
         })
         });
 
@@ -1013,7 +1027,7 @@
                                     async:true,
                                     dataType:"json",  //拿到json
                                     success:function (clazzJson) {
-                                        alert(clazzJson.planManagerList[0].id);
+
                                         //把返回的json对象添加到弹出层的更新表单域中
                                         $("form[name='updateClazzForm'] input[name='id']").val(clazzJson.id);
                                         $("form[name='updateClazzForm'] input[name='classNumber']").val(clazzJson.classNumber);
@@ -1143,8 +1157,7 @@
             function actionFormatter(value, row, index) {
                 var id = value;
                 var result = "";
-                // console.log(row.id);
-                // console.log(row.name+"--"+index +"--"+value);
+
                 result += "<button class='btn btn-primary btn-sm' title='修改' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#update\"><span class='glyphicon glyphicon-wrench'></span></button>";
                 result += "<button class='btn btn-danger btn-sm delete'  title='删除' style='margin-right: 10px'><span class='glyphicon glyphicon-trash'></span></button>";
                 result += "<button class='btn btn-primary btn-sm' title='学生管理' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#stu\"><span class='fa fa-user'></span></button>";
@@ -1222,6 +1235,13 @@
                 }, {
                     field: 'status',
                     title: '有效状态',
+                    formatter:function (value, row) {
+                        if (row.status == 1){
+                            return "启用";
+                        } else {
+                            return "禁用";
+                        }
+                    }
                 }]
             });
 
@@ -1270,10 +1290,6 @@
                     title: '资源大小',
                 }, {
                     field: 'resourcePath',
-                    title: '资源路径',
-                    visible: false //隐藏 让该字段不可见 为了后面更新和删除做准备
-                }, {
-                    field: 'status',
                     title: '操作',
                     formatter: action,
                     align: "center",
@@ -1365,11 +1381,7 @@
                     },
                     {
                         'id': "",
-                        'word': 'sgbsb',
-                    },
-                    {
-                        'id': "",
-                        'word': 'fgv',
+                        'word': 'pdf',
                     },
                     {
                         'id': "",
@@ -1432,9 +1444,10 @@
                                 dataType: "text",
                                 success: function (data) {
                                     alert(data);
+                                    $("#resource_table").bootstrapTable('refresh');
                                 },
                                 error: function (jqXHR) {
-                                    alert("该资源已被分配到该班级");
+                                    alert("分配失败");
                                 }
 
                             });

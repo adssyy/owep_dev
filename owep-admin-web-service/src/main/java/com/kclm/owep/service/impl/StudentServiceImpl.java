@@ -1,6 +1,7 @@
 package com.kclm.owep.service.impl;
 
 import com.kclm.owep.dto.StuDTO;
+import com.kclm.owep.entity.Clazz;
 import com.kclm.owep.entity.Student;
 import com.kclm.owep.mapper.StudentMapper;
 import com.kclm.owep.service.StudentService;
@@ -181,4 +182,16 @@ public class StudentServiceImpl implements StudentService {
         return this.studentMapper.deleteSelect(idList);
     }
 
+    @Override
+    public int insertAllStudentToClass(List<Student> list){
+
+        int number = 0;
+        for (Student student : list){
+            student.setCreateTime(LocalDateTime.now());
+            if (this.studentMapper.save(student) > 0){
+                number = number + 1;
+            }
+        }
+        return number;
+    }
 }

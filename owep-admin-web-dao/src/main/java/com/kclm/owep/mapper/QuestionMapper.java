@@ -80,4 +80,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @return
      */
     List<Question> selectByCourseId(@Param("id") Serializable id);
+
+    List<Question> selectByKeyword(@Param("orgName") String orgName,@Param("branchName") String branchName,
+                                   @Param("professionId") Serializable professionId,@Param("classId") Serializable classId,@Param("courseId") Serializable courseId);
 }

@@ -86,11 +86,11 @@
 </select>
 
   <select id="selectAllSchool" resultMap="BaseResultMap">
-    select  stu_school from t_student  where is_delete=1
+    select  * from t_student  where is_delete=1
   </select>
 
   <select id="selectAllCollege" resultMap="BaseResultMap">
-    select  stu_college from t_student  where is_delete=1
+    select  * from t_student  where is_delete=1
   </select>
 
   <!--根据id删除记录,改变is_delete的状态-->

@@ -108,7 +108,7 @@
      select * from t_resource where id=#{id}
     </select>
     <!--查询多个对象-->
-    <select id="selectAll" resultType="com.kclm.owep.entity.Resource">
+    <select id="selectAll" resultMap="BaseResultMap">
      select
      <include refid="Base_Column_List"/>
      from t_resource
@@ -160,8 +160,7 @@
     </delete>
 
     <insert id="addToClass">
-        if not exists (select * from t_class_resource where fk_class_id=#{cid} and fk_resource_id=#{rid}) then
-        insert into t_class_resource(fk_class_id, fk_resource_id)
+        replace into t_class_resource(fk_class_id, fk_resource_id)
         values (#{cid},#{rid})
     </insert>
 
