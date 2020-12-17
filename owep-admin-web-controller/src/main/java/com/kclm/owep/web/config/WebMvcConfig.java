@@ -1,15 +1,19 @@
 package com.kclm.owep.web.config;
 
+import com.kclm.owep.utils.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.time.LocalDateTime;
 
 /******************
  * @Author yejf
@@ -39,6 +43,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //返回
         return lvfb;
     }*/
+
+
+    @Bean
+    public Converter<String, LocalDateTime> localDateTimeConverter() {
+        return new Converter<String, LocalDateTime>() {
+            @Override
+            public LocalDateTime convert(String source) {
+                System.out.println("localDateTimeConverter============="+source);
+                return DateUtil.stringToLocalDateTime(source);
+            }
+        };
+    }
+
 
     /*****
      * 用来指定验证时要读取的资源文件

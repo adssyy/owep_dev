@@ -90,5 +90,15 @@ public interface StudentMapper extends BaseMapper<Student> {
     @Override
     List<Student> selectAll();
 
+    List<Student> selectAllSchool();
 
+    List<Student> selectAllCollege();
+
+    List<Student> findByKeyword(String keyword);
+
+    List<Student> selectNoClass();
+
+    List<Integer> getClassId(Serializable id);
+
+    int changeClassId(Serializable id,Serializable classIds);
 }

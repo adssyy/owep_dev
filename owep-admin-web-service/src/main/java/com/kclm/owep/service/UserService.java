@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -25,6 +26,8 @@ public interface UserService {
 
     int delete(@Param("id") Integer id);
 
+    int deleteSelect(@Param("id") List<Serializable> id);
+
     UserDto selectById(@Param("id") Integer id);
 
     UserDto selectByName(@Param("name") String name);
@@ -33,8 +36,15 @@ public interface UserService {
 
     List<Integer> getGroupIds(@Param("id") Serializable id);
 
+    List<Integer> getClassIds(@Param("id") Serializable id);
+
     int setGroups(@Param("userId") Integer userId, @Param("groupIds") List<Integer> groupIds);
 
+    int setClass(@Param("userId") Integer userId,@Param("classIds") List<Integer> classIds);
+
+    List<User> selectByKeyword(String username,String realname);
+
+    List<User> selectByKeywordAtAdvisor(String username,String realname);
 
     List<Permission> getPermissionListByUserId(Integer id);
 
@@ -45,5 +55,8 @@ public interface UserService {
     int activate (@Param("id") Integer id);
 
     int deactivate (@Param("id") Integer id);
+
+    byte[] importShopCostPriceScope(byte[] uploadFile) throws Exception;
+
 
 }

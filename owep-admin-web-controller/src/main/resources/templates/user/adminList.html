@@ -62,7 +62,7 @@
                     <button class="btn btn-info" type="button" data-toggle='modal' data-target='#modal_add'>添加</button>
                     <button class="btn btn-primary export" type="button">导出</button>
                 </form>
-                <table id="tb_departments"  ></table>
+                <table id="tb_departments"></table>
             </div>
 
         </div>
@@ -374,7 +374,6 @@
                 success:function(feedback){
                     alert(feedback);
                     window.location.reload();
-
                 },
                 error: function (jqXRH) {
                     console.log(jqXRH);
@@ -453,7 +452,6 @@
                     groupIds.push(item.tags);
                 }
             });
-            // s = JSON.stringify(s);
             if (groupIds.length < 1) {
                 alert("至少选择一个");
             } else {
@@ -461,7 +459,6 @@
                 console.log(result);
                 if (confirm("确定添加这些数据么")) {
                     alert("添加数据:" + result);
-                    // window.location.reload();
                     //ajax发送异步请求
                     $.ajax({
                         url:  "/owep/user/adminList/treeCheck_edit",
@@ -485,17 +482,10 @@
             console.log("分配，提交。");
             $('#form_allocation').submit();
         });
-
-
-
-
         $('.query').click(function () {
             let dataList = new Array('userName','realName');
             queryRecords('form[id="admin_query"]',dataList);
         });
-
-
-
         /*导出按钮操作*/
         $('.export').click(function () {
             exportRecord("", "管理员信息");

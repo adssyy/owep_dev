@@ -15,22 +15,39 @@ import org.springframework.stereotype.Service;
 import javax.naming.ldap.HasControls;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     @Autowired
     private UserMapper mapper;
+
+    @Override
+    public List<User> selectByKeywordAtAdvisor(String userName, String realName) {
+        List<User> users = mapper.selectByKeywordAtAdvisor(userName,realName);
+        return users;
+    }
+
+    @Override
+    public List<User> selectByKeyword(String userName,String realName) {
+        List<User> users = mapper.selectByKeyword(userName,realName);
+        return users;
+    }
 
     @Override
     public int setGroups(Integer userId, List<Integer> groupIds) {
         mapper.deleteUserGroupAllocation(userId);
         for (Integer groupId : groupIds){
             mapper.attachGroupToUser(userId,groupId);
+        }
+        return 0;
+    }
+
+    @Override
+    public int setClass(Integer userId, List<Integer> classIds) {
+        mapper.deleteUserClassAllocation(userId);
+        for (Integer classId :classIds){
+            mapper.attachClassToUser(userId,classId);
         }
         return 0;
     }
@@ -75,6 +92,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int deleteSelect(List<Serializable> id) {
+      try{
+          mapper.deleteSelect(id);
+          return 1;
+      }catch (Exception e){
+          e.printStackTrace();
+      }
+        return 0;
+    }
+
+    @Override
     public UserDto selectById(Integer id) {
         try {
             User user = mapper.selectById(id);
@@ -110,11 +138,24 @@ public class UserServiceImpl implements UserService {
 //    }
 
 
+    @Override
+    public byte[] importShopCostPriceScope(byte[] uploadFile) throws Exception {
+        return new byte[0];
+    }
+
+
 
     @Override
     public List<Integer> getGroupIds(Serializable id) {
         List<Integer> groupIds = mapper.getGroupId(id);
         return groupIds;
+    }
+
+
+    @Override
+    public List<Integer> getClassIds(Serializable id) {
+       List<Integer> classIds=mapper.getClassId(id);
+        return classIds;
     }
 
     @Autowired
@@ -241,4 +282,6 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+
 }

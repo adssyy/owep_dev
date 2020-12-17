@@ -91,7 +91,7 @@ function deleteAllRecords(url, event) {
          //发送ajax 删除
         $.ajax({
             url: url,
-            method: "post",
+            method: "get",
             async: true,
             data: JSON.stringify(userIds),
             dataType: "text",   //期望服务端返回的数据类型
@@ -133,6 +133,20 @@ function exportRecord(url, title, format) {
         closeOnConfirm: false
     }, function () {
         //ajax请求
+        $.ajax({
+            method:"get",
+            url:"/owep/user/export",
+            responseType:'blob'
+        }).then(function (res) {
+            let data = res.data;
+            let blob = new Blob([data], {type: 'application/octet-stream'});
+            let url = URL.createObjectURL(blob);
+            let exportLink = document.createElement('a');
+            exportLink.setAttribute("download","ajax文件下载.xlsx");
+            exportLink.href = url;
+            document.body.appendChild(exportLink);
+            exportLink.click();
+        })
 
         swal("导出成功！", "您已经永久导出信息", "success");
     });
