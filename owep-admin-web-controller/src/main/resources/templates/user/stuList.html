@@ -152,7 +152,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-1">
-                                            <button class="btn btn-success query" type="button">查询</button>
+                                            <button class="btn btn-success query" type="button" id="queryBtn">查询</button>
                                         </div>
                                         <div class="col-md-4" style="padding: 0">
                                             <div style="float: right">
@@ -962,7 +962,7 @@
 
         /*导出按钮操作*/
         $('.export').click(function () {
-            exportRecord("", "学生信息")
+            location="/owep/user/export";
         });
     });
     /**
@@ -974,9 +974,9 @@
     /*姓名*/
     bsSuggest("#testNoBtn2", "/owep/user/stuList/findAllStudent", "stuName");
     /*学校*/
-    bsSuggest("#testNoBtn3", url, "school");
+    bsSuggest("#testNoBtn3", "/owep/user/stuList/findAllSchool", "stuSchool");
     /*学院*/
-    bsSuggest("#testNoBtn4", url, "college");
+    bsSuggest("#testNoBtn4", "/owep/user/stuList/findAllCollege", "stuCollege");
     /*客服归属*/
     bsSuggest("#testNoBtn5", url, "customerBelongs");
     /*所在班级*/
@@ -1238,7 +1238,32 @@
 
         return oTableInit;
     };
-    
+
+    $("#queryBtn").click(function () {
+        let className = $("#testNoBtn").val();
+        let stuName = $("#testNoBtn2").val();
+        let keyword = {
+            "className": className,
+            "stuName": stuName
+
+        }
+        //执行查询
+        $.ajax({
+            url: "/owep/user/advisorList/search",
+            data: keyword,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#tb_departments").bootstrapTable("load", data);
+            },
+            error: function (jqXHR) {
+                alert("查询失败");
+            }
+        })
+    });
+
+
+
     //--------------------------分配班级的按钮------------------------------------------------------
     let $treeview = $('#treeview_allocation');
     $('.allocation_1').click(function () {

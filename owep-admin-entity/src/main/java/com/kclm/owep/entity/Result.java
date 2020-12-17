@@ -55,4 +55,3 @@ public class Result {
         return Objects.hash(status, data);
     }
 }
-

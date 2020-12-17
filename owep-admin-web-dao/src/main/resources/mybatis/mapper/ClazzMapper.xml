@@ -20,7 +20,7 @@
     <result column="old_class_num" jdbcType="VARCHAR" property="oldClassNum" />
     <association property="profession" column="fk_profession_id" javaType="profession" select="com.kclm.owep.mapper.ProfessionMapper.selectById"/>
     <collection property="resourceList" ofType="resource">
-      <id column="id" jdbcType="INTEGER" property="id"/>
+      <id column="rid" jdbcType="INTEGER" property="id"/>
       <result column="resource_name" property="resourceName"/>
       <result column="resource_type" property="type"/>
       <result column="resource_suffix" property="resourceSuffix"/>
@@ -30,16 +30,17 @@
       <result column="resource_label" property="resourceLabel"/>
       <result column="resource_desc" property="resourceDesc"/>
       <result column="create_time" property="createTime"/>
-      <result column="is_delete" property="isDelete"/>
+      <result column="r_is_delete" property="isDelete"/>
       <result column="version" property="version"/>
       <result column="last_access_time" property="lastAccessTime"/>
+<!--      <association property="resourceType" column="fk_resource_type_id" javaType="resourceType" select="com.kclm.owep.mapper.ResourceTypeMapper.selectById"/>-->
     </collection>
     <collection property="planManagerList" ofType="planManager">
-      <id column="id" jdbcType="INTEGER" property="id"/>
+      <id column="pid" jdbcType="INTEGER" property="id"/>
       <result column="plan_number" property="planNumber"/>
       <result column="plan_name" property="planName"/>
       <result column="plan_status" property="planStatus"/>
-      <result column="is_delete" property="isDelete"/>
+      <result column="p_is_delete" property="isDelete"/>
       <result column="create_time" property="createTime"/>
       <result column="version" property="version"/>
       <result column="last_access_time" property="lastAccessTime"/>
@@ -56,76 +57,7 @@
     last_access_time, old_class_name, old_class_num
   </sql>
 
- <!-- <sql id="clazz_res">
-      c.id,
-      c.class_number,
-      c.class_name,
-      c.start_time,
-      c.end_time,
-      c.class_status,
-      c.institute_name,
-      c.branch_name,
-      c.class_desc,
-      c.teacher_name,
-      c.fk_profession_id,
-      c.is_delete cdelete,
-      c.version cv,
-      c.create_time ctime,
-      c.last_access_time cltime,
-      c.old_class_name,
-      c.old_class_num,
-      r.id,
-      r.resource_name,
-      r.resource_type,
-      r.resource_suffix,
-      r.resource_size,
-      r.resource_title,
-      r.resource_path,
-      r.resource_label,
-      r.resource_desc,
-      r.create_time rctime,
-      r.is_delete rdelete,
-      r.old_resourcename,
-      r.version rv,
-      r.last_access_time rltime
-    from t_class c left join t_class_resource cr on c.id=cr.fk_class_id
-                   left join t_resource r on r.id=cr.fk_resource_id
-    where
-      c.is_delete=1
-  </sql>
-  <sql id="clazz_plan">
-      c.id cid,
-      c.class_number,
-      c.class_name,
-      c.start_time,
-      c.end_time,
-      c.class_status,
-      c.institute_name,
-      c.branch_name,
-      c.class_desc,
-      c.teacher_name,
-      c.fk_profession_id,
-      c.is_delete cdelete,
-      c.version cv,
-      c.create_time ctime,
-      c.last_access_time cltime,
-      c.old_class_name,
-      c.old_class_num,
 
-      p.id pid,
-      p.plan_number,
-      p.plan_name,
-      p.plan_status,
-      p.plan_desc,
-      p.is_delete pdel,
-      p.create_time pctime,
-      p.version pver,
-      p.last_access_time platime
-    from t_class c left join t_class_planmanager cp on c.id=cp.fk_class_id
-                   left join t_planmanager p on p.id=cp.fk_plan_id
-    where
-      c.is_delete=1
-  </sql>-->
   <sql id="clazz_res_plan">
       c.id,
       c.class_number,
@@ -144,7 +76,7 @@
       c.last_access_time,
       c.old_class_name,
       c.old_class_num,
-      r.id,
+      r.id as rid,
       r.resource_name,
       r.resource_type,
       r.resource_suffix,
@@ -154,16 +86,17 @@
       r.resource_label,
       r.resource_desc,
       r.create_time,
-      r.is_delete,
+      r.is_delete as r_is_delete,
       r.old_resourcename,
       r.version,
       r.last_access_time,
-      p.id,
+      r.fk_resource_type_id,
+      p.id as pid,
       p.plan_number,
       p.plan_name,
       p.plan_status,
       p.plan_desc,
-      p.is_delete,
+      p.is_delete as p_is_delete,
       p.create_time,
       p.version,
       p.last_access_time
@@ -407,7 +340,7 @@
   </delete>
   <!--对t_class_planmanage中间表进行插入操作-->
   <insert id="saveClazzPlanmanage">
-    insert into t_class_planmanager values (#{cid},#{pid})
+    insert into t_class_planmanager values (#{pid},#{cid})
   </insert>
   <!--对t_class_planmanage中间表进行删除操作-->
   <delete id="deleteClazzPlanmanage">
@@ -427,5 +360,20 @@
   <select id="selectByPro" parameterType="integer" resultMap="BaseResultMap">
     select <include refid="clazz_res_plan"/>
     and c.fk_profession_id = #{pid,jdbcType=VARCHAR}
+  </select>
+  <!--根据关键词来查询-->
+  <select id="selectByKeyword" resultMap="BaseResultMap">
+    select <include refid="clazz_res_plan"/>
+     and c.class_number like "%"#{classNumber,jdbcType=VARCHAR}"%"
+     and c.class_name like "%"#{className,jdbcType=VARCHAR}"%"
+   <if test="instituteName != null and instituteName != ''">
+     and c.institute_name = #{instituteName,jdbcType=VARCHAR}
+   </if>
+   <if test="instituteBranchName != null and instituteBranchName != ''">
+     and c.branch_name = #{instituteBranchName,jdbcType=VARCHAR}
+   </if>
+   <if test="pid != null and pid != ''">
+     and c.fk_profession_id = #{pid}
+   </if>
   </select>
 </mapper>

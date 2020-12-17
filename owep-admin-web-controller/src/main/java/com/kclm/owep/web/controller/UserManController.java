@@ -453,7 +453,7 @@ public class UserManController {
     /***
      * @By Artherine
      * @For 同步账户激活状态
-     * @param stuId
+     * @param userId
      * @param status
      */
     @GetMapping("/stuList/switch")
@@ -589,7 +589,7 @@ public class UserManController {
 
     /***
      * @By Artherine
-     * @For 为前端提供教师组多选框表 并预设当前教师的班级组关系
+     * @For 为前端提供学生多选框表 并预设当前学生的班级组关系
      * @param stuId
      * @return NodeDTO(..., List < NodeDTO > nodes)
      */
@@ -647,46 +647,6 @@ public class UserManController {
     }
 
 
-
-    /***
-     *
-     * @param response
-     * @throws IOException
-     */
-    @RequestMapping("/stuList/export")
-    public void exportStudent(HttpServletResponse response) throws IOException {
-        List<Student> list = studentService.selectAll();
-        System.out.println(list);
-        /* 通过工具类创建writer，默认创建xls格式 */
-        ExcelWriter writer = ExcelUtil.getWriter();
-        /* 自定义标题别名 测试完记得转会工具类*/
-//        writer.addHeaderAlias("userName", "用户名");
-//        writer.addHeaderAlias("userPwd", "密码");
-//        writer.addHeaderAlias("userPhone", "手机");
-//        writer.addHeaderAlias("realName", "姓名");
-//        writer.addHeaderAlias("userEmail", "邮箱");
-//        writer.addHeaderAlias("gender", "性别");
-        /* 一次性写出内容，使用默认样式，强制输出标题 */
-        writer.write(list, true);
-        System.out.println(writer);
-        /* out为OutputStream，需要写出到的目标流 */
-        /* response为HttpServletResponse对象 */
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        /* test.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码 */
-        String name = "测试";
-        response.setHeader("Content-Disposition", "attachment;filename=" + name + ".xls");
-        ServletOutputStream out = null;
-        try {
-            out = response.getOutputStream();
-            writer.flush(out, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            /* 关闭writer，释放内存 */
-            writer.close();
-        }
-        IoUtil.close(out);
-    }
 
 
 

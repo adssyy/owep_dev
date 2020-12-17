@@ -7,21 +7,28 @@ import java.util.List;
 
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-/*********************
- * @Author: tanj
- * @Version : v1.0
- * @Create: 2020年7月09日 下午18:10:40
- * @Description 视频
+/**
+ * @author zhang_hy
+ * @date 2020-11-30 11:43
+ * @For 视频管理接口
  */
 @Mapper
 public interface VideoMapper extends BaseMapper<Video> {
     @Override
-    int deleteById(@Param("id") Serializable id);
+    int deleteById(Serializable id);
 
     @Override
-    int deleteSelect(@Param("idList") List<Serializable> idList);
+    int deleteSelect(List<Serializable> idList);
 
     @Override
-    Video selectById(@Param("id") Serializable id);
+    Video selectById(Serializable id);
+
+    @Override
+    int save(Video video);
+
+    @Override
+    int update(Video video);
+
+    @Override
+    List<Video> selectAll();
 }

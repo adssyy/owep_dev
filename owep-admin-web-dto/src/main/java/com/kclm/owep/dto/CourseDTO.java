@@ -57,6 +57,11 @@ public class CourseDTO implements Serializable {
      */
     private String courseImage;
 
+    private String categoryName;
+
+    private Integer hot;
+
+
     /**
      *课程描述
      */
@@ -132,6 +137,22 @@ public class CourseDTO implements Serializable {
 
     public void setCourseDesc(String courseDesc) {
         this.courseDesc = courseDesc;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public Integer getHot() {
+        return hot;
+    }
+
+    public void setHot(Integer hot) {
+        this.hot = hot;
     }
 
     @Override

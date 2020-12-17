@@ -98,17 +98,99 @@
     #{id}
  </foreach>
 </delete>
-<!--依主键查询单个对象-->
-<select id="selectById" resultType="com.kclm.owep.entity.Resource">
- select * from t_resource where id=#{id}
-</select>
-<!--查询多个对象-->
-<select id="selectAll" resultType="com.kclm.owep.entity.Resource">
- select
- <include refid="Base_Column_List"/>
- from t_resource
- where
- is_delete=1
-<!--修改-->
-</select>
+
+    <!--根据资源名查找-->
+    <select id="findByKeyword" resultType="com.kclm.owep.entity.Resource" parameterType="string">
+        select * from t_resource where resource_name like concat('%',#{keyword},'%') and is_delete = 1
+    </select>
+    <!--依主键查询单个对象-->
+    <select id="selectById" resultType="com.kclm.owep.entity.Resource">
+     select * from t_resource where id=#{id}
+    </select>
+    <!--查询多个对象-->
+    <select id="selectAll" resultType="com.kclm.owep.entity.Resource">
+     select
+     <include refid="Base_Column_List"/>
+     from t_resource
+     where
+     is_delete=1
+    <!--根据班级和关键词查询-->
+    </select>
+    <!-- 查询后缀名 -->
+    <select id="selectResourceSuffix" resultType="com.kclm.owep.entity.Resource">
+        select distinct resource_suffix from t_resource where is_delete = 1
+    </select>
+
+    <select id="selectByClassAndKeyword" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_resource
+        where
+        id in (select fk_resource_id from t_class_resource where fk_class_id=#{cid})
+        <if test="name != null and name != ''">
+            and resource_name like "%"#{name,jdbcType=VARCHAR}"%"
+        </if>
+         <if test="resourceType ==0 or resourceType == 1">
+             and resource_type=#{resourceType}
+         </if>
+          and is_delete = 1
+    </select>
+
+    <select id="selectByClassId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_resource
+        where
+        id in (select fk_resource_id from t_class_resource where fk_class_id=#{cid})
+        and is_delete = 1
+    </select>
+
+    <delete id="deleteFromClass">
+        delete from t_class_resource
+        where fk_class_id = #{cid} and fk_resource_id = #{rid}
+    </delete>
+
+    <!--从分配给班级的资源中取消选中的资源的分配-->
+    <delete id="deleteSelectFromClass">
+        delete from t_class_resource where fk_resource_id in
+        <foreach collection="idList" open="(" close=")" separator="," item="rid">
+            #{rid}
+        </foreach>
+         and fk_class_id = #{cid}
+    </delete>
+
+    <insert id="addToClass">
+        if not exists (select * from t_class_resource where fk_class_id=#{cid} and fk_resource_id=#{rid}) then
+        insert into t_class_resource(fk_class_id, fk_resource_id)
+        values (#{cid},#{rid})
+    </insert>
+
+    <insert id="addSelectToClass">
+        replace into t_class_resource(fk_class_id, fk_resource_id) values
+        <foreach collection="idList" separator="," item="rid">
+            (#{cid},#{rid})
+        </foreach>
+    </insert>
+
+    <select id="selectByKeyword" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_resource
+        where
+        is_delete=1
+        <if test="name != null and name != ''">
+            and resource_name like "%"#{name,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="fileType != null and fileType != ''">
+            and resource_suffix like "_"#{fileType,jdbcType=VARCHAR}
+        </if>
+         <if test="beginTime != null">
+             and create_time >= #{beginTime,jdbcType=TIMESTAMP}
+         </if>
+          <if test="endTime != null">
+              and #{endTime,jdbcType=TIMESTAMP} >= create_time
+          </if>
+    </select>
+
 </mapper>
+

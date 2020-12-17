@@ -97,7 +97,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     /**
-     * 根据专业名称来查询
+     * 根据专业名称来模糊查询
      * @param proName
      * @return
      */
@@ -109,6 +109,16 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     /**
+     * 根据完整专业名称精确查询
+     * @param proName
+     * @return
+     */
+    @Override
+    public Profession selectByName(String proName){
+        List<Profession> professions = professionMapper.selectByProName(proName);
+        return professions.get(0);
+    }
+    /**
      * 根据所属分支来查询
      * @param branName
      * @return
@@ -116,6 +126,18 @@ public class ProfessionServiceImpl implements ProfessionService {
     @Override
     public List<ProfessionDTO> selectByBranchName(String branName) {
         List<Profession> professions = professionMapper.selectByBranchName(branName);
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        return mapperFacade.mapAsList(professions,ProfessionDTO.class);
+    }
+
+    /**
+     * 根据所属机构来查询
+     * @param institutionName
+     * @return
+     */
+    @Override
+    public List<ProfessionDTO> selectByInstituteName(String institutionName) {
+        List<Profession> professions = professionMapper.selectByInstituteName(institutionName);
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         return mapperFacade.mapAsList(professions,ProfessionDTO.class);
     }

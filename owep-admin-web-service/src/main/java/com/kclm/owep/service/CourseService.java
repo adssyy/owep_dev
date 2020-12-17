@@ -6,6 +6,7 @@ package com.kclm.owep.service;
 import com.kclm.owep.dto.ChapterDTO;
 import com.kclm.owep.dto.CourseDTO;
 import com.kclm.owep.dto.SectionDTO;
+import com.kclm.owep.dto.SectionVideoDTO;
 import com.kclm.owep.entity.Chapter;
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.entity.Section;
@@ -103,12 +104,16 @@ public interface CourseService {
     int alterChapter(Chapter chapter);
 
     /**
-     * 通过ChapterId,删除章
+     * 通过ChapterId,添加章
      * @param chapter
      * @return
      */
     int addChapter(Chapter chapter);
-
+    /**
+     * 通过id删除章
+     *
+     */
+    int deleteChapterById(Serializable id);
     /**
      * 添加 节
      * @param section
@@ -136,5 +141,41 @@ public interface CourseService {
      * @return
      */
     int addSectionVideo(SectionVideo sectionVideo);
+
+    Course selectById(Serializable id);
+
+    int activate(Integer id);
+
+    int deactivate(Integer id);
+    /**
+     * @author zhang_hy
+     * @date 2020-12-2 16:47
+     * @For  根据id查询课程
+     */
+    Course findCourseById(Serializable id);
+
+    /**
+     * @author zhang_hy
+     * @date 2020-12-2 17:29
+     * @For 根据id查询章节
+     */
+
+    List<Section> selectAllById(Serializable id);
+
+    Chapter selectChapterById(Integer id);
+
+    List<SectionVideoDTO> selectVideoById(Serializable id);
+
+    Section selectSectionById(Serializable id);
+
+    int deleteVideoById(Serializable id);
+
+    int unlock(Integer id);
+
+    int lock(Integer id);
+
+    int unlockChapter(Integer id);
+
+    int lockChapter(Integer id);
 
 }

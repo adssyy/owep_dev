@@ -150,12 +150,18 @@
   <!--根据专业名称来模糊查询-->
   <select id="selectByProName" parameterType="string" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from t_profession where t_profession.prof_name like "%"#{proName,jdbcType=VARCHAR}"%"
+    from t_profession where t_profession.prof_name like "%"#{proName,jdbcType=VARCHAR}"%" and is_delete=1
   </select>
 
   <!--根据分支来精确查询-->
   <select id="selectByBranchName" parameterType="string" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from t_profession where t_profession.institute_branch_name=#{branName,jdbcType=VARCHAR}
+    from t_profession where t_profession.institute_branch_name=#{branName,jdbcType=VARCHAR} and is_delete=1
+  </select>
+
+  <!--根据机构来精确查询-->
+  <select id="selectByInstituteName" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_profession where t_profession.institute_name=#{institutionName,jdbcType=VARCHAR} and is_delete=1
   </select>
 </mapper>

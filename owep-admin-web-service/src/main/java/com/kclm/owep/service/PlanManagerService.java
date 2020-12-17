@@ -42,6 +42,13 @@ public interface PlanManagerService {
     List<PlanManagerDTO> findPlanManagerByField(PlanManager planManager);
 
     /**
+     * 通过方案名查询
+     * @param planManager
+     * @return
+     */
+    List<PlanManager> findPlanManager(PlanManager planManager);
+
+    /**
      * 修改方案
      * @param planManager
      * @return
@@ -62,7 +69,7 @@ public interface PlanManagerService {
      */
     int deletePlanManagerById(Serializable id);
 
-
+    PlanManager selectById(Serializable id);
     /**
      * 分页查询     方案中设置的课程
      */
@@ -98,6 +105,13 @@ public interface PlanManagerService {
      */
     List<PlanManagerCourseDTO> findAllPlanManagerCourse(Serializable id);
 
+    int addPlanManager(PlanManager planManager);
 
+    Integer findMaxCourseOrder(PlanManagerCourse planManagerCourse);
 
+    PlanManagerCourse findByCourseOrder(Integer courseOrder,Integer stageNum,PlanManager planManager);
+
+    int activate(Integer id);
+    int deactivate(Integer id);
+    int updateStatus(PlanManager planManager);
 }

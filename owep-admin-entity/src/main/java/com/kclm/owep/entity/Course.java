@@ -4,6 +4,9 @@
 
 package com.kclm.owep.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -36,11 +39,14 @@ public class Course implements Serializable {
     /**
      *课程开始时间
      */
+   /*@DateTimeFormat( pattern = "yyyy-MM-dd")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")*/
     private LocalDateTime startTime;
 
     /**
      *课程结束时间
      */
+
     private LocalDateTime endTime;
 
     /**
@@ -86,12 +92,12 @@ public class Course implements Serializable {
     /**
      *是否热门：0不热门、1热门
      */
-    private Boolean hot;
+    private Integer hot;
 
     /**
      * 0 表示不监听、1 表示监听
      */
-    private Boolean listener;
+    private Integer listener;
 
     /**
      *课程类型
@@ -240,19 +246,19 @@ public class Course implements Serializable {
         this.videoStatus = videoStatus;
     }
 
-    public Boolean getHot() {
+    public Integer getHot() {
         return hot;
     }
 
-    public void setHot(Boolean hot) {
+    public void setHot(Integer hot) {
         this.hot = hot;
     }
 
-    public Boolean getListener() {
+    public Integer getListener() {
         return listener;
     }
 
-    public void setListener(Boolean listener) {
+    public void setListener(Integer listener) {
         this.listener = listener;
     }
 

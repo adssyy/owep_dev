@@ -39,10 +39,12 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
-    public CourseCategoryDTO findByCourseCategoryName(String courseCategoryName) {
-        CourseCategory courseCategory = courseCategoryMapper.selectByCategoryName(courseCategoryName);
+    public List<CourseCategoryDTO> findByCourseCategoryName(String courseCategoryName) {
+        List<CourseCategory> courseCategorys = courseCategoryMapper.selectByCategoryName(courseCategoryName);
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        return mapperFacade.map(courseCategory, CourseCategoryDTO.class);
+        List<CourseCategoryDTO> courseCategoryDTOS = mapperFacade.mapAsList(courseCategorys,CourseCategoryDTO.class);
+        //return mapperFacade.map(courseCategory, CourseCategoryDTO.class);
+        return courseCategoryDTOS;
     }
 
     @Override
@@ -112,5 +114,8 @@ public class CategoryServiceImpl implements CategoryService {
         return mapperFacade.mapAsList(courseCategories, CourseCategoryDTO.class);
     }
 
-
+    @Override
+    public CourseCategory selectById(Serializable id) {
+        return courseCategoryMapper.selectById(id);
+    }
 }

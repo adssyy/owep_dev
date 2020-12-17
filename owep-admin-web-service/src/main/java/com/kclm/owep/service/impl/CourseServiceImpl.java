@@ -4,13 +4,12 @@
 package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.kclm.owep.convert.SectionVideoConvert;
 import com.kclm.owep.dto.ChapterDTO;
 import com.kclm.owep.dto.CourseDTO;
 import com.kclm.owep.dto.SectionDTO;
-import com.kclm.owep.entity.Chapter;
-import com.kclm.owep.entity.Course;
-import com.kclm.owep.entity.Section;
-import com.kclm.owep.entity.SectionVideo;
+import com.kclm.owep.dto.SectionVideoDTO;
+import com.kclm.owep.entity.*;
 import com.kclm.owep.mapper.ChapterMapper;
 import com.kclm.owep.mapper.CourseMapper;
 import com.kclm.owep.mapper.SectionMapper;
@@ -22,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /************
@@ -53,6 +53,9 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseDTO> findAllCourse() {
         List<Course> courses = courseMapper.selectAll();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+
+        List<CourseDTO> list = mapperFacade.mapAsList(courses, CourseDTO.class);
+
         return mapperFacade.mapAsList(courses, CourseDTO.class);
     }
 
@@ -216,5 +219,116 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public int addSectionVideo(SectionVideo sectionVideo) {
         return sectionVideoMapper.save(sectionVideo);
+    }
+
+    @Override
+    public Course selectById(Serializable id) {
+        return courseMapper.selectById(id);
+    }
+
+    @Override
+    public int deleteChapterById(Serializable id) {
+        return chapterMapper.deleteById(id);
+    }
+
+    @Override
+    public int activate(Integer id) {
+        try{
+            Course course = courseMapper.selectById(id);
+            course.setCourseStatus(1);
+            courseMapper.update(course);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int deactivate(Integer id) {
+        try{
+            Course course = courseMapper.selectById(id);
+            course.setCourseStatus(0);
+            courseMapper.update(course);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Course findCourseById(Serializable id) {
+        return courseMapper.selectById(id);
+    }
+
+    @Override
+    public List<Section> selectAllById(Serializable id) {
+        return sectionMapper.selectAllById(id);
+    }
+
+    @Override
+    public Chapter selectChapterById(Integer id) {
+        return chapterMapper.selectById(id);
+    }
+
+    @Override
+    public List<SectionVideoDTO> selectVideoById(Serializable id) {
+        List<SectionVideoDTO> sectionVideoDTOS = new ArrayList<>();
+        List<SectionVideo> sectionVideos = sectionVideoMapper.selectAllById(id);
+        for(SectionVideo s:sectionVideos){
+            SectionVideoDTO sectionVideoDTO = SectionVideoConvert.INSTANCE.entityToDTO(s);
+            sectionVideoDTOS.add(sectionVideoDTO);
+        }
+        return sectionVideoDTOS;
+    }
+
+    @Override
+    public Section selectSectionById(Serializable id) {
+        return sectionMapper.selectById(id);
+    }
+
+    @Override
+    public int deleteVideoById(Serializable id) {
+        return sectionVideoMapper.deleteById(id);
+    }
+
+    @Override
+    public int unlock(Integer id) {
+        Section section = sectionMapper.selectById(id);
+        section.setLookVideoStatus(1);
+        return sectionMapper.update(section);
+    }
+
+    @Override
+    public int lock(Integer id) {
+        Section section = sectionMapper.selectById(id);
+        section.setLookVideoStatus(0);
+        return sectionMapper.update(section);
+    }
+
+    @Override
+    public int unlockChapter(Integer id) {
+        try{
+            Chapter chapter = chapterMapper.selectById(id);
+            chapter.setChapterStatus(1);
+            chapterMapper.update(chapter);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int lockChapter(Integer id) {
+        try{
+            Chapter chapter = chapterMapper.selectById(id);
+            chapter.setChapterStatus(0);
+            chapterMapper.update(chapter);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

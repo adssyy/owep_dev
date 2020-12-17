@@ -28,7 +28,7 @@ public interface OrgInstituteService {
      * @param instituteName
      * @return
      */
-    List<OrgInstituteDTO> findOrgInstituteByNameAndType(String instituteName, String instituteType);
+    List<OrgInstituteDTO> findOrgInstituteByNameAndType(String instituteName, Integer instituteType);
 
     /***
      * 添加机构列表

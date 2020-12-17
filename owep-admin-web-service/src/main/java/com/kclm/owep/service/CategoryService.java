@@ -23,7 +23,7 @@ public interface CategoryService {
      * @param courseCategoryName
      * @return
      */
-    CourseCategoryDTO findByCourseCategoryName(String courseCategoryName);
+    List<CourseCategoryDTO> findByCourseCategoryName(String courseCategoryName);
 
 
     /**
@@ -39,6 +39,7 @@ public interface CategoryService {
      */
     List<CourseCategoryDTO> findAllCourseCategory();
 
+    CourseCategory selectById(Serializable id);
     /**
      * 通过上级id 查询所有下级分类
      * @param parentId
@@ -69,4 +70,6 @@ public interface CategoryService {
      * @return
      */
     List<CourseCategoryDTO> findAllByPaging(int page, int size);
+
+
 }

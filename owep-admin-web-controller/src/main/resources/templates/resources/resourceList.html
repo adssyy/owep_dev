@@ -27,11 +27,11 @@
           rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css"
-          th:href="@{/static/css//plugins/sweetalert/sweetalert.css"
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css}"
           rel="stylesheet">
     <!--switchery-->
     <link href="../../static/css/plugins/switchery/switchery.css"
-          th:href="@{/static/css//plugins/switchery/switchery.css"
+          th:href="@{/static/css/plugins/switchery/switchery.css}"
           rel="stylesheet">
     <style type="text/css">
         .table > thead > tr > th {
@@ -43,11 +43,12 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row text-left" style="margin-bottom: 15px; padding-left: -4px">
         <div class="col-md-9">
-            <form class="form-inline">
+            <form class="form-inline" id="resource_search">
                 <div class="form-group">
                     <label class="label_text">文件类型:</label>
                     <div class="input-group input-s-sm" style="width: 130px">
-                        <input type="text" class="form-control org">
+                        <input type="text" hidden id="#resource_suffix">
+                        <input type="text" class="form-control" name="resourceSuffix" id="resourceSuffix">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
@@ -59,13 +60,10 @@
                 </div>
                 <!--|||||||||||||||||||||||||-->
                 <div class="form-group">
-                    <label for="clientBelong" class="label_text">名称:</label>
+                    <label for="resourceName" class="label_text">名称:</label>
                     <div class="input-group input-s-sm" style="width: 120px">
-                        <input type="text" class="form-control input-sm" id="clientBelong">
+                        <input type="text" class="form-control input-sm" id="resourceName" name="resourceName">
                         <div class="input-group-btn">
-<!--                            <button type="button" class="btn btn-white input-sm dropdown-toggle" data-toggle="dropdown">-->
-<!--                                <span class="caret"></span>-->
-<!--                            </button>-->
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                             </ul>
                         </div>
@@ -74,68 +72,29 @@
                 <div class="form-group" id="date_case_1">
                     <label class="label_text">时间:</label>
                     <div class="input-daterange input-group" id="datepicker">
-                        <input type="text" class="input-sm form-control" style="width: 100px;" name="start"
+                        <input type="text" class="input-sm form-control" style="width: 100px;" name="interviewTimeStart"
                         />
                         <span class="input-group-addon">到</span>
-                        <input type="text" class="input-sm form-control" style="width: 100px;" name="end"
+                        <input type="text" class="input-sm form-control" style="width: 100px;" name="interviewTimeEnd"
                         />
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                <button type="button" class="btn btn-primary btn-sm" id="queryBtn">查询</button>
             </form>
         </div>
         <div class="col-md-3 text-right" style="padding-left: 10px">
-            <button class="btn btn-success" data-toggle="modal" data-target="#add">添加</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#add_resource">添加</button>
             <button class="btn btn-danger" id="deleteAll">删除</button>
         </div>
     </div>
-    <!-- <div class="pull-left">
-         <form class="form-inline" style="margin:5px">
-             <div class="form-group">
-                 <label>文件类型:</label>
-                 <div class="input-group">
-                     <input type="text" class="form-control org">
-                     <div class="input-group">
-                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                             <span class="caret"></span>
-                         </button>
-                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                         </ul>
-                     </div>
-                     &lt;!&ndash; /btn-group &ndash;&gt;
-                 </div>
 
-                 <div class="form-group"style="margin-left: -20px">
-                     <label for="phoneNumber" class="label_text"><h5>名称:</h5></label>
-                     <input type="#" class="form-control" id="phoneNumber">
-                 </div>
-                 <div class="form-group" >
-                     <label >开始时间:</label>
-                     <div class="input-group"style="width: 80px">
-                         <input type="text"  class="form-control" id="starttime">
-                     </div>
-                     <div class="form-group" style="margin-left: -50px">
-                         <label >结束时间:</label>
-                         <div class="input-group"style="width: 80px">
-                             <input type="text" class=" form-control" id="endtime" />
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <input type="button" class="btn btn-primary" value="查询" id="queryBtn"/>
-         </form>
-     </div>-->
-    <!--
-        <div class="pull-right"  style="margin-top:15px;margin-right: 10px">
-            <button class="btn btn-success" data-toggle="modal" data-target="#add">添加</button>
-            <button class="btn btn-danger" id="deleteAll">删除</button>
-        </div>-->
+    <!-- 动态数据处理 -->
     <div>
         <table id="tb_major"></table>
     </div>
 </div>
-<!--更新专业模态框-->
-<div class="modal fade" id="update" tabindex="-1">
+<!--更新资源模态框-->
+<div class="modal fade" id="update_resource" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -143,24 +102,30 @@
                 <h3 class="modal-title">修改</h3>
             </div>
             <div class="modal-body" style="min-height: 400px;margin-top: 20px">
-                <form action="#" class="form-horizontal" method="post">
+                <form th:action="@{/resources/resourceList/updateResource}" class="form-horizontal" method="post"
+                      id="update_form"
+                      enctype="multipart/form-data">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label right">资源名称：</label>
+                        <label class="col-sm-3 control-label right">
+                            <input type="text" id="update_id" name="id" hidden>
+                            资源名称：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="author" placeholder="请输入标题">
+                            <input type="text" class="form-control" name="resourceName" placeholder="请输入标题"
+                                   id="upd_resourceName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">选择文件：</label>
                         <div class="col-sm-7">
-                            <input type="file" class="form-control" name="author">
+                            <input type="file" class="form-control" name="file" id="upd_file">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">资源类型：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org1">
+                                <input type="text" hidden name="type" value="">
+                                <input type="text" class="form-control org1" name="type" id="upd_type">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -175,7 +140,7 @@
                         <label class="col-sm-3 control-label right">课程：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org2">
+                                <input type="text" class="form-control org2" name="course" id="upd_course">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -190,7 +155,7 @@
                         <label class="col-sm-3 control-label right">章：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org3">
+                                <input type="text" class="form-control org3" name="chapter" id="upd_chapter">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -205,7 +170,7 @@
                         <label class="col-sm-3 control-label right">节：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org4">
+                                <input type="text" class="form-control org4" name="section" id="upd_section">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -219,7 +184,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">资源描述：</label>
                         <div class="col-sm-7">
-                            <textarea class="form-control" type="text"></textarea>
+                            <textarea class="form-control" type="text" name="resourceDesc"
+                                      id="upd_resourceDesc"></textarea>
                         </div>
                     </div>
 
@@ -232,8 +198,9 @@
         </div>
     </div>
 </div>
-<!--添加专业模态框-->
-<div class="modal fade" id="add" tabindex="-1">
+
+<!--添加资源模态框-->
+<div class="modal fade" id="add_resource" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -242,24 +209,27 @@
             </div>
 
             <div class="modal-body" style="min-height: 400px;margin-top: 20px">
-                <form action="#" class="form-horizontal" method="post">
+                <form th:action="@{/resources/resourceList/addResource}" class="form-horizontal" method="post"
+                      enctype="multipart/form-data" name="add_form">
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">资源名称：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="author" placeholder="请输入标题">
+                            <input type="text" class="form-control" name="resourceName" placeholder="请输入标题"
+                                   id="add_resourceName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">选择文件：</label>
                         <div class="col-sm-7">
-                            <input type="file" class="form-control" name="author">
+                            <input type="file" class="form-control" name="file" id="add_file">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">资源类型：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org1">
+                                <input type="text" hidden name="type" value="">
+                                <input type="text" class="form-control" name="type" id="add_type">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -274,7 +244,8 @@
                         <label class="col-sm-3 control-label right">课程：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org2">
+                                <input type="text" hidden id="courseId" name="course.id" value="">
+                                <input type="text" class="form-control"  id="add_course">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -286,10 +257,12 @@
                         </div>
                     </div>
                     <div class="form-group c_hidden">
+
                         <label class="col-sm-3 control-label right">章：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org3">
+                                <input type="text" hidden id="chapterId" value="" name="chapter.id">
+                                <input type="text" class="form-control"   id="add_chapter">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -301,10 +274,12 @@
                         </div>
                     </div>
                     <div class="form-group c_hidden">
+
                         <label class="col-sm-3 control-label right">节：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" class="form-control org4">
+                                <input type="text" hidden id="sectionId" name="section.id" value="">
+                                <input type="text" class="form-control"  id="add_section">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -318,7 +293,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">资源描述：</label>
                         <div class="col-sm-7">
-                            <textarea class="form-control" type="text"></textarea>
+                            <textarea class="form-control"   name="add_resourceDesc"
+                                      id="add_resourceDesc"></textarea>
                         </div>
                     </div>
                 </form>
@@ -331,34 +307,41 @@
     </div>
 </div>
 <!-- 全局js -->
-<script src="../../static/js/jquery.min.js?v=2.1.4"></script>
-<script src="../../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../../static/js/jquery.min.js?v=2.1.4"
+        th:src="@{/static/js/jquery.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6"
+        th:src="@{/static/js/bootstrap.min.js}"></script>
 
 <!-- 自定义js -->
-<script src="../../static/js/content.js?v=1.0.0"></script>
+<script src="../../static/js/content.js?v=1.0.0"
+        th:src="@{/static/js/content.js}"></script>
 
+<!-- 自定义js -->
+<!-- 主要用于表格的删除按钮功能实现 -->
+<script src="../../static/public/exam/tableOperation.js"
+        th:src="@{/static/public/exam/tableOperation.js}"></script>
 
 <!-- Bootstrap table -->
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <!--动态搜索-->
 <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
-        th:href="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!-- Sweet alert -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
-        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <!-- Switchery -->
 <script src="../../static/js/plugins/switchery/switchery.js"
-        th:href="@{/static/js/plugins/switchery/switchery.js}"></script>
+        th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
 <!--时间控件 -->
 <script src="../../static/js/plugins/datapicker/bootstrap-datepicker.js"
-        th:src="@{../../static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
 <script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js"
-        th:src="@{../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
 <script>
     $(function () {
         //初始化表格
@@ -366,16 +349,37 @@
         init.Init();
         //点击按钮开始搜索
         $("#queryBtn").click(function () {
-            let org = $(".org").val();
-            //判断条件是否存在
-            if (org == "") {
-                alert("请选择查询条件");
-                return;
-            }
-            alert(org);
-            //执行查询
-            init.Init();
+
+            let resourceSuffix = $("#resourceSuffix").val();
+
+            if(resourceSuffix == "") {
+                alert("文件类型不能为空！")
+            } else {
+                console.log("==============");
+                console.log($("#resource_search").serialize());
+                //发送ajax 查询
+                $.ajax({
+                    url: "/owep/resources/resourceList/search",
+                    method: "post",
+                    async: true,
+                    data:$("#resource_search").serialize(),
+                    dataType: "json",   //期望服务端返回的数据类型
+                    //contentType: "application/json",
+                    success: function (data) {
+                        console.log("success=====")
+                        console.log(data);
+                        //重新加载页面
+                        console.log($('#tb_major'));
+
+                        $('#tb_major').bootstrapTable("load", data);
+                    },
+                    error: function (jqXHR) {
+                        swal("搜索失败！", "未知错误", "error");
+                    }
+                });
+            };
         });
+
         //删除所有
         $('#deleteAll').click(function () {
             // 删除按钮事件
@@ -390,82 +394,160 @@
                 $(rows).each(function () {// 通过获得别选中的来进行遍历
                     ids.push(this.id);// cid为获得到的整条数据中的一列
                 });
-                //TODO 发送ajax请求
-                alert(ids);
+                let idlist = JSON.stringify(ids);
+
+                $.ajax({
+                    url: "/owep/resources/resourceList/deleteSelectResource",
+                    method: "post",
+                    data: idlist,
+                    dataType: "text",
+                    async: "true",
+                    contentType: "application/json",
+                    success: function (data) {
+                        console.log(data.toString());
+                        /*重新加载本页面*/
+                        window.location.reload();
+                    },
+                    error: function (jqXRH) {
+                        console.log("jqXRH = " + jqXRH);
+                        alert("删除失败")
+                    }
+                })
+
             }
         });
+
+        //文件上传提交表单
+        $("#add_sure").click(function () {
+            let form = document.forms["add_form"];
+            let formData = new FormData(form);
+            console.log(formData);
+            let resourceDesc = $("#add_resourceDesc").val();
+            //获取上传文件信息
+            let file = $("#add_file")[0].files[0];
+            //获取资源扩展名
+            let resourceSuffix = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
+            //获取文件大小
+            let resourceSize = file.size;
+            formData.set("resourceDesc",resourceDesc);
+            formData.set("resourceSuffix",resourceSuffix);
+            formData.set("resourceSize",resourceSize);
+
+            //ajax操作
+            $.ajax({
+                url: "/owep/resources/resourceList/addResource",
+                data: formData,
+                type: "Post",
+                dataType: "json",
+                cache: false,//上传文件无需缓存
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (result) {
+                    alert("上传完成!");
+                    console.log(result);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log("jqXRH = " + jqXRH);
+                    alert("上传失败")
+                }
+            });
+
+        });
+
+        /*修改提交表单*/
+        $('#update_sure').click(function () {
+
+            /*let form = document.forms["upd_form"];
+            let formData = new FormData(form);
+            console.log(formData);
+            let id = $("#update_id").val();
+            let resourceDesc = $("#upd_resourceDesc").val();
+            //获取上传文件信息
+            let file = $("#upd_file")[0].files[0];
+            //获取资源扩展名
+            let resourceSuffix = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
+            //获取文件大小
+            let resourceSize = file.size;
+            formData.set("id",id);
+            formData.set("resourceDesc",resourceDesc);
+            formData.set("resourceSuffix",resourceSuffix);
+            formData.set("resourceSize",resourceSize);*/
+
+            let id = $("#update_id");
+            let resourceName = $("#upd_resourceName");
+            let resourceDesc = $("#upd_resourceDesc");
+            //获取上传文件信息
+            let file = $("#upd_file")[0].files[0];
+            //获取资源扩展名
+            let resourceSuffix = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
+            //获取文件大小
+            let resourceSize = file.size;
+
+            let course = $("#upd_course").val();
+            console.log("course = " +course);
+
+            let chapter = $("#upd_chapter").val();
+            console.log("chapter = " +chapter);
+
+            let section = $("#upd_section").val();
+            console.log("chapter = " +section);
+
+            let type = $("#upd_type").val();
+            console.log("type = "+type);
+
+            let formData = {};
+
+            if(type === 1||type ===2){
+
+            }else   if(type === "课程资源"){
+                type = 1;
+                formData = {
+                    id:id,
+                    resourceName:resourceName,
+                    resourceDesc:resourceDesc,
+                    type:type,
+                    course:course,
+                    chapter:chapter,
+                    section:section
+                }
+            }else{
+                type = 0;
+                formData = {
+                    id:id,
+                    resourceName:resourceName,
+                    resourceDesc:resourceDesc,
+                    type:type,
+                }
+            }
+
+            $.ajax({
+                method: "post",
+                url: "/owep/resources/resourceList/updateResource",
+                async: "true",
+                data: formData,
+                dataType: "text",
+                /*contentType:"application/json",*/
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("修改未成功")
+                }
+            });
+            $('#update_form').submit();
+        });
+
+
         //动态搜索选择下拉框
         testdataBsSuggest1;
-        //添加事件
-        $('#add_sure').click(function () {
-            alert("添加成功");
-        });
-        //更新时间
-        $('#update_sure').click(function () {
-            alert("更新成功");
-        });
 
     });
-    var testdataBsSuggest1 = $(".org").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'id': "",
-                    'word': 'pdf',
-                },
-                {
-                    'id': "",
-                    'word': 'docx',
-                },
-                {
-                    'id': "",
-                    'word': 'ppt',
-                },
-                {
-                    'id': "",
-                    'word': 'txt',
-                }
-            ]
-        }
-    });
-    var testdataBsSuggest1 = $(".org2").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'id': "",
-                    'word': '数据库(Oracle)',
-                },
-                {
-                    'id': "",
-                    'word': '企业级框架(SpringBoot)',
-                },
-                {
-                    'id': "",
-                    'word': '项目管理工具(Maven)',
-                },
-                {
-                    'id': "",
-                    'word': 'Redis数据库',
-                },
-                {
-                    'id': "",
-                    'word': 'Linus操作系统',
-                },
-                {
-                    'id': "",
-                    'word': 'Web前端技术(BootStrap)',
-                },
-            ]
-        }
-    });
 
-    var testdataBsSuggest1 = $(".org1").bsSuggest({
+
+    var testdataBsSuggest1 = $("#add_type").bsSuggest({
         indexId: 2, //data.value 的第几个数据，作为input输入框的内容
         indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
         //TODO 通过json显示数据
@@ -482,81 +564,65 @@
             ]
         }
     });
-    var testdataBsSuggest1 = $(".org3").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'id': "",
-                    'word': 'Oracle基础知识',
-                },
-                {
-                    'id': "",
-                    'word': 'Oracle语句操作',
-                },
-                {
-                    'id': "",
-                    'word': 'BootStrap基础',
-                },
-                {
-                    'id': "",
-                    'word': 'MyBatis基础技术',
-                },
-                {
-                    'id': "",
-                    'word': 'MyBatis配置技术',
-                },
-                {
-                    'id': "",
-                    'word': 'jQuery介绍与选择器',
-                },
-            ]
-        }
+
+
+    var testdataBsSuggest1 = $("#add_course").bsSuggest({
+        url: "/owep/resources/resourceList/findAllCourse",
+        showBtn: true,
+        idField: "id",
+        keyField: "courseName",
+        effectiveFields: ["courseName"]
+    }).on('onSetSelectValue', function (e, keyword) {
+        $("#courseId").val(keyword.id);
+        //销毁控件
+        $("#add_chapter").bsSuggest("destroy");
+        $("#add_chapter").bsSuggest({
+            url: "/owep/resources/resourceList/findAllChapterByCourseId?id=" + keyword.id,
+            showBtn: false,
+            idField: "id",
+            keyField: "chapterName",
+            effectiveFields: ["chapterName"]
+        }).on('onSetSelectValue', function (e, keyword) {
+            $("#chapterId").val(keyword.id);
+            //销毁控件
+            $("#add_section").bsSuggest("destroy");
+            $("#add_section").bsSuggest({
+                url: "/owep/resources/resourceList/findAllSectionByChapterId?id=" + keyword.id,
+                showBtn: false,
+                idField: "id",
+                keyField: "sectionName",
+                effectiveFields: ["sectionName"]
+            }).on('onSetSelectValue', function (e, keyword) {
+                $("#sectionId").val(keyword.id);
+            }).on('onUnSetSelectValue', function (e, keyword) {
+                console.log("onUnSetSelectValue");
+            });
+
+        });
     });
-    var testdataBsSuggest1 = $(".org4").bsSuggest({
-        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
-        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-        //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'id': "",
-                    'word': 'Oracle简单介绍',
-                },
-                {
-                    'id': "",
-                    'word': 'Oracle远程连接',
-                },
-                {
-                    'id': "",
-                    'word': 'SpringBoot高级应用',
-                },
-                {
-                    'id': "",
-                    'word': '自定义拦截器',
-                },
-                {
-                    'id': "",
-                    'word': 'parameterType',
-                },
-                {
-                    'id': "",
-                    'word': 'Bootstrap辅助类',
-                },
-            ]
-        }
+
+    var testdataBsSuggest1 = $("#resourceSuffix").bsSuggest({
+        url: "/owep/resources/resourceList/selectResourceSuffix",
+        showBtn: true,
+        idField: "",
+        keyField: "resourceSuffix",
+        effectiveFields: ["resourceSuffix"]
+    }).on('onSetSelectValue', function (e, keyword) {
+        $("#resource_suffix").val(keyword.resourceSuffix)
+
+    }).on('onUnSetSelectValue', function (e, keyword) {
+        console.log("onUnSetSelectValue");
     });
+
 
     var initdata = function () {
         var init = new Object();
         init.Init = function () {
             //加载之前先格式化 放在查询的时候起冲突
-            $("#tb_major").bootstrapTable('destroy')
+            $("#tb_major").bootstrapTable('destroy');
             $("#tb_major").bootstrapTable({
-                url: '../../static/js/demo/resources/data2.json',
-                method: 'get',
+                url: '/owep/resources/resourceList/getResourceList',
+                method: 'post',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
                 pagination: true, //是否分页
@@ -565,8 +631,11 @@
                 pageList: [10, 20],
                 height: 550,
                 queryParams: init.queryParams, // 传递参数
+                queryParamsType: "limit",
+                limit: 1,
+                offset: 10,
                 columns: [{
-                    field: "coo",
+                    field: "checkbox",
                     checkbox: true,
                 }, {
                     field: 'id',
@@ -574,27 +643,27 @@
                     align: "center",
                     visible: false //隐藏 让该字段不可见 为了后面更新和删除做准备
                 }, {
-                    field: 'name',
+                    field: 'resourceName',
                     title: "资源名称",
                     align: "center",
                 }, {
-                    field: 'describe',
+                    field: 'resourceDesc',
                     title: "资源描述",
                     align: "center",
                 }, {
-                    field: 'type',
+                    field: 'resourceSuffix',
                     title: "类型",
                     align: "center",
                 }, {
-                    field: 'size',
+                    field: 'resourceSize',
                     title: "大小(kb)",
                     align: "center",
                 }, {
-                    field: 'classify',
+                    field: 'type',
                     title: "分类",
                     align: "center",
                 }, {
-                    field: 'time',
+                    field: 'createTime',
                     title: "上传时间",
                     align: "center",
                 }, {
@@ -604,45 +673,42 @@
                     valign: "middle",
                     formatter: actionFormatter, //方法调用
                     events: {
-                        'click button[title=删除]': function (e, value, row, index) {
-                            // console.log(row.id);
-                            swal({
-                                title: "您确定要删除这条信息吗",
-                                text: "删除后将无法恢复，请谨慎操作！",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "删除",
-                                closeOnConfirm: false
-                            }, function () {
-                                //TODO 发送ajax请求
-                                swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                            });
+
+                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                            deleteRecord(e, value, row, index, "/owep/resources/resourceList/deleteResource", '#tb_major');
+                        },
+
+                        'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
+                            //回显数据
+                            echoDataForm('form[id="update_form"]', new Array("id", "resourceName", "file", "resourceDesc", "course", "chapter", "section", "type"), row);
+                            $('#update_resource').modal();
                         },
                     }
                 }]
 
             });
         };
+
         init.queryParams = function (params) {
-            console.log(params);
-            console.log($('#name').val());
-            return {
-                offset: params.offset,//从数据库第几条记录开始
-                limit: params.limit,//找多少条
-                name: $("#name").val(),
-                org: $("#org").val(),
-                branch: $("#branch").val()
+            let temp = {  //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                offset: params.offset, //每次查询时的起始页码
+                limit: params.limit, //页面大小，每页有多少条数据
+                resourceName: $("#resourceName").val(), //要搜索的文本名称
+                resourceSuffix: $("#resourceSuffix").val(),  //要搜索的文本类型
+                time: $("#datepicker").val()  //要查询的时间
             };
-        }
+            console.log(temp);
+            return temp;
+        };
+
+        //搜索栏搜索功能
+
 
         //操作栏的格式化
         function actionFormatter(value, row, index) {
             var id = value;
             var result = "";
-            // console.log(row.id);
-            // console.log(row.name+"--"+index +"--"+value);
-            result += "<button class='btn btn-white btn-sm' title='修改' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#update\"><span class='glyphicon glyphicon-edit'></span></button>";
+            result += "<button id='+id+' class='btn btn-white btn-sm' title='修改' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#update_resource\"><span class='glyphicon glyphicon-edit'></span></button>";
             result += "<button class='btn btn-white btn-sm'  style='margin-right: 10px' title='删除'><span class='glyphicon glyphicon-trash text-danger'></span></button>";
             return result;
         };
@@ -671,10 +737,10 @@
 <script>
     /* 资源类型input 控件添加失去焦点事件*/
     $(".form-control.org1").blur(function () {
-        if($(this).val() == "课程资源"){
-                $(".c_hidden").removeClass("hidden","hidden");
-        }else{
-            $(".c_hidden").addClass("hidden","hidden");
+        if ($(this).val() == "课程资源") {
+            $(".c_hidden").removeClass("hidden", "hidden");
+        } else {
+            $(".c_hidden").addClass("hidden", "hidden");
         }
     })
 </script>

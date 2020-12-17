@@ -23,7 +23,7 @@
           th:href="@{/static/css/animate.css}">
     <link href="../../static/css/style.css?v=4.1.0"
           rel="stylesheet"
-          th:href="@{/static/css/style.css (v='4.1.0)'}">
+          th:href="@{/static/css/style.css (v='4.1.0')}">
     <!-- Sweet Alert -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css"
           rel="stylesheet"
@@ -48,12 +48,14 @@
         <div class="col-sm-12">
             <div class=" animated fadeInRight">
                 <div id="toolbar">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#addModal">添加</button>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#model_add">添加</button>
                     <button class="btn btn-danger" id="delAll">删除</button>
                 </div>
+
                 <div class="example-wrap">
                     <div class="example">
                         <table id="actionListTable">
+
                         </table>
                     </div>
                 </div>
@@ -62,7 +64,7 @@
     </div>
 </div>
 <!--添加模态窗-->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="model_add" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <!-- 模态框头部定义 -->
@@ -74,17 +76,17 @@
             <!--体部定义-->
             <div class="modal-body">
                 <!-- 表单定义 -->
-                <form th:action="@{/}" id="addForm" method="post" class="form-horizontal">
+                <form th:action="@{/resources/resourceType/addResourceType}" id="addForm" method="post" class="form-horizontal">
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label">类型名称:</label>
                         <div class="col-md-6">
-                            <input type="text" name="actionName" class="form-control">
+                            <input type="text" name="typeName" class="form-control" id="add_typeName">
                         </div>
                     </div>
                     <div class="form-group  has-feedback">
                         <label class="col-md-2 control-label ">资源描述:</label>
                         <div class="col-md-6">
-                            <textarea name="actionDescription" class="form-control" rows="3"></textarea>
+                            <textarea name="typeDesc" class="form-control" rows="3" id="add_typeDesc"></textarea>
                         </div>
                     </div>
                 </form>
@@ -92,7 +94,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="submit" id="btnAddModal" class="btn btn-primary">添加</button>
+                <button type="button" id="model_add_btn" class="btn btn-primary">添加</button>
             </div>
 
         </div><!-- /.modal-content -->
@@ -100,9 +102,9 @@
 </div>
 <!-- 全局js -->
 <script src="../../static/js/jquery.min.js?v=2.1.4"
-        th:src="@{/static/js/jquery.min.js?v=2.1.4}"></script>
+        th:src="@{/static/js/jquery.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js?v=3.3.6"
-        th:src="@{/static/js/bootstrap.min.js?v=3.3.6}"></script>
+        th:src="@{/static/js/bootstrap.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
         th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
@@ -113,20 +115,26 @@
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
         th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 
+<!--自定义js---表格操作-->
+<!-- 主要用于表格的删除按钮功能实现 -->
+<script src="../../static/public/exam/tableOperation.js"
+        th:src="@{/static/public/exam/tableOperation.js}"></script>
+
+
 <script type="text/javascript" th:inline="javascript">
-    // let appName=[[${#request.getContextPath()}]];
     $(function () {
         /*init角色管理表*/
         let $actionListTable = $("#actionListTable");
+
+        /* 后台数据渲染前段表格 */
         $actionListTable.bootstrapTable({
-            url: '../../static/js/demo/resources/data1.json',
-            method: "get",
+            url: '/owep/resources/resourceType/getResourceType',
+            method: "post",
             toolbar: '#toolbar',
             mobileResponsive: true,
             striped: true,
             pagination: true,
             height: 550,
-            /*    queryParam:oTableInit.queryParams,*/
             sidePagination: "client",
             pageList: "[10,20,50,100]",
             pageSize: 10,
@@ -140,140 +148,99 @@
                 {
                     checkbox: true
                 }, {
-                    field: 'type',
+                    field: 'typeName',
                     title: '资源管理',
                     align: 'center',
                 },
                 {
-                    field: 'describe',
+                    field: 'typeDesc',
                     title: '资源描述',
                     align: 'center',
                 }, {
-                    field: 'operation',
+                    field: 'operator',
                     title: '操作',
                     align: 'center',
                     valign: 'middle',
                     width: '200px',
-                    formatter: function (value, row, index) {
-                        return [
-                            '<button class="btn btn-white btn-sm" value="' + row.id + '" type="button" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="glyphicon glyphicon-trash text-danger"/></button>',
-                        ].join('');
+                    formatter: addFunctionAlty, /* 表格中增加按钮 */
+                    events: {
+                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                            deleteRecord(e, value, row, index, "/owep/resources/resourceType/deleteResourceType", '#actionListTable');
+                        },
                     }
-
                 }
 
             ],
         });
-        /*        //得到查询的参数
-                oTableInit.queryParams = function (params) {
-                    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                        limit: params.limit,   //页面大小
-                        offset: params.offset,  //页码
-                        departmentname: $("#txt_search_departmentname").val(),
-                        statu: $("#txt_search_statu").val()
-                    };
-                    return temp;
-                };
-                return oTableInit;*/
-        /*绑定表格每列中的修改按钮*/
-        $actionListTable.on("click", "button[title='修改']", function () {
-            console.log($(this).val());
-            /*异步请求后台数据*/
-            /*       let getData;
-                   $.ajax({
-                       url:"",
-                       method:"post",
-                       data:{"id":id},
-                       dataType:"json",
-                       contentType:"application/json",
-                       success:function (data) {
-                           getData=data;
-                       },
-                       error:function (jqXHR) {
-                           alert(jqXHR);
-                       }
-                   });*/
-            /*调用模态窗*/
-            $("#editModal").modal();
-            /*回显数据*/
-            /*        $("input[name='userGroupDescription']").val(getData.groupDescription);
-                    $("input[name='userGroupName']").val(getData.groupName);*/
-        });
-        $actionListTable.on("click", "button[title='删除']", function () {
-            swal({
-                title: "您确定要删除这条数据吗",
-                text: "删除后将无法恢复，请谨慎操作！",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "删除",
-                cancelButtonText: "取消",
-                closeOnConfirm: false
-            }, function () {
-                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+
+        /* 表格中增加按钮 */
+        function addFunctionAlty(value, row, index) {
+            return [
+                '<button class="btn btn-white btn-sm" value="' + row.id + '" type="button" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="glyphicon glyphicon-trash text-danger"/></button>',
+            ].join('');
+        }
+
+        /*添加提交表单*/
+        let model_add_btn = $('#model_add_btn');
+        model_add_btn.click(function () {
+            // console.log("add submit btn");
+            let typeName = $("#add_typeName").val();
+            let typeDesc = $("#add_typeDesc").val();
+
+            console.log("typeName = "+typeName);
+            console.log("typeDesc = "+typeDesc);
+
+            let typeData ={
+                typeName:typeName,
+                typeDesc:typeDesc,
+            };
+            $.ajax({
+                method:"post",
+                url:"/owep/resources/resourceType/addResourceType",
+                async: "true",
+                data:typeData,
+                dataType:"text",
+                //contentType:"application/json",
+                success:function(data){
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("添加未成功")
+                }
             });
-            /* let id=$(this).val();
-             $.ajax({
-                 url:"",
-                 method:"post",
-                 data:{id:"id"},
-                 dataType:"text",
-                 contentType:"application/json",
-                 success:function () {
-                     swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                 },
-                 error:function (jqXHR) {
-                     swal("删除失败","后台请求失败"+jqXHR,"error");
-                 }
-             })*/
         });
 
-        /*添加模态窗提交*/
-        $("#btnAddModal").click(function () {
-            $("#addForm").submit();
-        });
-        /*修改模态窗提交*/
-        $("#btnEditModal").click(function () {
-            $("#editForm").submit();
-        });
-        /*延迟启用按钮的tip*/
-        /*    $(function () {
-                setTimeout(function () { $("[data-toggle='tooltip']").tooltip(); },800);
-            });
-    */
         /*绑定批量删除按钮*/
         $("#delAll").click(function () {
             let idlist = $actionListTable.bootstrapTable('getAllSelections');
-            console.log(idlist);
             let ids = JSON.stringify(idlist);
             if (idlist.length === 0) {
                 alert("请至少选择一个")
             } else {
-                if (confirm("确定添加这些数据么")) {
+                if (confirm("确定删除这些数据么")) {
                     alert("删除:" + ids);
-                    window.location.reload();
+                   /* window.location.reload();*/
                     //ajax发送异步请求
-                    /*$.ajax({
-                        url:  appName,
+                    $.ajax({
+                        url:  "/owep/resources/resourceType/deleteSelectResourceType",
                         method: "post",
-                        data: idlist,
+                        data: ids,
                         dataType: "text",
                         async: "true",
                         contentType: "application/json",
                         success: function (data) {
-                            /!*重新加载本页面*!/
-                            alert(data);
+                            /*重新加载本页面*/
                             window.location.reload();
                         },
                         error: function (jqXRH) {
                             console.log(jqXRH);
                             alert("删除失败")
                         }
-                    })*/
+                    })
                 }
             }
-
-
         });
     });
 </script>
