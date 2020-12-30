@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kclm.owep.mapper.ExamAnswerpaperQuesMapper">
+
+    <insert id="save" parameterType="com.kclm.owep.entity.ExamAnswerpaperQues"></insert>
+
+    <update id="update" parameterType="com.kclm.owep.entity.ExamAnswerpaperQues"></update>
+
+    <update id="deleteById"></update>
+
+    <update id="deleteSelect"></update>
+
+    <select id="selectById"></select>
+
+    <select id="selectAll"></select>
+</mapper>

@@ -33,4 +33,66 @@ public class ExamAnswerpaperQues implements Serializable {
     * */
     private double quesScore;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public ExamAnswerpaper getExamAnswerpaper() {
+        return examAnswerpaper;
+    }
+
+    public void setExamAnswerpaper(ExamAnswerpaper examAnswerpaper) {
+        this.examAnswerpaper = examAnswerpaper;
+    }
+
+    public String getQuesContent() {
+        return quesContent;
+    }
+
+    public void setQuesContent(String quesContent) {
+        this.quesContent = quesContent;
+    }
+
+    public String getQuesChoice() {
+        return quesChoice;
+    }
+
+    public void setQuesChoice(String quesChoice) {
+        this.quesChoice = quesChoice;
+    }
+
+    public Integer getQuesStatus() {
+        return quesStatus;
+    }
+
+    public void setQuesStatus(Integer quesStatus) {
+        this.quesStatus = quesStatus;
+    }
+
+    public double getQuesScore() {
+        return quesScore;
+    }
+
+    public void setQuesScore(double quesScore) {
+        this.quesScore = quesScore;
+    }
+
+    @Override
+    public String toString() {
+        return "ExamAnswerpaperQues{" +
+                "id=" + id +
+                ", examAnswerpaper=" + examAnswerpaper +
+                ", quesContent='" + quesContent + '\'' +
+                ", quesChoice='" + quesChoice + '\'' +
+                ", quesStatus=" + quesStatus +
+                ", quesScore=" + quesScore +
+                '}';
+    }
+
+    public ExamAnswerpaperQues() {
+    }
 }

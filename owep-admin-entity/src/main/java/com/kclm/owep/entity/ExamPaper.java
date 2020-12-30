@@ -56,4 +56,112 @@ public class ExamPaper implements Serializable {
     * 试卷总分
     * */
     private double paperTotal;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getLastAccessTime() {
+        return lastAccessTime;
+    }
+
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPaperName() {
+        return paperName;
+    }
+
+    public void setPaperName(String paperName) {
+        this.paperName = paperName;
+    }
+
+    public String getPaperType() {
+        return paperType;
+    }
+
+    public void setPaperType(String paperType) {
+        this.paperType = paperType;
+    }
+
+    public Integer getPaperStatus() {
+        return paperStatus;
+    }
+
+    public void setPaperStatus(Integer paperStatus) {
+        this.paperStatus = paperStatus;
+    }
+
+    public Integer getPaperSecurity() {
+        return paperSecurity;
+    }
+
+    public void setPaperSecurity(Integer paperSecurity) {
+        this.paperSecurity = paperSecurity;
+    }
+
+    public double getPaperTotal() {
+        return paperTotal;
+    }
+
+    public void setPaperTotal(double paperTotal) {
+        this.paperTotal = paperTotal;
+    }
+
+    @Override
+    public String toString() {
+        return "ExamPaper{" +
+                "id=" + id +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", isDelete=" + isDelete +
+                ", userName='" + userName + '\'' +
+                ", paperName='" + paperName + '\'' +
+                ", paperType='" + paperType + '\'' +
+                ", paperStatus=" + paperStatus +
+                ", paperSecurity=" + paperSecurity +
+                ", paperTotal=" + paperTotal +
+                '}';
+    }
+
+    public ExamPaper() {
+    }
 }

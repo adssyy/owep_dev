@@ -24,4 +24,49 @@ public class ExamBankLog implements Serializable {
     * 操作时间
     * */
     private LocalDateTime userTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public ExamBank getExamBank() {
+        return examBank;
+    }
+
+    public void setExamBank(ExamBank examBank) {
+        this.examBank = examBank;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public LocalDateTime getUserTime() {
+        return userTime;
+    }
+
+    public void setUserTime(LocalDateTime userTime) {
+        this.userTime = userTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ExamBankLog{" +
+                "id=" + id +
+                ", examBank=" + examBank +
+                ", userName='" + userName + '\'' +
+                ", userTime=" + userTime +
+                '}';
+    }
+
+    public ExamBankLog() {
+    }
 }
