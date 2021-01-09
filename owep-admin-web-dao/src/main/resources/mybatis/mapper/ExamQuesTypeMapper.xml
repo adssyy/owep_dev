@@ -2,9 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kclm.owep.mapper.ExamQuesTypeMapper">
 
-    <insert id="save"></insert>
+    <insert id="save" parameterType="com.kclm.owep.entity.ExamQuesType">
+        insert into t_exam_ques_type(type_name) value (#{typeName})
+    </insert>
 
-    <update id="update"></update>
+    <update id="update" parameterType="com.kclm.owep.entity.ExamQuesType">
+        update t_exam_ques_type
+        set type_name=#{typeName}
+        where id=#{id}
+    </update>
 
     <update id="deleteById"></update>
 
@@ -12,6 +18,8 @@
 
     <select id="selectById"></select>
 
-    <select id="selectAll"></select>
+    <select id="selectAll" resultType="com.kclm.owep.entity.ExamQuesType">
+        select * from t_exam_ques_type
+    </select>
 
 </mapper>

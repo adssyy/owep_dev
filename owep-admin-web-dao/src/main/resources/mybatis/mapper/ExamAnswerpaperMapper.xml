@@ -22,7 +22,7 @@
         where id=#{id}
     </update>
 
-    <update id="deleteById" parameterType="java.lang.Integer">
+    <update id="deleteById" parameterType="java.lang.Integer" >
         update t_exam_answerpaper
         set is_delete=0
         where id=#{id}
@@ -38,14 +38,14 @@
         </where>
     </update>
 
-    <select id="selectById">
+    <select id="selectById" parameterType="int" resultType="com.kclm.owep.entity.ExamAnswerpaper">
         select * from t_exam_answerpaper
         <where>
             id=#{id} and is_delete=1
         </where>
     </select>
 
-    <select id="selectAll">
+    <select id="selectAll" resultType="com.kclm.owep.entity.ExamAnswerpaper">
         select * from t_exam_answerpaper
         where is_delete=1
     </select>

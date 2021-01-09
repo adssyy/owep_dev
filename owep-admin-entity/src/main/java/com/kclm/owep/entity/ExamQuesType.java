@@ -40,4 +40,5 @@ public class ExamQuesType implements Serializable {
 
     public ExamQuesType() {
     }
+
 }

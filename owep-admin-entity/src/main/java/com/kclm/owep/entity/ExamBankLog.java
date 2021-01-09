@@ -69,4 +69,5 @@ public class ExamBankLog implements Serializable {
 
     public ExamBankLog() {
     }
+
 }

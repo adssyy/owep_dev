@@ -2,16 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kclm.owep.mapper.ExamLogMapper">
 
-    <insert id="save"></insert>
+    <insert id="save" parameterType="com.kclm.owep.entity.ExamLog">
+        insert into t_exam_log(exam_id,user_id,user_start,user_end,user_ip)
+        value (#{exam.id},#{user.id},#{userStart},#{userEnd},#{userIp})
+    </insert>
 
-    <update id="update"></update>
+    <update id="update" parameterType="com.kclm.owep.entity.ExamLog">
+        update t_exam_log
+        set exam_id=#{exam.id},
+            user_id=#{user.id},
+            user_start=#{userStart},
+            user_end=#{userEnd},
+            user_ip=#{userIp}
+        where id=#{id}
+    </update>
 
-    <update id="deleteById"></update>
+    <delete id="deleteById" parameterType="int">
+        delete from t_exam_log where id=#{id}
+    </delete>
 
-    <update id="deleteSelect"></update>
+    <delete id="deleteSelect" parameterType="java.util.List">
+        delete from t_exam_log
+        <where>
+            <foreach collection="list" open="id in(" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
 
-    <select id="selectById"></select>
+    <select id="selectById" parameterType="java.lang.Integer">
+        select * from t_exam_log
+        where id=#{id}
+    </select>
 
-    <select id="selectAll"></select>
+    <select id="selectAll">
+        select * from t_exam_log
+    </select>
 
 </mapper>

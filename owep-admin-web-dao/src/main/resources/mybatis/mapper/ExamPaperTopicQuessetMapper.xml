@@ -2,9 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kclm.owep.mapper.ExamPaperTopicQuessetMapper">
 
-    <insert id="save"></insert>
+    <insert id="save" parameterType="com.kclm.owep.entity.ExamPaperTopicQuesset">
+        insert into t_exam_paper_topic_quesset(paper_id,topic_id,ques_id,ques_content,score)
+        value(#{examPaper.id},#{examPaperTopic.id},#{examQues.id},#{quesContent},#{score})
+    </insert>
 
-    <update id="update"></update>
+    <update id="update" parameterType="com.kclm.owep.entity.ExamPaperTopicQuesset">
+        update t_exam_paper_topic_quesset
+        set paper_id=#{examPaper.id},
+            topic_id=#{examPaperTopic.id},
+            ques_id=#{examQues.id},
+            ques_content=#{quesContent},
+            score=#{score}
+        where id=#{id}
+    </update>
 
     <update id="deleteById"></update>
 

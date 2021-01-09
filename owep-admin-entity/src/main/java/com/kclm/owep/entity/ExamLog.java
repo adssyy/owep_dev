@@ -96,4 +96,5 @@ public class ExamLog implements Serializable {
 
     public ExamLog() {
     }
+
 }

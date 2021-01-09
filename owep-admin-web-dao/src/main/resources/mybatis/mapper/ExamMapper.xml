@@ -12,14 +12,57 @@
         #{timeLimit},#{limit},#{answerAnnouncement},#{detail},#{createTime},#{version},#{lastAccessTime},#{userName},#{examPaper.id})
     </insert>
 
-    <update id="update"></update>
+    <update id="update" parameterType="com.kclm.owep.entity.Exam">
+        update t_exam
+        set exam_name=#{examName},
+            exam_type=#{examType},
+            exam_status=#{examStatus},
+            exam_pass_sore=#{passScore},
+            exam_test_sequecing=#{testSequecing},
+            exam_show=#{show},
+            exam_choice_sequecing=#{choiceSequecing},
+            exam_number=#{number},
+            exam_notice=#{notice},
+            exam_start=#{start},
+            exam_end=#{end},
+            exam_time=#{time},
+            exam_score_announcement=#{scoreAnnouncement},
+            exam_timelimit=#{timeLimit},
+            exam_limit=#{limit},
+            exam_answer_announcement=#{answerAnnouncement},
+            exam_detail=#{detail},
+            create_time=#{createTime},
+            version=#{version},
+            last_access_time=#{lastAccessTime},
+            user_name=#{userName},
+            paper_id=#{examPaper.id}
+            where id=#{id}
+    </update>
 
-    <update id="deleteById"></update>
+    <update id="deleteById" parameterType="int">
+        update t_exam
+        set is_delete=0
+        where id=#{id}
+    </update>
 
-    <update id="deleteSelect"></update>
+    <update id="deleteSelect" parameterType="java.util.List">
+        update t_exam
+        set  is_delete=0
+        <where>
+            <foreach collection="list" open="id in(" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </update>
 
-    <select id="selectById"></select>
+    <select id="selectById" parameterType="int" resultType="com.kclm.owep.entity.Exam">
+        select * from t_exam
+        where id=#{id} and is_delete=1;
+    </select>
 
-    <select id="selectAll"></select>
+    <select id="selectAll" resultType="com.kclm.owep.entity.Exam">
+        select * from t_exam
+        where is_delete=1;
+    </select>
 
 </mapper>

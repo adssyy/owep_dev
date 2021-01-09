@@ -2,16 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kclm.owep.mapper.ExamPaperMapper">
 
-    <insert id="save"></insert>
+    <insert id="save" parameterType="com.kclm.owep.entity.ExamPaper">
+        insert into t_exam_paper(paper_name,paper_type,paper_status,paper_security,paper_total,create_time,version,last_access_time,user_name)
+        value (#{paperName},#{paperType},#{paperStatus},#{paperSecurity},#{paperTotal},#{createTime},#{version},#{lastAccessTime},#{userName})
+    </insert>
 
-    <update id="update"></update>
+    <update id="update" parameterType="com.kclm.owep.entity.ExamPaper">
+        update t_exam_paper
+        set paper_name=#{paperName},
+            paper_type=#{paperType},
+            paper_status=#{paperStatus},
+            paper_security=#{paperSecurity},
+            paper_total=#{paperTotal},
+            create_time=#{createTime},
+            version=#{version},
+            last_access_time=#{lastAccessTime},
+            user_name=#{userName}
+        where id=#{id}
+    </update>
 
-    <update id="deleteById"></update>
+    <update id="deleteById" parameterType="int">
+        update t_exam_paper
+        set is_delete=0
+        where id=#{id}
+    </update>
 
     <update id="deleteSelect"></update>
 
-    <select id="selectById"></select>
+    <select id="selectById" parameterType="int">
+        select * from t_exam_paper where id=#{id}
+    </select>
 
-    <select id="selectAll"></select>
+    <select id="selectAll">
+        select * from t_exam_paper where is_delete=1
+    </select>
 
 </mapper>

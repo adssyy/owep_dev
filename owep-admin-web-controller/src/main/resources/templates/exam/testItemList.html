@@ -17,21 +17,21 @@
           rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css"
-          th:href="@{/static/css//plugins/sweetalert/sweetalert.css" rel="stylesheet">
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
     <link href="../../static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
-          th:href="@{/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+          th:href="@{/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}"
           rel="stylesheet">
     <!--代码编辑框-->
     <link href="../../static/css/plugins/codemirror/codemirror.css"
-          th:href="@{/static/css/plugins/codemirror/codemirror.css" rel="stylesheet">
-    <link href="../../static/css/plugins/codemirror/ambiance.css" th:href="/static/css/plugins/codemirror/ambiance.css"
+          th:href="@{/static/css/plugins/codemirror/codemirror.css}" rel="stylesheet">
+    <link href="../../static/css/plugins/codemirror/ambiance.css" th:href="@{/static/css/plugins/codemirror/ambiance.css}"
           rel="stylesheet">
     <!--simditor-->
     <link rel="stylesheet" type="text/css" href="../../static/css/plugins/simditor/simditor.css"
-          th:href="@{/static/css/plugins/simditor/simditor.css"/>
+          th:href="@{/static/css/plugins/simditor/simditor.css}"/>
     <!--自定义样式-->
     <link rel="stylesheet" type="text/css" href="../../static/public/exam/css/exam.css"
-          th:href="@{/static/public/exam/css/exam.css"/>
+          th:href="@{/static/public/exam/css/exam.css}"/>
 
 </head>
 <body class="gray-bg">
@@ -61,8 +61,7 @@
                                        style="margin-left: 20px">导入试题</a>
                                 </div>
                                 <!--试题管理-->
-                                <form class="form-inline" style="margin-bottom:15px" id="create_question"
-                                      style="display:none;">
+                                <form class="form-inline" style="margin-bottom:15px; display:block;" id="create_question">
                                     <div style="margin-bottom: 20px">
                                         <div class="form-group">
                                             <div class="input-group">
@@ -899,28 +898,28 @@
 </body>
 <!-- 全局js -->
 <script src="../../static/js/jquery.min.js?v=2.1.4"
-        th:href="@{/static/js/jquery.min.js}"></script>
+        th:src="@{/static/js/jquery.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js?v=3.3.6"
-        th:href="@{/static/js/bootstrap.min.js}"></script>
+        th:src="@{/static/js/bootstrap.min.js}"></script>
 <!-- 自定义js -->
 <script src="../../static/js/content.js?v=1.0.0"
-        th:href="@{/static/js/content.js}"></script>
+        th:src="@{/static/js/content.js}"></script>
 <!-- Bootstrap table -->
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <!--动态搜索-->
 <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
-        th:href="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!-- layerDate plugin javascript -->
 <script src="../../static/js/plugins/layer/laydate/laydate.js"
-        th:href="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+        th:src="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
 <!-- Sweet alert -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
-        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <!--滑动按钮-->
 <script src="../../static/js/plugins/switchery/switchery.js"
         th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
@@ -934,21 +933,21 @@
         th:src="@{/static/js/plugins/codemirror/mode/javascript/javascript.js}"></script>
 <!-- simditor -->
 <script type="text/javascript" src="../../static/js/plugins/simditor/module.js"
-        th:href="@{/static/js/plugins/simditor/module.js}"></script>
+        th:src="@{/static/js/plugins/simditor/module.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/uploader.js"
-        th:href="@{/static/js/plugins/simditor/uploader.js}"></script>
+        th:src="@{/static/js/plugins/simditor/uploader.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/hotkeys.js"
-        th:href="@{/static/js/plugins/simditor/hotkeys.js}"></script>
+        th:src="@{/static/js/plugins/simditor/hotkeys.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/simditor.js"
-        th:href="@{/static/js/plugins/simditor/simditor.js}"></script>
+        th:src="@{/static/js/plugins/simditor/simditor.js}"></script>
 <!-- Prettyfile -->
 <script src="../../static/js/plugins/prettyfile/bootstrap-prettyfile.js"
-        th:href="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+        th:src="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
 <!--自定义js-->
 <script src="../../static/public/exam/js/testlermList.js"
-        th:href="@{/static/public/exam/js/testlermList.js}"></script>
+        th:src="@{/static/public/exam/js/testlermList.js}"></script>
 <script src="../../static/public/exam/js/modifyOptions.js"
-        th:href="@{/static/public/exam/js/modifyOptions.js}"></script>
+        th:src="@{/static/public/exam/js/modifyOptions.js}"></script>
 <script>
     /*文件上传*/
     $('#file-pretty input[type="file"]').prettyFile();
@@ -1164,7 +1163,7 @@
 
         //试题管理
         $('#my_test_item_table').bootstrapTable({
-            url: '../../static/js/demo/exam/test_question_management.json',       //请求后台的URL（*）
+            url: '/owep/static/js/demo/exam/test_question_management.json',       //请求后台的URL（*）
             // method: 'get',                      //请求方式（*）
             striped: true,                      //是否显示行间隔色
             pagination: true,                   //是否显示分页（*）
@@ -1191,7 +1190,7 @@
                     title: '状态',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        if (value === "正常") {
+                        if (value == 1) {
                             return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked/>';
                         }
                         return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '"/>';
@@ -1606,7 +1605,7 @@
 
         /*共享题库*/
         $('#share_test_item_table').bootstrapTable({
-            url: '../../static/js/demo/exam/test_question_management.json', //请求后台的URL（*）
+            url: '/owep/static/js/demo/exam/test_question_management.json', //请求后台的URL（*）
             // method: 'get',                      //请求方式（*）
             striped: true,                      //是否显示行间隔色
             pagination: true,                   //是否显示分页（*）

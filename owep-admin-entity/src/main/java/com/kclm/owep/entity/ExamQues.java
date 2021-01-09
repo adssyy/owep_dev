@@ -47,6 +47,11 @@ public class ExamQues implements Serializable {
     /*
     * 来源
     * */
+    private String source;
+
+    /*
+     * 标签
+     * */
     private String lable;
 
     /*
@@ -138,6 +143,14 @@ public class ExamQues implements Serializable {
         this.hardLevel = hardLevel;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     public String getLable() {
         return lable;
     }
@@ -197,6 +210,7 @@ public class ExamQues implements Serializable {
                 ", examBank=" + examBank +
                 ", typeName='" + typeName + '\'' +
                 ", hardLevel='" + hardLevel + '\'' +
+                ", source='" + source + '\'' +
                 ", lable='" + lable + '\'' +
                 ", status=" + status +
                 ", quesContent='" + quesContent + '\'' +
@@ -208,4 +222,5 @@ public class ExamQues implements Serializable {
 
     public ExamQues() {
     }
+
 }
