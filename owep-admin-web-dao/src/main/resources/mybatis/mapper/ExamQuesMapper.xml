@@ -8,7 +8,14 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
         <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
-        <association property="examBank" column="bank_id"
+        <result column="ques_type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="ques_hard_level" jdbcType="VARCHAR" property="hardLevel"/>
+        <result column="ques_source" jdbcType="VARCHAR" property="source"/>
+        <result column="ques_lable" jdbcType="VARCHAR" property="lable"/>
+        <result column="ques_status" jdbcType="INTEGER" property="status"/>
+        <result column="ques_content" jdbcType="VARCHAR" property="quesContent"/>
+        <result column="ques_analyze" jdbcType="VARCHAR" property="analyze"/>
+        <association property="examBank" column="bank_id" javaType="ExamBank" select="com.kclm.owep.mapper.ExamBankMapper.selectById"/>
     </resultMap>
 
     <insert id="save" parameterType="com.kclm.owep.entity.ExamQues">
@@ -52,12 +59,15 @@
         </where>
     </update>
 
-    <select id="selectById" parameterType="int">
+    <select id="selectById" parameterType="int" resultMap="ExamQuesBaseMap">
         select * from t_exam_ques where id=#{id} and is_delete=1
     </select>
 
-    <select id="selectAll">
-        select * from t_exam_ques where is_delete=1 and
+    <select id="selectAll" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where is_delete=1
+    </select>
+    <select id="selectMyQues" parameterType="java.lang.String" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where is_delete=1 and user_name=#{userName}
     </select>
 
 </mapper>

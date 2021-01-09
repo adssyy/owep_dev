@@ -1163,8 +1163,9 @@
 
         //试题管理
         $('#my_test_item_table').bootstrapTable({
-            url: '/owep/static/js/demo/exam/test_question_management.json',       //请求后台的URL（*）
-            // method: 'get',                      //请求方式（*）
+            // url: '/owep/static/js/demo/exam/test_question_management.json',       //请求后台的URL（*)
+            url:"/owep/exam/testItemList.do",
+            method: 'post',                      //请求方式（*）
             striped: true,                      //是否显示行间隔色
             pagination: true,                   //是否显示分页（*）
             queryParams: queryParams,           //传递参数（*）
@@ -1178,11 +1179,11 @@
                 [{
                     checkbox: true
                 }, {
-                    field: 'question_bank',
+                    field: 'examBank.bankName',
                     title: '题库',
                     align: 'center',
                 }, {
-                    field: 'type',
+                    field: 'typeName',
                     title: '类型',
                     align: 'center',
                 }, {
@@ -1190,17 +1191,17 @@
                     title: '状态',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        if (value == 1) {
-                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked/>';
+                        if (row.status == 1) {
+                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 1 + '" checked/>';
                         }
-                        return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '"/>';
+                        return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 0 + '"/>';
                     },
                 }, {
-                    field: 'difficulty',
+                    field: 'hardLevel',
                     align: 'center',
                     title: '难度',
                 }, {
-                    field: 'question_stem',
+                    field: 'quesContent',
                     align: 'center',
                     title: '题干',
                 }, {
@@ -1208,7 +1209,7 @@
                     align: 'center',
                     title: '最后修改',
                     formatter: function (value, row, index) {
-                        return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.founder + "</p><p class='text-muted'>" + row.change_modified + "</p></div>";
+                        return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.userName + "</p><p class='text-muted'>" + row.lastAccessTime + "</p></div>";
                     }
                 }, {
                     field: 'operate',

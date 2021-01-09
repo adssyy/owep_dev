@@ -3,8 +3,10 @@ package com.kclm.owep.web.controller;
 import com.kclm.owep.convert.UserConvert;
 import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.entity.ExamBank;
+import com.kclm.owep.entity.ExamQues;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.service.ExamBankService;
+import com.kclm.owep.service.ExamQuesService;
 import com.kclm.owep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +23,8 @@ import java.util.List;
 public class ExamController {
     @Autowired
     private ExamBankService examBankService;
+    @Autowired
+    private ExamQuesService examQuesService;
     @Autowired
     UserService userService;
 
@@ -130,6 +134,17 @@ public class ExamController {
     public String doUpdateShareBank(ExamBank examBank){
         examBankService.updateShareBank(examBank);
         return "success";
+    }
+
+    //
+
+    //查看我的试题
+    @RequestMapping("/testItemList.do")
+    @ResponseBody
+    public List<ExamQues> doTestItemList(HttpSession session){
+        User user=getLoginUser(session);
+        System.out.println(examQuesService.selectMyQues(user.getUserName()));
+        return examQuesService.selectMyQues(user.getUserName());
     }
 
 }
