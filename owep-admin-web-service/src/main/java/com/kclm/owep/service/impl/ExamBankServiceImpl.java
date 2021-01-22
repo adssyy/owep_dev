@@ -64,4 +64,14 @@ public class ExamBankServiceImpl implements ExamBankService {
     public int updateShareBank(ExamBank examBank) {
         return examBankMapper.updateShareBank(examBank);
     }
+
+    @Override
+    public ExamBank selectBankById(Integer id) {
+        return examBankMapper.selectById(id);
+    }
+
+    @Override
+    public int updateQuesNumber(int id) {
+        return examBankMapper.updateQuesNumber(id);
+    }
 }

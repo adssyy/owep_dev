@@ -23,5 +23,8 @@
     <select id="selectById"></select>
 
     <select id="selectAll"></select>
+    <select id="selectAnswerSetbyExamQuesId" resultType="com.kclm.owep.entity.ExamQuesAnswerSet">
+        select * from t_exam_ques_answerset where ques_id=#{quesId,jdbcType=INTEGER} order by type_name asc
+    </select>
 
 </mapper>

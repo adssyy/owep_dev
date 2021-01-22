@@ -34,4 +34,10 @@ public interface ExamBankService {
 
     //修改共享题库
     int updateShareBank(ExamBank examBank);
+
+    //通过Id查看题库
+    ExamBank selectBankById(Integer id);
+
+    //更新试题数量
+    int updateQuesNumber(int id);
 }

@@ -70,6 +70,11 @@ public class ExamQues implements Serializable {
     private String analyze;
 
     /*
+    * 该单选题或多选题的正确答案[冗余设计]
+    * */
+    private String correctAnswer;
+
+    /*
     * 引用次数
     * */
     private Integer useCount;
@@ -141,6 +146,14 @@ public class ExamQues implements Serializable {
 
     public void setHardLevel(String hardLevel) {
         this.hardLevel = hardLevel;
+    }
+
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 
     public String getSource() {
@@ -215,6 +228,7 @@ public class ExamQues implements Serializable {
                 ", status=" + status +
                 ", quesContent='" + quesContent + '\'' +
                 ", analyze='" + analyze + '\'' +
+                ", correctAnswer='" + correctAnswer + '\'' +
                 ", useCount=" + useCount +
                 ", userName='" + userName + '\'' +
                 '}';

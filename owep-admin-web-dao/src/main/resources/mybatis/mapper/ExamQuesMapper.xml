@@ -14,14 +14,15 @@
         <result column="ques_lable" jdbcType="VARCHAR" property="lable"/>
         <result column="ques_status" jdbcType="INTEGER" property="status"/>
         <result column="ques_content" jdbcType="VARCHAR" property="quesContent"/>
+        <result column="correct_answer" jdbcType="VARCHAR" property="correctAnswer"/>
         <result column="ques_analyze" jdbcType="VARCHAR" property="analyze"/>
         <association property="examBank" column="bank_id" javaType="ExamBank" select="com.kclm.owep.mapper.ExamBankMapper.selectById"/>
     </resultMap>
 
     <insert id="save" parameterType="com.kclm.owep.entity.ExamQues">
         insert into t_exam_ques(ques_type_name,ques_hard_level,ques_source,ques_lable,ques_status,
-        ques_content,ques_analyze,create_time,version,last_access_time,use_count,bank_id,user_name)
-        value (#{typeName},#{hardLevel},#{source},#{lable},#{status},#{quesContent},#{analyze},#{createTime},#{version},
+        ques_content,correct_answer,ques_analyze,create_time,version,last_access_time,use_count,bank_id,user_name)
+        value (#{typeName},#{hardLevel},#{source},#{lable},#{status},#{quesContent},#{correctAnswer},#{analyze},#{createTime},#{version},
         #{lastAccessTime},#{useCount},#{examBank.id},#{userName})
     </insert>
 
@@ -33,6 +34,7 @@
             ques_lable=#{lable},
             ques_status=#{status},
             ques_content=#{quesContent},
+            correct_answer=#{correctAnswer},
             ques_analyze=#{analyze},
             create_time=#{createTime},
             version=#{version},
@@ -66,8 +68,17 @@
     <select id="selectAll" resultMap="ExamQuesBaseMap">
         select * from t_exam_ques where is_delete=1
     </select>
+
     <select id="selectMyQues" parameterType="java.lang.String" resultMap="ExamQuesBaseMap">
-        select * from t_exam_ques where is_delete=1 and user_name=#{userName}
+        select * from t_exam_ques where is_delete=1 and user_name=#{userName} and bank_id in (select id from t_exam_bank where is_delete=1) order by id desc
+    </select>
+
+    <select id="selectShareQues" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where is_delete=1 and bank_id in (select id from t_exam_bank where bank_security=2 and t_exam_bank.is_delete=1) order by id desc
+    </select>
+
+    <select id="selectBybankIdAndType" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where bank_id=#{bankId} and ques_type_name=#{typeName} and is_delete=1
     </select>
 
 </mapper>

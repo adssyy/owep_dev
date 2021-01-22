@@ -30,4 +30,6 @@ public interface ExamBankMapper extends BaseMapper<ExamBank> {
     //模糊查询共享题库
     List<ExamBank> selectShareBankbyWord(@Param("shareWord")String shareWord,@Param("shareStatus")int shareStatus,@Param("userIdList") List<Integer> userIdList);
 
+    //更新题库的试题数量
+    int updateQuesNumber(@Param("id") int id);
 }

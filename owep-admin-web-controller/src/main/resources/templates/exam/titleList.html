@@ -164,7 +164,7 @@
                                     <div class="tm-tab-body" style="padding-left: 0;">
                                         <h1 class="tm-table-form-base-title">创建题库</h1>
                                         <div class="tm_table_form_base_body">
-                                            <form method="get" class="form-horizontal" th:action="@{/exam/saveBank.do}">
+                                            <form method="post" class="form-horizontal" name="addExamBankForm">
                                                 <div class="form-group">
                                                     <label class="col-sm-1 col-sm-offset-1 control-label">题库名称</label>
                                                     <div class="col-sm-6">
@@ -204,9 +204,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="btn-group col-sm-offset-2">
-<!--                                                    <button type="button" class="btn btn-success ">提交-->
-<!--                                                    </button>-->
-                                                    <input type="submit" class="btn btn-success " value="提交">
+                                                    <button type="button" class="btn btn-success " id="addBtn">提交
+                                                    </button>
                                                     <button type="reset" class="btn btn-white"
                                                             style="margin-left: 3px;">重新填写
                                                     </button>
@@ -389,7 +388,7 @@
         </div>
     </div>
 </div>
-<!--导出模态框-->
+<!--导入模态框-->
 <div class="modal fade" id="import" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -420,7 +419,7 @@
                         <div class="col-sm-11">
                             <h1 class="tm_table_form_base_title">批量导入</h1>
                             <div class="tm_table_form_base_body">
-                                <form id="import_form" method="post">
+                                <form id="import_form" method="post" enctype="multipart/form-data" name="import_form">
                                     <table class="tm_table_form_base" style="width: 90%">
                                         <tbody>
                                         <tr>
@@ -428,18 +427,19 @@
                                                 目标题库
                                             </th>
                                             <td>
-                                                <select class="form-control margin_bottom">
+                                                <select class="form-control margin_bottom" name="uploadBankId" id="uploadBankId">
                                                     <option value="">请选择目标题库</option>
-                                                    <option>开发题</option>
-                                                    <option>编程题</option>
-                                                    <option>选择题</option>
+<!--                                                    <option>开发题</option>-->
+<!--                                                    <option>编程题</option>-->
+<!--                                                    <option>选择题</option>-->
+                                                    <option th:each="Banks:${myAllBanks}" th:text="${Banks.bankName}" th:value="${Banks.id}"></option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="padding_left">数据文件</th>
                                             <td>
-                                                <input class="form-control margin_bottom" multiple="multiple"
+                                                <input class="form-control margin_bottom" multiple="multiple" name="uploadFileName" id="uploadFileName"
                                                        type="file">
                                             </td>
                                         </tr>
@@ -461,7 +461,7 @@
                                                     <button class="btn btn-success"
                                                             data-dismiss="modal">关闭
                                                     </button>
-                                                    <button class="btn btn-success">确定</button>
+                                                    <button class="btn btn-success" id="uploadFileButton">确定</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -502,7 +502,7 @@
                         <div class="col-sm-11">
                             <h1 class="tm_table_form_base_title">题库导出</h1>
                             <div class="tm_table_form_base_body">
-                                <form id="export_form" method="post">
+                                <form id="export_form" method="post" name="export_form">
                                     <table class="tm_table_form_base" style="width: 90%">
                                         <tbody>
                                         <tr>
@@ -511,22 +511,24 @@
                                                 导出题库
                                             </th>
                                             <td>
-                                                <select class="form-control validate[required]"
+                                                <select class="form-control validate[required]" name="bankId" id="bankId"
                                                         style="margin-bottom: 10px">
                                                     <option value="">请选择需要导出的题库</option>
-                                                    <option>JAVA题</option>
-                                                    <option>MySQL题</option>
-                                                    <option>Mybatis题</option>
+                                                    <option th:each="Banks:${myAllBanks}" th:text="${Banks.bankName}" th:value="${Banks.id}"></option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th style="padding-left: 40px;">选择题型</th>
                                             <td>
-                                                <select class="form-control validate[required]">
+                                                <select class="form-control validate[required]" name="type" id="type">
                                                     <option value="">请选择题型</option>
-                                                    <option>单选题</option>
-                                                    <option>编程题</option>
+                                                    <option value="单选题">单选题</option>
+                                                    <option value="多选题">多选题</option>
+                                                    <option value="判断题">判断题</option>
+                                                    <option value="填空题">填空题</option>
+                                                    <option value="回答题">回答题</option>
+                                                    <option value="附件题">附件题</option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -539,7 +541,7 @@
                                                     <button class="btn btn-success"
                                                             data-dismiss="modal">关闭
                                                     </button>
-                                                    <button class="btn btn-success">确定</button>
+                                                    <button class="btn btn-success" id="ExportFormBtn">确定</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -627,6 +629,8 @@
     $('input[type="file"]').prettyFile();
 </script>
 <script>
+    var appName=[[@{/}]];
+        console.log(appName);
     $(function () {
         //1.初始化Table
         var oTable = new TableInit();
@@ -655,7 +659,7 @@
                     //todo 发送请求到服务端，更新状态
                     alert("修改id为" + value[index].id + "的试题：" + value[index].bankStatus);
                     $.ajax({
-                        url:"/owep/exam/switcheryMyBank.do",
+                        url:appName+"exam/switcheryMyBank.do",
                         method:"POST",
                         data:"id="+value[index].id+"&bankStatus="+value[index].bankStatus,
                         dataType:"text",
@@ -681,7 +685,7 @@
             //我的题库
             $('#tb_departments_1').bootstrapTable({
                 // url: "/static/js/demo/exam/titleList.json",       //请求后台的URL（*）
-                url:"/owep/exam/titleList.do",
+                url:appName+"exam/titleList.do",
                 method: 'POST',                      //请求方式（*）
                 striped: true,                      //是否显示行间隔色
                 pagination: true,                   //是否显示分页（*）
@@ -718,7 +722,7 @@
                         title: '试题数量',
                         formatter: function (value, row, index) {
                             let num = row.quesNumber;
-                            return "<a href='testItemList.html' style='text-decoration: underline'>" + num + "</a>";
+                            return "<a href='testItemList' style='text-decoration: underline'>" + num + "</a>";
                         }
                     }, {
                         field: 'bankSecurity',
@@ -766,7 +770,7 @@
                                 }, function () {
                                     //TODO 发送ajax请求
                                     $.ajax({
-                                        url:"/owep/exam/deletebyid.do",
+                                        url:appName+"exam/deletebyid.do",
                                         method:"POST",
                                         async:true,
                                         data:"id="+row.id,
@@ -817,9 +821,9 @@
                                     var dateform=new FormData(form);
                                     console.log(dateform);
                                     $.ajax({
-                                        url:"/owep/exam/updateMyBank.do",
+                                        url:appName+"exam/updateMyBank.do",
                                         method:"POST",
-                                        astnc:true,
+                                        async:true,
                                         data:dateform,
                                         dataType: "text",   //期望服务端发送给客户端的数据类型。注：不要写成：application/json
                                         contentType: false, //必需使用 false,  这样才能使用form表单采用 multipart/form-data 传输
@@ -843,7 +847,7 @@
             /*共享题库*/
             $('#tb_departments_2').bootstrapTable({
                 // url: '/owep/static/js/demo/exam/titleList.json',       //请求后台的URL（*）
-                url:"/owep/exam/titleListshare.do",
+                url:appName+"exam/titleListshare.do",
                 method: 'POST',                      //请求方式（*）
                 striped: true,                      //是否显示行间隔色
                 pagination: true,                   //是否显示分页（*）
@@ -881,7 +885,7 @@
                         title: '试题数量',
                         formatter: function (value, row, index) {
                             let num = row.quesNumber;
-                            return "<a href='testItemList.html' style='text-decoration: underline'>" + num + "</a>";
+                            return "<a href='testItemList' style='text-decoration: underline'>" + num + "</a>";
                         }
                     }, {
                         field: 'bankSecurity',
@@ -926,7 +930,7 @@
                                 }, function () {
                                     //TODO 发送ajax请求
                                     $.ajax({
-                                        url:"/owep/exam/deletebyid.do",
+                                        url:appName+"exam/deletebyid.do",
                                         method:"POST",
                                         data: "id="+row.id,
                                         dataType:"text",
@@ -984,9 +988,9 @@
                                         var form=document.forms["updateShareBankForm"];
                                         var formdata=new FormData(form);
                                         $.ajax({
-                                            url:"/owep/exam/updateShareBank.do",
+                                            url:appName+"exam/updateShareBank.do",
                                             method:"POST",
-                                            astnc:true,
+                                            async:true,
                                             data:formdata,
                                             dataType:"text",
                                             contentType: false, //必需使用 false,  这样才能使用form表单采用 multipart/form-data 传输
@@ -1023,6 +1027,7 @@
     var ButtonInit = function () {
         var oInit = new Object();
         var postdata = {};
+
         oInit.Init = function () {
             // 我的题库查询
             $("#queryBtn").click(function () {
@@ -1031,7 +1036,7 @@
                 var mhSecurity=$("#mhSecurity").val();
                 // $('#tb_departments_1').bootstrapTable('refresh');
                 $.ajax({
-                    url:"/owep/exam/searchMyBank.do",
+                    url:appName+"exam/searchMyBank.do",
                     method:"POST",
                     async:true,
                     data:"word="+word+"&mhStatus="+mhStatus+"&mhSecurity="+mhSecurity,
@@ -1059,7 +1064,7 @@
                 console.log(shareStatus);
                 console.log(userName);
                 $.ajax({
-                    url:"/owep/exam/searchShareBank.do",
+                    url:appName+"exam/searchShareBank.do",
                     method:"POST",
                     data:"shareWord="+shareWord+"&shareStatus="+shareStatus+"&userName="+userName,
                     dataType:"json",
@@ -1072,6 +1077,76 @@
                     }
                 })
             });
+
+            //创建题库按钮
+            $("#addBtn").click(function () {
+                var form=document.forms["addExamBankForm"];
+                var dataForm=new FormData(form);
+                $.ajax({
+                    url:appName+"exam/saveBank.do",
+                    method:"post",
+                    async:true,
+                    data:dataForm,
+                    dataType:"text",
+                    contentType: false, //必需使用 false,  这样才能使用form表单采用 multipart/form-data 传输
+                    processData: false,
+                    success:function (data) {
+                        alert(data);
+                        window.location.reload();
+                    }
+                })
+            });
+
+            //导入试题
+            //multipartFile要用multipartForm来传
+            $("#uploadFileButton").click(function () {
+                //var form=$("#import_form");严重错误， formdata为js标准对象，不能传JQuery的对象
+                var form = document.forms["import_form"];
+                var dataform=new FormData(form);
+                $.ajax({
+                    url:appName+"exam/addUploadFile.do",
+                    method:"post",
+                    async:false,
+                    data:dataform,
+                    dataType:"text",
+                    contentType:false,
+                    processData: false,
+                    success: function(data) {
+                        console.log(data);
+                        alert(data);
+                        // window.location.reload()
+                    },
+                    error:function (jqxhr) {
+                        console.log(jqxhr);
+                        alert("error")
+                    }
+                })
+                // console.log(dataform);
+                // console.log(uploadBankId);
+                // console.log(uploadFileName);
+            });
+
+            //导出试题
+            $("#ExportFormBtn").click(function(){
+                var form=document.forms["export_form"];
+                var Formdata=new FormData(form);
+                $.ajax({
+                    url:appName+"exam/exportQues.do",
+                    method:"post",
+                    async:false,
+                    data:Formdata,
+                    dataType:"text",
+                    contentType:false,
+                    processData:false,
+                    success:function (data) {
+                        console.log(data);
+                    },
+                    error:function (jqxhr) {
+                        console.log("error");
+                    }
+                })
+            });
+
         };
         return oInit;
     };
@@ -1120,7 +1195,7 @@
     /*试题数量*/
     function item_number(value, row, index) {
         let num = row.quesNumber;
-        return "<a href='testItemList.html' style='text-decoration: underline'>" + num + "</a>";
+        return "<a href='testItemList' style='text-decoration: underline'>" + num + "</a>";
     }
 
     $(function () {
