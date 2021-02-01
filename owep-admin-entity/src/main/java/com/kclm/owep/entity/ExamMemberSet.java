@@ -23,4 +23,50 @@ public class ExamMemberSet implements Serializable {
     * class_id(fk)
     * */
     private Clazz clazz;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Exam getExam() {
+        return exam;
+    }
+
+    public void setExam(Exam exam) {
+        this.exam = exam;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
+    }
+
+    @Override
+    public String toString() {
+        return "ExamMemberSet{" +
+                "id=" + id +
+                ", exam=" + exam +
+                ", user=" + user +
+                ", clazz=" + clazz +
+                '}';
+    }
+
+    public ExamMemberSet() {
+    }
+
 }

@@ -17,9 +17,9 @@
           rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css"
-          th:href="@{/static/css//plugins/sweetalert/sweetalert.css" rel="stylesheet">
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
     <link href="../../static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
-          th:href="@{/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+          th:href="@{/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}"
           rel="stylesheet">
     <style type="text/css">
         .input_margin {
@@ -126,28 +126,27 @@
                                     <a class="btn btn-sm  btn-success test_base_management"
                                        style="margin-left: 3px;">题库管理</a>
                                 </div>
-                                <form class="form-inline" style="margin-bottom:15px" id="create_question"
-                                      style="display:none;">
+                                <form class="form-inline" name="mhMyBankForm" style="margin-bottom:15px; display:block;" id="create_question" method="post">
                                     <div style="margin-bottom: 20px">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input class="form-control" type="text" placeholder="关键字"
+                                                <input class="form-control" type="text" placeholder="关键字" name="word" id="word"
                                                        maxlength="30">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <select class="form-control">
-                                                    <option value="">状态</option>
+                                                <select class="form-control" name="mhStatus" id="mhStatus">
+                                                    <option value="-1">状态</option>
                                                     <option value="1">正常</option>
-                                                    <option value="2">禁用</option>
+                                                    <option value="0">禁用</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <select class="form-control">
-                                                    <option value="">权限</option>
+                                                <select class="form-control" name="mhSecurity" id="mhSecurity">
+                                                    <option value="-1">权限</option>
                                                     <option value="1">完全私有</option>
                                                     <option value="2">只读共享</option>
                                                 </select>
@@ -165,11 +164,11 @@
                                     <div class="tm-tab-body" style="padding-left: 0;">
                                         <h1 class="tm-table-form-base-title">创建题库</h1>
                                         <div class="tm_table_form_base_body">
-                                            <form method="get" class="form-horizontal">
+                                            <form method="post" class="form-horizontal" name="addExamBankForm">
                                                 <div class="form-group">
                                                     <label class="col-sm-1 col-sm-offset-1 control-label">题库名称</label>
                                                     <div class="col-sm-6">
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" name="bankName">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -177,13 +176,13 @@
                                                     <div class="col-sm-6">
                                                         <div class="radio radio-success radio-inline">
                                                             <input type="radio" id="inlineRadio1"
-                                                                   value="option1" name="radioInline"
+                                                                   value="1" name="bankStatus"
                                                                    checked="">
                                                             <label for="inlineRadio1">正常</label>
                                                         </div>
                                                         <div class="radio radio-danger radio-inline">
                                                             <input type="radio" id="inlineRadio2"
-                                                                   value="option2" name="radioInline">
+                                                                   value="0" name="bankStatus">
                                                             <label for="inlineRadio2">禁用</label>
                                                         </div>
                                                     </div>
@@ -192,20 +191,20 @@
                                                     <label class="col-sm-1 col-sm-offset-1 control-label">
                                                         题库说明</label>
                                                     <div class="col-sm-6">
-                                                        <textarea type="text" class="form-control"></textarea>
+                                                        <textarea type="text" class="form-control" name="bankDesc"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-1 col-sm-offset-1 control-label">访问权限</label>
                                                     <div class="col-sm-6">
-                                                        <select class="form-control">
-                                                            <option>完全私有(只有您本人可以操作和使用题库)</option>
-                                                            <option>只读共享(其他管理员仅可引用您题库中的试题)</option>
+                                                        <select class="form-control" name="bankSecurity">
+                                                            <option value="1">完全私有(只有您本人可以操作和使用题库)</option>
+                                                            <option value="2">只读共享(其他管理员仅可引用您题库中的试题)</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="btn-group col-sm-offset-2">
-                                                    <button type="button" class="btn btn-success ">提交
+                                                    <button type="button" class="btn btn-success " id="addBtn">提交
                                                     </button>
                                                     <button type="reset" class="btn btn-white"
                                                             style="margin-left: 3px;">重新填写
@@ -220,11 +219,14 @@
                                     <div class="tm-tab-body" style="padding-left: 0;">
                                         <h1 class="tm-table-form-base-title">修改题库</h1>
                                         <div class="tm_table_form_base_body">
-                                            <form method="get" class="form-horizontal">
+                                            <form method="post" class="form-horizontal" name="updateMyBankForm" id="f1" th:action="@{/exam/updateBank.do}">
                                                 <div class="form-group">
                                                     <label class="col-sm-1 col-sm-offset-1 control-label">题库名称</label>
                                                     <div class="col-sm-6">
-                                                        <input type="text" class="form-control question_bank_name">
+                                                        <input type="hidden" name="id" class="question_bank_id" value="">
+                                                        <input type="hidden" name="quesNumber" class="question_bank_ques_number" value="">
+                                                        <input type="hidden" name="version" class="question_bank_version" value="">
+                                                        <input type="text" class="form-control question_bank_name" name="bankName" value="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -232,13 +234,13 @@
                                                     <div class="col-sm-6">
                                                         <div class="radio radio-success radio-inline">
                                                             <input type="radio"
-                                                                   value="option1" id="on" name="radioInline"
+                                                                   value="1" id="on" name="bankStatus"
                                                                    checked=""/>
                                                             <label for="on">正常</label>
                                                         </div>
                                                         <div class="radio radio-danger radio-inline">
                                                             <input type="radio"
-                                                                   value="option2" id="off" name="radioInline">
+                                                                   value="0" id="off" name="bankStatus">
                                                             <label for="off">禁用</label>
                                                         </div>
                                                     </div>
@@ -247,21 +249,21 @@
                                                     <label class="col-sm-1 col-sm-offset-1 control-label">
                                                         题库说明</label>
                                                     <div class="col-sm-6">
-                                                        <textarea type="text"
+                                                        <textarea type="text" name="bankDesc" value=""
                                                                   class="form-control explanatoryNotes"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-1 col-sm-offset-1 control-label">访问权限</label>
                                                     <div class="col-sm-6">
-                                                        <select class="form-control">
-                                                            <option class="private">完全私有(只有您本人可以操作和使用题库)</option>
-                                                            <option class="shared">只读共享(其他管理员仅可引用您题库中的试题)</option>
+                                                        <select class="form-control" name="bankSecurity" value="">
+                                                            <option class="private" value="1">完全私有(只有您本人可以操作和使用题库)</option>
+                                                            <option class="shared" value="2">只读共享(其他管理员仅可引用您题库中的试题)</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="btn-group col-sm-offset-2">
-                                                    <button type="button" class="btn btn-success">提交
+                                                    <button type="button" class="btn btn-success" id="updateMyBankFromButton">提交
                                                     </button>
                                                     <button type="reset" class="btn btn-white"
                                                             style="margin-left: 3px;">重新填写
@@ -283,29 +285,29 @@
                                     </p>
                                 </div>
                                 <p id="modify_the_prompt" class="hidden" style="color: red">注意：您正在修改其他管理员创建的题库，请谨慎操作</p>
-                                <form class="form-inline" id="question_bank" style="margin-bottom:15px; ">
+                                <form class="form-inline" id="question_bank" style="margin-bottom:15px; " method="post">
                                     <div style="margin-bottom: 20px">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input class="form-control" type="text" placeholder="关键字"
+                                                <input class="form-control" type="text" placeholder="关键字" id="shareWord"
                                                        maxlength="30">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <select class="form-control">
-                                                    <option value="">状态</option>
+                                                <select class="form-control" id="shareStatus">
+                                                    <option value="-1">状态</option>
                                                     <option value="1">正常</option>
-                                                    <option value="2">禁用</option>
+                                                    <option value="0">禁用</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input class="form-control" type="text" placeholder="创建人">
+                                                <input class="form-control" type="text" placeholder="创建人" id="userName">
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-success fa fa-search"
+                                        <button type="button" class="btn btn-success fa fa-search" id="selectShareBankbyshareWordBtn"
                                                 value="查询" style="height: 34px">
                                         </button>
                                     </div>
@@ -316,12 +318,15 @@
                                     <div class="tm-tab-body" style="padding-left: 0;">
                                         <h1 class="tm-table-form-base-title">修改题库</h1>
                                         <div class="tm_table_form_base_body">
-                                            <form method="get" class="form-horizontal">
+                                            <form method="post" class="form-horizontal" name="updateShareBankForm">
                                                 <div style="width:950px">
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">题库名称</label>
                                                         <div class="col-sm-8">
-                                                            <input type="text"
+                                                            <input type="hidden" name="id" class="modify_the_question_bank_id" value="">
+                                                            <input type="hidden" name="quesNumber" class="modify_the_question_bank_ques_number" value="">
+                                                            <input type="hidden" name="version" class="modify_the_question_bank_version" value="">
+                                                            <input type="text" name="bankName"
                                                                    class="form-control modify_the_question_bank_name">
                                                         </div>
                                                     </div>
@@ -331,15 +336,15 @@
                                                             <label class="control-label">
                                                                 <div class="radio radio-success radio-inline">
                                                                     <input type="radio"
-                                                                           value="option1" id="normal" name="select"
+                                                                           value="1" id="normal" name="bankStatus"
                                                                            checked="">
                                                                     <label for="normal">正常</label>
                                                                 </div>
                                                             </label>&nbsp;
                                                             <label class="control-label">
                                                                 <div class="radio radio-danger radio-inline">
-                                                                    <input type="radio" name="select"
-                                                                           value="option2" id="disabled">
+                                                                    <input type="radio" name="bankStatus"
+                                                                           value="2" id="disabled">
                                                                     <label for="disabled">禁用</label>
                                                                 </div>
                                                             </label>
@@ -349,23 +354,23 @@
                                                         <label class="col-sm-2 control-label">
                                                             题库说明</label>
                                                         <div class="col-sm-8">
-                                                            <textarea type="text"
+                                                            <textarea type="text" name="bankDesc"
                                                                       class="form-control modify_the_question_bank_explanation"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">访问权限</label>
                                                         <div class="col-sm-8">
-                                                            <select class="form-control">
-                                                                <option class="modify_private">完全私有(只有您本人可以操作和使用题库)
+                                                            <select class="form-control" name="bankSecurity">
+                                                                <option class="modify_private" value="1">完全私有(只有您本人可以操作和使用题库)
                                                                 </option>
-                                                                <option class="modify_shared">只读共享(其他管理员仅可引用您题库中的试题)
+                                                                <option class="modify_shared" value="2">只读共享(其他管理员仅可引用您题库中的试题)
                                                                 </option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="btn-group col-sm-offset-1">
-                                                        <button type="submit" class="btn btn-success">提交</button>
+                                                        <button type="submit" class="btn btn-success" id="updateShareBankButton">提交</button>
                                                         <button type="button" class="btn btn-white" id="return_list"
                                                                 style="margin-left: 3px;">返回
                                                         </button>
@@ -383,7 +388,7 @@
         </div>
     </div>
 </div>
-<!--导出模态框-->
+<!--导入模态框-->
 <div class="modal fade" id="import" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -414,7 +419,7 @@
                         <div class="col-sm-11">
                             <h1 class="tm_table_form_base_title">批量导入</h1>
                             <div class="tm_table_form_base_body">
-                                <form id="import_form" method="post">
+                                <form id="import_form" method="post" enctype="multipart/form-data" name="import_form">
                                     <table class="tm_table_form_base" style="width: 90%">
                                         <tbody>
                                         <tr>
@@ -422,18 +427,19 @@
                                                 目标题库
                                             </th>
                                             <td>
-                                                <select class="form-control margin_bottom">
+                                                <select class="form-control margin_bottom" name="uploadBankId" id="uploadBankId">
                                                     <option value="">请选择目标题库</option>
-                                                    <option>开发题</option>
-                                                    <option>编程题</option>
-                                                    <option>选择题</option>
+<!--                                                    <option>开发题</option>-->
+<!--                                                    <option>编程题</option>-->
+<!--                                                    <option>选择题</option>-->
+                                                    <option th:each="Banks:${myAllBanks}" th:text="${Banks.bankName}" th:value="${Banks.id}"></option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="padding_left">数据文件</th>
                                             <td>
-                                                <input class="form-control margin_bottom" multiple="multiple"
+                                                <input class="form-control margin_bottom" multiple="multiple" name="uploadFileName" id="uploadFileName"
                                                        type="file">
                                             </td>
                                         </tr>
@@ -455,7 +461,7 @@
                                                     <button class="btn btn-success"
                                                             data-dismiss="modal">关闭
                                                     </button>
-                                                    <button class="btn btn-success">确定</button>
+                                                    <button class="btn btn-success" id="uploadFileButton">确定</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -496,7 +502,7 @@
                         <div class="col-sm-11">
                             <h1 class="tm_table_form_base_title">题库导出</h1>
                             <div class="tm_table_form_base_body">
-                                <form id="export_form" method="post">
+                                <form id="export_form" method="post" name="export_form">
                                     <table class="tm_table_form_base" style="width: 90%">
                                         <tbody>
                                         <tr>
@@ -505,22 +511,24 @@
                                                 导出题库
                                             </th>
                                             <td>
-                                                <select class="form-control validate[required]"
+                                                <select class="form-control validate[required]" name="bankId" id="bankId"
                                                         style="margin-bottom: 10px">
                                                     <option value="">请选择需要导出的题库</option>
-                                                    <option>JAVA题</option>
-                                                    <option>MySQL题</option>
-                                                    <option>Mybatis题</option>
+                                                    <option th:each="Banks:${myAllBanks}" th:text="${Banks.bankName}" th:value="${Banks.id}"></option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th style="padding-left: 40px;">选择题型</th>
                                             <td>
-                                                <select class="form-control validate[required]">
+                                                <select class="form-control validate[required]" name="type" id="type">
                                                     <option value="">请选择题型</option>
-                                                    <option>单选题</option>
-                                                    <option>编程题</option>
+                                                    <option value="单选题">单选题</option>
+                                                    <option value="多选题">多选题</option>
+                                                    <option value="判断题">判断题</option>
+                                                    <option value="填空题">填空题</option>
+                                                    <option value="回答题">回答题</option>
+                                                    <option value="附件题">附件题</option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -533,7 +541,7 @@
                                                     <button class="btn btn-success"
                                                             data-dismiss="modal">关闭
                                                     </button>
-                                                    <button class="btn btn-success">确定</button>
+                                                    <button class="btn btn-success" id="ExportFormBtn">确定</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -550,32 +558,32 @@
 </div>
 </body>
 <!-- 全局js -->
-<script src="../../static/js/jquery.min.js?v=2.1.4" th:href="@{/static/js/jquery.min.js}"></script>
-<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:href="@{/static/js/bootstrap.min.js}"></script>
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
 <!-- 自定义js -->
-<script src="../../static/js/content.js?v=1.0.0" th:href="@{/static/js/content.js}"></script>
+<script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js}"></script>
 <!-- Bootstrap table -->
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <!--动态搜索-->
 <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
-        th:href="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!-- layerDate plugin javascript -->
 <script src="../../static/js/plugins/layer/laydate/laydate.js"
-        th:href="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+        th:src="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
 <!-- Sweet alert -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
-        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <!--滑动按钮-->
 <script src="../../static/js/plugins/switchery/switchery.js"
-        th:src="@{../../static/js/plugins/switchery/switchery.js}"></script>
+        th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
 <!-- Prettyfile -->
 <script src="../../static/js/plugins/prettyfile/bootstrap-prettyfile.js"
-        th:href="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+        th:src="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
 <script>
     $(function () {
         /*创建题库*/
@@ -621,6 +629,8 @@
     $('input[type="file"]').prettyFile();
 </script>
 <script>
+    var appName=[[@{/}]];
+        console.log(appName);
     $(function () {
         //1.初始化Table
         var oTable = new TableInit();
@@ -630,6 +640,43 @@
         oButtonInit.Init();
     });
 
+    //当bootstraptable的页面分页时，要及时更新 switchery组件
+    function updateSwitchery(value, row, index) {
+
+        $(".js-switch").each(function (index, element) {
+
+            //判断 element是否已经是 switchery 组件了
+            if ($(element).attr("data-switchery") != 'true') {
+                //重新创建switchery对象
+                new Switchery(element, {size: 'normal'});
+
+                //绑定事件, 以 element 为参数，以便里面的代码通过 event.data 来获取此element对象，并进一步拿到ic的值
+                $(element).on('change', element, function (event) {
+                    console.log("================");
+                    console.log(value[index].id);
+                    console.log(element);
+                    console.log(event);
+                    //todo 发送请求到服务端，更新状态
+                    alert("修改id为" + value[index].id + "的试题：" + value[index].bankStatus);
+                    $.ajax({
+                        url:appName+"exam/switcheryMyBank.do",
+                        method:"POST",
+                        data:"id="+value[index].id+"&bankStatus="+value[index].bankStatus,
+                        dataType:"text",
+                        success:function (data) {
+                            alert(data);
+                        },
+                        error:function (jqXHR) {
+                            alert("error");
+                        }
+                    })
+                });
+            } else {
+                //console.log("已经添加过了");
+            }
+        });
+    };
+
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
@@ -637,8 +684,9 @@
 
             //我的题库
             $('#tb_departments_1').bootstrapTable({
-                url: '../../static/js/demo/exam/titleList.json',       //请求后台的URL（*）
-                // method: 'get',                      //请求方式（*）
+                // url: "/static/js/demo/exam/titleList.json",       //请求后台的URL（*）
+                url:appName+"exam/titleList.do",
+                method: 'POST',                      //请求方式（*）
                 striped: true,                      //是否显示行间隔色
                 pagination: true,                   //是否显示分页（*）
                 queryParams: oTableInit.queryParams,//传递参数（*）
@@ -656,43 +704,43 @@
                         title: '题库',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.question_bank + "</p><p class='text-muted'>" + row.hints + "</p></div>";
+                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.bankName + "</p><p class='text-muted'>" + row.bankDesc + "</p></div>";
                         }
                     }, {
-                        field: 'status',
+                        field: 'bankStatus',
                         title: '状态',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            if (value === "正常") {
-                                return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked/>';
+                            if (value === 1) {
+                                return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 1 + '" checked/>';
                             }
-                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '"/>';
+                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 0 + '"/>';
                         }
                     }, {
-                        field: 'question_size',
+                        field: 'quesNumber',
                         align: 'center',
                         title: '试题数量',
                         formatter: function (value, row, index) {
-                            let num = row.question_size;
-                            return "<a href='testItemList.html' style='text-decoration: underline'>" + num + "</a>";
+                            let num = row.quesNumber;
+                            return "<a href='testItemList' style='text-decoration: underline'>" + num + "</a>";
                         }
                     }, {
-                        field: 'authority_management',
+                        field: 'bankSecurity',
                         align: 'center',
                         title: '管理权限',
                         formatter: function (value, row, index) {
-                            let bank = row.authority_management;
-                            if (bank === '只读共享') {
-                                return "<span><i class='fa fa-eye'></i>&ensp;" + bank + "</span>";
+                            let bank = row.bankSecurity;
+                            if (bank == 2) {
+                                return "<span><i class='fa fa-eye'></i>&ensp;" + "只读共享" + "</span>";
                             }
-                            return "<span><i class='fa fa-user-secret'></i>&ensp;" + bank + "</span>";
+                            return "<span><i class='fa fa-user-secret'></i>&ensp;" + "完全私有" + "</span>";
                         }
                     }, {
                         field: 'last_modified',
                         align: 'center',
                         title: '最后修改',
                         formatter: function (value, row, index) {
-                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.founder + "</p><p class='text-muted'>" + row.change_modified + "</p></div>";
+                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.user.userName + "</p><p class='text-muted'>" + row.lastAccessTime + "</p></div>";
                         }
                     }, {
                         field: 'operate',
@@ -709,7 +757,7 @@
                         },//表格中增加按钮  
                         events: {
                             'click button[title=删除题库]': function (e, value, row, index) {
-                                // console.log(row.id);
+                                console.log(row);
                                 swal({
                                     title: "您确定要删除这条信息吗",
                                     text: "删除后将无法恢复，请谨慎操作！",
@@ -721,7 +769,21 @@
                                     closeOnConfirm: false
                                 }, function () {
                                     //TODO 发送ajax请求
-                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                    $.ajax({
+                                        url:appName+"exam/deletebyid.do",
+                                        method:"POST",
+                                        async:true,
+                                        data:"id="+row.id,
+                                        dataType:"text",
+                                        success:function(data){
+                                            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                            window.location.reload();
+                                        },
+                                        error:function (jqXHR) {
+                                            alert("失败");
+                                            window.location.reload();
+                                        }
+                                    });
                                 });
                             },
                             'click button[title=修改]': function (e, value, row, index) {
@@ -735,35 +797,64 @@
                                 $('#regulate').attr("class", "hidden");
                                 $('#update').attr("class", "");
                                 // TODO 回显数据
-                                $('.question_bank_name').val(row.question_bank);
-                                $('.explanatoryNotes').val(row.hints);
-                                if (row.status === '禁用') {
+                                $('.question_bank_ques_number').val(row.quesNumber);
+                                $('.question_bank_version').val(row.version);
+                                $('.question_bank_id').val(row.id);
+                                $('.question_bank_name').val(row.bankName);
+                                $('.explanatoryNotes').val(row.bankDesc);
+                                if (row.bankStatus ==0) {
                                     $('#off').prop("checked", true);
                                     $('#on').prop("checked", false);
                                 } else {
                                     $('#off').prop("checked", false);
                                     $('#on').prop("checked", true);
                                 }
-                                if (row.authority_management === '只读共享') {
+                                if (row.bankSecurity ==2) {
                                     $('.shared').attr("selected", "selected");
                                 } else {
                                     $('.private').attr("selected", "selected");
                                 }
+
+                                //给我的题库的修改表的提交添加点击事件
+                                $("#updateMyBankFromButton").click(function () {
+                                    var form=document.forms["updateMyBankForm"];
+                                    var dateform=new FormData(form);
+                                    console.log(dateform);
+                                    $.ajax({
+                                        url:appName+"exam/updateMyBank.do",
+                                        method:"POST",
+                                        async:true,
+                                        data:dateform,
+                                        dataType: "text",   //期望服务端发送给客户端的数据类型。注：不要写成：application/json
+                                        contentType: false, //必需使用 false,  这样才能使用form表单采用 multipart/form-data 传输
+                                        processData: false,
+                                        success:function (data) {
+                                            console.log("success");
+                                            window.location.reload();
+                                        },
+                                        error:function(jqXRM){
+                                            console.log("error");
+                                            window.location.reload();
+                                        }
+                                    })
+                                })
                             }
                         }
                     }]
             });
 
+
             /*共享题库*/
             $('#tb_departments_2').bootstrapTable({
-                url: '../../static/js/demo/exam/titleList.json',       //请求后台的URL（*）
-                // method: 'get',                      //请求方式（*）
+                // url: '/owep/static/js/demo/exam/titleList.json',       //请求后台的URL（*）
+                url:appName+"exam/titleListshare.do",
+                method: 'POST',                      //请求方式（*）
                 striped: true,                      //是否显示行间隔色
                 pagination: true,                   //是否显示分页（*）
                 queryParams: oTableInit.queryParams,//传递参数（*）
                 pageNumber: 1,                       //初始化加载第一页，默认第一页
-                pageSize: 2,                       //每页的记录行数（*）
-                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 10, 20, 30],        //可供选择的每页的行数（*）
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
                 onLoadSuccess: updateSwitchery,  //页面加载成功执行方法
                 onPageChange: updateSwitchery,   //页面发送改变执行的方法
@@ -775,40 +866,44 @@
                         title: '题库',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.question_bank + "</p><p class='text-muted'>" + row.hints + "</p></div>";
+                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.bankName + "</p><p class='text-muted'>" + row.bankDesc + "</p></div>";
                         }
                     }, {
-                        field: 'status',
+                        field: 'bankStatus',
                         title: '状态',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked disabled/>';
+                            // return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.bankStatus + '"  disabled/>';
+                            if (value === 1) {
+                                return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 1 + '" checked disabled/>';
+                            }
+                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 0 + '" disabled/>';
                         },
                     }, {
-                        field: 'question_size',
+                        field: 'quesNumber',
                         align: 'center',
                         title: '试题数量',
                         formatter: function (value, row, index) {
-                            let num = row.question_size;
-                            return "<a href='testItemList.html' style='text-decoration: underline'>" + num + "</a>";
+                            let num = row.quesNumber;
+                            return "<a href='testItemList' style='text-decoration: underline'>" + num + "</a>";
                         }
                     }, {
-                        field: 'authority_management',
+                        field: 'bankSecurity',
                         align: 'center',
                         title: '管理权限',
                         formatter: function (value, row) {
-                            let bank = row.authority_management;
-                            if (bank === '只读共享') {
-                                return "<span><i class='fa fa-eye'></i>&ensp;" + bank + "</span>";
+                            let bank = row.bankSecurity;
+                            if (bank ==2) {
+                                return "<span><i class='fa fa-eye'></i>&ensp;" + "只读共享" + "</span>";
                             }
-                            return "<span><i class='fa fa-user-secret'></i>&ensp;" + bank + "</span>";
+                            return "<span><i class='fa fa-user-secret'></i>&ensp;" + "完全私有" + "</span>";
                         }
                     }, {
                         field: 'last_modified',
                         align: 'center',
                         title: '最后修改',
                         formatter: function (value, row, index) {
-                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.founder + "</p><p class='text-muted'>" + row.change_modified + "</p></div>";
+                            return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.user.userName + "</p><p class='text-muted'>" + row.lastAccessTime + "</p></div>";
                         }
                     }, {
                         field: 'operate',
@@ -816,8 +911,8 @@
                         title: '操作',
                         width: 200,
                         formatter: function (value, row, index) {
-                            return ['<button  class = "btn btn-white btn-sm share_modification" type = "button" title="修改"> <i class="fa fa-wrench">修改</i></button>' +
-                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " title="删除题库"><i class="fa fa-close">删除题库</i></button>'];//删除
+                            return ['<button  class = "btn btn-white btn-sm share_modification" type = "button" title="修改" disabled> <i class="fa fa-wrench">修改</i></button>' +
+                            '<button id = "" type = "button" class = "btn btn-sm  btn-white " title="删除题库" disabled><i class="fa fa-close" >删除题库</i></button>'];//删除
 
                         },//表格中增加按钮  
                         events: {
@@ -834,7 +929,21 @@
                                     closeOnConfirm: false
                                 }, function () {
                                     //TODO 发送ajax请求
-                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                    $.ajax({
+                                        url:appName+"exam/deletebyid.do",
+                                        method:"POST",
+                                        data: "id="+row.id,
+                                        dataType:"text",
+                                        success:function (data) {
+                                            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                                            window.location.reload();
+                                        },
+                                        error:function (jqXHR) {
+                                            alert("删除失败");
+                                            window.location.reload();
+                                        }
+                                    })
+
                                 });
                             },
                             'click button[title=修改]': function (e, value, row, index) {
@@ -859,42 +968,47 @@
                                     $('#modify_the_prompt').css("display", "");
 
                                     // TODO 回显数据
-                                    $('.modify_the_question_bank_name').val(row.question_bank);
-                                    $('.modify_the_question_bank_explanation').val(row.hints);
-                                    if (row.status === '禁用') {
+                                    $('.modify_the_question_bank_ques_number').val(row.quesNumber);
+                                    $('.modify_the_question_bank_version').val(row.version);
+                                    $('.modify_the_question_bank_id').val(row.id);
+                                    $('.modify_the_question_bank_name').val(row.bankName);
+                                    $('.modify_the_question_bank_explanation').val(row.bankDesc);
+                                    if (row.bankStatus ==0) {
                                         $('#disabled').attr("checked", "checked");
                                     } else {
                                         $('#normal').attr("checked", "checked");
                                     }
-                                    if (row.authority_management === '只读共享') {
+                                    if (row.bankSecurity ==2) {
                                         $('.modify_shared').attr("selected", "selected");
                                     } else {
                                         $('.modify_private').attr("selected", "selected");
                                     }
+                                    //给共享题库添加按钮点击事件
+                                    $("#updateShareBankButton").click(function () {
+                                        var form=document.forms["updateShareBankForm"];
+                                        var formdata=new FormData(form);
+                                        $.ajax({
+                                            url:appName+"exam/updateShareBank.do",
+                                            method:"POST",
+                                            async:true,
+                                            data:formdata,
+                                            dataType:"text",
+                                            contentType: false, //必需使用 false,  这样才能使用form表单采用 multipart/form-data 传输
+                                            processData: false,
+                                            success:function (data) {
+                                                console.log(data);
+                                                window.location.reload();
+                                            },
+                                            error:function (eq) {
+                                                console.log(error);
+                                                window.location.reload();
+                                            }
+                                        })
+                                    })
                                 });
                             }
                         }
                     }]
-            });
-        };
-
-
-        //当bootstraptable的页面分页时，要及时更新 switchery组件
-        function updateSwitchery(value, row, index) {
-            $(".js-switch").each(function (index, element) {
-                console.log(element);
-                //判断 element是否已经是 switchery 组件了
-                if ($(element).attr("data-switchery") != 'true') {
-                    //重新创建switchery对象
-                    new Switchery(element, {size: 'normal'});
-                    //绑定事件, 以 element 为参数，以便里面的代码通过 event.data 来获取此element对象，并进一步拿到ic的值
-                    $(element).on('change', element, function (event) {
-                        //todo 发送请求到服务端，更新状态
-                        alert("修改id为" + $(event.data).val() + "的试题：" + element.checked);
-                    });
-                } else {
-                    //console.log("已经添加过了");
-                }
             });
         };
 
@@ -913,7 +1027,126 @@
     var ButtonInit = function () {
         var oInit = new Object();
         var postdata = {};
+
         oInit.Init = function () {
+            // 我的题库查询
+            $("#queryBtn").click(function () {
+                var word=$("#word").val();
+                var mhStatus=$("#mhStatus").val();
+                var mhSecurity=$("#mhSecurity").val();
+                // $('#tb_departments_1').bootstrapTable('refresh');
+                $.ajax({
+                    url:appName+"exam/searchMyBank.do",
+                    method:"POST",
+                    async:true,
+                    data:"word="+word+"&mhStatus="+mhStatus+"&mhSecurity="+mhSecurity,
+                    dataType:"json",
+                    success:function (json) {
+                        //console.log(json);
+                        $('#tb_departments_1').bootstrapTable('load',json);
+                        //bootstrapTable('getData',{useCurrentPage:false,includeHiddenRows:true});userCurrentPage:true显示当前页面数据，false显示全部页面数据
+                        var value = $('#tb_departments_1').bootstrapTable('getData',{useCurrentPage:false,includeHiddenRows:true});
+                        //
+                        console.log(value);
+                        //
+                        updateSwitchery(value);
+
+                    }
+                })
+            });
+
+            //共享查询
+            $("#selectShareBankbyshareWordBtn").click(function () {
+                var shareWord=$("#shareWord").val();
+                var shareStatus=$("#shareStatus").val();
+                var userName=$("#userName").val();
+                console.log(shareWord);
+                console.log(shareStatus);
+                console.log(userName);
+                $.ajax({
+                    url:appName+"exam/searchShareBank.do",
+                    method:"POST",
+                    data:"shareWord="+shareWord+"&shareStatus="+shareStatus+"&userName="+userName,
+                    dataType:"json",
+                    success:function (json) {
+                        console.log(json);
+                        $("#tb_departments_2").bootstrapTable("load",json);
+                        var value=$("#tb_departments_2").bootstrapTable("getData",{userCurrentPage:false,includeHiddenRows:true});
+                        console.log(value);
+                        updateSwitchery(value);
+                    }
+                })
+            });
+
+            //创建题库按钮
+            $("#addBtn").click(function () {
+                var form=document.forms["addExamBankForm"];
+                var dataForm=new FormData(form);
+                $.ajax({
+                    url:appName+"exam/saveBank.do",
+                    method:"post",
+                    async:true,
+                    data:dataForm,
+                    dataType:"text",
+                    contentType: false, //必需使用 false,  这样才能使用form表单采用 multipart/form-data 传输
+                    processData: false,
+                    success:function (data) {
+                        alert(data);
+                        window.location.reload();
+                    }
+                })
+            });
+
+            //导入试题
+            //multipartFile要用multipartForm来传
+            $("#uploadFileButton").click(function () {
+                //var form=$("#import_form");严重错误， formdata为js标准对象，不能传JQuery的对象
+                var form = document.forms["import_form"];
+                var dataform=new FormData(form);
+                $.ajax({
+                    url:appName+"exam/addUploadFile.do",
+                    method:"post",
+                    async:false,
+                    data:dataform,
+                    dataType:"text",
+                    contentType:false,
+                    processData: false,
+                    success: function(data) {
+                        console.log(data);
+                        alert(data);
+                        // window.location.reload()
+                    },
+                    error:function (jqxhr) {
+                        console.log(jqxhr);
+                        alert("error")
+                    }
+                })
+                // console.log(dataform);
+                // console.log(uploadBankId);
+                // console.log(uploadFileName);
+            });
+
+            //导出试题
+            $("#ExportFormBtn").click(function(){
+                var form=document.forms["export_form"];
+                var Formdata=new FormData(form);
+                $.ajax({
+                    url:appName+"exam/exportQues.do",
+                    method:"post",
+                    async:false,
+                    data:Formdata,
+                    dataType:"text",
+                    contentType:false,
+                    processData:false,
+                    success:function (data) {
+                        console.log(data);
+                    },
+                    error:function (jqxhr) {
+                        console.log("error");
+                    }
+                })
+            });
+
         };
         return oInit;
     };
@@ -946,14 +1179,14 @@
 
     /*根据json数据给滑动按钮设置状态*/
     function switchBox(value, row, index) {
-        if (value === "正常") {
+        if (value ==1) {
             return '<input type="checkbox" class="js-switch form-control" checked/>';
         }
         return '<input type="checkbox" class="js-switch form-control"/>';
     }
 
     function switchBox_1(value, row, index) {
-        if (value === "正常") {
+        if (value ==1) {
             return '<input type="checkbox" class="js-switch_1 form-control" checked/>';
         }
         return '<input type="checkbox" class="js-switch_1 form-control"/>';
@@ -961,8 +1194,8 @@
 
     /*试题数量*/
     function item_number(value, row, index) {
-        let num = row.question_size;
-        return "<a href='testItemList.html' style='text-decoration: underline'>" + num + "</a>";
+        let num = row.quesNumber;
+        return "<a href='testItemList' style='text-decoration: underline'>" + num + "</a>";
     }
 
     $(function () {

@@ -13,4 +13,32 @@ public class ExamQuesType implements Serializable {
     * 类型
     * */
     private String typeName;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    @Override
+    public String toString() {
+        return "ExamQuesType{" +
+                "id=" + id +
+                ", typeName='" + typeName + '\'' +
+                '}';
+    }
+
+    public ExamQuesType() {
+    }
+
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kclm.owep.mapper.ExamQuesMapper">
+
+    <resultMap id="ExamQuesBaseMap" type="com.kclm.owep.entity.ExamQues">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="ques_type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="ques_hard_level" jdbcType="VARCHAR" property="hardLevel"/>
+        <result column="ques_source" jdbcType="VARCHAR" property="source"/>
+        <result column="ques_lable" jdbcType="VARCHAR" property="lable"/>
+        <result column="ques_status" jdbcType="INTEGER" property="status"/>
+        <result column="ques_content" jdbcType="VARCHAR" property="quesContent"/>
+        <result column="correct_answer" jdbcType="VARCHAR" property="correctAnswer"/>
+        <result column="ques_analyze" jdbcType="VARCHAR" property="analyze"/>
+        <association property="examBank" column="bank_id" javaType="ExamBank" select="com.kclm.owep.mapper.ExamBankMapper.selectById"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.kclm.owep.entity.ExamQues">
+        insert into t_exam_ques(ques_type_name,ques_hard_level,ques_source,ques_lable,ques_status,
+        ques_content,correct_answer,ques_analyze,create_time,version,last_access_time,use_count,bank_id,user_name)
+        value (#{typeName},#{hardLevel},#{source},#{lable},#{status},#{quesContent},#{correctAnswer},#{analyze},#{createTime},#{version},
+        #{lastAccessTime},#{useCount},#{examBank.id},#{userName})
+    </insert>
+
+    <update id="update" parameterType="com.kclm.owep.entity.ExamQues">
+        update t_exam_ques
+        set ques_type_name=#{typeName},
+            ques_hard_level=#{hardLevel},
+            ques_source=#{source},
+            ques_lable=#{lable},
+            ques_status=#{status},
+            ques_content=#{quesContent},
+            correct_answer=#{correctAnswer},
+            ques_analyze=#{analyze},
+            create_time=#{createTime},
+            version=#{version},
+            last_access_time=#{lastAccessTime},
+            use_count=#{useCount},
+            bank_id=#{examBank.id},
+            user_name=#{userName}
+        where id=#{id}
+    </update>
+
+    <update id="deleteById" parameterType="java.lang.Integer">
+        update t_exam_ques
+        set is_delete=0
+        where id=#{id}
+    </update>
+
+    <update id="deleteSelect" parameterType="java.util.List">
+        update t_exam_ques
+        set  is_delete=0
+        <where>
+            <foreach collection="list" open="id in(" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where id=#{id} and is_delete=1
+    </select>
+
+    <select id="selectAll" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where is_delete=1
+    </select>
+
+    <select id="selectMyQues" parameterType="java.lang.String" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where is_delete=1 and user_name=#{userName} and bank_id in (select id from t_exam_bank where is_delete=1) order by id desc
+    </select>
+
+    <select id="selectShareQues" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where is_delete=1 and bank_id in (select id from t_exam_bank where bank_security=2 and t_exam_bank.is_delete=1) order by id desc
+    </select>
+
+    <select id="selectBybankIdAndType" resultMap="ExamQuesBaseMap">
+        select * from t_exam_ques where bank_id=#{bankId} and ques_type_name=#{typeName} and is_delete=1
+    </select>
+
+</mapper>

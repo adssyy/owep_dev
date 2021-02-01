@@ -316,4 +316,38 @@ public class Exam implements Serializable {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "id=" + id +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", lastAccessTime=" + lastAccessTime +
+                ", userName='" + userName + '\'' +
+                ", examPaper=" + examPaper +
+                ", isDelete=" + isDelete +
+                ", examName='" + examName + '\'' +
+                ", examType='" + examType + '\'' +
+                ", examStatus=" + examStatus +
+                ", passScore=" + passScore +
+                ", testSequecing='" + testSequecing + '\'' +
+                ", show='" + show + '\'' +
+                ", choiceSequecing='" + choiceSequecing + '\'' +
+                ", number=" + number +
+                ", notice='" + notice + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", time=" + time +
+                ", scoreAnnouncement=" + scoreAnnouncement +
+                ", timeLimit=" + timeLimit +
+                ", limit=" + limit +
+                ", answerAnnouncement='" + answerAnnouncement + '\'' +
+                ", detail='" + detail + '\'' +
+                '}';
+    }
+
+    public Exam() {
+    }
+
 }

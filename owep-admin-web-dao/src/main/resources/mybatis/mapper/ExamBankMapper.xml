@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kclm.owep.mapper.ExamBankMapper">
+
+    <resultMap id="baseBankMap" type="com.kclm.owep.entity.ExamBank">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+<!--        <association property="user" column="user_id" javaType="com.kclm.owep.entity.User" select="com.kclm.owep.mapper.UserMapper.selectById"/>-->
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName"/>
+        <result column="bank_status" jdbcType="INTEGER" property="bankStatus"/>
+        <result column="bank_desc" jdbcType="VARCHAR" property="bankDesc"/>
+        <result column="bank_security" jdbcType="INTEGER" property="bankSecurity"/>
+        <result column="ques_number" jdbcType="INTEGER" property="quesNumber"></result>
+        <association property="user" column="user_id"  javaType="com.kclm.owep.entity.User" select="com.kclm.owep.mapper.UserMapper.selectById" ></association>
+    </resultMap>
+
+    <sql id="AllColumnSql">
+        id,bank_name,bank_status,bank_status,bank_status,ques_number,is_delete,create_time,version,last_access_time,user_id
+    </sql>
+
+    <insert id="save" parameterType="com.kclm.owep.entity.ExamBank">
+        insert into t_exam_bank(bank_name,bank_status,bank_desc,bank_security,ques_number,create_time,version,last_access_time,user_id)
+        value (#{bankName},#{bankStatus},#{bankDesc},#{bankSecurity},#{quesNumber},#{createTime},#{version},#{lastAccessTime},#{user.id})
+    </insert>
+
+    <update id="update" parameterType="com.kclm.owep.entity.ExamBank">
+        update t_exam_bank
+        set bank_name=#{bankName},
+            bank_status=#{bankStatus},
+            bank_desc=#{bankDesc},
+            bank_security=#{bankSecurity},
+            ques_number=#{quesNumber},
+            version=#{version},
+            last_access_time=#{lastAccessTime}
+        where id=#{id}
+    </update>
+
+    <update id="deleteById" parameterType="int">
+        update t_exam_bank
+        set is_delete=0
+        where id=#{id}
+    </update>
+
+    <update id="deleteSelect" parameterType="java.util.List">
+        update t_exam_bank
+        set is_delete=0
+        <where>
+            <foreach collection="list" open="id in(" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="baseBankMap">
+        select <include refid="AllColumnSql"></include> from t_exam_bank
+        where id=#{id} and is_delete=1
+    </select>
+
+    <select id="selectAll" resultMap="baseBankMap">
+        select * from t_exam_bank
+        where is_delete=1
+        order by id desc
+    </select>
+
+    <select id="selectAllshare" resultMap="baseBankMap">
+        select * from t_exam_bank
+        where is_delete=1 and bank_security=2
+        order by id desc
+    </select>
+
+    <select id="selectMyAllBank" parameterType="int" resultMap="baseBankMap">
+        select * from t_exam_bank
+        where  is_delete=1 and user_id=#{user.id}
+        order by id desc
+    </select>
+
+    <select id="selectShareBankbyWord" resultMap="baseBankMap">
+        select * from t_exam_bank
+        <where>
+            is_delete=1 and bank_security=2
+            and bank_name like "%"#{shareWord}"%"
+            <if test="shareStatus != -1">
+                and bank_status=#{shareStatus}
+            </if>
+            <if test="userIdList != null and userIdList.size() != 0">
+                and
+                <foreach collection="userIdList" open="user_id in(" separator="," close=")" item="user_id">
+                    #{user_id}
+                </foreach>
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectByWord" resultMap="baseBankMap">
+        select * from t_exam_bank
+        <where>
+            is_delete=1 and user_id=#{userId}
+              and  bank_name like "%"#{word}"%"
+            <if test="status != -1">
+                and bank_status=#{status}
+            </if>
+            <if test="security != -1">
+                and bank_security=#{security}
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <update id="updateBankStatusbyid" parameterType="int">
+        update t_exam_bank
+        set bank_status=#{bankStatus}
+        where id=#{id}
+    </update>
+    <update id="updateShareBank" parameterType="ExamBank">
+        update t_exam_bank
+        set bank_name=#{bankName},
+            bank_status=#{bankStatus},
+            bank_desc=#{bankDesc},
+            bank_security=#{bankSecurity},
+            ques_number=#{quesNumber},
+            version=#{version},
+            last_access_time=#{lastAccessTime}
+            where id=#{id}
+    </update>
+
+    <update id="updateQuesNumber" parameterType="int">
+        update t_exam_bank
+        set ques_number=(select count(id) from t_exam_ques where bank_id=#{id})
+        where id=#{id} and is_delete=1;
+    </update>
+
+
+</mapper>
