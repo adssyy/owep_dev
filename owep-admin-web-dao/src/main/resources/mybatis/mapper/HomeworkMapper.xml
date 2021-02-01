@@ -214,7 +214,7 @@
   <select id="countByClassId" resultType="double">
     select count(*)
     from t_homework
-    where fk_course_id=#{id}
+    where fk_class_id=#{id}
   </select>
 
 </mapper>

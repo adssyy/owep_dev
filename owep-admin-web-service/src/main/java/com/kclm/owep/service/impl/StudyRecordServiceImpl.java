@@ -68,6 +68,8 @@ public class StudyRecordServiceImpl implements StudyRecordService {
             studyRecordStatisticsDTO.setVideoProcess(Math.floor(studyRecordStatisticsDTO.getTotalVideoRate()/studyRecordStatisticsDTO.getTotalVideoLength()*100));
             double totalHomework = homeworkMapper.countByClassId(studyRecordStatisticsDTO.getStudent().getClazz().getId());
             double answer = homeworkAnswerMapper.countByStudentId(studyRecordStatisticsDTO.getStudent().getId());
+            System.out.println(totalHomework);
+            System.out.println(answer);
             if (totalHomework != 0){
                 studyRecordStatisticsDTO.setHomeworkProcess(Math.floor(answer/totalHomework*100));
             }else {
