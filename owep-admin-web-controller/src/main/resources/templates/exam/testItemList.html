@@ -17,21 +17,21 @@
           rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css"
-          th:href="@{/static/css//plugins/sweetalert/sweetalert.css" rel="stylesheet">
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
     <link href="../../static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
-          th:href="@{/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+          th:href="@{/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}"
           rel="stylesheet">
     <!--代码编辑框-->
     <link href="../../static/css/plugins/codemirror/codemirror.css"
-          th:href="@{/static/css/plugins/codemirror/codemirror.css" rel="stylesheet">
-    <link href="../../static/css/plugins/codemirror/ambiance.css" th:href="/static/css/plugins/codemirror/ambiance.css"
+          th:href="@{/static/css/plugins/codemirror/codemirror.css}" rel="stylesheet">
+    <link href="../../static/css/plugins/codemirror/ambiance.css" th:href="@{/static/css/plugins/codemirror/ambiance.css}"
           rel="stylesheet">
     <!--simditor-->
     <link rel="stylesheet" type="text/css" href="../../static/css/plugins/simditor/simditor.css"
-          th:href="@{/static/css/plugins/simditor/simditor.css"/>
+          th:href="@{/static/css/plugins/simditor/simditor.css}"/>
     <!--自定义样式-->
     <link rel="stylesheet" type="text/css" href="../../static/public/exam/css/exam.css"
-          th:href="@{/static/public/exam/css/exam.css"/>
+          th:href="@{/static/public/exam/css/exam.css}"/>
 
 </head>
 <body class="gray-bg">
@@ -61,8 +61,7 @@
                                        style="margin-left: 20px">导入试题</a>
                                 </div>
                                 <!--试题管理-->
-                                <form class="form-inline" style="margin-bottom:15px" id="create_question"
-                                      style="display:none;">
+                                <form class="form-inline" style="margin-bottom:15px; display:block;" id="create_question">
                                     <div style="margin-bottom: 20px">
                                         <div class="form-group">
                                             <div class="input-group">
@@ -95,18 +94,18 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input class="form-control" type="text" placeholder="标签">
+                                                <input class="form-control" type="text" placeholder="标签" name="lable">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <select class="form-control">
-                                                    <option value="">难度</option>
-                                                    <option>极易</option>
-                                                    <option>容易</option>
-                                                    <option>一般</option>
-                                                    <option>较难</option>
-                                                    <option>极难</option>
+                                                    <option value="hardLevel">难度</option>
+                                                    <option value="极易">极易</option>
+                                                    <option value="容易">容易</option>
+                                                    <option value="一般">一般</option>
+                                                    <option value="较难">较难</option>
+                                                    <option value="极难">极难</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -114,8 +113,8 @@
                                             <div class="input-group">
                                                 <select class="form-control">
                                                     <option value="">状态</option>
-                                                    <option>正常</option>
-                                                    <option>禁用</option>
+                                                    <option value="1">正常</option>
+                                                    <option value="0">禁用</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -124,7 +123,7 @@
                                                 id="queryBtn">
                                         </button>
                                     </div>
-                                    <!-- 我的题库 -->
+                                    <!-- 我的试题 -->
                                     <table id="my_test_item_table"></table>
                                 </form>
                                 <!--创建试题-->
@@ -132,29 +131,31 @@
                                     <div class="tm-tab-body" style="padding-left: 0;">
                                         <h1 class="tm-table-form-base-title">创建试题</h1>
                                         <div class="tm_table_form_base_body">
-                                            <form method="get" class="form-horizontal">
+                                            <!--创建试题Form-->
+                                            <form method="post" class="form-horizontal" name="saveQuesForm">
                                                 <div class="append_panel">
                                                     <div class="form-group">
                                                         <label class="col-sm-offset-1 col-sm-1 control-label">试题类型</label>
                                                         <div class="col-sm-3">
-                                                            <select class="form-control add_select_box">
-                                                                <option selected>单选题</option>
-                                                                <option>多选题</option>
-                                                                <option>判断题</option>
-                                                                <option>填空题</option>
-                                                                <option>问答题</option>
-                                                                <option>附件题</option>
+                                                            <select class="form-control add_select_box" name="typeName">
+                                                                <option value="请选择试题类型" selected>请选择试题类型</option>
+                                                                <option value="单选题">单选题</option>
+                                                                <option value="多选题">多选题</option>
+                                                                <option value="判断题">判断题</option>
+                                                                <option value="填空题">填空题</option>
+                                                                <option value="问答题">问答题</option>
+                                                                <option value="附件题">附件题</option>
                                                             </select>
                                                         </div>
                                                         <label class="col-sm-1 control-label">试题难度</label>
                                                         <div class="col-sm-3">
-                                                            <select class="form-control">
+                                                            <select class="form-control" name="hardLevel">
                                                                 <option value="">请选择对应的难度</option>
-                                                                <option>极易</option>
-                                                                <option>容易</option>
-                                                                <option>一般</option>
-                                                                <option>较难</option>
-                                                                <option>极难</option>
+                                                                <option value="极易">极易</option>
+                                                                <option value="容易">容易</option>
+                                                                <option value="一般">一般</option>
+                                                                <option value="较难">较难</option>
+                                                                <option value="极难">极难</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -163,24 +164,25 @@
                                                         <!-- <label class="col-sm-1 control-label col-sm-offset-1">所属题库</label>-->
                                                         <div class="col-sm-3">
                                                             <div class="input-group">
-                                                                <select class="form-control"
+                                                                <select class="form-control" name="examBankId" id="examBankSel"
                                                                         style="-webkit-appearance: none">
                                                                     <option value="">所属题库</option>
-                                                                    <option>编程题库(共12题)</option>
-                                                                    <option>解答题库(共10题)</option>
-                                                                    <option>选择题库(共5题)</option>
+<!--                                                                    <option>编程题库(共12题)</option>-->
+<!--                                                                    <option>解答题库(共10题)</option>-->
+<!--                                                                    <option>选择题库(共5题)</option>-->
+                                                                    <option th:each="examBank:${EBs}" th:text="${examBank.bankName}" th:value="${examBank.id}"></option>
                                                                 </select>
                                                                 <span class="input-group-btn">
                                                                     <button class="btn btn-success" type="button"
                                                                             style="height:34px" data-toggle="modal"
-                                                                            data-target=".bs-example-modal-sm">
+                                                                            data-target=".bs-example-modal-sm" disabled>
                                                                     <i class="fa fa-plus"></i></button>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                         <label class="col-sm-1 control-label">试题来源</label>
                                                         <div class="col-sm-3">
-                                                            <input class="form-control" value="原创">
+                                                            <input class="form-control" name="source" value="原创">
                                                         </div>
                                                     </div>
 
@@ -191,10 +193,11 @@
                                                             <div class="tags" id="tags" tabindex="1">
                                                                 <input id="form-field-tags" type="text"
                                                                        placeholder="请输入标签 ..." value="Tag Input Control"
-                                                                       name="tags" style="display: none;">
+                                                                       name="tag" style="display: none;">
                                                                 <input type="text" placeholder="请输入标签 ..."
                                                                        class="tags_enter" autocomplete="off"
                                                                        onkeyup="this.value=this.value.replace(/[, ]/g,'')">
+                                                                <input type="text" name="lable">
                                                                 <!--输入框去除空格-->
                                                             </div>
                                                         </div>
@@ -205,15 +208,14 @@
                                                             <label class="control-label">
                                                                 <div class="radio radio-success radio-inline">
                                                                     <input type="radio" id="inlineRadio1"
-                                                                           value="option1" name="radioInline"
-                                                                           checked>
+                                                                           value="1" name="status">
                                                                     <label for="inlineRadio1">正常</label>
                                                                 </div>
                                                             </label>&nbsp;
                                                             <label class="control-label">
                                                                 <div class="radio radio-danger radio-inline">
                                                                     <input type="radio" id="inlineRadio2"
-                                                                           value="option2" name="radioInline">
+                                                                           value="0" name="status">
                                                                     <label for="inlineRadio2">禁用</label>
                                                                 </div>
                                                             </label>
@@ -223,7 +225,7 @@
                                                         <label class="col-sm-2 control-label">
                                                             试题题干</label>
                                                         <div class="col-sm-7 ">
-                                                            <textarea id="editor" autofocus></textarea>
+                                                            <textarea id="editor" name="quesContent" autofocus></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -246,17 +248,17 @@
                                                                     </label>
                                                                 </div>
                                                             </div>
-                                                            <!--单选题-->
+                                                            <!--判断题-->
                                                             <div class="judgment" style="display: none">
                                                                 <div class="radio radio-success">
-                                                                    <input type="radio" name="judgment" id="true"
+                                                                    <input type="radio" class="rdo" name="judgment" id="true" value="true"
                                                                            checked="">
                                                                     <label for="true">
                                                                         正确
                                                                     </label>
                                                                 </div>
                                                                 <div class="radio radio-danger">
-                                                                    <input type="radio" name="judgment" id="false">
+                                                                    <input type="radio" class="rdo" name="judgment" id="false" value="false">
                                                                     <label for="false">
                                                                         错误
                                                                     </label>
@@ -297,8 +299,7 @@
                                                                                     <input type="radio"
                                                                                            class="radio_select"
                                                                                            id="chapter_options"
-                                                                                           name="chapter_options"
-                                                                                           checked>
+                                                                                           >
                                                                                     <label class="options"
                                                                                            for="chapter_options">选项A</label>
                                                                                 </div>
@@ -306,7 +307,7 @@
                                                                         </div>
                                                                         <!-- 内容区 -->
                                                                         <div class="panel-body">
-                                                                            <textarea id="editor1" autofocus></textarea>
+                                                                            <textarea id="editor1" class="editor1" autofocus ></textarea>
                                                                         </div>
                                                                     </div><!-- end of panel -->
                                                                 </div> <!-- end of col-sm-5 -->
@@ -330,7 +331,7 @@
                                                                                     <input type="checkbox"
                                                                                            class="choice"
                                                                                            id="selects"
-                                                                                           value="option1">
+                                                                                           value="A">
                                                                                     <label class="selects"
                                                                                            for="selects">
                                                                                         选项A </label>
@@ -339,14 +340,13 @@
                                                                         </div>
                                                                         <!-- 内容区 -->
                                                                         <div class="panel-body">
-                                                                            <textarea id="editor2" autofocus></textarea>
+                                                                            <textarea id="editor2" class="editor2" autofocus></textarea>
                                                                         </div>
                                                                     </div><!-- end of panel -->
                                                                 </div> <!-- end of col-sm-5 -->
                                                                 <!--问答题-->
                                                                 <div class="col-sm-5" style="display: none">
                                                                     <textarea id="qa_editor" autofocus></textarea>
-
                                                                 </div> <!-- end of col-sm-5 -->
                                                                 <!--填空题-->
                                                                 <div class="col-sm-5" style="display: none">
@@ -359,7 +359,7 @@
                                                                                   style="color: white">x</span>
                                                                         </button>
                                                                         <h3 style="color: white">填空1</h3>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="text" class="form-control tiankong"
                                                                                placeholder="请填写答案">
                                                                     </div>
                                                                 </div> <!-- end of col-sm-5 -->
@@ -370,13 +370,13 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">答案解析</label>
                                                             <div class="col-sm-7">
-                                                                <textarea id="answer_editor" autofocus></textarea>
+                                                                <textarea id="answer_editor" name="analyze" autofocus></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-md-offset-2 col-sm-10">
-                                                            <button type="button" class="btn btn-success">提交
+                                                            <button type="button" class="btn btn-success" id="saveQuesFormBtn">提交
                                                             </button>
                                                             <button type="reset" class="btn btn-white">重新填写
                                                             </button>
@@ -384,6 +384,7 @@
                                                     </div>
                                                 </div>
                                             </form>
+                                            <!--end of 创建试题form-->
                                         </div>
                                     </div>
                                 </div>
@@ -593,7 +594,7 @@
                                                                     </label>
                                                                 </div>
                                                             </div>
-                                                            <!--单选题-->
+                                                            <!--判断题-->
                                                             <div class="judgment" style="display: none">
                                                                 <div class="radio radio-success">
                                                                     <input type="radio" name="judgment" id="modify_true"
@@ -899,28 +900,28 @@
 </body>
 <!-- 全局js -->
 <script src="../../static/js/jquery.min.js?v=2.1.4"
-        th:href="@{/static/js/jquery.min.js}"></script>
+        th:src="@{/static/js/jquery.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js?v=3.3.6"
-        th:href="@{/static/js/bootstrap.min.js}"></script>
+        th:src="@{/static/js/bootstrap.min.js}"></script>
 <!-- 自定义js -->
 <script src="../../static/js/content.js?v=1.0.0"
-        th:href="@{/static/js/content.js}"></script>
+        th:src="@{/static/js/content.js}"></script>
 <!-- Bootstrap table -->
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <!--动态搜索-->
 <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
-        th:href="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!-- layerDate plugin javascript -->
 <script src="../../static/js/plugins/layer/laydate/laydate.js"
-        th:href="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+        th:src="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
 <!-- Sweet alert -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
-        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <!--滑动按钮-->
 <script src="../../static/js/plugins/switchery/switchery.js"
         th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
@@ -934,21 +935,21 @@
         th:src="@{/static/js/plugins/codemirror/mode/javascript/javascript.js}"></script>
 <!-- simditor -->
 <script type="text/javascript" src="../../static/js/plugins/simditor/module.js"
-        th:href="@{/static/js/plugins/simditor/module.js}"></script>
+        th:src="@{/static/js/plugins/simditor/module.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/uploader.js"
-        th:href="@{/static/js/plugins/simditor/uploader.js}"></script>
+        th:src="@{/static/js/plugins/simditor/uploader.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/hotkeys.js"
-        th:href="@{/static/js/plugins/simditor/hotkeys.js}"></script>
+        th:src="@{/static/js/plugins/simditor/hotkeys.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/simditor.js"
-        th:href="@{/static/js/plugins/simditor/simditor.js}"></script>
+        th:src="@{/static/js/plugins/simditor/simditor.js}"></script>
 <!-- Prettyfile -->
 <script src="../../static/js/plugins/prettyfile/bootstrap-prettyfile.js"
-        th:href="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+        th:src="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
 <!--自定义js-->
 <script src="../../static/public/exam/js/testlermList.js"
-        th:href="@{/static/public/exam/js/testlermList.js}"></script>
+        th:src="@{/static/public/exam/js/testlermList.js}"></script>
 <script src="../../static/public/exam/js/modifyOptions.js"
-        th:href="@{/static/public/exam/js/modifyOptions.js}"></script>
+        th:src="@{/static/public/exam/js/modifyOptions.js}"></script>
 <script>
     /*文件上传*/
     $('#file-pretty input[type="file"]').prettyFile();
@@ -1033,8 +1034,8 @@
 </script>
 <!--下拉选择框的值改变页面-->
 <script>
-    $('.add_select_box').find("option:contains('单选框')").attr("selected", true);
-    testItemList(0);
+    $('.add_select_box').find("option:contains('请选择试题类型')").attr("selected", true);
+    // testItemList(0);
     /*重复调用*/
     $('.col-sm-3 select').change(function () {
         /*选择判断题时,答案选项显示单选框 修改label的值*/
@@ -1054,6 +1055,9 @@
                 $('.judgment').css('display', '');
                 /*隐藏文件上传*/
                 $('.attachment_title').css('display', 'none');
+                $('.rdo').attr("name","correctAnswer");
+                $('.tiankong').removeAttr("name");
+                $('#qa_editor').removeAttr("name");
             }
             /**/
             if (this.value === '单选题') {
@@ -1076,7 +1080,11 @@
                 $(".col-sm-5", $container).eq(0).nextAll().css("display", "none");
                 /*隐藏文件上传*/
                 $('.attachment_title').css('display', 'none');
-                //testItemList(0);
+                testItemList(0);
+                // 消除判断题的name
+                $('.rdo').removeAttr("name");
+                $('.tiankong').removeAttr("name");
+                $('#qa_editor').removeAttr("name");
             }
             if (this.value === '多选题') {
                 /*提示文字*/
@@ -1097,6 +1105,10 @@
                 /*隐藏文件上传*/
                 $('.attachment_title').css('display', 'none');
                 testItemList(1);
+                // 消除判断题的name
+                $('.rdo').removeAttr("name");
+                $('.tiankong').removeAttr("name");
+                $('#qa_editor').removeAttr("name");
             }
             if (this.value === '填空题') {
                 /*提示文字*/
@@ -1115,6 +1127,10 @@
                 /*隐藏文件上传*/
                 $('.attachment_title').css('display', 'none');
                 testItemList(3);
+                $(".tiankong").attr("name","correctAnswer");
+                // 消除判断题的name
+                $('.rdo').removeAttr("name");
+                $('#qa_editor').removeAttr("name");
             }
             if (this.value === '问答题') {
                 /*隐藏单选多选输入框*/
@@ -1129,6 +1145,10 @@
                 $('.multiple_choice').css('display', 'none');
                 /*隐藏文件上传*/
                 $('.attachment_title').css('display', 'none');
+                $('#qa_editor').attr("name","correctAnswer")
+                // 消除判断题的name
+                $('.rdo').removeAttr("name");
+                $('.tiankong').removeAttr("name");
             }
             if (this.value === '附件题') {
                 /*隐藏按钮*/
@@ -1139,6 +1159,10 @@
                 $(".col-sm-5", $container).eq(0).nextAll().css("display", "none");
                 /*显示文件上传*/
                 $('.attachment_title').css('display', '');
+                // 消除判断题的name
+                $('.rdo').removeAttr("name");
+                $('.tiankong').removeAttr("name");
+                $('#qa_editor').removeAttr("name");
             }
         })
     })
@@ -1146,6 +1170,67 @@
 <!-- bootstrap table 操作 -->
 <script>
     $(function () {
+        var appName=[[@{/}]];
+            console.log(appName);
+
+        /*创建试题，选择题库绑定onchange事件*/
+        $("#examBankSel").change(function () {
+            var examBankId=$("#examBankSel").val();
+            console.log(examBankId);
+            if (examBankId=="") {
+            alert("请选择正确的题库");
+            }else{
+                $.ajax({
+                    url:appName+"exam/SelectBankById.do",
+                    method:"post",
+                    data:"examBankId="+examBankId,
+                    dataType:"json",
+                    success:function (data) {
+                        if (data.bankStatus==0){
+                        $("#inlineRadio1").prop("checked",false);
+                        $("#inlineRadio1").removeAttr("checked");
+                        $("#inlineRadio2").prop("checked",true);
+                        $("#inlineRadio2").attr("checked","checked");
+                        }else{
+                            $("#inlineRadio2").prop("checked",false);
+                            $("#inlineRadio2").removeAttr("checked");
+                            $("#inlineRadio1").prop("checked",true);
+                            $("#inlineRadio1").attr("checked","checked");
+                        }
+                    },
+                    error:function (jqxhr) {
+                        console.log("error");
+                    }
+                })
+            }
+        });
+
+        /*创建试题按钮saveQuesFormBtn绑定click事件*/
+        $("#saveQuesFormBtn").click(function () {
+            var form=document.forms["saveQuesForm"];
+            var dataform=new FormData(form);
+            var e3=$("textarea[name='answerContent']");
+            $("textarea").each(function (n) {
+                console.log($(this).val());
+            });
+            $.ajax({
+                url:appName+"exam/saveQues.do",
+                method:"post",
+                async:true,
+                data:dataform,
+                dataType:"text",
+                contentType:false,
+                processData:false,
+                success:function (data) {
+                    console.log(data)
+                    window.location.reload();
+                },
+                error:function (jqhxr) {
+                    console.log("error")
+                }
+            })
+        });
+
         <!-- CodeMirror 组件显示 试题中的代码 -->
         let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineWrapping: true,	//代码折叠
@@ -1164,8 +1249,9 @@
 
         //试题管理
         $('#my_test_item_table').bootstrapTable({
-            url: '../../static/js/demo/exam/test_question_management.json',       //请求后台的URL（*）
-            // method: 'get',                      //请求方式（*）
+            // url: '/owep/static/js/demo/exam/test_question_management.json',       //请求后台的URL（*)
+            url:"/owep/exam/testItemList.do",
+            method: 'post',                      //请求方式（*）
             striped: true,                      //是否显示行间隔色
             pagination: true,                   //是否显示分页（*）
             queryParams: queryParams,           //传递参数（*）
@@ -1179,11 +1265,11 @@
                 [{
                     checkbox: true
                 }, {
-                    field: 'question_bank',
+                    field: 'examBank.bankName',
                     title: '题库',
                     align: 'center',
                 }, {
-                    field: 'type',
+                    field: 'typeName',
                     title: '类型',
                     align: 'center',
                 }, {
@@ -1191,17 +1277,17 @@
                     title: '状态',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        if (value === "正常") {
-                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked/>';
+                        if (row.status == 1) {
+                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 1 + '" checked/>';
                         }
-                        return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '"/>';
+                        return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 0 + '"/>';
                     },
                 }, {
-                    field: 'difficulty',
+                    field: 'hardLevel',
                     align: 'center',
                     title: '难度',
                 }, {
-                    field: 'question_stem',
+                    field: 'quesContent',
                     align: 'center',
                     title: '题干',
                 }, {
@@ -1209,7 +1295,7 @@
                     align: 'center',
                     title: '最后修改',
                     formatter: function (value, row, index) {
-                        return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.founder + "</p><p class='text-muted'>" + row.change_modified + "</p></div>";
+                        return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.userName + "</p><p class='text-muted'>" + row.lastAccessTime + "</p></div>";
                     }
                 }, {
                     field: 'operate',
@@ -1538,31 +1624,66 @@
                         'click .review_test_item': function (e, value, row, index) {
                             /*模态框*/
                             $('#review_test_item').modal();
+
                             //判断题型对预览做改变
                             var table = $('#preview_table');
-                            if (row.type === '单选题' || row.type === '多选题' || row.type === '判断题' || row.type === '附件题') {
-                                /*迭代*/
-                                let os = row.option_settings;
-                                if (os != null) {
-                                    $('.settings').removeAttr("style");
-                                    /*防止重复添加数据*/
-                                    $(".option_settings tr").remove();
-                                    for (key in os) {
-                                        $('.option_settings .tbody').append('<tr>\n' +
-                                            '<td style="width: 50px;text-align: center;background: #f5f5f5">' + key + '</td>\n' +
-                                            '<td style="word-break: break-all">' + os[key] + '</td>\n' +
-                                            '</tr>');
-                                    }
-                                }
-                                /*判断题和附件题会出选选项设置*/
-                                if (row.type === '判断题' || row.type === '附件题') {
-                                    $('.settings').css("display", "none");
-                                }
+                            //获取选项
+                            if (row.typeName === '单选题' || row.typeName === '多选题' || row.typeName === '判断题' || row.typeName === '附件题') {
+
                                 /*隐藏编辑框*/
                                 $('.code').css("display", "none");
                                 /*显示*/
                                 $('.test_answer').removeAttr("style");
-                                $('.test_answer').text(row.test_answer);
+
+                                /*单选题和多选题出选选项设置*/
+                                if (row.typeName == '单选题' || row.typeName == '多选题') {
+                                    $('.settings').css("display", "block");
+                                    //获取session
+                                    $.ajax({
+                                        url:"/owep/exam/searchAnswerSet.do",
+                                        method:"post",
+                                        data:"quesId="+row.id,
+                                        dataType:"json",
+                                        success:function (data) {
+                                            console.log(data);
+                                            /*迭代*/
+                                            let os = data;
+                                            if (os != null) {
+                                                $('.settings').removeAttr("style");
+                                                /*防止重复添加数据*/
+                                                $(".option_settings tr").remove();
+                                                for (key in os) {
+                                                    $('.option_settings .tbody').append('<tr>\n' +
+                                                        '<td style="width: 50px;text-align: center;background: #f5f5f5">' + os[key].typeName + '</td>\n' +
+                                                        '<td style="word-break: break-all">' + os[key].answerContent + '</td>\n' +
+                                                        '</tr>');
+                                                }
+                                                $('.test_answer').text(row.correctAnswer);
+                                            }
+                                        }
+                                    });
+                                }
+
+                                /*判断题和附件题不会出选选项设置*/
+                                if (row.typeName == '判断题' || row.typeName == '附件题') {
+                                    $('.settings').css("display", "none");
+                                    //获取session
+                                    $.ajax({
+                                        url:"/owep/exam/searchAnswerSet.do",
+                                        method:"post",
+                                        data:"quesId="+row.id,
+                                        dataType:"json",
+                                        success:function (data) {
+                                            console.log(data);
+                                            /*迭代*/
+                                            let os = data;
+                                            if (os != null) {
+                                                $('.test_answer').text(os[0].answerContent);
+                                            }
+                                        }
+                                    });
+                                }
+
                             } else {
                                 $('.settings').css("display", "none");
                                 /*显示编辑框*/
@@ -1570,44 +1691,65 @@
                                 /*显示*/
                                 $('.test_answer').css("display", "none");
                             }
-                            if (row.type === '填空题') {
+                            if (row.typeName === '填空题') {
                                 /*隐藏QA*/
                                 $('.QA').attr("class", "QA hidden");
                                 $('.FB_QA').removeAttr("style");
-                                let qa = row.test_answer;
-                                if (typeof qa == 'object') {
-                                    $(".QA_table  tr").remove();
-                                    for (key in qa) {
-                                        $('.QA_table .tbody').append('<tr>\n' +
-                                            '<td style="width: 50px;text-align: center;background: #f5f5f5">' + key + '</td>\n' +
-                                            '<td style="word-break: break-all">' + qa[key] + '</td>\n' +
-                                            '</tr>');
+                                //获取session
+                                $.ajax({
+                                    url:"/owep/exam/searchAnswerSet.do",
+                                    method:"post",
+                                    data:"quesId="+row.id,
+                                    dataType:"json",
+                                    success:function (data) {
+                                        console.log(data);
+                                        let qa = data;
+                                        if (typeof qa == 'object') {
+                                            $(".QA_table  tr").remove();
+                                            for (key in qa) {
+                                                $('.QA_table .tbody').append('<tr>\n' +
+                                                    '<td style="width: 50px;text-align: center;background: #f5f5f5">' + qa[key].typeName + '</td>\n' +
+                                                    '<td style="word-break: break-all">' + qa[key].answerContent + '</td>\n' +
+                                                    '</tr>');
+                                            }
+                                        }
                                     }
-                                }
+                                });
                             } else {
                                 $('.QA').attr("class", "QA");
                                 $('.FB_QA').css("display", "none");
                             }
-                            table.find('tr:eq(0) td:eq(0)').text(row.type);
-                            table.find('tr:eq(1) td:eq(0)').text(row.difficulty);
-                            table.find('tr:eq(2) td:eq(0)').text(row.question_bank);
-                            table.find('tr:eq(3) td:eq(0) span').text(row.lebel);
+                            table.find('tr:eq(0) td:eq(0)').text(row.typeName);
+                            table.find('tr:eq(1) td:eq(0)').text(row.hardLevel);
+                            table.find('tr:eq(2) td:eq(0)').text(row.examBank.bankName);
+                            table.find('tr:eq(3) td:eq(0) span').text(row.lable);
                             table.find('tr:eq(4) td:eq(0)').text(row.status);
-                            table.find('tr:eq(5) td:eq(0) p').text(row.question_stem);
-                            let qa = row.test_answer;
-                            if (typeof qa == 'string') {
-                                editor.setValue(row.test_answer);
-                            }
-                            $('.Parsing').text(row.answer_analysis);
+                            table.find('tr:eq(5) td:eq(0) p').html(row.quesContent);
+                            $('.Parsing').html(row.analyze);
+                            //获取session
+                            $.ajax({
+                                url:"/owep/exam/searchAnswerSet.do",
+                                method:"post",
+                                data:"quesId="+row.id,
+                                dataType:"json",
+                                success:function (data) {
+                                    console.log(data);
+                                    let qa = data;
+                                    if (typeof qa == 'object') {
+                                        editor.setValue(qa[0].answerContent);
+                                    }
+                                }
+                            });
                         }
                     }
                 }]
         });
 
-        /*共享题库*/
+        /*共享试题*/
         $('#share_test_item_table').bootstrapTable({
-            url: '../../static/js/demo/exam/test_question_management.json', //请求后台的URL（*）
-            // method: 'get',                      //请求方式（*）
+            // url: '/owep/static/js/demo/exam/test_question_management.json', //请求后台的URL（*）
+            url:"/owep/exam/testItemListShare.do",
+            method: 'post',                      //请求方式（*）
             striped: true,                      //是否显示行间隔色
             pagination: true,                   //是否显示分页（*）
             queryParams: queryParams,           //传递参数（*）
@@ -1621,11 +1763,11 @@
                 [{
                     checkbox: true
                 }, {
-                    field: 'question_bank',
+                    field: 'examBank.bankName',
                     title: '题库',
                     align: 'center',
                 }, {
-                    field: 'type',
+                    field: 'typeName',
                     title: '类型',
                     align: 'center',
                 }, {
@@ -1633,17 +1775,17 @@
                     title: '状态',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        if (value === "正常") {
-                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '" checked disabled/>';
+                        if (row.status ==1) {
+                            return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 1 + '" checked disabled/>';
                         }
-                        return '<input type="checkbox" name="status" class="js-switch form-control" value="' + row.id + '"disabled/>';
+                        return '<input type="checkbox" name="status" class="js-switch form-control" value="' + 0 + '"disabled/>';
                     },
                 }, {
-                    field: 'difficulty',
+                    field: 'hardLevel',
                     align: 'center',
                     title: '难度',
                 }, {
-                    field: 'question_stem',
+                    field: 'quesContent',
                     align: 'center',
                     title: '题干',
                 }, {
@@ -1651,7 +1793,7 @@
                     align: 'center',
                     title: '最后修改',
                     formatter: function (value, row, index) {
-                        return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.founder + "</p><p class='text-muted'>" + row.change_modified + "</p></div>";
+                        return "<div class='text-center'><p style='color:#000;margin-bottom: 0'>" + row.userName + "</p><p class='text-muted'>" + row.lastAccessTime + "</p></div>";
                     }
                 }, {
                     field: 'operate',

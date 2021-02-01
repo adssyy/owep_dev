@@ -1,7 +1,7 @@
 <!-- 创建试题中的增加选项-->
 
 /*0:单选题 1:多选题 3:填空题     questionType*/
-function testItemList(questionType) {
+    function testItemList(questionType) {
 
     /*新建一个数组*/
     let panelList = typelist(questionType);
@@ -42,27 +42,39 @@ function testItemList(questionType) {
 function updateId1(panelList, questionType) {
     //修改此元素中的id值和内容去的id
     //遍历数组改label值
-    let x = 64;
+    let  x = 64;
     for (let i = 0; i < panelList.length; i++) {
         //debugger
         x = x + 1;
         let value = "选项" + String.fromCharCode(x);
+
+        let correctAnswer=String.fromCharCode(x);
         /*判断题型*/
         if (questionType === 0) {
             //ascii码转字符：用fromCharCode(); //有问题
             panelList[i].find('.radio.radio-success').find('.options').text(value);
-            panelList[i].find('.radio.radio-success').find('.options').attr("for", x);
-            panelList[i].find('.radio.radio-success').find('.radio_select').attr("id", x);
-
+            panelList[i].find('.radio.radio-success').find('.options').attr("for", "dan"+x);
+            panelList[i].find('.radio.radio-success').find('.radio_select').attr("id", "dan"+x);
+            panelList[i].find('.radio.radio-success').find('.radio_select').prop("checked",false);
+            panelList[i].find('.radio.radio-success').find('.radio_select').attr("name", "correctAnswer");
+            panelList[i].find('.radio.radio-success').find('.radio_select').attr("value", correctAnswer);
+            panelList[i].find('.editor1').attr("id","dan"+x)
+            panelList[i].find('.editor1').attr("name","answerContent");
         }
         /*多选题*/
         if (questionType === 1) {
             panelList[i].find('.checkbox').find('.selects').text(value);
-            panelList[i].find('.checkbox').find('.selects').attr("for", x);
-            panelList[i].find('.checkbox').find('.choice').attr("id", x);
+            panelList[i].find('.checkbox').find('.selects').attr("for", "duo"+x);
+            panelList[i].find('.checkbox').find('.choice').attr("id", "duo"+x);
+            panelList[i].find('.checkbox').find('.choice').attr("name", "correctAnswer");
+            panelList[i].find('.checkbox').find('.choice').attr("value",correctAnswer);
+            panelList[i].find('.editor2').attr("id","duo"+x);
+            panelList[i].find('.editor2').attr("name","answerContent");
         }
+        /*填空题*/
         if (questionType === 3) {
             panelList[i].find('h3').text("填空" + (i + 1));
+
         }
     }
 }
