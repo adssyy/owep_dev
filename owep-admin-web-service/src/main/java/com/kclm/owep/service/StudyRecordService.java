@@ -1,6 +1,6 @@
 package com.kclm.owep.service;
 
-import com.kclm.owep.StudyRecordStatisticsDTO;
+import com.kclm.owep.dto.StudyRecordStatisticsDTO;
 import com.kclm.owep.entity.StudyRecord;
 import com.kclm.owep.entity.StudyRecordStatistics;
 import org.apache.ibatis.annotations.Param;

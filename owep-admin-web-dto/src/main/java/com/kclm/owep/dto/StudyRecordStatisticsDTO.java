@@ -1,4 +1,4 @@
-package com.kclm.owep;
+package com.kclm.owep.dto;
 
 import com.kclm.owep.entity.Student;
 
