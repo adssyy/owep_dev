@@ -13,6 +13,7 @@
         <result column="total_pay" jdbcType="DOUBLE" property="totalPay"/>
         <result column="month_pay" jdbcType="DOUBLE" property="monthPay"/>
         <result column="pay_ment" jdbcType="INTEGER" property="payMent"/>
+        <result column="repayment_plan" jdbcType="VARCHAR" property="repaymentPlan"/>
         <result column="is_assign_class" jdbcType="INTEGER" property="isAssignClass"/>
         <result column="client_email" jdbcType="VARCHAR" property="clientEmail"/>
         <result column="loan_status" jdbcType="INTEGER" property="loanStatus"/>
@@ -44,7 +45,7 @@
     <!--所有字段-->
     <sql id="Base_Column_List">
     id, client_name, client_phone, gender, client_experience, salseman_describe, advance_pay,
-    create_time, total_pay, month_pay, pay_ment, is_assign_class, client_email, loan_status,
+    create_time, total_pay, month_pay, pay_ment,repayment_plan, is_assign_class, client_email, loan_status,
     loan, interview_time_start,interview_time_end, client_state, fk_profession_id, major, sign_time, is_delete, fk_channel_id,
     version, last_access_time, fk_user_id
   </sql>
@@ -97,9 +98,6 @@
             </if>
             <if test="clientState != null">
                 client_state,
-            </if>
-            <if test="profession.id != null">
-                fk_profession_id,
             </if>
             <if test="major != null">
                 major,
@@ -166,9 +164,6 @@
             <if test="clientState != null">
                 #{clientState,jdbcType=INTEGER},
             </if>
-            <if test="profession.id != null">
-                #{profession.id,jdbcType=INTEGER},
-            </if>
             <if test="major != null">
                 #{major,jdbcType=VARCHAR},
             </if>
@@ -182,7 +177,7 @@
             1,
             now(),
             <if test="user.id != null">
-                #{user.id,jdbcType=INTEGER},
+                #{user.id,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
@@ -206,7 +201,9 @@
             <if test="salsemanDescribe != null">
                 salseman_describe = #{salsemanDescribe,jdbcType=VARCHAR},
             </if>
-
+            <if test="clientState != null">
+                client_state = #{clientState,jdbcType=VARCHAR},
+            </if>
             <if test="isAssignClass != null">
                 is_assign_class = #{isAssignClass,jdbcType=INTEGER},
             </if>
@@ -268,6 +265,10 @@
             <if test="payMent != null">
                 pay_ment = #{payMent,jdbcType=INTEGER},
             </if>
+            <if test="repaymentPlan != null">
+                repayment_plan = #{repaymentPlan,jdbcType=VARCHAR},
+            </if>
+            client_state = '1',
             version = version + 1,
             last_access_time = now(),
         </set>
@@ -279,7 +280,6 @@
         update t_client set is_delete = 0 where id = #{id}
     </update>
 
-
     <!--删除所选客户 逻辑删除-->
     <update id="deleteSelect">
         update t_client set is_delete = 0 where id in
@@ -289,37 +289,50 @@
     </update>
 
     <!--通过id 查询客户-->
-    <select id="selectById" parameterType="Integer" resultType="client">
+    <select id="selectById" parameterType="Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_client where id = #{id}
     </select>
 
+    <!--通过登录者的类型查询客户-->
+    <select id="selectAllByUserType" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_client where fk_user_id = #{userid}
+    </select>
+
     <!--通过客户信息查询客户-->
-    <select id="findByField" parameterType="client" resultType="client">
+    <select id="findByField" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_client
         where
         <trim suffixOverrides="and">
-            <if test="clientState != null">
+            <if test="clientState != null and clientState != -1">
                 client_state = #{clientState,jdbcType=VARCHAR} and
+            </if>
+            <if test="user != null">
+                fk_user_id = #{user.id,jdbcType=INTEGER} and
             </if>
             <if test="interviewTimeStart != null and interviewTimeEnd != null">
                 interview_time_start between #{interviewTimeStart, jdbcType=TIMESTAMP} and
                 #{interviewTimeEnd, jdbcType=TIMESTAMP} and
             </if>
-            <if test="clientPhone != null">
-                client_phone = #{clientPhone,jdbcType=VARCHAR}
+            <if test="clientPhone != ''">
+                client_phone like  concat('%',#{clientPhone,jdbcType=VARCHAR},'%')
             </if>
         </trim>
+        and is_delete=1;
     </select>
 
+
     <!--查询所有的客户-->
-    <select id="selectAll" resultType="client">
+    <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_client
+        where is_delete=1
     </select>
 
     <!--查询客户数量-->
@@ -336,5 +349,69 @@
         </foreach>
     </update>
 
+    <!--统计订单、贷款、预付总金额-->
+    <select id="summaryPay" resultType="SummaryPay">
+        select sum(total_pay) AS'total',sum(loan) AS'loan',sum(advance_pay) AS'advance' from t_client;
+    </select>
 
+    <!--统计来源和数量-->
+    <select id="summaryChannel" resultType="SummaryChannel">
+        SELECT count(channel_name) as'value',channel_name as'name'
+        FROM t_channel
+        RIGHT JOIN t_client
+        ON t_channel.id=t_client.fk_channel_id
+        GROUP BY t_channel.id;
+    </select>
+
+    <!--统计客户量情况-->
+    <select id="summaryClient" resultType="SummaryClient">
+        SELECT COUNT(client_state) AS 'value',
+               case client_state
+                   when 0 then '无意向'
+                   when 1 then '已签约'
+                   when 2 then '潜在客户'
+                   when 3 then '标准客户'
+                   end name
+        FROM t_client
+        GROUP BY client_state;
+    </select>
+
+    <!--搜索客户状态-->
+    <select id="clientState" resultType="IdAndKey">
+        SELECT DISTINCT client_state AS 'id',
+                        case client_state
+                            when 0 then '无意向'
+                            when 1 then '已签约'
+                            when 2 then '潜在客户'
+                            when 3 then '标准客户'
+                            end 'key'
+        FROM t_client
+        ORDER BY client_state asc
+    </select>
+
+    <!--搜索客户归属-->
+    <select id="clientBelong" resultType="IdAndKey">
+        SELECT DISTINCT user_type AS 'id',
+                        case user_type
+                            when 1 then 'admin'
+                            when 2 then '测试教师01'
+                            when 3 then '测试咨询师'
+                            end 'key'
+        FROM t_user
+    </select>
+
+    <!--搜索客户渠道-->
+    <select id="clientChannel" resultType="IdAndKey">
+        SELECT t_channel.id,t_channel.channel_name AS 'key'
+        FROM t_channel
+        LEFT JOIN t_channel_type
+        ON t_channel.fk_channeltype_id = t_channel_type.id
+        where t_channel_type.channel_type_name = #{selectKey}
+    </select>
+
+    <!--搜索客户渠道类型-->
+    <select id="clientChannelType" resultType="IdAndKey">
+        SELECT id,channel_type_name AS'key'
+        FROM t_channel_type
+    </select>
 </mapper>

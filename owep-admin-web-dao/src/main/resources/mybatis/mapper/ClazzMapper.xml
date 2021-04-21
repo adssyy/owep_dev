@@ -18,7 +18,7 @@
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <result column="old_class_name" jdbcType="VARCHAR" property="oldClassName" />
     <result column="old_class_num" jdbcType="VARCHAR" property="oldClassNum" />
-    <association property="profession" column="fk_profession_id" javaType="profession" select="com.kclm.owep.mapper.ProfessionMapper.selectById"/>
+      <association property="profession" column="fk_profession_id" javaType="profession" select="com.kclm.owep.mapper.ProfessionMapper.selectById"/>
     <collection property="resourceList" ofType="resource">
       <id column="rid" jdbcType="INTEGER" property="id"/>
       <result column="resource_name" property="resourceName"/>
@@ -118,9 +118,7 @@
   <!--根据主键id来查询一条记录-->
   <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
-    *
-    from t_class
-    where  is_delete=1
+    <include refid="clazz_res_plan" />
   </select>
 
  <!-- &lt;!&ndash;多表操作 根据id来class 和resource&ndash;&gt;
@@ -357,7 +355,7 @@
     and c.class_name like "%"#{className,jdbcType=VARCHAR}"%"
   </select>
   <!--根据专业id来查询-->
-  <select id="selectByPro" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPro" parameterType="integer" resultMap="BaseResultMap">
     select <include refid="clazz_res_plan"/>
     and c.fk_profession_id = #{pid,jdbcType=VARCHAR}
   </select>

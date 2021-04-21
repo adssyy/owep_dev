@@ -9,7 +9,6 @@ function bsSuggest(object,url,fieldName){
         searchFields:[fieldName],
     })
 }
-
 function bsSuggestNoShow(object,url,fieldName){
     $(object).bsSuggest({
         url: url,

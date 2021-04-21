@@ -96,4 +96,15 @@
     #{list}
     </foreach>
   </delete>
+
+  <update id="allowStatus" parameterType="java.lang.Integer">
+    update t_leave set
+      approval_status=2
+      where id=#{id,jdbcType=INTEGER}
+  </update>
+  <update id="refuseStatus" parameterType="java.lang.Integer">
+    update t_leave set
+      approval_status=0
+      where id=#{id,jdbcType=INTEGER}
+  </update>
 </mapper>

@@ -46,10 +46,12 @@
         input[type="number"] {
             -moz-appearance: textfield;
         }
-        .table > thead > tr > th    {
+
+        .table > thead > tr > th {
             color: #2a62bc;
         }
-        .form-inline>.btn:not(.query){
+
+        .form-inline > .btn:not(.query) {
             margin-left: 0.8%;
             float: right;
         }
@@ -57,7 +59,7 @@
 </head>
 
 <body class="white-bg">
-<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight" >
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
     <div class="row text-left" style="margin-top: 25px; padding-left: 25px">
         <div class="col-md-9">
             <form class="form-inline">
@@ -77,7 +79,7 @@
                 <div class="form-group">
                     <label for="clientBelong" class="label_text">客户归属</label>
                     <div class="input-group input-s-sm" style="width: 120px">
-                        <input type="text" class="form-control input-sm" id="clientBelong">
+                        <input type="text" class="form-control input-sm" id="clientBelong" name="user.userName">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-white input-sm dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
@@ -90,18 +92,18 @@
                 <div class="form-group" id="date_case_1">
                     <label class="label_text">面试时间</label>
                     <div class="input-daterange input-group" id="datepicker">
-                        <input type="text" class="input-sm form-control" style="width: 100px;" name="start"
+                        <input type="text" class="input-sm form-control" style="width: 100px;" name="interviewTimeStart" id="start"
                         />
                         <span class="input-group-addon">到</span>
-                        <input type="text" class="input-sm form-control" style="width: 100px;" name="end"
+                        <input type="text" class="input-sm form-control" style="width: 100px;" name="interviewTimeEnd" id="end"
                         />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber" class="label_text">电话</label>
-                    <input type="number" class="form-control input-s-sm" style="width: 110px;" id="phoneNumber">
+                    <label for="clientPhone" class="label_text">电话</label>
+                    <input type="number" maxlength="11" class="form-control input-s-sm" style="width: 110px;" id="clientPhone">
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                <button type="button" class="btn btn-primary btn-sm" id="search">查询</button>
                 <button type="reset" class="btn btn-warning btn-sm">重置</button>
             </form>
         </div>
@@ -139,12 +141,12 @@
                 <h4 class="modal-title">新增</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" th:action="#" method="get" id="add_customer_form">
+                <form class="form-horizontal" method="get" id="add_customer_form">
                     <div class="row">
                         <div class="form-group">
                             <label for="add_customName" class="col-sm-2 control-label">客户姓名:</label>
                             <div class="col-sm-4">
-                                <input type="text" name="name" class="form-control" id="add_customName">
+                                <input type="text" name="clientName" class="form-control" id="add_customName">
                             </div>
                             <label for="add_customerGender" class="col-sm-2 control-label">客户性别:</label>
                             <div class="col-sm-4">
@@ -197,7 +199,7 @@
                             <label for="add_customerChannel" class="col-sm-2 control-label">客户渠道:</label>
                             <div class="col-sm-4">
                                 <div class="input-group input-s-sm">
-                                    <input type="text" class="form-control" name="customerChannel" style="width: 135px"
+                                    <input type="text" class="form-control" name="add_customerChannel" style="width: 135px"
                                            id="add_customerChannel">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-white dropdown-toggle"
@@ -236,22 +238,36 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group" id="interviewTime">
-                            <label class="col-sm-2 control-label">面试时间:</label>
-                            <div class="input-group col-sm-4 date">
-                                <input type="text" class="form-control" style="width: 170px;margin-left: 15px"
-                                       value="2020-06-11">
-                                <span class="input-group-addon hidden"><i class="fa fa-calendar"></i></span>
+                        <div class="form-group" >
+                            <label for="interviewTime" class="col-sm-2 control-label">面试时间:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"
+                                       value="2020-06-11" id="interviewTime">
+                            </div>
+                            <label for="add_customerBelong" class="col-sm-2 control-label">客户归属:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" name="customerBelong" class="form-control"
+                                           id="add_customerBelong" style="width: 135px">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+
                     </div>
                 </form>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">添加</button>
+                <button type="button" class="btn btn-primary" id="addClient">添加</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -304,34 +320,35 @@
             </div>
             <div class="modal-body">
                 <!--模态框内容-->
-                <form class="form-horizontal" th:action="#" method="post" id="loans_form">
+                <form class="form-horizontal" role="form" name="loans_form">
+                    <input type="hidden" name="id" id="signId">
                     <div class="row">
                         <div class="form-group">
-                            <label for="customName" class="col-sm-2 control-label">客户姓名:</label>
+                            <label for="clientName" class="col-sm-2 control-label">客户姓名:</label>
                             <div class="col-sm-4">
-                                <input type="text" name="customName" readonly class="form-control" id="customName">
+                                <input type="text" name="clientName" readonly class="form-control" id="clientName">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="amountAdvanced" class="col-sm-2 control-label">预付金额:</label>
+                            <label for="advancePay" class="col-sm-2 control-label">预付金额:</label>
                             <div class="col-sm-4">
-                                <input type="number" name="amountAdvanced" class="form-control" id="amountAdvanced">
+                                <input type="number" name="advancePay" class="form-control" id="advancePay">
                             </div>
-                            <label for="totalMoney" class="col-sm-2 control-label">总金额:</label>
+                            <label for="totalPay" class="col-sm-2 control-label">总金额:</label>
                             <div class="col-sm-4">
-                                <input type="number" name="totalMoney" class="form-control" id="totalMoney">
+                                <input type="number" name="totalPay" class="form-control" id="totalPay">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="isLoans" class="col-sm-2 control-label">是否贷款:</label>
+                            <label for="loanStatus" class="col-sm-2 control-label">是否贷款:</label>
                             <div class="col-sm-4">
                                 <div class="input-group input-s-sm">
-                                    <input type="text" class="form-control" name="isLoans" style="width: 135px"
-                                           id="isLoans">
+                                    <input type="text" class="form-control" name="loanStatus" style="width: 135px"
+                                           id="loanStatus">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-white dropdown-toggle"
                                                 data-toggle="dropdown">
@@ -343,9 +360,9 @@
                                 </div>
                             </div>
                             <div class="hidden" data_hidden>
-                                <label for="loansMoney" class="col-sm-2 control-label">贷款金额:</label>
+                                <label for="loan" class="col-sm-2 control-label">贷款金额:</label>
                                 <div class="col-sm-4">
-                                    <input type="number" name="loansMoney" class="form-control" id="loansMoney">
+                                    <input type="number" name="loan" class="form-control" id="loan">
                                 </div>
                             </div>
                         </div>
@@ -366,9 +383,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <label for="monthRepayment" class="col-sm-2 control-label">每月还款:</label>
+                            <label for="monthPay" class="col-sm-2 control-label">每月还款:</label>
                             <div class="col-sm-4">
-                                <input type="number" name="monthRepayment" class="form-control" id="monthRepayment">
+                                <input type="number" name="monthPay" class="form-control" id="monthPay">
                             </div>
                         </div>
                     </div>
@@ -393,6 +410,7 @@
             </div>
             <div class="modal-body">
                 <form class="form-inline" id="emailContent">
+                    <input type="hidden" name="id" id="emailId"/>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="recipient">收件人</label>
@@ -434,11 +452,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">新增</h4>
+                <h4 class="modal-title">修改客户信息</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" th:action="#" method="get" id="alter_email_form">
+                <form class="form-horizontal" method="get" id="alter_email_form">
                     <div class="row">
+                        <input type="hidden" name="id" id="clientId"/>
                         <div class="form-group">
                             <label for="alter_email_customName" class="col-sm-2 control-label">客户姓名:</label>
                             <div class="col-sm-4">
@@ -492,7 +511,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <label for="add_customerChannel" class="col-sm-2 control-label">客户渠道:</label>
+                            <label for="alter_email_customerChannel" class="col-sm-2 control-label">客户渠道:</label>
                             <div class="col-sm-4">
                                 <div class="input-group input-s-sm">
                                     <input type="text" class="form-control" name="customerChannel" style="width: 135px"
@@ -534,11 +553,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group" id="alter_email_interviewTime">
+                        <div class="form-group">
                             <label for="alter_email_intentionProfessional" class="col-sm-2 control-label">意向专业:</label>
                             <div class="col-sm-4">
                                 <div class="input-group input-s-sm">
-                                    <input type="text" class="form-control" name="intentionProfessional" style="width: 135px"
+                                    <input type="text" class="form-control" name="intentionProfessional"
+                                           style="width: 135px"
                                            id="alter_email_intentionProfessional">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-white dropdown-toggle"
@@ -553,16 +573,43 @@
                             <label class="col-sm-2 control-label">面试时间:</label>
                             <div class="input-group col-sm-4 date">
                                 <input type="text" class="form-control" style="width: 170px;margin-left: 15px"
-                                       value="2020-06-16">
+                                       value="2020-06-16" id="alter_email_interviewTime">
                                 <span class="input-group-addon hidden"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <label for="alter_email_professional_evaluation" class="col-sm-2 control-label">专业评价:</label>
-                        <div class="col-sm-10">
+                        <div class="form-group">
+
+                            <label for="alter_email_belong" class="col-sm-2 control-label">客户归属:</label>
+                            <div class="col-sm-4">
+                                <div class="input-group input-s-sm">
+                                    <input type="text" class="form-control" id="alter_email_belong" style="width: 135px">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <label for="alter_email_customerEmail" class="col-sm-2 control-label">是否分班:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="alter_email_isAssignClass">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="alter_email_professional_evaluation"
+                                   class="col-sm-2 control-label">专业评价:</label>
+                            <div class="col-sm-10">
                             <textarea type="text" name="professional_evaluation" class="form-control"
-                                  style="width: 100%"   rows="4" id="alter_email_professional_evaluation"></textarea>
+                                      style="width: 100%" rows="4" id="alter_email_professional_evaluation"></textarea>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -604,6 +651,40 @@
 
 <script>
     $(function () {
+        /*当页面加载完成时显示表格*/
+        $(document).ready(function (){
+            //获取客户信息数据
+            showClientList('/owep/client/allClient');
+        });
+        /*点击查询按钮*/
+        $("#search").click(function (){
+            //客户类型的判断
+            if ($("#clientType").val() == "无意向") {
+                //客户类型：0无意向、1已签约、2潜在客户、3标准客户
+                clientState = 0;
+            } else if ($("#clientType").val() == "已签约") {
+                clientState = 1;
+            } else if ($("#clientType").val() == "潜在客户") {
+                clientState = 2;
+            } else if ($("#clientType").val() == "标准客户") {
+                clientState = 3;
+            } else if($("#clientType").val() == ""){
+                clientState = -1;
+            } else{
+                clientState = 404;
+            }
+            var userName = $("#clientBelong").val();
+            var start = $("#start").val();
+            var end = $("#end").val();
+            var phone = $("#clientPhone").val();
+            if(start == "" || end == ""){
+                alert("时间不能为空!")
+                return ;
+            }
+            //执行查询
+            showClientList('/owep/client/findAllByKeys?clientState='+clientState+'&userName='+userName+'&start='+start+'&end='+end+'&phone='+phone);
+            $("#clientList_table").bootstrapTable('refresh');
+        });
         /*面包屑 时间范围*/
         $('#date_case_1 .input-daterange').datepicker({
             keyboardNavigation: false,
@@ -621,208 +702,234 @@
             language: 'zh-CN',// 汉化
             autoclose: true
         });
-
-        /*初始化bootstrap-table*/
-        $("#clientList_table").bootstrapTable({
-            pagination: true,
-            pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 4,                       //每页的记录行数（*）
-            pageList: [2, 5, 8, 10],        //可供选择的每页的行数（*）
-            // clickToSelect: true,
-            uniqueId: "id",
-            queryParams: function (params) {
-                var temp = {
-                    "a": 1,
-                    "b": 2,
-                    "limits": params.limit,
-                    "offset": params.offset
-                }
-                return temp;
-            },
-            url: "../../static/js/demo/clientList/clientList.json",
-            columns: [{
-                checkbox: true
-            }, {
-                field: 'uid',
-                title: '主键id',
-                visible: false,
-            },
-                {
-                    field: 'id',
-                    title: '序号',
-                    align: "center"
-                }, {
-                    field: 'name',
-                    title: '姓名',
-                    align: "center"
-                }, {
-                    field: 'gender',
-                    title: '性別',
-                    visible: false
-                }, {
-                    field: 'email',
-                    title: '邮箱',
-                    visible: false
-                }, {
-                    field: 'phone',
-                    title: '电话',
-                    width: '10%',
-                    align: "center"
-                }, {
-                    field: 'customType',
-                    title: '客户类型',
-                    align: "center"
+        /*初始化表格的方法 */
+        function showClientList(url){
+            /*初始化bootstrap-table*/
+            //加载之前先格式化 放在查询的时候起冲突
+            $("#clientList_table").bootstrapTable('destroy');
+            $("#clientList_table").bootstrapTable({
+                pagination: true,
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 4,                       //每页的记录行数（*）
+                pageList: [2, 5, 8, 10],        //可供选择的每页的行数（*）
+                // clickToSelect: true,
+                uniqueId: "id",
+                queryParams: function (params) {
+                    var temp = {
+                        "a": 1,
+                        "b": 2,
+                        "limits": params.limit,
+                        "offset": params.offset
+                    }
+                    return temp;
                 },
-                {
-                    field: 'customAff',
-                    title: '客户归属',
-                    align: "center"
+                url: url,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'uid',
+                    title: '主键id',
+                    visible: false,
                 },
-                {
-                    field: 'professional',
-                    title: '原本专业',
-                    align: "center",
-                    visible: false
-                },
-                {
-                    field: 'customSource',
-                    title: '客户来源',
-                    align: "center"
-                },
-                {
-                    field: 'interviewTime',
-                    title: '面试时间',
-                    align: "center"
-                },
-                {
-                    field: 'operation',
-                    title: "操作",
-                    align: "center",
-                    width: '20%',
-                    formatter: function (value, row, index) {
-                        return [
-                            "<button type='button' class='signBtn btn btn-info btn-xs' title='签约' data-toggle='modal' data-target='#add_schema_modal' style='margin-right: 10px'><i class='fa fa-wrench'><!--签约--></i></button>",
-                            "<button type='button' class='descBtn btn btn-info btn-xs' title='详情' style='margin-right: 10px'><i class='fa fa-question-circle'><!--详情--></i></button>",
-                            "<button type='button' class='deleteBtn btn btn-danger btn-xs' title='删除' style='margin-right: 10px'><i class='fa fa-trash-o'><!--删除--></i></button>",
-                            "<button type='button' class='alterBtn btn btn-warning btn-xs' title='修改' style='margin-right: 10px'><i class='fa fa-edit'><!--修改--></i></button>",
-                            "<button type='button' class='recordBtn btn btn-primary btn-xs' title='跟进记录' style='margin-right: 10px'><i class='fa fa-sticky-note'><!--跟进记录--></i></button>",
-                            "<button type='button' class='emailBtn btn btn-info btn-xs' title='邮箱' style='margin-right: 10px'><i class='fa fa-envelope'><!--邮箱--></i></button>"
-                        ].join("");
-                    },
-                    events: {
-
-                        "click .signBtn": function (e, value, row, index) {
-                            //异步请求 回显数据 通过name来赋值 $.ajax({})
-                            $("#customName").val(row.name);
-                            //  alert("确定要更新 id=" + row.id + " 的记录吗？");
-                        },
-                        "click .descBtn": function (e, value, row, index) {
-                            //以后是请求后台，服务器在转发到这个页面
-                            window.location.href = "details.html";
-                        },
-                        "click .deleteBtn": function (e, value, row, index) {
-                            swal({
-                                title: "您确定要删除吗",
-                                text: "删除序号为" + row.id + "的客户嘛，请谨慎操作！",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "删除",
-                                closeOnConfirm: false
-                            }, function () {
-                                //异步请求
-                                /*$.ajax({
-                                    type: "GET",
-                                    url: "",
-                                    data: {},
-                                    dataType: "json",
-                                    success: function (data) {
-                                       // alert("添加成功");
-                                        swal("删除成功！", "您已经永久删除。", "success");
-                                    },
-                                    error: function (jqXHQ) {
-                                        swal("删除失败！", "请检查网络。", "error");
-                                    }
-
-                                });*/
-                                swal("删除成功！", "您已经永久删除。", "success");
-                            });
-                        },
-                        "click .alterBtn": function (e, value, row, index) {
-                            $("#alter_email_customName").val(row.name);
-                            $("#alter_eamil_customerGender").val(row.gender);
-                            $("#alter_email_customPhone").val(row.phone);
-                            $("#alter_email_customerEmail").val(row.email);
-                            $("#alter_email_customerChannel").val(row.customSource);
-                            $("#alter_email_customerProfessional").val(row.professional);
-                            $("#alter_email_customerType").val(row.customType);
-
-
-                            $("#alter_email_modal").modal();
-                        },
-                        "click .recordBtn": function (e, value, row, index) {
-                            //以后是请求后台，服务器在转发到这个页面
-                            window.location.href = "followUpRecords.html";
-                        },
-                        "click .emailBtn": function (e, value, row, index) {
-                            $("#recipient").val(row.email);
-                            //let jQuery = $('.summernote').find(".customerName");
-                            /* let jQuery = $('.summernote');
-                              console.log(row.name);
-                              let p = $("<p>").addClass("customerName").text(row.name);
-                              jQuery.val(p);
-                              $('.summernote').summernote('code', p);
-                              $('.summernote').summernote({lang: 'zh-CN'});*/
-
-
-                            //jQuery.text(row.name);
-                            //$('.summernote').find(".interview_Date").text(row.interviewTime);
-                            $("#send_email_modal").modal();
+                    {
+                        field: 'id',
+                        title: '序号',
+                        align: "center"
+                    }, {
+                        field: 'clientName',
+                        title: '姓名',
+                        align: "center"
+                    }, {
+                        field: 'gender',
+                        title: '性別',
+                        visible: false
+                    }, {
+                        field: 'clientEmail',
+                        title: '邮箱',
+                        visible: false
+                    }, {
+                        field: 'clientPhone',
+                        title: '电话',
+                        width: '10%',
+                        align: "center"
+                    }, {
+                        field: 'clientState',
+                        title: '客户类型',
+                        align: "center",
+                        formatter: function (value) {
+                            if (value == 0) return "无意向";
+                            if (value == 1) return "已签约";
+                            if (value == 2) return "潜在客户";
+                            if (value == 3) return "标准客户";
                         }
                     },
+                    {
+                        field: 'userName',
+                        title: '客户归属',
+                        align: "center"
+                    },
+                    {
+                        field: 'isAssignClass',
+                        title: '是否分班',
+                        align: "center",
+                        visible: false
+                    },
+                    {
+                        field: 'major',
+                        title: '原本专业',
+                        align: "center",
+                        visible: false
+                    },
+                    {
+                        field: 'profession',
+                        title: '意向专业',
+                        align: "center",
+                        visible: false
+                    },
+                    {
+                        field: 'channelTypeName',
+                        title: '客户来源',
+                        align: "center"
+                    },
+                    {
+                        field: 'channelName',
+                        title: '客户渠道',
+                        align: "center",
+                        visible: false
+                    },
+                    {
+                        field: 'interviewTimeStart',
+                        title: '面试时间',
+                        align: "center"
+                    },
+                    {
+                        field: 'salsemanDescribe',
+                        title: '专业评价',
+                        align: "center",
+                        visible: false
+                    },
+                    {
+                        field: 'operation',
+                        title: "操作",
+                        align: "center",
+                        width: '20%',
+                        formatter: function (value, row, index) {
+                            return [
+                                "<button type='button' class='recordBtn btn btn-primary btn-xs' title='跟进记录' style='margin-right: 10px'><i class='fa fa-sticky-note'><!--跟进记录--></i></button>",
+                                "<button type='button' class='signBtn btn btn-info btn-xs' title='签约' data-toggle='modal' data-target='#add_schema_modal' style='margin-right: 10px'><i class='fa fa-wrench'><!--签约--></i></button>",
+                                "<button type='button' class='descBtn btn btn-info btn-xs' title='详情' style='margin-right: 10px'><i class='fa fa-question-circle'><!--详情--></i></button>",
+                                "<button type='button' class='alterBtn btn btn-warning btn-xs' title='修改' style='margin-right: 10px'><i class='fa fa-edit'><!--修改--></i></button>",
+                                "<button type='button' class='emailBtn btn btn-info btn-xs' title='邮箱' style='margin-right: 10px'><i class='fa fa-envelope'><!--邮箱--></i></button>",
+                                "<button type='button' class='deleteBtn btn btn-danger btn-xs' title='删除' style='margin-right: 10px'><i class='fa fa-trash-o'><!--删除--></i></button>"
+                            ].join("");
+                        },
+                        events: {
 
-                }]
-        });
+                            "click .signBtn": function (e, value, row, index) {
+                                //异步请求 回显数据 通过name来赋值 $.ajax({})
+                                $("#clientName").val(row.clientName);
+                                $("#signId").val(row.id);
+                            },
+                            "click .descBtn": function (e, value, row, index) {
+                                //以后是请求后台，服务器在转发到这个页面
+                                window.location.href = "/owep/potentialClient/details?id=" + row.id;
+                            },
+                            "click .deleteBtn": function (e, value, row, index) {
+                                swal({
+                                    title: "您确定要删除吗",
+                                    text: "删除序号为" + row.id + "的客户嘛，请谨慎操作！",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "删除",
+                                    closeOnConfirm: false
+                                }, function () {
+                                    //异步请求
+                                    id = row.id;
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/owep/client/delete",
+                                        data: "id="+id,
+                                        dataType: "json",
+                                        success: function (data) {
+
+                                            if(data.state ==200){
+                                                swal("删除成功！", "您已经永久删除。", "success");
+
+                                            }else{
+                                                swal("删除失败！", "请检查网络。", "error");
+                                            }
+                                        },
+                                        error: function (jqXHQ) {
+                                            swal("删除失败！", "请检查网络。", "error");
+                                        }
+                                    });
+                                    swal("删除成功！", "您已经永久删除。", "success");
+                                    window.location.reload();
+                                });
+                            },
+                            "click .alterBtn": function (e, value, row, index) {
+                                $("#clientId").val(row.id);
+                                $("#alter_email_customName").val(row.clientName);
+                                row.gender == 1 ? $("#alter_eamil_customerGender").val("男") : $("#alter_eamil_customerGender").val("女");
+                                $("#alter_email_customPhone").val(row.clientPhone);
+                                $("#alter_email_customerEmail").val(row.clientEmail);
+                                $("#alter_email_channelType").val(row.channelTypeName);
+                                $("#alter_email_customerChannel").val(row.channelName);
+                                //客户类型的判断
+                                if (row.clientState == 0) {
+                                    $("#alter_email_customerType").val("无意向");
+                                } else if (row.clientState == 1) {
+                                    $("#alter_email_customerType").val("已签约");
+                                } else if (row.clientState == 2) {
+                                    $("#alter_email_customerType").val("潜在客户");
+                                } else if (row.clientState == 3) {
+                                    $("#alter_email_customerType").val("标准客户");
+                                }
+                                $("#alter_email_customerProfessional").val(row.major);
+                                $("#alter_email_intentionProfessional").val(row.profession);
+                                $("#alter_email_interviewTime").val(row.interviewTimeStart);
+                                $("#alter_email_professional_evaluation").val(row.salsemanDescribe);
+                                $("#alter_email_belong").val(row.userName);
+                                row.isAssignClass == 0 ? $("#alter_email_isAssignClass").val("未分配") : $("#alter_email_isAssignClass").val("已分配")
+
+
+                                $("#alter_email_modal").modal();
+                            },
+                            "click .recordBtn": function (e, value, row, index) {
+                                //以后是请求后台，服务器在转发到这个页面
+                                window.location.href = "/owep/potentialClient/followUpRecords?id=" + row.id;
+                            },
+                            "click .emailBtn": function (e, value, row, index) {
+                                $("#emailId").val(row.id);
+                                $("#recipient").val(row.clientEmail);
+                                $(".customerName").text(row.clientName);
+                                $(".interview_Date").text(row.interviewTimeStart);
+                                $("#send_email_modal").modal();
+                            }
+                        },
+
+                    }]
+            });
+        }
+
     });
 </script>
 <!--初始化suggest-->
 <script>
-    $("#clientType").bsSuggest({
-        data: {
-            "value": [
-                {
-                    "keyName": "所有客户"
-                }, {
-                    "keyName": "潜在客户"
-                },
-                {
-                    "keyName": "邀约一面客户"
-                }, {
-                    "keyName": "邀约失败客户"
-                },
-                {
-                    "keyName": "一面可跟进客户"
-                }, {
-                    "keyName": "二面可跟进客户"
-                }, {
-                    "keyName": "丢单"
-                }, {
-                    "keyName": "签约成功"
-                }
-            ]
-        }
+    $("#clientType,#add_customerType,#alter_email_customerType").bsSuggest('init',{
+        url:'/owep/client/clientState',
+        idField:"id",
+        keyField:"key"
     });
-    $("#clientBelong").bsSuggest({
-        data: {
-            "value": [
-                {
-                    "keyName": "全部"
-                }, {
-                    "keyName": "潜在客户"
-                }]
-        }
+
+
+    $("#clientBelong,#allotCustomSuggest,#add_customerBelong,#alter_email_belong").bsSuggest({
+        url:'/owep/client/clientBelong',
+        idField:"id",
+        keyField:"key"
     });
-    $("#isLoans").bsSuggest({
+    $("#loanStatus").bsSuggest({
         data: {
             "value": [
                 {
@@ -838,11 +945,9 @@
             "value": [
                 {
                     "keyName": "3个月"
-                },
-                {
+                }, {
                     "keyName": "6个月"
-                },
-                {
+                }, {
                     "keyName": "12个月"
                 }, {
                     "keyName": "24个月"
@@ -861,60 +966,37 @@
                 }]
         }
     });
-    $("#add_customerChannel,#alter_email_customerChannel").bsSuggest({
-        data: {
-            "value": [
-                {
-                    "keyName": "智联招聘"
-                },
-                {
-                    "keyName": "前程无忧"
-                }]
-        }
-    });
+
     $("#add_channelType,#alter_email_channelType").bsSuggest({
-        data: {
-            "value": [
-                {
-                    "keyName": "招聘网站"
-                },
-                {
-                    "keyName": "学校"
-                },
-                {
-                    "keyName": "企业"
-                },
-                {
-                    "keyName": "其他"
-                }]
-        }
+        url:'/owep/client/clientChannelType',
+        idField:"id",
+        keyField:"key"
     });
-    $("#add_customerType,#alter_email_customerType").bsSuggest({
-        data: {
-            "value": [
-                {
-                    "keyName": "潜在客户"
-                },
-                {
-                    "keyName": "邀约一面客户"
-                },
-                {
-                    "keyName": "邀约失败客户"
-                },
-                {
-                    "keyName": "一面可跟进客户"
-                }, {
-                    "keyName": "二面可跟进客户"
-                },
-                {
-                    "keyName": "丢单"
-                },
-                {
-                    "keyName": "签约成功"
-                }
-            ]
-        }
-    });
+
+    $("#add_channelType").blur(function(){
+        var selectkey = $("#add_channelType").val()
+
+        $("#add_customerChannel").bsSuggest("destroy");
+        $("#add_customerChannel").val("");
+
+        $("#add_customerChannel").bsSuggest({
+            url:'/owep/client/clientChannel?selectKey=' + selectkey,
+            idField:"id",
+            keyField:"key"
+        });
+    })
+
+    $("#alter_email_channelType").blur(function(){
+        var selectkey = $("#alter_email_channelType").val()
+        $("#alter_email_customerChannel").bsSuggest("destroy");
+
+        $("#alter_email_customerChannel").bsSuggest({
+            url:'/owep/client/clientChannel?selectKey=' + selectkey,
+            idField:"id",
+            keyField:"key"
+        });
+    })
+
     $("#allotCustomSuggest").bsSuggest({
         url: "../../static/js/demo/clientList/allotCustom.json",
         idField: "userId",          //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
@@ -936,14 +1018,15 @@
                 {
                     "keyName": "javaEE企业级开发"
                 }
-            ]}
+            ]
+        }
     })
 </script>
 <!--发送请求-->
 <script>
     /*贷款 失去焦点事件*/
-    $("#isLoans").blur(function () {
-        if ($("#isLoans").val() == "贷款") {
+    $("#loanStatus").blur(function () {
+        if ($("#loanStatus").val() == "贷款") {
             $("[data_hidden]").removeClass("hidden");
         } else {
             $("[data_hidden]").addClass("hidden");
@@ -951,9 +1034,100 @@
     });
 
     $(function () {
+        //提交添加用户模态框表单
+        $("#addClient").click(function (){
+            var clientName = $("#add_customName").val();
+            $("#add_customerGender").val() == "男" ? gender = 1 : gender = 0;
+            var clientPhone = $("#add_customPhone").val();
+            var clientEmail = $("#add_customerEmail").val();
+            var channelType = $("#add_channelType").val();
+            var channel = $("#add_customerChannel").val();
+            //客户类型的判断
+            if ($("#add_customerType").val() == "无意向") {
+                //客户类型：0无意向、1已签约、2潜在客户、3标准客户
+                clientState = 0;
+            } else if ($("#add_customerType").val() == "已签约") {
+                clientState = 1;
+            } else if ($("#add_customerType").val() == "潜在客户") {
+                clientState = 2;
+            } else if ($("#add_customerType").val() == "标准客户") {
+                clientState = 3;
+            } else {
+                alert("客户类型异常！");
+                return;
+            }
+            var major = $("#add_customerProfessional").val(); //原本专业
+            var interviewTimeStart = $("#interviewTime").val();
+            var userName = $("#add_customerBelong").val();
+
+            var formData = new FormData();
+            formData.append("clientName",clientName);
+            formData.append("gender",gender);
+            formData.append("clientPhone",clientPhone);
+            formData.append("clientEmail",clientEmail);
+            formData.append("channel.channelType.channelTypeName", channelType);
+            formData.append("channel.channelName", channel);
+            formData.append("clientState",clientState);
+            formData.append("major",major);
+            formData.append("interviewTimeStart",interviewTimeStart);
+            formData.append("user.userName",userName);
+
+            //异步保存数据
+            $.ajax({
+                url: "/owep/client/addClient",
+                method: "POST",
+                async: true,
+                data: formData,  //综合表单，使用formData来封装，不能用Serializable，否则无法提交
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if(data.msg == "添加成功!")
+                    {
+                        alert(data.msg);
+                        window.location.reload();
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+
+        })
         /*提交签约模态框表单-------------------------------*/
         $("#asm").click(function () {
-            $("#loans_form").submit();
+            //获取表单数据
+            var id = $("#signId").val();
+            var clientName = $("#clientName").val();
+            var advancePay = $("#advancePay").val();
+            var totalPay = $("#totalPay").val();
+            $("#loanStatus").val() == "贷款" ? loanStatus = 1 : loanStatus = 0;
+            var loan = $("#loan").val();
+            var monthPay = $("#monthPay").val();
+            var repaymentPlan = $("#repaymentPlan").val();
+
+            var formData = new FormData();
+            formData.append("id", id);
+            formData.append("clientName", clientName);
+            formData.append("advancePay", advancePay);
+            formData.append("totalPay", totalPay);
+            formData.append("loanStatus", loanStatus);
+            formData.append("loan", loan);
+            formData.append("monthPay", monthPay);
+            formData.append("repaymentPlan", repaymentPlan);
+            //发送Ajax请求
+            $.ajax({
+                url: "/owep/client/signClient",
+                method: "POST",
+                async: true,
+                data: formData,  //综合表单，使用formData来封装，不能用Serializable，否则无法提交
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    alert(data.msg);
+                    window.location.reload();
+                }
+            });
         });
         /*分配客户模态框------------------------------------*/
         $("#allotCustomer").click(function () {
@@ -980,27 +1154,33 @@
         $("#confirmAllot").click(function () {
             let checkedRowInfo = $("#clientList_table").bootstrapTable('getAllSelections');
             //定义一个数组接收所有选中的id
-            let uids = [];
+            let cids = [];
             for (let i = 0; i < checkedRowInfo.length; i++) {
-                uids.push(checkedRowInfo[i].uid);
+                cids.push(checkedRowInfo[i].id);
             }
-            alert("选中隐藏字段中的id=" + uids);
+            alert("选中隐藏字段中的id=" + cids);
             //再获取模态框中的值
             let value = $("#allotCustomSuggest").val();
             if (value == "" || value.length <= 0) {
                 return;
             }
             //定义成json数据
-            //let s = JSON.stringify(uids);
-            let allot_json = [{"teacher": value, "uids": uids}]
+            let allot_json = {"teacherName": value, "clientIds": cids};
             alert(JSON.stringify(allot_json));
             //发送异步请求
-            // $.ajax({})
+             $.ajax({
+                 type: "POST",
+                 url: "/owep/client/assignClient",
+                 data: JSON.stringify(allot_json),
+                 dataType: "json",
+                 contentType: "application/json",  //客户端给服务端的格式
+                 success: function (data){
+                    alert(data.msg);
+                 }
+             })
             //重新加载页面
             window.location.reload();
         });
-
-
         /*删除多个客户-------------------------------*/
         $('#deleteMulti').click(function () {
             let checkedRowInfo = $("#clientList_table").bootstrapTable('getAllSelections');
@@ -1014,13 +1194,12 @@
                 return;
             }
             //定义一个数组接收所有选中的id
-            let uids = [];
             let ids = [];
             for (let i = 0; i < checkedRowInfo.length; i++) {
-                uids.push(checkedRowInfo[i].uid);
                 ids.push(checkedRowInfo[i].id);
             }
-            alert("选中隐藏字段中的id=" + uids);
+            //定义成json数据
+            let allot_json = {"clientIds": ids};
             swal({
                 title: "您确定要删除吗",
                 text: "删除序号为" + ids + "的客户嘛，请谨慎操作！",
@@ -1031,21 +1210,21 @@
                 closeOnConfirm: false
             }, function () {
                 //异步请求
-                /*$.ajax({
-                    type: "GET",
-                    url: "",
-                    data: {},
+                $.ajax({
+                    type: "POST",
+                    url: "/owep/client/deleteSelect",
+                    data: JSON.stringify(allot_json),
                     dataType: "json",
-                    success: function (data) {
-                       // alert("添加成功");
-                        swal("删除成功！", "您已经永久删除。", "success");
+                    contentType: "application/json",  //客户端给服务端的格式
+                    success: function (data){
+                        alert(data.msg);
+                        window.location.reload();
                     },
                     error: function (jqXHQ) {
                         swal("删除失败！", "请检查网络。", "error");
                     }
 
-                });*/
-                swal("删除成功！", "您已经永久删除。", "success");
+                });
             });
         });
     })
@@ -1063,11 +1242,88 @@
             focus: true
         });
     })
+
+
+    //发送邮件
     $("#confirmSend").click(function () {
-        $("#emailContent").submit();
+        var id = $("#emailId").val();
+        var email = $("#recipient").val();
+        var content = $("#summernote").code();
+        $.ajax({
+            type: "POST",
+            url: "/owep/client/email",
+            data: {"content":content,"email":email},
+            dataType: "json",
+            success: function (data) {
+                alert(data.msg);
+                window.location.reload();
+            }
+        })
     })
+
     $("#sender_email").click(function () {
         //ajax提交表单
+        //点击发送邮件 修改客户信息
+        //获取表单数据
+        var id = $("#clientId").val();
+        var clientName = $("#alter_email_customName").val();
+        var major = $("#alter_email_customerProfessional").val();  //原本专业
+        $("#alter_eamil_customerGender").val() == "男" ? gender = 1 : gender = 0;
+        var profession = $("#alter_email_intentionProfessional").val();  //意向专业
+        var clientPhone = $("#alter_email_customPhone").val();
+        var channelTypeName = $("#alter_email_channelType").val(); //渠道类型
+        var clientEmail = $("#alter_email_customerEmail").val();
+        var channelName = $("#alter_email_customerChannel").val();  //客户来源
+        //客户类型的判断
+        if ($("#alter_email_customerType").val() == "无意向") {
+            //客户类型：0无意向、1已签约、2潜在客户、3标准客户
+            clientState = 0;
+        } else if ($("#alter_email_customerType").val() == "已签约") {
+            clientState = 1;
+        } else if ($("#alter_email_customerType").val() == "潜在客户") {
+            clientState = 2;
+        } else if ($("#alter_email_customerType").val() == "标准客户") {
+            clientState = 3;
+        } else {
+            alert("客户类型异常！");
+            return;
+        }
+        var userName = $("#alter_email_belong").val();
+        var interviewTimeStart = $("#alter_email_interviewTime").val();
+        $("#alter_email_isAssignClass").val() == "已分配" ? isAssignClass = 1 : isAssignClass = 0;
+        var salsemanDescribe = $("#alter_email_professional_evaluation").val();
+
+        var formData = new FormData();
+        formData.append("id", id);
+        formData.append("clientName", clientName);
+        formData.append("major", major);
+        formData.append("gender", gender);
+        formData.append("profession.profName", profession);
+        formData.append("clientPhone", clientPhone);
+        formData.append("channel.channelType.channelTypeName", channelTypeName);
+        formData.append("clientEmail", clientEmail);
+        formData.append("channel.channelName", channelName);
+        formData.append("clientState", clientState);
+        formData.append("user.userName", userName);
+        formData.append("interviewTimeStart", interviewTimeStart);
+        formData.append("isAssignClass", isAssignClass);
+        formData.append("salsemanDescribe", salsemanDescribe);
+
+        //异步保存数据
+        $.ajax({
+            url: "/owep/client/updateClient",
+            method: "POST",
+            async: true,
+            data: formData,  //综合表单，使用formData来封装，不能用Serializable，否则无法提交
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert(data.msg);
+                window.location.reload();
+            }
+        });
+
         //表单id alter_email_form
         $("#alter_email_modal").modal("hide");
         //打开发送邮件模态框

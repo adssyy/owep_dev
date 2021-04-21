@@ -25,8 +25,15 @@ public interface LeaveMapper extends BaseMapper<Leave> {
      */
     List<Leave> selectByClassId(Serializable classId);
 
+    @Override
+    List<Leave> selectAll();
+
     /**
     * 请假审批
     */
     //int leaveApproveById(@Param("id") Integer id,@Param("approvalStatus") Integer approvalStatus);
+
+    int allowStatus(Integer id);
+
+    int refuseStatus(Integer id);
 }

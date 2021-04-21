@@ -38,10 +38,11 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <!--查詢所有的记录-->
-  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectAllByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from t_homework
+    WHERE fk_class_id=#{classId,jdbcType=INTEGER}
   </select>
   <!--根据课程名来查询-->
   <select id="selectByCourseName" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -185,7 +186,7 @@
         work_content = #{workContent,jdbcType=VARCHAR},
       </if>
       <if test="course != null">
-        fk_course_id = #{course.id,jdbcType=INTEGER},
+        fk_course_id = #{chapter.id,jdbcType=INTEGER},
       </if>
       <if test="chapter != null">
         fk_chapter_id = #{chapter.id,jdbcType=INTEGER},
@@ -210,11 +211,18 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="countByClassId" resultType="double">
-    select count(*)
-    from t_homework
-    where fk_class_id=#{id}
-  </select>
-
+  <!--<update id="update" parameterType="com.kclm.owep.entity.Homework">
+    update t_homework
+    set work_title = #{workTitle,jdbcType=VARCHAR},
+      work_content = #{workContent,jdbcType=VARCHAR},
+      fk_section_id = #{section.id,jdbcType=INTEGER},
+      fk_class_id = #{clazz.id,jdbcType=INTEGER},
+      work_file_name = #{workFileName,jdbcType=VARCHAR},
+      work_status = #{workStatus,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=INTEGER},
+      last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>-->
 </mapper>

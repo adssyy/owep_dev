@@ -48,12 +48,78 @@
     <!--
       插入数据
     -->
-    insert into t_illegal (version, create_time,last_access_time, fk_user_id, fk_student_id,
-      student_name, discipline_time, presentation_condition,attachment)
-    values (#{version,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
-      #{lastAccessTime,jdbcType=TIMESTAMP}, #{user.id,jdbcType=INTEGER}, #{student.id,jdbcType=INTEGER},
-      #{studentName,jdbcType=VARCHAR}, #{disciplineTime,jdbcType=TIMESTAMP}, #{presentationCondition,jdbcType=VARCHAR},
-      #{attachment,jdbcType=VARCHAR})
+    insert into t_illegal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id!= null">
+        id,
+      </if>
+      <if test="version!= null">
+        version,
+      </if>
+      <if test="createTime!= null">
+        create_time,
+      </if>
+      <if test="lastAccessTime!= null">
+        last_access_time,
+      </if>
+      <if test="user!= null">
+        fk_user_id,
+      </if>
+      <if test="student!= null">
+        fk_student_id,
+      </if>
+      <if test="clazz!= null">
+        fk_class_id,
+      </if>
+      <if test="studentName!= null">
+        student_name,
+      </if>
+      <if test="disciplineTime!= null">
+        discipline_time,
+      </if>
+      <if test="presentationCondition!= null">
+        presentation_condition,
+      </if>
+      <if test="attachment!= null">
+        attachment,
+      </if>
+     </trim>
+
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user != null">
+        #{user,jdbcType=INTEGER},
+      </if>
+      <if test="student != null">
+        #{student.id,jdbcType=INTEGER},
+      </if>
+      <if test="clazz != null">
+        #{clazz,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="disciplineTime != null">
+        #{disciplineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="presentationCondition != null">
+        #{presentationCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+    </trim>
   </insert>
 
   <!--通过检索条件筛选数据-->
@@ -61,10 +127,10 @@
     select * from t_illegal
     <where>
       <if test="stuNumber != null and stuNumber != ''">
-        and fk_student_id = (select id from t_student where stu_number like CONCAT('%',#{stuNumber},'%')
+        fk_student_id in (select id from t_student where stu_number like #{stuNumber,jdbcType=VARCHAR})
       </if>
       <if test="stuName != null and stuName != ''">
-        and student_name like CONCAT('%',#{stuName},'%')
+        and student_name like #{stuName}
       </if>
       <if test="startTime != null">
         and discipline_time &gt;= #{startTime}

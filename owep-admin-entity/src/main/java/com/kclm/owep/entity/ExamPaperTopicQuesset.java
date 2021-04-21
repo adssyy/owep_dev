@@ -11,12 +11,12 @@ public class ExamPaperTopicQuesset implements Serializable {
     /*
     * paper_id (fk)
     * */
-    private ExamPaper examPaper;
+    private Integer paperId;
 
     /*
     * topic_id(fk)
     * */
-    private ExamPaperTopic examPaperTopic;
+    private Integer topicId;
 
     /*
     * ques_id(fk)
@@ -41,20 +41,20 @@ public class ExamPaperTopicQuesset implements Serializable {
         this.id = id;
     }
 
-    public ExamPaper getExamPaper() {
-        return examPaper;
+    public Integer getPaperId() {
+        return paperId;
     }
 
-    public void setExamPaper(ExamPaper examPaper) {
-        this.examPaper = examPaper;
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
     }
 
-    public ExamPaperTopic getExamPaperTopic() {
-        return examPaperTopic;
+    public Integer getTopicId() {
+        return topicId;
     }
 
-    public void setExamPaperTopic(ExamPaperTopic examPaperTopic) {
-        this.examPaperTopic = examPaperTopic;
+    public void setTopicId(Integer topicId) {
+        this.topicId = topicId;
     }
 
     public ExamQues getExamQues() {
@@ -85,15 +85,11 @@ public class ExamPaperTopicQuesset implements Serializable {
     public String toString() {
         return "ExamPaperTopicQuesset{" +
                 "id=" + id +
-                ", examPaper=" + examPaper +
-                ", examPaperTopic=" + examPaperTopic +
+                ", paperId=" + paperId +
+                ", topicId=" + topicId +
                 ", examQues=" + examQues +
                 ", quesContent='" + quesContent + '\'' +
                 ", score=" + score +
                 '}';
     }
-
-    public ExamPaperTopicQuesset() {
-    }
-
 }

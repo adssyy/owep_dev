@@ -52,6 +52,8 @@ public class ExamPaper implements Serializable {
     * */
     private Integer paperSecurity;
 
+
+
     /*
     * 试卷总分
     * */

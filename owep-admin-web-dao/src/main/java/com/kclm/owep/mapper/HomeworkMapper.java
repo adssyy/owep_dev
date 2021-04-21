@@ -5,6 +5,7 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Homework;
+import com.kclm.owep.entity.HomeworkAnswer;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,8 +65,10 @@ public interface HomeworkMapper extends BaseMapper<Homework> {
      * 查询所有的记录
      * @return
      */
-    @Override
-    List<Homework> selectAll();
+
+    List<Homework> selectAllByClassId(Integer classId);
+
+
 
     /***
      * 根据课程名查询
@@ -80,13 +83,6 @@ public interface HomeworkMapper extends BaseMapper<Homework> {
      * @return
      */
     List<Homework> selectByClassId(@Param("id")Serializable id);
-
-    /***
-     * 根据班级id统计该班级作业数量
-     * @param id
-     * @return
-     */
-    double countByClassId(@Param("id")Serializable id);
 
     /***
      * 根据课程id来查询班级作业

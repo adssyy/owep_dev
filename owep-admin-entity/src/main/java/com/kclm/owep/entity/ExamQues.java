@@ -2,6 +2,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ExamQues implements Serializable {
     /*
@@ -64,15 +65,20 @@ public class ExamQues implements Serializable {
     * */
     private String quesContent;
 
+    /**
+     * 答案内容
+     */
+    private List<ExamQuesAnswerSet> answerSetList;
+
+    /**
+     * 正确答案
+     */
+    private String correctAnswer;
+
     /*
     * 答案解析
     * */
     private String analyze;
-
-    /*
-    * 该单选题或多选题的正确答案[冗余设计]
-    * */
-    private String correctAnswer;
 
     /*
     * 引用次数
@@ -148,14 +154,6 @@ public class ExamQues implements Serializable {
         this.hardLevel = hardLevel;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
-
     public String getSource() {
         return source;
     }
@@ -186,6 +184,22 @@ public class ExamQues implements Serializable {
 
     public void setQuesContent(String quesContent) {
         this.quesContent = quesContent;
+    }
+
+    public List<ExamQuesAnswerSet> getAnswerSetList() {
+        return answerSetList;
+    }
+
+    public void setAnswerSetList(List<ExamQuesAnswerSet> answerSetList) {
+        this.answerSetList = answerSetList;
+    }
+
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 
     public String getAnalyze() {
@@ -227,14 +241,11 @@ public class ExamQues implements Serializable {
                 ", lable='" + lable + '\'' +
                 ", status=" + status +
                 ", quesContent='" + quesContent + '\'' +
-                ", analyze='" + analyze + '\'' +
+                ", answerSetList=" + answerSetList +
                 ", correctAnswer='" + correctAnswer + '\'' +
+                ", analyze='" + analyze + '\'' +
                 ", useCount=" + useCount +
                 ", userName='" + userName + '\'' +
                 '}';
     }
-
-    public ExamQues() {
-    }
-
 }

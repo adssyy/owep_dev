@@ -15,10 +15,55 @@
 <mapper namespace="com.kclm.owep.mapper.PollItemMapper">
 
 
-    <!--  添加考评选项  -->
-    <insert id="save" parameterType="PollItem" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into t_poll_ltem(id,poll_num,poll_content,poll_status,create_time,version,last_access_time)
-        values (null,#{pollNum},#{pollContent},#{pollStatus},now(),1,null)
+    <!--  添加考评选项  #{pollStatus},-->
+    <insert id="save" parameterType="PollItem" ><!--useGeneratedKeys="true" keyColumn="id" keyProperty="id"-->
+        insert into t_poll_ltem
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="pollNum != null">
+                poll_num,
+            </if>
+            <if test="pollContent != null">
+                poll_content,
+            </if>
+            <if test="pollStatus != null">
+                poll_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="lastAccessTime != null">
+                last_access_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER} ,
+            </if>
+            <if test="pollNum != null">
+                #{pollNum,jdbcType=VARCHAR},
+            </if>
+            <if test="pollContent != null">
+                #{pollContent,jdbcType=VARCHAR} ,
+            </if>
+            <if test="pollStatus != null">
+                #{pollStatus,jdbcType=INTEGER} ,
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP} ,
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER} ,
+            </if>
+            <if test="lastAccessTime != null">
+                #{lastAccessTime,jdbcType=TIMESTAMP} ,
+            </if>
+        </trim>
     </insert>
 
     <!--  通过id删除考评选项  -->

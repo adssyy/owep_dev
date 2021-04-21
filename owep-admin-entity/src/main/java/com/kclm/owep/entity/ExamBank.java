@@ -12,12 +12,12 @@ public class ExamBank implements Serializable {
     /*
      * 版本号
      * */
-    private Integer version =1;
+    private Integer version = 1;
 
     /*
      * 创建时间
      * */
-    private LocalDateTime createTime=LocalDateTime.now();
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /*
      * 最后一次访问的时间
@@ -30,33 +30,33 @@ public class ExamBank implements Serializable {
     private Integer isDelete;
 
     /*
-    * user_id (fk)
-    * */
+     * user_id (fk)
+     * */
     private User user;
 
     /*
-    * 题库名称
-    * */
+     * 题库名称
+     * */
     private String bankName;
 
     /*
-    * 题库状态，0为禁用，1为正常
-    * */
+     * 题库状态，0为禁用，1为正常
+     * */
     private Integer bankStatus;
 
     /*
-    * 题库说明
-    * */
+     * 题库说明
+     * */
     private String bankDesc;
 
     /*
-    * 访问权限(1为完全私有，2为只读共享)
-    * */
+     * 访问权限(1为完全私有，2为只读共享)
+     * */
     private Integer bankSecurity;
 
     /*
-    * 试题数量
-    * */
+     * 试题数量
+     * */
     private Integer quesNumber;
 
     public Integer getId() {

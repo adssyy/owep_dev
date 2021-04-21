@@ -5,8 +5,11 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.VideoWatchRecord;
+import com.kclm.owep.entity.vo.SummaryVideo;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 
 /*******************
@@ -24,6 +27,12 @@ public interface VideoWatchRecordMapper extends BaseMapper<VideoWatchRecord> {
      * @return
      */
     int countVideoWatchRecord();
+
+    /**
+     * 统计每周观看数量
+     * @return
+     */
+    List<SummaryVideo> weekRecord();
 
 
 }

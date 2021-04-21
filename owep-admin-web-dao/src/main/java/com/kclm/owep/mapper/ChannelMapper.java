@@ -38,4 +38,6 @@ public interface ChannelMapper extends BaseMapper<Channel> {
     @Override
     Channel selectById(Serializable id);
 
+    Channel selectIdByName(String channelName);
+
 }

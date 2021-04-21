@@ -124,7 +124,11 @@
     from t_channel where fk_channeltype_id = #{id,javaType=INTEGER}
   </select>
 
-
-
+  <!--通过渠道名称查询id-->
+  <select id="selectIdByName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_channel where channel_name = #{channelName}
+  </select>
 
 </mapper>

@@ -1,136 +1,221 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kclm.owep.mapper.ExamBankMapper">
-
-    <resultMap id="baseBankMap" type="com.kclm.owep.entity.ExamBank">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="version" jdbcType="INTEGER" property="version" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
-        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
-<!--        <association property="user" column="user_id" javaType="com.kclm.owep.entity.User" select="com.kclm.owep.mapper.UserMapper.selectById"/>-->
+    <resultMap id="BaseResultMap" type="com.kclm.owep.entity.ExamBank">
+        <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="bank_name" jdbcType="VARCHAR" property="bankName"/>
         <result column="bank_status" jdbcType="INTEGER" property="bankStatus"/>
         <result column="bank_desc" jdbcType="VARCHAR" property="bankDesc"/>
         <result column="bank_security" jdbcType="INTEGER" property="bankSecurity"/>
-        <result column="ques_number" jdbcType="INTEGER" property="quesNumber"></result>
-        <association property="user" column="user_id"  javaType="com.kclm.owep.entity.User" select="com.kclm.owep.mapper.UserMapper.selectById" ></association>
+        <result column="ques_number" jdbcType="INTEGER" property="quesNumber"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+        <association property="user"
+                     column="user_id"
+                     javaType="com.kclm.owep.entity.User"
+                     select="com.kclm.owep.mapper.UserMapper.selectById"/>
     </resultMap>
 
-    <sql id="AllColumnSql">
-        id,bank_name,bank_status,bank_status,bank_status,ques_number,is_delete,create_time,version,last_access_time,user_id
+    <resultMap id="ExamBankAndUser" type="com.kclm.owep.entity.ExamBank">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName"/>
+        <result column="bank_status" jdbcType="INTEGER" property="bankStatus"/>
+        <result column="bank_desc" jdbcType="VARCHAR" property="bankDesc"/>
+        <result column="bank_security" jdbcType="INTEGER" property="bankSecurity"/>
+        <result column="ques_number" jdbcType="INTEGER" property="quesNumber"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+        <association property="user" javaType="com.kclm.owep.entity.User">
+            <id property="id" column="user_id"></id>
+            <result property="userName" column="user_name"></result>
+        </association>
+    </resultMap>
+
+    <!--所有字段-->
+    <sql id="Base_Column_List">
+        id
+        ,bank_name,bank_status,bank_desc,bank_security,ques_number,is_delete,
+        create_time,version,last_access_time,user_id
     </sql>
 
-    <insert id="save" parameterType="com.kclm.owep.entity.ExamBank">
-        insert into t_exam_bank(bank_name,bank_status,bank_desc,bank_security,ques_number,create_time,version,last_access_time,user_id)
-        value (#{bankName},#{bankStatus},#{bankDesc},#{bankSecurity},#{quesNumber},#{createTime},#{version},#{lastAccessTime},#{user.id})
+    <!--添加题库-->
+    <insert id="addBank" parameterType="ExamBank">
+        insert into t_exam_bank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="examBank.bankName != null">
+                bank_name,
+            </if>
+            <if test="examBank.bankStatus != null">
+                bank_status,
+            </if>
+            <if test="examBank.bankDesc != null">
+                bank_desc,
+            </if>
+            <if test="examBank.bankSecurity != null">
+                bank_security,
+            </if>
+            ques_number,
+            is_delete,
+            create_time,
+            version,
+            last_access_time,
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="examBank.bankName != null">
+                #{examBank.bankName},
+            </if>
+            <if test="examBank.bankStatus != null">
+                #{examBank.bankStatus},
+            </if>
+            <if test="examBank.bankDesc != null">
+                #{examBank.bankDesc},
+            </if>
+            <if test="examBank.bankSecurity != null">
+                #{examBank.bankSecurity},
+            </if>
+            /*默认题库里面没有题目*/
+            0,
+            1,
+            now(),
+            /*初始版本为1*/
+            1,
+            now(),
+            <if test="userId != null">
+                #{userId}
+            </if>
+        </trim>
     </insert>
 
-    <update id="update" parameterType="com.kclm.owep.entity.ExamBank">
-        update t_exam_bank
-        set bank_name=#{bankName},
-            bank_status=#{bankStatus},
-            bank_desc=#{bankDesc},
-            bank_security=#{bankSecurity},
-            ques_number=#{quesNumber},
-            version=#{version},
-            last_access_time=#{lastAccessTime}
-        where id=#{id}
-    </update>
-
-    <update id="deleteById" parameterType="int">
-        update t_exam_bank
-        set is_delete=0
-        where id=#{id}
-    </update>
-
-    <update id="deleteSelect" parameterType="java.util.List">
-        update t_exam_bank
-        set is_delete=0
-        <where>
-            <foreach collection="list" open="id in(" separator="," close=")" item="id">
-                #{id}
-            </foreach>
-        </where>
-    </update>
-
-    <select id="selectById" parameterType="int" resultMap="baseBankMap">
-        select <include refid="AllColumnSql"></include> from t_exam_bank
-        where id=#{id} and is_delete=1
+    <!--通过题库名查询题库id-->
+    <select id="selectIdByName" resultType="Int">
+        select id
+        from t_exam_bank
+        where bank_name = #{bankName}
     </select>
 
-    <select id="selectAll" resultMap="baseBankMap">
-        select * from t_exam_bank
-        where is_delete=1
-        order by id desc
+    <!--通过登录者的类型查询题库-->
+    <select id="selectAllByUserType" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_bank
+        where user_id = #{id}
+        and is_delete = 1
     </select>
 
-    <select id="selectAllshare" resultMap="baseBankMap">
-        select * from t_exam_bank
-        where is_delete=1 and bank_security=2
-        order by id desc
-    </select>
-
-    <select id="selectMyAllBank" parameterType="int" resultMap="baseBankMap">
-        select * from t_exam_bank
-        where  is_delete=1 and user_id=#{user.id}
-        order by id desc
-    </select>
-
-    <select id="selectShareBankbyWord" resultMap="baseBankMap">
-        select * from t_exam_bank
-        <where>
-            is_delete=1 and bank_security=2
-            and bank_name like "%"#{shareWord}"%"
-            <if test="shareStatus != -1">
-                and bank_status=#{shareStatus}
+    <!--模糊查询所有题库-->
+    <select id="selectAllByKeys" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_bank
+        where
+        <trim suffixOverrides="and">
+            <if test="exam.bankName !=null">
+                bank_name like concat('%',#{exam.bankName},'%') and
             </if>
-            <if test="userIdList != null and userIdList.size() != 0">
-                and
-                <foreach collection="userIdList" open="user_id in(" separator="," close=")" item="user_id">
-                    #{user_id}
-                </foreach>
+            <if test="exam.bankStatus !=null">
+                bank_status = #{exam.bankStatus} and
             </if>
-        </where>
-        order by id desc
+            <if test="exam.bankSecurity !=null">
+                bank_security = #{exam.bankSecurity}
+            </if>
+        </trim>
+        and user_id = #{userId}
+        and is_delete = 1
     </select>
 
-    <select id="selectByWord" resultMap="baseBankMap">
-        select * from t_exam_bank
-        <where>
-            is_delete=1 and user_id=#{userId}
-              and  bank_name like "%"#{word}"%"
-            <if test="status != -1">
-                and bank_status=#{status}
-            </if>
-            <if test="security != -1">
-                and bank_security=#{security}
-            </if>
-        </where>
-        order by id desc
+    <!--查询共享题库-->
+    <select id="selectShareByUserType" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_bank where user_id = #{id}
+        and bank_security = 2
+        and is_delete = 1
     </select>
-    <update id="updateBankStatusbyid" parameterType="int">
+
+    <!--查询共享题库的id-->
+    <select id="shareBankIds" resultType="Integer">
+        select
+        id
+        from t_exam_bank
+        where bank_security = 2
+        and is_delete = 1
+    </select>
+
+    <!--查询可用题库-->
+    <select id="selectAvailableByUserType" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_bank where (user_id = #{id} or bank_security = 2)
+        and is_delete = 1
+    </select>
+
+    <!--模糊查询共享题库-->
+    <select id="selectShareByKeys" resultMap="ExamBankAndUser">
+        select
+        t_exam_bank.id ,bank_name,bank_status,bank_desc,bank_security,ques_number,t_exam_bank.is_delete,
+        t_exam_bank.create_time,t_exam_bank.version,t_exam_bank.last_access_time,user_id,user_name
+        from t_exam_bank
+        left join
+        t_user
+        on t_exam_bank.user_id = t_user.id
+        where
+        <trim suffixOverrides="and">
+            <if test="exam.bankName !=null ">
+                bank_name like concat('%',#{exam.bankName},'%') and
+            </if>
+            <if test="exam.bankStatus !=null">
+                bank_status = #{exam.bankStatus} and
+            </if>
+            <if test="exam.user.userName !=null">
+                user_name like concat('%',#{exam.user.userName},'%')
+            </if>
+        </trim>
+        and bank_security = 2
+        and t_exam_bank.is_delete = 1
+    </select>
+
+    <!--通过id修改题库-->
+    <update id="alterBank" parameterType="ExamBank">
         update t_exam_bank
-        set bank_status=#{bankStatus}
-        where id=#{id}
-    </update>
-    <update id="updateShareBank" parameterType="ExamBank">
-        update t_exam_bank
-        set bank_name=#{bankName},
-            bank_status=#{bankStatus},
-            bank_desc=#{bankDesc},
-            bank_security=#{bankSecurity},
-            ques_number=#{quesNumber},
-            version=#{version},
-            last_access_time=#{lastAccessTime}
-            where id=#{id}
+        <set>
+            <if test="bankName != null ">
+                bank_name = #{bankName},
+            </if>
+            <if test="bankDesc != null ">
+                bank_desc = #{bankDesc},
+            </if>
+            <if test="bankSecurity != null ">
+                bank_security = #{bankSecurity},
+            </if>
+            <if test="bankStatus != null ">
+                bank_status = #{bankStatus},
+            </if>
+            version = version + 1,
+            last_access_time = now(),
+        </set>
+        where id = #{id}
     </update>
 
-    <update id="updateQuesNumber" parameterType="int">
+    <!--通过id删除题库-->
+    <update id="deleteBank">
         update t_exam_bank
-        set ques_number=(select count(id) from t_exam_ques where bank_id=#{id})
-        where id=#{id} and is_delete=1;
+        set is_delete = 0
+        where id = #{id}
     </update>
 
-
+    <!--通过id查询题库-->
+    <select id="selectById" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_exam_bank
+        where id = #{id}
+        and is_delete = 1
+    </select>
 </mapper>

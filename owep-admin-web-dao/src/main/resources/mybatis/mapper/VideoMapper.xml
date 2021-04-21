@@ -22,25 +22,25 @@
     video_desc, is_delete, create_time, last_access_time, version
   </sql>
 
-  <select id="selectById" parameterType="com.kclm.owep.entity.Video" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from t_video
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectAll" parameterType="com.kclm.owep.entity.Video" resultMap="BaseResultMap">
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from t_video
   </select>
 
-  <delete id="deleteById" parameterType="com.kclm.owep.entity.Video">
+  <delete id="deleteById" parameterType="java.lang.Integer">
     delete from t_video
-    where id = #{id}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
 
-  <delete id="deleteSelect" parameterType="com.kclm.owep.entity.Video">
+  <delete id="deleteSelect" parameterType="java.lang.Integer">
     delete from t_video
     where id in
     <foreach collection="idList" item="list" open="(" separator="," close=")">

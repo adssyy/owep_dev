@@ -92,7 +92,7 @@
                 <h4 class="modal-title">新增</h4>
             </div>
             <div class="modal-body">
-                <form method="post" class="form-horizontal" id="course_list_form" name="course_list_form"  enctype="multipart/form-data">
+                <form method="post" class="form-horizontal" id="course_list_form" name="course_list_form" action="/owep/training/courseList/addCourse" enctype="multipart/form-data">
 
                     <div class="form-group">
 
@@ -127,50 +127,22 @@
                             <input type="number" placeholder="请输入课程学时" class="form-control" name="coursePeriod">
                         </div>
                     </div>
-                    <!--<div class="form-group">
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">课程分类:</label>
                         <div class="col-sm-10">
-                            &lt;!&ndash;  <input type="text" class="form-control">&ndash;&gt;
+                            <!--  <input type="text" class="form-control">-->
                             <div class="demo" id="add_courseLinked" ></div>
                         </div>
                     </div>
-                    -->
-                    <div class="form-group c_hidden">
-                        <label class="col-sm-3 control-label right">课程分类：</label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="text" hidden id="parentCategoryId" name="parentCategoryId" value="">
-                                <input type="text" class="form-control"  id="parentCategory">
-                                <div class="input-group-btn" style="z-index:99999!important;">
-                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    </ul>
-                                </div>
-                            </div>
+                    <!--<div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <input type="text" class="form-control">
                         </div>
-                    </div>
-                    <div class="form-group c_hidden">
-                        <label class="col-sm-3 control-label right"></label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="text" hidden id="subCategoryId" name="categoryId" value="">
-                                <input type="text" class="form-control"  id="subCategory">
-                                <div class="input-group-btn" style="z-index:99999!important;">
-                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用:</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="courseStatus" class="js-switch-1 form-control" id="courseStatus"/>
+                            <input type="checkbox" name="courseStatus" class="js-switch-1 form-control" checked/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -225,18 +197,17 @@
                         <label class="col-sm-2 control-label">课程封面</label>
                         <div class="col-sm-5">
                             <div class="image-crop">
-                                <img src="../../static/img/login-background.jpg" >
+                                <img src="../../static/img/login-background.jpg">
                             </div>
                         </div>
                         <!--  <h4>图片预览：</h4>-->
                         <div class="col-sm-4 col-sm-offset-1" style="overflow: hidden">
                             <div class="btn-group" style="margin-top: 50px">
                                 <label title="上传图片" for="inputImage" class="btn btn-primary">
-
-                                    <input type="file"  name="file" id="inputImage" class="hide">
+                                    <input type="file" accept="img/*" name="courseImage" id="alter_inputImage" class="hide">
                                     上传图片
                                 </label>
-                                <button class="btn btn-warning" id="setDrag" type="button">裁剪</button>
+                                <button class="btn btn-warning" id="alter_setDrag" type="button">裁剪</button>
                             </div>
                         </div>
                     </div>
@@ -266,8 +237,7 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="post" class="form-horizontal" id="alter_course_list_form" enctype="multipart/form-data">
-                    <input type="hidden" id="alterCourseId" name="id">
+                <form method="get" class="form-horizontal" id="alter_course_list_form" action="/owep/training/courseList/updateCourse">
                     <div class="form-group">
                         <p class="hidden" id="alter_cid">隐藏控件</p>
                         <label class="col-sm-2 control-label">课程名称:</label>
@@ -280,70 +250,43 @@
                         <div class="input-daterange input-group" id="alter_datepicker">
                             <label class="col-sm-2 control-label">开始日期:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="input-sm form-control" id="alter_start" name="startTime"/>
+                                <input type="text" class="input-sm form-control" id="alter_start" name="start"/>
                             </div>
                             <label class="col-sm-2 control-label" style="margin-top: 12px">结束日期:</label>
                             <div class="col-sm-10" style="margin-top: 12px">
-                                <input type="text" class="input-sm form-control" id="alter_end" name="endTime"/>
+                                <input type="text" class="input-sm form-control" id="alter_end" name="end"/>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">课程学时:</label>
                         <div class="col-sm-10">
-                            <input type="number" placeholder="请输入课程学时" id="courseTime" class="form-control" name="coursePeriod">
-                        </div>
-                    </div>
-                    <!--<div class="form-group">
-                        <label class="col-sm-2 control-label">课程分类:</label>
-                        <div class="col-sm-10">
-                            &lt;!&ndash; <input type="text" class="form-control">&ndash;&gt;
-                            <div class="demo" id="courseLinked"></div>
-                        </div>
-                    </div>-->
-                    <div class="form-group c_hidden">
-                        <label class="col-sm-3 control-label right">课程分类：</label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="text" hidden id="alterParentCategoryId" name="parentCategoryId" value="">
-                                <input type="text" class="form-control"  id="alterParentCategory" value="">
-                                <div class="input-group-btn" style="z-index:99999!important;">
-                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group c_hidden">
-                        <label class="col-sm-3 control-label right"></label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="text" hidden id="alterSubCategoryId" name="alterCategoryId" value="">
-                                <input type="text" class="form-control"  id="alterSubCategory">
-                                <div class="input-group-btn" style="z-index:99999!important;">
-                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    </ul>
-                                </div>
-                            </div>
+                            <input type="number" placeholder="请输入课程学时" id="courseTime" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-2 control-label">课程分类:</label>
+                        <div class="col-sm-10">
+                            <!-- <input type="text" class="form-control">-->
+                            <div class="demo" id="courseLinked"></div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>-->
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用:</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" class="js-switch-1 form-control" name="courseStatus" id="alter_courseStatus"/>
+                            <input type="checkbox" class="js-switch-1 form-control" checked/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">热门课程:</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="alter_hotCourse" name="hot">
+                                <input type="text" class="form-control" id="alter_hotCourse">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-white dropdown-toggle"
                                             data-toggle="dropdown">
@@ -359,7 +302,7 @@
                         <label class="col-sm-2 control-label">公开状态:</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="publicStatus" name="courseOpenStatus">
+                                <input type="text" class="form-control" id="publicStatus">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-white dropdown-toggle"
                                             data-toggle="dropdown">
@@ -375,7 +318,7 @@
                         <label class="col-sm-2 control-label">监听进度:</label>
                         <div class="col-sm-10 ">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="alter_monitorProgress" name="listener">
+                                <input type="text" class="form-control" id="alter_monitorProgress">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-white dropdown-toggle"
                                             data-toggle="dropdown">
@@ -389,30 +332,25 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">课程封面</label>
-                        <!--<div class="col-sm-5">
-
-                                <img  id="test_image" >
-
-                        </div>-->
                         <div class="col-sm-5">
                             <div class="image-crop">
-                                <img src="" id="alter_image">
+                                <img src="../../static/img/login-background.jpg">
                             </div>
                         </div>
                         <!--  <h4>图片预览：</h4>-->
                         <div class="col-sm-4 col-sm-offset-1" style="overflow: hidden">
                             <div class="btn-group" style="margin-top: 50px">
-                                <label title="上传图片" for="alter_inputImage" class="btn btn-primary">
-                                    <input type="file" accept="img/*" name="file" id="alter_inputImage" class="hide"> 上传图片
+                                <label title="上传图片" for="inputImage" class="btn btn-primary">
+                                    <input type="file" accept="img/*" name="file" id="inputImage" class="hide"> 上传图片
                                 </label>
-                                <button class="btn btn-warning" id="alter_setDrag" type="button">裁剪</button>
+                                <button class="btn btn-warning" id="setDrag" type="button">裁剪</button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">课程说明:</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" id="alter_courseDesc" name="courseDesc"></textarea>
+                            <textarea class="form-control" rows="3" id="alter_courseDesc"></textarea>
                         </div>
                     </div>
                 </form>
@@ -509,7 +447,6 @@
                     title: '课程学时',
                     align: "center"
                 },
-
                 {
                     field: 'startTime',
                     title: '课程日期',
@@ -517,7 +454,7 @@
                 }, {
                     field: 'hot',
                     title: '热门',
-                    formatter:checkhot
+                    align: "center"
                 },
                 {
                     field: 'courseStatus',
@@ -525,21 +462,11 @@
                     align: "center",
                     formatter: switchBox
                 }, {
-                    field: 'courseOpenStatus',
+                    field: 'openStatus',
                     title: '公开状态',
                     visible: false
-                },
-                {
-                    field: 'categoryName',
-                    title: '课程封面',
-                    visible: false
-                },
-                {
-                    field: 'courseImage',
-                    title: '课程封面',
-                    visible: false
-                },{
-                    field: 'listener',
+                }, {
+                    field: 'monitorProgress',
                     title: '监听进度',
                     visible: false
                 },
@@ -571,7 +498,7 @@
                                 closeOnConfirm: false
                             }, function () {
                                 let id = row.id;
-
+                                alert(id);
                                 //发送ajax 删除
                                 $.ajax({
                                     url: "/owep/training/courseList/deleteById?id="+id,
@@ -581,7 +508,7 @@
                                     dataType: "text",   //期望服务端返回的数据类型
                                     contentType: "application/json",
                                     success: function (data) {
-
+                                        console.log(data.toString());
                                         swal("删除成功！", "您已经永久删除已选信息", "success");
                                         //重新加载页面
                                         window.location.reload();
@@ -602,39 +529,28 @@
                         "click .alterBtn": function (e, value, row, index) {
                             //回显数据
                             //隐藏控件
-                            //$("#alter_cid").val(row.cid);
-                            $("#alterCourseId").val(row.id);
+                            $("#alter_cid").val(row.cid);
                             $("#alter_courseName").val(row.courseName);
                             $("#alter_start").val(row.startTime);
                             $("#alter_end").val(row.endTime);
                             $("#courseTime").val(row.coursePeriod);
-                            //$("#courseLinked").val(row.courseCategory);
-                            if(row.hot==1){ $("#alter_hotCourse").val("是");}else{ $("#alter_hotCourse").val("否");}
-                            if(row.courseOpenStatus==1){ $("#publicStatus").val("公开（免费）");}else{ $("#publicStatus").val("私有（收费）");}
-                            if(row.listener==1){ $("#alter_monitorProgress").val("监听进度");}else{ $("#alter_monitorProgress").val("不监听");}
+                            $("#courseLinked").val(row.courseCategory);
+                            $("#alter_hotCourse").val(row.hot);
+                            $("#publicStatus").val(row.courseOpenStatus);
+                            $("#alter_monitorProgress").val(row.listener);
                             $("#alter_courseDesc").val(row.courseDesc);
-                            $("#test_image").attr("src","D:/innerTestVideoServer/resources/"+row.courseImage);
-
                             //对字符串进行处理
-                            $("#alterParentCategory").val();
-                            $("#alterSubCategory").val()
-
-                            if(row.courseStatus==1){
-                                setSwitchery(switchery,true);
-                            }else{
-                                setSwitchery(switchery,false);
-                            }
-                            $.ajax({
-                                url:"/owep/training/courseList/test?id="+row.id,
-                                method:"get",
-                                success:function (data) {
-                                    $("#alterSubCategory").val(data.courseCategory.categoryName);
-                                    $("#alterParentCategory").val(data.courseCategory.courseCategory.categoryName);
-                                }
-                            })
+                            let split = row.courseDate.split("至");
+                            //起始日期
                             $("#alter_start").val(split[0]);
                             $("#alter_end").val(split[1]);
-                            $("#alter_course_modal").modal("show");
+
+                            if (row.status == '启用') {
+                                setSwitchery(switchery, true);
+                            } else {
+                                setSwitchery(switchery, false);
+                            }
+                            $("#alter_course_modal").modal();
                             //   $.ajax({
                             //   })
                             //先加载
@@ -643,13 +559,6 @@
                 }]
         });
 
-        function checkhot(value) {
-            if(value==1){
-                return "是";
-            }else if(value==0){
-                return "否";
-            }
-        }
         /* 滑动checkbox*/
         function checkbox_table() {
             let elems = Array.prototype.slice.call($('.js-switch'));
@@ -698,7 +607,7 @@
                 data:course,
                 dataType:"json",
                 success:function (data) {
-
+                    console.log(data);
                     $("#courseList_table").bootstrapTable("load",data);
                 },
                 error:function (jqXHR) {
@@ -706,7 +615,7 @@
                 }
             })
         })
-        testBsSuggest;
+
     });
 </script>
 <script>
@@ -737,48 +646,20 @@
             switchElement.handleOnchange(true);
         }
     }
-    var testBsSuggest=$("#parentCategory").bsSuggest({
-        url: "/owep/training/courseList/getParentCategory",
-        showBtn: true,
-        idField: "id",
-        keyField: "categoryName",
-        effectiveFields: ["categoryName"]
-    }).on('onSetSelectValue', function (e, keyword) {
-        //$("#courseId").val(keyword.id);
-        //销毁控件
-        $("#parentCategoryId").val(keyword.id);
-        $("#subCategory").bsSuggest("destroy");
-        $("#subCategory").bsSuggest({
-            url: "/owep/training/courseList/getSubCategory?id=" + keyword.id,
-            showBtn: true,
-            idField: "id",
-            keyField: "categoryName",
-            effectiveFields: ["categoryName"]
-        }).on('onSetSelectValue', function (e, keyword) {
-            $("#subCategoryId").val(keyword.id);
-            //销毁控件
-        });
-    });
-    var testBsSuggest=$("#alterParentCategory").bsSuggest({
-        url: "/owep/training/courseList/getParentCategory",
-        showBtn: true,
-        idField: "id",
-        keyField: "categoryName",
-        effectiveFields: ["categoryName"]
 
-    }).on('onSetSelectValue', function (e, keyword) {
-        //$("#courseId").val(keyword.id);
-        //销毁控件
-        $("#alterSubCategory").bsSuggest("destroy");
-        $("#alterSubCategory").bsSuggest({
-            url: "/owep/training/courseList/getSubCategory?id=" + keyword.id,
-            showBtn: true,
-            idField: "id",
-            keyField: "categoryName",
-            effectiveFields: ["categoryName"]
-        }).on('onSetSelectValue', function (e, keyword) {
-            $("#alterSubCategoryId").val(keyword.id);
-            //销毁控件
+    //多级联动
+    $.getJSON("/owep/training/courseList/getCourseCategory").done(function (res) {
+
+        console.log(res);
+        $("#courseLinked,#add_courseLinked").iPicker({
+            data: res,
+            level: 2,
+            placeholder: ["请选择", "请选择"],
+            onSelect: function (v, t, set) {
+                var text = "[ " + t + " ]";
+                var value = "[ " + v + " ]";
+                alert(text + "<------------>" + value);
+            }
         });
     });
 </script>
@@ -793,14 +674,7 @@
                 // 输出结果
             }
         });
-        var $alter_image = $("#alter_image")
-        $($alter_image).cropper({
-            aspectRatio: 1.618,
-            preview: ".img-preview",
-            done: function (data) {
-                // 输出结果
-            }
-        });
+
         var $inputImage = $("#inputImage");
         if (window.FileReader) {
             $inputImage.change(function () {
@@ -813,9 +687,8 @@
                 file = files[0];
                 if (/^image\/\w+$/.test(file.type)) {
                     fileReader.readAsDataURL(file);
-                    /*文件读取完后*/
                     fileReader.onload = function () {
-                        /*$inputImage.val(this.result);*/
+                        $inputImage.val("");
                         $image.cropper("reset", true).cropper("replace", this.result);
                     };
                 } else {
@@ -829,38 +702,10 @@
             $image.cropper("setDragMode", "crop");
             alert("剪切成功");
         });
-        var $alterinputImage = $("#alter_inputImage");
-        if (window.FileReader) {
-            $alterinputImage.change(function () {
-                var fileReader = new FileReader(),
-                    files = this.files,
-                    file;
-                if (!files.length) {
-                    return;
-                }
-                file = files[0];
-                if (/^image\/\w+$/.test(file.type)) {
-                    fileReader.readAsDataURL(file);
-                    /*文件读取完后*/
-                    fileReader.onload = function () {
-                        /*$inputImage.val(this.result);*/
-                        $alter_image.cropper("reset", true).cropper("replace", this.result);
-                    };
-                } else {
-                    // showMessage("请选择图片文件");
-                }
-            });
-        } else {
-            $alterinputImage.addClass("hide");
-        }
-        $("#alter_setDrag").click(function () {
-            $alter_image.cropper("setDragMode", "crop");
-            alert("剪切成功");
-        });
 
         $('.delete').click(function () {
             let rows = $("#courseList_table").bootstrapTable('getAllSelections');
-
+            console.log(rows);
             if (rows.length == 0) {
                 swal("至少选中一行！", "", "error");
                 return false;
@@ -888,7 +733,7 @@
                     dataType: "text",   //期望服务端返回的数据类型
                     contentType: "application/json",
                     success: function (data) {
-
+                        console.log(data.toString());
                         swal("删除成功！", "您已经永久删除已选信息", "success");
                         //重新加载页面
                         window.location.reload();
@@ -912,7 +757,28 @@
             format: "yyyy-mm-dd",
             language: 'zh-CN',// 汉化
         });
+       /* $('#add_cc.btn.btn-primary').click(function () {
+            $.ajax({
+                type: "GET",
+                url: "",
+                data: {
+                    schemeNumberAdd: $("#schemeNumberAdd").val(),
+                    schemeNameAdd: $("#schemeNameAdd").val(),
+                    switchFlag: $('.js-switch.form-control').val()
+                },
+                dataType: "json",
+                success: function (data) {
+                    alert("添加成功");
+                },
+                error: function (jqXHQ) {
+                    alert("添加失败");
+                }
 
+            });
+
+            //重新加载页面
+            window.location.reload();
+        })*/
     })
     /*公开状态suggest*/
     $("#publicStatus,#alter_publicStatus").bsSuggest({
@@ -949,67 +815,9 @@
     });
     $("#alter_cc").click(function () {
 
-        var form = document.forms["course_list_form"];
-        var formData = new FormData(form);
-        if($("#hotCourse").val()=="是"){formData.set("hot",1);}
-        else{formData.set("hot",0);}
-        if($("#alter_publicStatus").val()=="公开（免费）"){formData.set("courseOpenStatus",1);}
-        else{formData.set("courseOpenStatus",0);}
-        if($("#monitorProgress").val()=="监听状态"){formData.set("listener",1);}
-        else{formData.set("listener",0);}
-        if($("#courseStatus").prop("checked")==true){formData.set("courseStatus",1)}
-        else{formData.set("courseStatus",0)}
-
-        $.ajax({
-            url: "/owep/training/courseList/addCourse",
-            data: formData,
-            type: "Post",
-            dataType: "json",
-            cache: false,//上传文件无需缓存
-            processData: false,//用于对data参数进行序列化处理 这里必须false
-            contentType: false, //必须
-            success: function (data) {
-                alert("添加成功");
-                console.log(data)
-                window.location.reload();
-            },
-            error: function (jqXRH) {
-                console.log("jqXRH = " + jqXRH);
-                alert("添加失败")
-            }
-        })
-    })
-    $("#add_cc").click(function () {
-
-        var form = document.forms["alter_course_list_form"];
-        var formData = new FormData(form);
-        if($("#hotCourse").val()=="是"){formData.set("hot",1);}
-        else{formData.set("hot",0);}
-        if($("#alter_publicStatus").val()=="公开（免费）"){formData.set("courseOpenStatus",1);}
-        else{formData.set("courseOpenStatus",0);}
-        if($("#monitorProgress").val()=="监听状态"){formData.set("listener",1);}
-        else{formData.set("listener",0);}
-        if($("#courseStatus").val()=="on"){formData.set("courseStatus",1)}
-        else{formData.set("courseStatus",0)}
-
-        $.ajax({
-            url: "/owep/training/courseList/updateCourse",
-            data: formData,
-            type: "Post",
-            dataType: "json",
-            cache: false,//上传文件无需缓存
-            processData: false,//用于对data参数进行序列化处理 这里必须false
-            contentType: false, //必须
-            success: function (data) {
-                alert("修改成功");
-                console.log(data)
-                window.location.reload();
-            },
-            error: function (jqXRH) {
-                console.log("jqXRH = " + jqXRH);
-                alert("修改失败")
-            }
-        })
+        alert("hehe");
+        $("form[name='course_list_form']").submit();
+        window.location.reload();
     })
 </script>
 </body>

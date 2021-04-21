@@ -3,9 +3,12 @@
  */
 package com.kclm.owep.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,6 +58,8 @@ public class Client implements Serializable {
     /**
      *创建时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createTime = LocalDateTime.now();
 
     /**
@@ -93,13 +98,22 @@ public class Client implements Serializable {
     private Double loan;
 
     /**
+     * 还款方式
+     */
+    private String repaymentPlan;
+
+    /**
      *面试起始时间
      */
-    private LocalDateTime interviewTimeStart;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate interviewTimeStart;
     /**
      *面试终止时间
      */
-    private LocalDateTime interviewTimeEnd;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate interviewTimeEnd;
 
     /**
      *客户类型：0无意向、1已签约、2潜在客户、3标准客户
@@ -139,6 +153,8 @@ public class Client implements Serializable {
     /**
      *最后一次访问时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime lastAccessTime;
 
     /**
@@ -155,13 +171,14 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(String clientName, String clientPhone, Integer gender, LocalDateTime createTime, Double totalPay, Integer payMent, Integer isAssignClass, Integer loanStatus, Channel channel, User user) {
+    public Client(String clientName, String clientPhone, Integer gender, LocalDateTime createTime, Double totalPay, Integer payMent,String repaymentPlan, Integer isAssignClass, Integer loanStatus, Channel channel, User user) {
         this.clientName = clientName;
         this.clientPhone = clientPhone;
         this.gender = gender;
         this.createTime = createTime;
         this.totalPay = totalPay;
         this.payMent = payMent;
+        this.repaymentPlan = repaymentPlan;
         this.isAssignClass = isAssignClass;
         this.loanStatus = loanStatus;
         this.channel = channel;
@@ -264,6 +281,14 @@ public class Client implements Serializable {
         this.payMent = payMent;
     }
 
+    public String getRepaymentPlan() {
+        return repaymentPlan;
+    }
+
+    public void setRepaymentPlan(String repaymentPlan) {
+        this.repaymentPlan = repaymentPlan;
+    }
+
     public Integer getIsAssignClass() {
         return isAssignClass;
     }
@@ -296,19 +321,19 @@ public class Client implements Serializable {
         this.loan = loan;
     }
 
-    public LocalDateTime getInterviewTimeStart() {
+    public LocalDate getInterviewTimeStart() {
         return interviewTimeStart;
     }
 
-    public void setInterviewTimeStart(LocalDateTime interviewTimeStart) {
+    public void setInterviewTimeStart(LocalDate interviewTimeStart) {
         this.interviewTimeStart = interviewTimeStart;
     }
 
-    public LocalDateTime getInterviewTimeEnd() {
+    public LocalDate getInterviewTimeEnd() {
         return interviewTimeEnd;
     }
 
-    public void setInterviewTimeEnd(LocalDateTime interviewTimeEnd) {
+    public void setInterviewTimeEnd(LocalDate interviewTimeEnd) {
         this.interviewTimeEnd = interviewTimeEnd;
     }
 
@@ -402,6 +427,7 @@ public class Client implements Serializable {
         sb.append(", clientEmail='").append(clientEmail).append('\'');
         sb.append(", loanStatus=").append(loanStatus);
         sb.append(", loan=").append(loan);
+        sb.append(",repaymentPlan=").append(repaymentPlan);
         sb.append(", interviewTimeStart='").append(interviewTimeStart).append('\'');
         sb.append(", interviewTimeEnd='").append(interviewTimeEnd).append('\'');
         sb.append(", clientState=").append(clientState);

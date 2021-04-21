@@ -436,10 +436,10 @@
                             <label class="col-sm-5"
                                    style="margin-top: 25px;margin-right: 0px;padding: 0px ;float: left">&nbsp;&nbsp;&nbsp; 资源类型：</label>
                             <div class="col-sm-3" style="margin-left: -20px;margin-top: 15px;float: left;">
-                                <select class="form-control m-b" name="res_type" id="res_type">
-                                    <option value="">全部资源</option>
-                                    <option value="1">公共资源</option>
-                                    <option value="0">课程资源</option>
+                                <select class="form-control m-b" name="res_type">
+                                    <option value="1">全部资源</option>
+                                    <option value="2">公共资源</option>
+                                    <option value="3">课程资源</option>
                                 </select>
                             </div>
                         </div>
@@ -481,7 +481,7 @@
                         <div class="form-group">
                             <label>文件类型：</label>
                             <div class="input-group">
-                                <input type="text" class="form-control file_type" id="res_add_file_type">
+                                <input type="text" class="form-control file_type">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -497,9 +497,9 @@
                             <div class="radio i-checks">
                                 <div class="input-daterange input-group datepicker"
                                      style="z-index:99995!important;">
-                                    <input type="text" class="input-sm form-control" name="start" id="res_add_start"/>
+                                    <input type="text" class="input-sm form-control" name="start"/>
                                     <span class="input-group-addon">到</span>
-                                    <input type="text" class="input-sm form-control" name="end" id="res_add_end"/>
+                                    <input type="text" class="input-sm form-control" name="end"/>
                                 </div>
                             </div>
                         </div>
@@ -656,7 +656,6 @@
                 }
             });
         });
-
         //日期
         $(".datepicker :input").datepicker({
             autoclose: true,
@@ -698,7 +697,7 @@
                     processData:false,
                     success:function (data) {
                         alert(data);
-                        $(".stu").bootstrapTable('refresh');
+                        $("#stu").bootstrapTable('refresh');
                     },
                     error:function(jqXHR){
                         alert("删除失败");
@@ -731,24 +730,9 @@
                 return;
             }
             //TODO 发送A级ax请求
-            $.ajax({
-                url:"/owep/clazz/addStudentToClass?cid=" + $("input[name='classId']").val(),
-                method:"POST",
-                async:true,
-                data:formData,
-                dataType:"text",
-                contentType:false,
-                processData:false,
-                success:function (data) {
-                    alert(data);
-                    $(".stu").bootstrapTable('refresh');
-                },
-                error:function(jqXHR){
-                    alert("导入失败");
-                }
-            });
-        });
 
+            alert("文件上传成功")
+        });
         /***********资源管理************/
         //当资源管理模态框弹出之后 初始化表格
         $('#stu_res').on('show.bs.modal', function () {
@@ -789,27 +773,25 @@
                 });
             }
         });
-        /*资源管理查询按钮*/
+        /*学员管理查询按钮*/
         $('#res_search').click(function () {
             let res_name = $("#res_name").val();
-            let res_type = $("#res_type option:selected").val();
-            alert(res_type);
             //判断条件是否存在
             if (res_name == "") {
                 alert("请填写查询条件");
                 return;
             }
-            res("/owep/clazz/selectResourceByClassAndKeyword?cid=" + $("input[name='classId']").val() + "&resourceName=" + res_name + "&resourceType=" + res_type);
+            res();
         });
         /*****************添加资源**************************/
         //当资源管理模态框弹出之后 初始化表格
         $('#res_add').on('show.bs.modal', function () {
             // 执行一些动作...
-            res_add("/owep/clazz/selectAllResource");
+            res_add();
         });
-        //资源管理里面的批量分配
+        //学员管理里面的删除所有
         $('#res_add_delete').click(function () {
-            // 批量分配按钮事件
+            // 删除按钮事件
             if (!confirm("是否确认分配？"))
                 return;
             var rows = $(".res_add").bootstrapTable('getSelections');// 获得要删除的数据
@@ -821,39 +803,18 @@
                 $(rows).each(function () {// 通过获得别选中的来进行遍历
                     ids.push(this.id);// cid为获得到的整条数据中的一列
                 });
-
                 //TODO 发送ajax请求
-                var idList=JSON.stringify(ids);
-                $.ajax({
-                    url:"/owep/clazz/addSelectResourceToClass?cid=" + $("input[name='classId']").val(),
-                    method:"POST",
-                    async:true,
-                    data:idList,
-                    dataType:"text",
-                    contentType:"application/json",
-                    processData:false,
-                    success:function (data) {
-                        alert(data);
-                        $("#resource_table").bootstrapTable('refresh');
-                    },
-                    error:function(jqXHR){
-                        alert("分配失败");
-                    }
-                });
             }
         });
-        /*资源查询按钮*/
+        /*学员管理查询按钮*/
         $('#res_add_search').click(function () {
             let res_add_name = $("#res_add_name").val();
-            let res_add_file_type = $("#res_add_file_type").val();
-            let res_add_start = $("#res_add_start").val();
-            let res_add_end = $("#res_add_end").val();
             //判断条件是否存在
-            if (res_add_name == "" && res_add_file_type == "" && res_add_start == "" && res_add_end == "") {
+            if (res_add_name == "") {
                 alert("请填写查询条件");
                 return;
             }
-            res_add("/owep/clazz/selectResourceByKeyword?resourceName=" + res_add_name + "&fileType=" + res_add_file_type + "&beginTime=" + res_add_start + "&endTime=" + res_add_end);
+            res_add();
         });
 
     });
@@ -882,7 +843,7 @@
                 effectiveFields: ["profName"],
             }).on('onSetSelectValue',function (e,keyword) {
                 $("#profession-search-id").val(keyword.id);
-                })
+            })
         })
         });
 
@@ -966,7 +927,7 @@
                     striped: true,  //是否显示行间隔色
                     cache: false, //是否使用缓存
                     pagination: true, //是否分页
-                    pageSize: 10,  //每页记录行数
+                    pageSize: 5,  //每页记录行数
                     uniqueId: 'id',  //唯一id
                     pageList: [5, 10, 20],
                     queryParams: init.queryParams, // 传递参数
@@ -1021,13 +982,13 @@
                         events: {
                             'click button[title=修改]': function (e, value, row, index) {
                                 $.ajax({
-                                    //发送AJAX请求
+                                    //发送AJAX请求·
                                     url:"/owep/clazz/toUpdateClazz?id="+row.id,
                                     method:"GET",
                                     async:true,
                                     dataType:"json",  //拿到json
                                     success:function (clazzJson) {
-
+                                        alert(clazzJson.planManagerList[0].id);
                                         //把返回的json对象添加到弹出层的更新表单域中
                                         $("form[name='updateClazzForm'] input[name='id']").val(clazzJson.id);
                                         $("form[name='updateClazzForm'] input[name='classNumber']").val(clazzJson.classNumber);
@@ -1157,7 +1118,8 @@
             function actionFormatter(value, row, index) {
                 var id = value;
                 var result = "";
-
+                // console.log(row.id);
+                // console.log(row.name+"--"+index +"--"+value);
                 result += "<button class='btn btn-primary btn-sm' title='修改' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#update\"><span class='glyphicon glyphicon-wrench'></span></button>";
                 result += "<button class='btn btn-danger btn-sm delete'  title='删除' style='margin-right: 10px'><span class='glyphicon glyphicon-trash'></span></button>";
                 result += "<button class='btn btn-primary btn-sm' title='学生管理' style='margin-right: 10px' data-toggle=\"modal\" data-target=\"#stu\"><span class='fa fa-user'></span></button>";
@@ -1179,7 +1141,7 @@
                     striped: true,  //是否显示行间隔色
                     cache: false, //是否使用缓存
                     pagination: true, //是否分页
-                    pageSize: 10,  //每页记录行数
+                    pageSize: 5,  //每页记录行数
                     uniqueId: 'id',  //唯一id
                     pageList: [5, 10, 20],
                     queryParams: init.queryParams, // 传递参数
@@ -1235,13 +1197,6 @@
                 }, {
                     field: 'status',
                     title: '有效状态',
-                    formatter:function (value, row) {
-                        if (row.status == 1){
-                            return "启用";
-                        } else {
-                            return "禁用";
-                        }
-                    }
                 }]
             });
 
@@ -1265,10 +1220,9 @@
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
                 pagination: true, //是否分页
-                pageSize: 10,  //每页记录行数
+                pageSize: 5,  //每页记录行数
                 uniqueId: 'id',  //唯一id
                 queryParams: queryParams,
-                sidePagination: "client",
                 pageList: [5, 10, 20],
                 columns: [{
                     checkbox: true,
@@ -1280,29 +1234,20 @@
                     field: 'resourceName',
                     title: '资源名称',
                 }, {
-                    field: 'resourceType',
+                    field: 'resourceType.typeName',
                     title: '资源类型',
-                    formatter : function(value,row, index){   //主要配置在这里
-                        return value.typeName;
-                    }
                 }, {
                     field: 'resourceSize',
                     title: '资源大小',
                 }, {
-                    field: 'resourcePath',
+                    field: 'status',
                     title: '操作',
                     formatter: action,
                     align: "center",
                     events: {
                         'click button[title=下载]': function (e, value, row, index) {
-                            var $eleForm = $("<form method='get'></form>");
-
-                            $eleForm.attr("action","http://192.168.124.88:8886/" + row.resourcePath);
-
-                            $(document.body).append($eleForm);
-
-                            //提交表单，实现下载
-                            $eleForm.submit();
+                            alert("下载成功");
+                            //TODO 下载
                         },
                         'click button[title=删除]': function (e, value, row, index) {
                             // console.log(row.id);
@@ -1381,7 +1326,11 @@
                     },
                     {
                         'id': "",
-                        'word': 'pdf',
+                        'word': 'sgbsb',
+                    },
+                    {
+                        'id': "",
+                        'word': 'fgv',
                     },
                     {
                         'id': "",
@@ -1391,18 +1340,17 @@
             }
         });
 
-        function res_add(url) {
+        function res_add() {
             $(".res_add").bootstrapTable('destroy');
             $('.res_add').bootstrapTable({
-                url: url,
+                url: '../../static/js/clazz/file_add.json',
                 method: 'get',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
                 pagination: true, //是否分页
-                pageSize: 10,  //每页记录行数
+                pageSize: 5,  //每页记录行数
                 uniqueId: 'id',  //唯一id
                 queryParams: queryParams,
-                sidePagination: "client",
                 pageList: [5, 10, 20],
                 columns: [{
                     checkbox: true,
@@ -1411,22 +1359,19 @@
                     title: 'id',
                     visible: false //隐藏 让该字段不可见 为了后面更新和删除做准备
                 }, {
-                    field: 'resourceName',
+                    field: 'res_name',
                     title: '名称',
                 }, {
-                    field: 'createTime',
+                    field: 'up_time',
                     title: '上传时间',
                 }, {
-                    field: 'resourceType',
+                    field: 'res_type',
                     title: '分类',
-                    formatter : function(value,row, index){   //主要配置在这里
-                        return value.typeName;
-                    }
                 }, {
-                    field: 'resourceSuffix',
+                    field: 'file_type',
                     title: '类型',
                 }, {
-                    field: 'resourceSize',
+                    field: 'res_size',
                     title: '大小(kb)',
                 }, {
                     field: 'status',
@@ -1435,22 +1380,8 @@
                     align: "center",
                     events: {
                         'click button[title=分配到班级]': function (e, value, row, index) {
-
-                            $.ajax({
-                                //发送AJAX请求
-                                url: "/owep/clazz/addResourceToClass?cid=" +  $("input[name='classId']").val() + "&rid=" + row.id,
-                                method: "GET",
-                                async: true,
-                                dataType: "text",
-                                success: function (data) {
-                                    alert(data);
-                                    $("#resource_table").bootstrapTable('refresh');
-                                },
-                                error: function (jqXHR) {
-                                    alert("分配失败");
-                                }
-
-                            });
+                            alert("分配成功");
+                            //TODO 下载
                         },
                     }
                 }],

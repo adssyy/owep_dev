@@ -12,6 +12,11 @@ import java.time.LocalDateTime;
  * @Description 作业答案DTO
  */
 public class HomeworkAnswerDTO {
+
+    private Integer id;
+
+
+
     /**
      * 作业标题
      */
@@ -32,6 +37,27 @@ public class HomeworkAnswerDTO {
      * 写作时间
      */
     private LocalDateTime createTime;
+//    布置时间
+    private LocalDateTime startTime;
+
+    //审批内容
+    private String auditContent;
+
+    public String getAuditContent() {
+        return auditContent;
+    }
+
+    public void setAuditContent(String auditContent) {
+        this.auditContent = auditContent;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
 
     public String getWorkTitle() {
         return workTitle;
@@ -73,6 +99,13 @@ public class HomeworkAnswerDTO {
         this.createTime = createTime;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
     @Override
     public String toString() {
         return "HomeworkAnswerDTO{" +

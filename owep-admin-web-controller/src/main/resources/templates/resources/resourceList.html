@@ -79,7 +79,7 @@
                         />
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" id="queryBtn">查询</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="queryBtn">查询</button>
             </form>
         </div>
         <div class="col-md-3 text-right" style="padding-left: 10px">
@@ -124,7 +124,6 @@
                         <label class="col-sm-3 control-label right">资源类型：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" hidden name="type" value="">
                                 <input type="text" class="form-control org1" name="type" id="upd_type">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
@@ -228,7 +227,6 @@
                         <label class="col-sm-3 control-label right">资源类型：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" hidden name="type" value="">
                                 <input type="text" class="form-control" name="type" id="add_type">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
@@ -244,8 +242,8 @@
                         <label class="col-sm-3 control-label right">课程：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" hidden id="courseId" name="course.id" value="">
-                                <input type="text" class="form-control"  id="add_course">
+                                <input type="text" hidden id="courseId">
+                                <input type="text" class="form-control" name="course" id="add_course">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -261,8 +259,8 @@
                         <label class="col-sm-3 control-label right">章：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" hidden id="chapterId" value="" name="chapter.id">
-                                <input type="text" class="form-control"   id="add_chapter">
+                                <input type="text" hidden id="chapterId">
+                                <input type="text" class="form-control" name="chapter" id="add_chapter">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -278,8 +276,8 @@
                         <label class="col-sm-3 control-label right">节：</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="text" hidden id="sectionId" name="section.id" value="">
-                                <input type="text" class="form-control"  id="add_section">
+                                <input type="text" hidden id="sectionId">
+                                <input type="text" class="form-control" name="section" id="add_section">
                                 <div class="input-group-btn" style="z-index:99999!important;">
                                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
@@ -293,7 +291,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right">资源描述：</label>
                         <div class="col-sm-7">
-                            <textarea class="form-control"   name="add_resourceDesc"
+                            <textarea class="form-control" type="text" name="add_resourceDesc"
                                       id="add_resourceDesc"></textarea>
                         </div>
                     </div>
@@ -350,35 +348,62 @@
         //点击按钮开始搜索
         $("#queryBtn").click(function () {
 
-            let resourceSuffix = $("#resourceSuffix").val();
+            let dataList = new Array('resourceSuffix','resourceName');
+            querySearch('form[id="resource_search"]',dataList);
 
-            if(resourceSuffix == "") {
-                alert("文件类型不能为空！")
-            } else {
-                console.log("==============");
-                console.log($("#resource_search").serialize());
-                //发送ajax 查询
-                $.ajax({
-                    url: "/owep/resources/resourceList/search",
-                    method: "post",
-                    async: true,
-                    data:$("#resource_search").serialize(),
-                    dataType: "json",   //期望服务端返回的数据类型
-                    //contentType: "application/json",
-                    success: function (data) {
-                        console.log("success=====")
-                        console.log(data);
-                        //重新加载页面
-                        console.log($('#tb_major'));
-
-                        $('#tb_major').bootstrapTable("load", data);
-                    },
-                    error: function (jqXHR) {
-                        swal("搜索失败！", "未知错误", "error");
-                    }
-                });
-            };
         });
+
+
+        /*查询记录操作*/
+        function querySearch(eventParentName, dataList, success) {
+            let queryList = dataList;
+            let queryMap = new Map();
+            let queryNullList = new Array()
+            queryList.forEach(function (item, index) {
+                let event = $('' + eventParentName + ' input[name=' + item + ']');
+                event.val() == "" ?
+                    queryNullList.push($('' + eventParentName + ' input[name=' + item + ']'))
+                    : queryMap.set(event.attr('name'), event.val());
+            })
+
+            let formData="";
+            queryMap.forEach(function (value, key){
+                formData += key +'='+value +'&';
+            });
+            formData = formData.substr(0,formData.length - 1);
+            //发送ajax 查询
+            $.ajax({
+                url: "/owep/resources/resourceList/search",
+                method: "post",
+                async: true,
+                data:$("#resource_search").serialize(),
+                dataType: "json",   //期望服务端返回的数据类型
+                //contentType: "application/json",
+                success: function (data) {
+                    console.log(data.toString());
+                    //重新加载页面
+                    console.log($('#tb_major'));
+
+                    $('#tb_major').bootstrapTable("load", data);
+                },
+                error: function (jqXHR) {
+                    swal("搜索失败！", "未知错误", "error");
+                }
+            });
+            if (queryNullList.length > 0) {
+                swal("搜索失败", "搜索数据不允许为空", "error");
+                /*       queryNullList.forEach(function (item) {
+                           item.css('border-color',"#f8ac59");
+                       })*/
+            } else {
+                swal("搜索成功！", "已为你重新加载数据", "success")
+            }
+            queryMap.forEach(function (key,value) {
+                console.log(value);
+                $(''+eventParentName+' input[name='+value+']').css('border-color',"");
+            })
+        }
+
 
         //删除所有
         $('#deleteAll').click(function () {
@@ -417,115 +442,166 @@
             }
         });
 
-        //文件上传提交表单
-        $("#add_sure").click(function () {
-            let form = document.forms["add_form"];
-            let formData = new FormData(form);
+
+        /*添加提交表单*/
+        /*$('#add_sure').click(function () {
+
+            let myform = document.forms["add_form"];
+            let formData = new FormData(myform);
+            console.log(myform);
             console.log(formData);
+
+            //资源名称
+            let resourceName = $("#add_resourceName").val();
+
+            //文件分类【课程资源：0，公共资源: 1】
+            let type = $("#add_type").val();
+
+            //资源描述
             let resourceDesc = $("#add_resourceDesc").val();
+
             //获取上传文件信息
             let file = $("#add_file")[0].files[0];
             //获取资源扩展名
             let resourceSuffix = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
+
+            console.log("resourceSuffix = " + resourceSuffix);
+
             //获取文件大小
             let resourceSize = file.size;
-            formData.set("resourceDesc",resourceDesc);
-            formData.set("resourceSuffix",resourceSuffix);
-            formData.set("resourceSize",resourceSize);
 
-            //ajax操作
+            console.log("resourceSize = " + resourceSize);
+
+            //最后一次修改时间【在此做上传时间】
+            let createTime = file.lastModifiedDate;
+
+            console.log("createTime = " + createTime);
+
+            let course = $("#add_course").val();
+
+            let chapter = $("#add_chapter").val();
+
+            let section = $("#add_section").val();
+
+            let resourceData = {};
+
+            if (type = 1) {
+                resourceData = {
+                    resourceName: resourceName,
+                    resourceDesc: resourceDesc,
+                    resourceSuffix: resourceSuffix,
+                    resourceSize: resourceSize,
+                    type: type,
+                    createTime: createTime
+                };
+            } else if (type = 0) {
+                resourceData = {
+                    resourceName: resourceName,
+                    resourceDesc: resourceDesc,
+                    resourceSuffix: resourceSuffix,
+                    resourceSize: resourceSize,
+                    type: type,
+                    createTime: createTime,
+                    course: course,
+                    chapter: chapter,
+                    section: section
+                };
+            }
+
+            console.log(resourceData);
+
+            /!* let resourceJson = JSON.stringify(resourceData);*!/
+
             $.ajax({
+                method: "post",
                 url: "/owep/resources/resourceList/addResource",
+                async: "true",
+                processData: false,
+                contentType: false,
                 data: formData,
-                type: "Post",
-                dataType: "json",
-                cache: false,//上传文件无需缓存
-                processData: false,//用于对data参数进行序列化处理 这里必须false
-                contentType: false, //必须
-                success: function (result) {
-                    alert("上传完成!");
-                    console.log(result);
+                dataType: "text",
+                /!*contentType:"application/json",*!/
+                success: function (data) {
+                    console.log(data);
                     window.location.reload();
                 },
                 error: function (jqXRH) {
-                    console.log("jqXRH = " + jqXRH);
-                    alert("上传失败")
+                    console.log(jqXRH);
+                    alert("添加未成功")
                 }
             });
-
-        });
+        });*/
 
         /*修改提交表单*/
         $('#update_sure').click(function () {
-
-            /*let form = document.forms["upd_form"];
-            let formData = new FormData(form);
-            console.log(formData);
             let id = $("#update_id").val();
-            let resourceDesc = $("#upd_resourceDesc").val();
-            //获取上传文件信息
-            let file = $("#upd_file")[0].files[0];
-            //获取资源扩展名
-            let resourceSuffix = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
-            //获取文件大小
-            let resourceSize = file.size;
-            formData.set("id",id);
-            formData.set("resourceDesc",resourceDesc);
-            formData.set("resourceSuffix",resourceSuffix);
-            formData.set("resourceSize",resourceSize);*/
+            //资源名称
+            let resourceName = $("#upd_resourceName").val();
 
-            let id = $("#update_id");
-            let resourceName = $("#upd_resourceName");
-            let resourceDesc = $("#upd_resourceDesc");
+            //文件分类【课程资源：0，公共资源: 1】
+            let type = $("#upd_type").val();
+
+            //资源描述
+            let resourceDesc = $("#upd_resourceDesc").val();
+
             //获取上传文件信息
             let file = $("#upd_file")[0].files[0];
             //获取资源扩展名
             let resourceSuffix = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
+
+            console.log("resourceSuffix = " + resourceSuffix);
+
             //获取文件大小
             let resourceSize = file.size;
+
+            console.log("resourceSize = " + resourceSize);
+
+            //最后一次修改时间【在此做上传时间】
+            let createTime = file.lastModifiedDate;
+
+            console.log("createTime = " + createTime);
 
             let course = $("#upd_course").val();
-            console.log("course = " +course);
 
             let chapter = $("#upd_chapter").val();
-            console.log("chapter = " +chapter);
 
             let section = $("#upd_section").val();
-            console.log("chapter = " +section);
 
-            let type = $("#upd_type").val();
-            console.log("type = "+type);
+            let resourceData = {};
 
-            let formData = {};
-
-            if(type === 1||type ===2){
-
-            }else   if(type === "课程资源"){
-                type = 1;
-                formData = {
-                    id:id,
-                    resourceName:resourceName,
-                    resourceDesc:resourceDesc,
-                    type:type,
-                    course:course,
-                    chapter:chapter,
-                    section:section
-                }
-            }else{
-                type = 0;
-                formData = {
-                    id:id,
-                    resourceName:resourceName,
-                    resourceDesc:resourceDesc,
-                    type:type,
-                }
+            if (type = 1) {
+                resourceData = {
+                    id: id,
+                    resourceName: resourceName,
+                    resourceDesc: resourceDesc,
+                    resourceSuffix: resourceSuffix,
+                    resourceSize: resourceSize,
+                    type: type,
+                    createTime: createTime
+                };
+            } else if (type = 0) {
+                resourceData = {
+                    resourceName: resourceName,
+                    resourceDesc: resourceDesc,
+                    resourceSuffix: resourceSuffix,
+                    resourceSize: resourceSize,
+                    type: type,
+                    createTime: createTime,
+                    course: course,
+                    chapter: chapter,
+                    section: section
+                };
             }
+
+            console.log(resourceData);
+
+            /*let resourceJson = JSON.stringify(resourceData);*/
 
             $.ajax({
                 method: "post",
                 url: "/owep/resources/resourceList/updateResource",
                 async: "true",
-                data: formData,
+                data: resourceData,
                 dataType: "text",
                 /*contentType:"application/json",*/
                 success: function (data) {
@@ -543,6 +619,14 @@
 
         //动态搜索选择下拉框
         testdataBsSuggest1;
+        //添加事件
+        $('#add_sure').click(function () {
+            alert("添加成功");
+        });
+        //更新时间
+        $('#update_sure').click(function () {
+            alert("更新成功");
+        });
 
     });
 
@@ -590,8 +674,8 @@
                 url: "/owep/resources/resourceList/findAllSectionByChapterId?id=" + keyword.id,
                 showBtn: false,
                 idField: "id",
-                keyField: "sectionName",
-                effectiveFields: ["sectionName"]
+                keyField: "chapterName",
+                effectiveFields: ["chapterName"]
             }).on('onSetSelectValue', function (e, keyword) {
                 $("#sectionId").val(keyword.id);
             }).on('onUnSetSelectValue', function (e, keyword) {
@@ -651,7 +735,7 @@
                     title: "资源描述",
                     align: "center",
                 }, {
-                    field: 'resourceSuffix',
+                    field: 'type',
                     title: "类型",
                     align: "center",
                 }, {
@@ -659,7 +743,7 @@
                     title: "大小(kb)",
                     align: "center",
                 }, {
-                    field: 'type',
+                    field: 'resourceType',
                     title: "分类",
                     align: "center",
                 }, {
@@ -673,15 +757,13 @@
                     valign: "middle",
                     formatter: actionFormatter, //方法调用
                     events: {
-
-                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
-                            deleteRecord(e, value, row, index, "/owep/resources/resourceList/deleteResource", '#tb_major');
-                        },
-
                         'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
                             //回显数据
                             echoDataForm('form[id="update_form"]', new Array("id", "resourceName", "file", "resourceDesc", "course", "chapter", "section", "type"), row);
                             $('#update_resource').modal();
+                        },
+                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                            deleteRecord(e, value, row, index, "/owep/resources/resourceList/deleteResource", '#tb_major');
                         },
                     }
                 }]
@@ -690,6 +772,8 @@
         };
 
         init.queryParams = function (params) {
+            console.log("params = " + params);
+            console.log("$(\"#clientBelong\").val() = " + $("#resourceName").val());
             let temp = {  //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 offset: params.offset, //每次查询时的起始页码
                 limit: params.limit, //页面大小，每页有多少条数据

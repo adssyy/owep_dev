@@ -12,12 +12,10 @@ public interface QuestionConvert {
 
     QuestionConvert INSTANCE = Mappers.getMapper(QuestionConvert.class);
 
-    @Mapping(target = "student",source="student")
     @Mapping(target ="stuName" ,source = "questionAuthor")
     @Mapping(target = "courseName",source = "course.courseName")
     QuestionDTO entityToDTO(Question entity);
 
-    @Mapping(target = "student",source="student")
     @Mapping(target = "questionAuthor",source = "stuName")
     @Mapping(target = "course.courseName",source = "courseName")
     void updateEntityFromDto(QuestionDTO questionDTO, @MappingTarget Question entity);

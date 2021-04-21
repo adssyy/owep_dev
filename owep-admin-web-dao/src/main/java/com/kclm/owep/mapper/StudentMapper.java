@@ -77,8 +77,7 @@ public interface StudentMapper extends BaseMapper<Student> {
      * @Param: [id]
      * @Return: com.kclm.owep.entity.Student
      */
-    @Override
-    Student selectById(@Param("id") Serializable id);
+    Student selectById(@Param("id") Integer id);
 
     /******
      * @Author: ZhangShaowei
@@ -90,18 +89,7 @@ public interface StudentMapper extends BaseMapper<Student> {
     @Override
     List<Student> selectAll();
 
-
-    List<Student> selectAllSchool();
-
-    List<Student> selectAllCollege();
-
-    List<Student> findByKeyword(String keyword);
-
-    List<Student> selectNoClass();
-
-    List<Integer> getClassId(Serializable id);
-
-    int changeClassId(Serializable id,Serializable classIds);
+    List<Student> selectIllegalStudent(Integer classId);
 
     /****
      * 根据班级id查询所有学生
@@ -119,4 +107,3 @@ public interface StudentMapper extends BaseMapper<Student> {
      */
     List<Student> selectByKeyword(@Param("id") Serializable id,@Param("stuNumber") String stuNumber,@Param("stuRealName") String stuRealName);
 }
-

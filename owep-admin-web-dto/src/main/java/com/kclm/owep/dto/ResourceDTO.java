@@ -82,11 +82,6 @@ public class ResourceDTO implements java.io.Serializable{
      */
     private ResourceType resourceType;
 
-    /***
-     * 文件路径
-     */
-    private String resourcePath;
-
     /**
      * 课程
      */
@@ -178,14 +173,6 @@ public class ResourceDTO implements java.io.Serializable{
 
     public void setResourceType(ResourceType resourceType) {
         this.resourceType = resourceType;
-    }
-
-    public String getResourcePath() {
-        return resourcePath;
-    }
-
-    public void setResourcePath(String resourcePath) {
-        this.resourcePath = resourcePath;
     }
 
     public Course getCourse() {

@@ -246,6 +246,7 @@
                     events: {
 
                         "click .addCourseCategoryBtn": function (e, value, row, index) {
+                            //   alert("确定要更新 id=" + row.id + " 的记录吗？");
                             //回显数据
                             $("#parentCategoryId").val(row.id);
                                   $("#parentCategoryName").val(row.categoryName);
@@ -267,7 +268,7 @@
 
                         },
                         "click .deleteBtn": function (e, value, row, index) {
-
+                            //alert("确定要删除吗？");
                             //采用 sweetalert 组件
                             swal({
                                 title: '您确定要删除该信息吗？',
@@ -288,7 +289,7 @@
                                     dataType: "text",   //期望服务端返回的数据类型
                                     contentType: "application/json",
                                     success: function (data) {
-
+                                        console.log(data.toString());
                                         swal("删除成功！", "您已经永久删除已选信息", "success");
                                         //重新加载页面
                                         window.location.reload();
@@ -371,7 +372,7 @@
 
                         },
                         "click .deleteLowerTableBtn": function (e, value, row, index) {
-
+                            //alert("确定要删除吗？");
                             //采用 sweetalert 组件
                             swal({
                                 title: '您确定要删除该信息吗？',
@@ -382,7 +383,7 @@
                                 closeOnConfirm: false
                             }, function () {
                                 let id = row.id;
-
+                                alert(id);
                                 //发送ajax 删除
                                 $.ajax({
                                     url: "/owep/training/courseCategory/deleteById?id="+id,
@@ -392,7 +393,7 @@
                                     dataType: "text",   //期望服务端返回的数据类型
                                     contentType: "application/json",
                                     success: function (data) {
-
+                                        console.log(data.toString());
                                         swal("删除成功！", "您已经永久删除已选信息", "success");
                                         //重新加载页面
                                         window.location.reload();
@@ -435,7 +436,11 @@
                 dataType:"json",
                // contentType:"application/json",
                 success:function (data) {
+                    console.log(data);
+                    console.log("heheheheheheeheheheheheheheheheeheheheheheheheh")
                     $("#courseCategory_table").bootstrapTable("load",data);
+                    console.log("///////////////////////////////////////////////")
+
                 },
                 error:function(jqXHR){
                     alert("查询失败");
@@ -485,6 +490,8 @@
         });
         /*添加子表内容模态框*/
         $("#submitLowerContentForm").click(function () {
+            //$("#addLowerContent_form").submit();
+            console.log("111111111111111111111111111111111111111111")
             var categoryName = $("#categoryName").val();
             var categoryDesc = $("#desc").val();
             var parentId = $("#parentCategoryId").val();

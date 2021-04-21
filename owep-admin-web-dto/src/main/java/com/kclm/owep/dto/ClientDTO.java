@@ -3,7 +3,11 @@
  */
 package com.kclm.owep.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -18,91 +22,100 @@ import java.util.Objects;
 public class ClientDTO implements Serializable {
 
     /**
-     *意向客户id
+     * 意向客户id
      */
     private Integer id;
 
     /**
-     *意向客户的姓名
+     * 意向客户的姓名
      */
     private String clientName;
 
     /**
-     *意向客户电话
+     * 意向客户电话
      */
     private String clientPhone;
 
     /**
-     *客户性别：0女、1男
+     * 客户性别：0女、1男
      */
     private Integer gender;
 
     /**
-     *意向客户的工作经历，或自我介绍
+     * 意向客户的工作经历，或自我介绍
      */
     private String clientExperience;
 
     /**
-     *市场人员对意向客户的评价
+     * 市场人员对意向客户的评价
      */
     private String salsemanDescribe;
 
     /**
-     *预付金额
+     * 预付金额
      */
     private Double advancePay;
 
     /**
-     *总金额
+     * 总金额
      */
     private Double totalPay;
 
     /**
-     *每月还款
+     * 每月还款
      */
     private Double monthPay;
 
     /**
-     *还款金额
+     * 还款金额
      */
     private Integer payMent;
 
     /**
-     *是否分配班级：0未分配、1已分配
+     * 是否分配班级：0未分配、1已分配
      */
     private Integer isAssignClass;
 
     /**
-     *邮箱
+     * 邮箱
      */
     private String clientEmail;
 
     /**
-     *是否贷款：0未贷款、1贷款
+     * 是否贷款：0未贷款、1贷款
      */
     private Integer loanStatus;
 
     /**
-     *贷款金额
+     * 贷款金额
      */
     private Double loan;
 
     /**
-     *面试起始时间
+     * 还款方式
      */
-    private LocalDateTime interviewTimeStart;
-    /**
-     *面试终止时间
-     */
-    private LocalDateTime interviewTimeEnd;
+    private String repaymentPlan;
 
     /**
-     *客户类型：0无意向、1已签约、2潜在客户、3标准客户
+     * 面试起始时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate interviewTimeStart;
+    /**
+     * 面试终止时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate interviewTimeEnd;
+
+    /**
+     * 客户类型：0无意向、1已签约、2潜在客户、3标准客户
      */
     private Integer clientState;
 
     /**
-     *意向专业
+     * 意向专业
      */
     private String profession;
 
@@ -112,8 +125,10 @@ public class ClientDTO implements Serializable {
     private String major;
 
     /**
-     *签约时间
+     * 签约时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime signTime;
 
     /**
@@ -217,6 +232,14 @@ public class ClientDTO implements Serializable {
         this.payMent = payMent;
     }
 
+    public String getRepaymentPlan() {
+        return repaymentPlan;
+    }
+
+    public void setRepaymentPlan(String repaymentPlan) {
+        this.repaymentPlan = repaymentPlan;
+    }
+
     public Integer getIsAssignClass() {
         return isAssignClass;
     }
@@ -249,19 +272,19 @@ public class ClientDTO implements Serializable {
         this.loan = loan;
     }
 
-    public LocalDateTime getInterviewTimeStart() {
+    public LocalDate getInterviewTimeStart() {
         return interviewTimeStart;
     }
 
-    public void setInterviewTimeStart(LocalDateTime interviewTimeStart) {
+    public void setInterviewTimeStart(LocalDate interviewTimeStart) {
         this.interviewTimeStart = interviewTimeStart;
     }
 
-    public LocalDateTime getInterviewTimeEnd() {
+    public LocalDate getInterviewTimeEnd() {
         return interviewTimeEnd;
     }
 
-    public void setInterviewTimeEnd(LocalDateTime interviewTimeEnd) {
+    public void setInterviewTimeEnd(LocalDate interviewTimeEnd) {
         this.interviewTimeEnd = interviewTimeEnd;
     }
 
@@ -346,6 +369,7 @@ public class ClientDTO implements Serializable {
         sb.append(", clientEmail='").append(clientEmail).append('\'');
         sb.append(", loanStatus=").append(loanStatus);
         sb.append(", loan=").append(loan);
+        sb.append(", repaymentPlan=").append(repaymentPlan);
         sb.append(", interviewTimeStart=").append(interviewTimeStart);
         sb.append(", interviewTimeEnd=").append(interviewTimeEnd);
         sb.append(", clientState=").append(clientState);

@@ -6,6 +6,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.PollItemDTO;
 import com.kclm.owep.entity.PollItem;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -18,6 +19,12 @@ import java.util.List;
  *@Description:考评选项业务层接口
  ***/
 public interface PollItemService {
+
+    /**
+     * 查找所有考评
+     * @return
+     */
+    List<PollItemDTO> findAllPollItem();
 
     /***
      * 获取所有的考评选项
@@ -42,6 +49,7 @@ public interface PollItemService {
     List<PollItemDTO> findByKeywords(String keyword,int page,int pageSize);
 
 
+    List<PollItem> selectBywords(@Param("keywords") String  keywords);
     /***
      * 添加考评选项
      * @param pollItem
@@ -56,6 +64,7 @@ public interface PollItemService {
      */
     int deleteSelectPollItem(List<Serializable> idList);
 
+
     /***
      * 修改考评选项
      * @param pollItem
@@ -69,6 +78,10 @@ public interface PollItemService {
      * @return
      */
     int deletePollItem(Serializable id);
+
+    int activate(Integer id);
+
+    int deactivate(Integer id);
 
 
 }

@@ -3,9 +3,14 @@
  */
 package com.kclm.owep.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.regex.Pattern;
+
 /*********************
  * @Auther shentr
  * @Version V1.0
@@ -24,6 +29,8 @@ public class Illegal implements Serializable {
     /**
      *创建时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime = LocalDateTime.now();
     /**
      *最后修改时间
@@ -49,6 +56,8 @@ public class Illegal implements Serializable {
     /**
      *违规时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime disciplineTime;
     /**
      *情况说明

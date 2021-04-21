@@ -99,6 +99,11 @@
  </foreach>
 </delete>
 
+    <!--通过资源名查找-->
+    <select id="selectByResourceName" resultType="com.kclm.owep.entity.Resource" parameterType="String">
+        select * from t_resource where resource_name like concat('%',#{keyword},'%') and is_delete = 1
+    </select>
+
     <!--根据资源名查找-->
     <select id="findByKeyword" resultType="com.kclm.owep.entity.Resource" parameterType="string">
         select * from t_resource where resource_name like concat('%',#{keyword},'%') and is_delete = 1
@@ -110,7 +115,7 @@
     <!--查询多个对象-->
     <select id="selectAll" resultMap="BaseResultMap">
      select
-     <include refid="Base_Column_List"/>
+     *
      from t_resource
      where
      is_delete=1
@@ -123,14 +128,14 @@
 
     <select id="selectByClassAndKeyword" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        *
         from t_resource
         where
         id in (select fk_resource_id from t_class_resource where fk_class_id=#{cid})
         <if test="name != null and name != ''">
             and resource_name like "%"#{name,jdbcType=VARCHAR}"%"
         </if>
-         <if test="resourceType ==0 or resourceType == 1">
+         <if test="resourceType != null and resourceType != ''">
              and resource_type=#{resourceType}
          </if>
           and is_delete = 1
@@ -158,38 +163,4 @@
         </foreach>
          and fk_class_id = #{cid}
     </delete>
-
-    <insert id="addToClass">
-        replace into t_class_resource(fk_class_id, fk_resource_id)
-        values (#{cid},#{rid})
-    </insert>
-
-    <insert id="addSelectToClass">
-        replace into t_class_resource(fk_class_id, fk_resource_id) values
-        <foreach collection="idList" separator="," item="rid">
-            (#{cid},#{rid})
-        </foreach>
-    </insert>
-
-    <select id="selectByKeyword" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_resource
-        where
-        is_delete=1
-        <if test="name != null and name != ''">
-            and resource_name like "%"#{name,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="fileType != null and fileType != ''">
-            and resource_suffix like "_"#{fileType,jdbcType=VARCHAR}
-        </if>
-         <if test="beginTime != null">
-             and create_time >= #{beginTime,jdbcType=TIMESTAMP}
-         </if>
-          <if test="endTime != null">
-              and #{endTime,jdbcType=TIMESTAMP} >= create_time
-          </if>
-    </select>
-
 </mapper>
-

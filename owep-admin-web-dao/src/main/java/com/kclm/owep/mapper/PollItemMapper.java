@@ -33,6 +33,11 @@ public interface PollItemMapper extends BaseMapper<PollItem> {
      */
     int countPollItem();
 
-    
+    @Override
+    List<PollItem> selectAll();
 
+    @Override
+    int update(PollItem pollItem);
+
+    int save(PollItem pollItem);
 }

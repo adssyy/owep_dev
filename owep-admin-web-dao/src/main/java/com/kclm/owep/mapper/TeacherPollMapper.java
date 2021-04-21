@@ -5,6 +5,7 @@ import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*******************
@@ -16,6 +17,8 @@ import java.util.List;
 
 @Mapper
 public interface TeacherPollMapper extends BaseMapper<TeacherPoll> {
+
+    int deleteById(Integer id);
 
     /***
      * 统计教师考评记录数量
@@ -31,4 +34,6 @@ public interface TeacherPollMapper extends BaseMapper<TeacherPoll> {
      * @return
      */
     List<TeacherPoll> selectByCondition(@Param("className") String className,@Param("profName") String profName,@Param("teacherName") String teacherName);
+
+    //List<TeacherPoll> selectByKeyword(@Param("className") String className,@Param("teacherName") String teacherName,@Param("instituteName") String instituteName,@Param("instituteBranchName") String instituteBranchName,@Param("pid") Serializable pid);
 }
