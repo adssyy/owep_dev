@@ -22,7 +22,7 @@ public class StudyRecord implements Serializable {
     private Integer id;
 
     /***
-     * 学习进度标识 0:未观看或未观看结束 1:已观看完(只有为1时，才能观看下一个视频）
+     * 学习进度标识 0:未观看或未观看结束 1:已观看完(只有为2时，才能观看下一个视频）
      */
     private Integer progressStatus;
 
@@ -34,11 +34,7 @@ public class StudyRecord implements Serializable {
     /***
      * 学员id
      */
-    //private Integer fkStudentId;
-    /**
-     * 学员
-      */
-    private Student student;
+    private Integer fkStudentId;
 
     /***
      * 课程节的id
@@ -89,12 +85,12 @@ public class StudyRecord implements Serializable {
     /***
      * 有参构造
      * @param progressStatus
-     * @param student
+     * @param fkStudentId
      * @param courseName
      */
-    public StudyRecord(Integer progressStatus, Student student, String courseName) {
+    public StudyRecord(Integer progressStatus, Integer fkStudentId, String courseName) {
         this.progressStatus = progressStatus;
-        this.student = student;
+        this.fkStudentId = fkStudentId;
         this.courseName = courseName;
     }
 
@@ -103,7 +99,7 @@ public class StudyRecord implements Serializable {
      * @param id
      * @param progressStatus
      * @param createTime
-     * @param student
+     * @param fkStudentId
      * @param fkSectionId
      * @param courseName
      * @param chapterName
@@ -113,11 +109,11 @@ public class StudyRecord implements Serializable {
      * @param version
      * @param lastAccessTime
      */
-    public StudyRecord(Integer id, Integer progressStatus, LocalDateTime createTime, Student student, Integer fkSectionId, String courseName, String chapterName, String sectionName, Double videoRate, Integer videoLength, Integer version, LocalDateTime lastAccessTime) {
+    public StudyRecord(Integer id, Integer progressStatus, LocalDateTime createTime, Integer fkStudentId, Integer fkSectionId, String courseName, String chapterName, String sectionName, Double videoRate, Integer videoLength, Integer version, LocalDateTime lastAccessTime) {
         this.id = id;
         this.progressStatus = progressStatus;
         this.createTime = createTime;
-        this.student = student;
+        this.fkStudentId = fkStudentId;
         this.fkSectionId = fkSectionId;
         this.courseName = courseName;
         this.chapterName = chapterName;
@@ -158,13 +154,13 @@ public class StudyRecord implements Serializable {
     }
 
 
-    public Student getStudent() {
-        return student;
+    public Integer getFkStudentId() {
+        return fkStudentId;
     }
 
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setFkStudentId(Integer fkStudentId) {
+        this.fkStudentId = fkStudentId;
     }
 
 
@@ -270,7 +266,7 @@ public class StudyRecord implements Serializable {
         sb.append("id=").append(id);
         sb.append(", progressStatus=").append(progressStatus);
         sb.append(", createTime=").append(createTime);
-        sb.append(", fkStudentId=").append(student);
+        sb.append(", fkStudentId=").append(fkStudentId);
         sb.append(", fkSectionId=").append(fkSectionId);
         sb.append(", courseName='").append(courseName).append('\'');
         sb.append(", chapterName='").append(chapterName).append('\'');

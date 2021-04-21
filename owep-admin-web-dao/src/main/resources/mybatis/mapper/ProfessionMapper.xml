@@ -153,6 +153,12 @@
     from t_profession where t_profession.prof_name like "%"#{proName,jdbcType=VARCHAR}"%" and is_delete=1
   </select>
 
+  <!--根据专业名称查询id-->
+  <select id="selectIdByName" parameterType="String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_profession where t_profession.prof_name=#{proName}
+  </select>
+
   <!--根据分支来精确查询-->
   <select id="selectByBranchName" parameterType="string" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>

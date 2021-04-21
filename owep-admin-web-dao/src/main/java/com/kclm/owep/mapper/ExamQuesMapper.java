@@ -1,20 +1,32 @@
 package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.ExamQues;
-import com.kclm.owep.mapper.common.BaseMapper;
+import com.kclm.owep.entity.ExamQuesAnswerSet;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-public interface ExamQuesMapper extends BaseMapper<ExamQues> {
-    //查看我的试题
-    List<ExamQues> selectMyQues(String userName);
+public interface ExamQuesMapper {
 
-//    查看共享试题
-    List<ExamQues> selectShareQues();
+    int addQues(ExamQues examQues);
 
-    //导出试题
-    List<ExamQues> selectBybankIdAndType(@Param("bankId") int bankId,@Param("typeName") String typeName);
+    int addQuesAnswer(@Param("id") int quesId,@Param("list") List<ExamQuesAnswerSet> examQuesAnswerSets);
+
+    List<ExamQues> selectAllByUserName(String name);
+
+    int alterQues(ExamQues examQues);
+
+    int alterQuesAnswer(ExamQuesAnswerSet answerSet);
+
+    Integer selectAnswerId(@Param("id") Integer id,@Param("content") String content);
+
+    int delAnswerSet(Integer id);
+
+    List<ExamQues> selectByKeys(ExamQues examQues);
+
+    List<ExamQues> findShareQues(@Param("list") List<Integer> ShareBankIds);
+
+    List<ExamQues> findById(Integer id);
 }

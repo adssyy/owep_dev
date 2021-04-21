@@ -34,7 +34,8 @@
                             <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                            <input type="text" class="form-control form_datetime_2 input-sm bg-white" id="input-results-summary"/>
+                            <input type="text" class="form-control form_datetime_2 input-sm bg-white"
+                                   id="input-results-summary"/>
                         </div>
                     </div>
                 </div>
@@ -71,8 +72,9 @@
                             <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                            <input type="text" class="form-control form_datetime_2 input-sm bg-white" id="input-customer-volume"
-                                  />
+                            <input type="text" class="form-control form_datetime_2 input-sm bg-white"
+                                   id="input-customer-volume"
+                            />
                         </div>
                     </div>
                 </div>
@@ -90,7 +92,8 @@
                             <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                            <input type="text" class="form-control form_datetime_2 input-sm bg-white" id="input-student-rank"/>
+                            <input type="text" class="form-control form_datetime_2 input-sm bg-white"
+                                   id="input-student-rank"/>
                         </div>
                     </div>
                 </div>
@@ -109,11 +112,12 @@
 <script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js(v=1.0.0)}"></script>
 <!-- ECharts -->
 <script src="../../static/js/plugins/echarts/echarts-all.js"
-        th:src="@{/js/plugins/echarts/echarts-all.js}"></script>
+        th:src="@{/static/js/plugins/echarts/echarts-all.js}"></script>
 <!-- Data picker -->
 <script src="../../static/js/plugins/datapicker/bootstrap-datepicker.js"
         th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
-<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js" th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js"
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
 <script>
     $(function () {
         /*业绩情况汇总--------------------------------------*/
@@ -168,16 +172,17 @@
         };
         volumeChart.setOption(volumeOption);
         // 异步加载数据
-        /*$.get('../../static/js/demo/xxx.json').done(function (data) {
+        $.get('/owep/potentialClient/performance').done(function (data) {
             //数据加载成功取消加载提示框
             volumeChart.hideLoading();
             // 填入数据
             volumeChart.setOption({
                 series: [{
-                    data: data
+                    name: '金额(元)',
+                    data: [data.total, data.loan, data.advance]
                 }]
             });
-        });*/
+        });
         $(window).resize(volumeChart.resize);
 
         /*客户来源情况------------------------------------------------------*/
@@ -198,11 +203,11 @@
             legend: {
                 orient: 'horizontal',
                 left: '100',
-                data: ['智联招聘', '前程无忧']
+                data: []
             },
             series: [
                 {
-                    name: '前程无忧',
+                    name: '渠道类型',
                     type: 'pie',
                     radius: ['50%', '70%'],
                     avoidLabelOverlap: false,
@@ -229,16 +234,23 @@
         };
         customerChart.setOption(customerOption);
         // 异步加载数据
-        /*$.get('../../static/js/demo/xxx.json').done(function (data) {
+        $.get('/owep/potentialClient/channel').done(function (data) {
+            var arr = [];
+            for (i = 0; i < data.length - 1; i++) {
+                arr.push(data[i].name);
+            }
             //数据加载成功取消加载提示框
-            volumeChart.hideLoading();
+            customerChart.hideLoading();
             // 填入数据
-            volumeChart.setOption({
+            customerChart.setOption({
                 series: [{
                     data: data
-                }]
+                }],
+                legend: {
+                    data: arr
+                }
             });
-        });*/
+        });
         $(window).resize(customerChart.resize);
 
         /*客户量情况--------------------------------------*/
@@ -261,7 +273,7 @@
                 orient: 'vertical',
                 x: '5%',
                 y: '10%',
-                data: ['潜在客户', '邀约一面客户', '邀约失败客户', '一面可跟进客户', '二面可跟进客户', '丢单', '签约成功']
+                data: []
             },
             calculable: true,
             series: [
@@ -271,13 +283,7 @@
                     radius: '55%',
                     center: ['50%', '60%'],
                     data: [
-                        {value: 335, name: '潜在客户'},
-                        {value: 310, name: '邀约一面客户'},
-                        {value: 234, name: '邀约失败客户'},
-                        {value: 135, name: '一面可跟进客户'},
-                        {value: 1548, name: '二面可跟进客户'},
-                        {value: 1548, name: '丢单'},
-                        {value: 1548, name: '签约成功'}
+                        {value: 335, name: '潜在客户'}
                     ]
                     //data:[{}]
 
@@ -287,16 +293,23 @@
         pieChart.setOption(pieoption);
 
         // 异步加载数据
-        /* $.get('../../static/js/demo/data.json').done(function (data) {
-             //数据加载成功取消加载提示框
-             pieChart.hideLoading();
-             // 填入数据
-             pieChart.setOption({
-                 series: [{
-                     data: data
-                 }]
-             });
-         });*/
+        $.get('/owep/potentialClient/clientNumber').done(function (data) {
+            var arr = [];
+            for (i = 0; i < data.length; i++) {
+                arr.push(data[i].name);
+            }
+            //数据加载成功取消加载提示框
+            pieChart.hideLoading();
+            // 填入数据
+            pieChart.setOption({
+                series: [{
+                    data: data
+                }],
+                legend: {
+                    data: arr
+                }
+            });
+        });
         $(window).resize(pieChart.resize);
 
         /*排行榜-----------------------------------------------------------*/
@@ -306,7 +319,7 @@
                 trigger: 'axis'
             },
             legend: {
-                data: ['java基础', 'mysql数据库', 'javaWeb', 'Thymeleaf', 'redis']
+                data: []
             },
             grid: {
                 left: '3%',
@@ -361,6 +374,33 @@
             ]
         };
         rankChart.setOption(rankOption);
+        // 异步加载数据
+        $.get('/owep/resources/weekVideo').done(function (data) {
+            var keys = [];
+            for (var k in data) {
+                if (data.hasOwnProperty(k))
+                    keys.push(k);
+            }
+            var series = [];
+            for (i = 0; i < keys.length; i++) {
+                series.push({
+                    name: keys[i],
+                    type: 'line',
+                    stack: '总量',
+                    data: data[keys[i]]
+                })
+            }
+            //数据加载成功取消加载提示框
+            rankChart.hideLoading();
+            // 填入数据
+            rankChart.setOption({
+                series: series,
+
+                legend: {
+                    data: keys
+                }
+            });
+        });
         $(window).resize(rankChart.resize);
 
 
@@ -371,13 +411,13 @@
         $('.input-group.date').datepicker({
             // 时间初始化
             startView: 'years',  //起始选择范围
-            maxViewMode:'years', //最大选择范围
-            minViewMode:'months', //最小选择范围
-            todayHighlight : true,// 当前时间高亮显示
-            autoclose : 'true',// 选择时间后弹框自动消失
-            format : 'yyyy-mm',// 时间格式
-            language : 'zh-CN',// 汉化
-           // clearBtn : true,// 清除按钮，和今天 按钮只能显示一个
+            maxViewMode: 'years', //最大选择范围
+            minViewMode: 'months', //最小选择范围
+            todayHighlight: true,// 当前时间高亮显示
+            autoclose: 'true',// 选择时间后弹框自动消失
+            format: 'yyyy-mm',// 时间格式
+            language: 'zh-CN',// 汉化
+            // clearBtn : true,// 清除按钮，和今天 按钮只能显示一个
         });
     })
 </script>

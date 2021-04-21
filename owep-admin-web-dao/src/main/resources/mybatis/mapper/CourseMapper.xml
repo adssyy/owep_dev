@@ -23,7 +23,7 @@
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
     <association property="courseCategory"
-                 column="fk_course_category_id"
+                 column="fk_courseCategory_id"
                  javaType="com.kclm.owep.entity.CourseCategory"
                  select="com.kclm.owep.mapper.CourseCategoryMapper.selectById"/>
 <!--    <collection property="chapterList"
@@ -265,7 +265,7 @@
 
 
   <!--通过id查找课程-->
-  <select id="selectById" resultMap="BaseResultMap" parameterType="Integer">
+  <select id="selectById" resultType="course" parameterType="Integer">
     select <include refid="Base_Column_List"/>
     from t_course where id = #{id} and is_delete = 1
   </select>

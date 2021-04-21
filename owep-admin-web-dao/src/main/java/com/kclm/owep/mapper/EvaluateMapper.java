@@ -25,4 +25,5 @@ public interface EvaluateMapper extends BaseMapper<Evaluate> {
     */
     List<Evaluate> selectByClassId(Serializable classId);
 
+    int updateEvaluate(Evaluate entity);
 }

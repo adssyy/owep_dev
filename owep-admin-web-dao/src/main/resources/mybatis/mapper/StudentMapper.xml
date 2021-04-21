@@ -48,7 +48,7 @@
     select 
     <include refid="Base_Column_List" />
     from t_student
-    where id = #{id,jdbcType=INTEGER} and is_delete = 1
+    where id = #{id,jdbcType=INTEGER} and is_delete = 1;
   </select>
 
   <!--根据班级id查询学生记录-->
@@ -79,19 +79,15 @@
 
   <!--查询所有记录-->
   <select id="selectAll" resultMap="BaseResultMap">
-  select
-  <include refid="Base_Column_List" />
-  from t_student
-  where is_delete = 1
+  select * from t_student
+--   where is_delete = 1
 </select>
 
-  <select id="selectAllSchool" resultMap="BaseResultMap">
-    select  * from t_student  where is_delete=1
-  </select>
+  <select id="selectIllegalStudent" resultMap="BaseResultMap">
+  select * from t_student
+  where  fk_class_id=#{classId,jdbcType=INTEGER}
+</select>
 
-  <select id="selectAllCollege" resultMap="BaseResultMap">
-    select  * from t_student  where is_delete=1
-  </select>
 
   <!--根据id删除记录,改变is_delete的状态-->
   <update id="deleteById" parameterType="java.lang.Integer">
@@ -190,10 +186,8 @@
       <if test="version != null">
         version,
       </if>
-      <if test="clazz != null">
       <if test="clazz.id != null">
         fk_class_id,
-      </if>
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -275,10 +269,8 @@
       <if test="version != null">
         #{version,jdbcType=INTEGER},
       </if>
-      <if test="clazz != null">
       <if test="clazz.id != null">
         #{clazz.id,jdbcType=INTEGER},
-      </if>
       </if>
     </trim>
   </insert>
@@ -362,10 +354,8 @@
       <if test="version != null">
         version = #{version,jdbcType=INTEGER},
       </if>
-      <if test="clazz != null">
       <if test="clazz.id != null">
         fk_class_id = #{clazz.id,jdbcType=INTEGER},
-      </if>
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -375,19 +365,4 @@
     delete from t_student where  id=#{id}
   </delete>
 
-  <select id="findByKeyword" resultType="com.kclm.owep.entity.Student">
-    select * from t_student where stu_name like concat('%',#{keyword} ,'%') and  is_delete=1
-  </select>
-
-  <select id="selectNoClass" resultMap="BaseResultMap">
-  select  * from  t_student where ISNULL(fk_class_id);
-  </select>
-
-  <select id="getClassId" resultMap="BaseResultMap">
-    select fk_class_id from t_student where id=#{id};
-  </select>
-
-  <update id="changeClassId" parameterType="com.kclm.owep.entity.Student">
-    update t_student set fk_class_id=#{classIds ,jdbcType=INTEGER} where  id=#{id,jdbcType=INTEGER}
-  </update>
 </mapper>

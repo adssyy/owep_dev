@@ -382,17 +382,18 @@
                 showPaginationSwitch: false,
                 columns: [
                     {
-                        field: 'videoName',
+                        field: 'videoMsg',
                         title: '视频信息',
                         cellStyle: function (value, row, index) {
                             return {css: {"cursor": "pointer",}}
                         },
                         formatter: function (value, row, index) {
-                            /*如果是子文件则加上a标签*/
-                            if (row.type == 1) {
-                                return ['<a name="va" value="' + row.id + '">' + row.videoName + ".mp4" + '</a>']
+                            /*如果时子文件则加上a标签*/
+                            if (!row.isDir) {
+                                // return ['<a name="va" value="' + row.id + '">' + row.videoMsg + row.videoType+'</a>']
+                                return ['<a name="va" value="' + row.id + '">' + row.videoMsg + ".mp4" + '</a>']
                             } else {
-                                return row.videoName;
+                                return row.videoMsg;
                             }
                         },
                         events: {
@@ -419,11 +420,11 @@
 
                     },
                     {
-                        field: 'videoCount',
+                        field: 'times',
                         title: '课时'
                     },
                     {
-                        field: 'videoFrom',
+                        field: 'origin',
                         title: '来源'
                     },
                     {
@@ -433,8 +434,14 @@
                         field: 'operate',
                         title: '操作',
                         events: {
+                            /*'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
+                                //回显数据
+                                echoDataForm('form[id="btnUpdateName"]', new Array(), row);
+                                $("#updateSingleModal").modal();
+                            },*/
+
                             'click button[title="修改"]': function (e, value, row, index) {
-                                let name = row.videoName;
+                                let name = row.videoMsg;
                                 console.log(name);
 
                                 $("input[name='fileName']").val(name);
@@ -448,7 +455,7 @@
                                 deleteRecord(e, value, row, index, "/owep/resources/videoMgmt/deleteById", o);
                             },
                             'click button[title="上传"]': function (e, value, row, index) {
-                                $("h4[name='dirTitle']").text(row.videoName);
+                                $("h4[name='dirTitle']").text(row.videoMsg);
                                 $("#tableUpModal").modal();
                                 $("#btnTableUpModal").click(function () {
                                     $("#tableUpModal").modal('toggle');
@@ -457,7 +464,7 @@
                         },
                         formatter: function (value, row, index) {
                             let va;
-                            if (row.type == 2) {
+                            if (row.isDir) {
                                 va = ['<button class="btn btn-white" value="' + row.index + '" type="button" data-toggle="tooltip" data-placement="bottom" title="上传"><i class="glyphicon glyphicon-upload"/> </button>',
                                     '<button class="btn btn-white" value="' + row.index + '" type="button" data-toggle="tooltip" data-placement="bottom" title="修改"><i class="glyphicon glyphicon-edit"/> </button>'
                                 ].join('')
@@ -469,7 +476,7 @@
                         },
                     }
                 ],
-                treeShowField: 'videoName',
+                treeShowField: 'videoMsg',
                 parentIdField: 'pid',
                 /*加载树形结构*/
                 onResetView: function (data) {
@@ -483,7 +490,7 @@
                 },
                 /*点击行 进行收缩与展开的切换*/
                 onClickRow: function (row, $element, field) {
-                    if (row.pid == null && field == 'videoName') {
+                    if (row.pid == null && field == 'videoMsg') {
                         $element.treegrid("toggle");
                     }
                 },

@@ -17,10 +17,18 @@ import java.util.List;
  * @Description 授课管理业务层接口
  */
 public interface TeachingService {
+
+    /***
+     *根据id查询
+     * @param id
+     * @return
+     */
+    ClazzDTO selectById(Serializable id);
     /**
      * 获取班级数据
      */
     List<ClassDTO> findAllClass(int pageNumber,int pageSize);
+    List<ClazzDTO> findAllClass();
 
     /**
      * 根据条件，获取班级数据

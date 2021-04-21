@@ -1,40 +1,151 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kclm.owep.mapper.ExamPaperMapper">
 
-    <insert id="save" parameterType="com.kclm.owep.entity.ExamPaper">
-        insert into t_exam_paper(paper_name,paper_type,paper_status,paper_security,paper_total,create_time,version,last_access_time,user_name)
-        value (#{paperName},#{paperType},#{paperStatus},#{paperSecurity},#{paperTotal},#{createTime},#{version},#{lastAccessTime},#{userName})
+    <resultMap id="BaseResultMap" type="com.kclm.owep.dto.ExamPaperDTO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="paper_name" jdbcType="VARCHAR" property="paperName"/>
+        <result column="paper_type" jdbcType="VARCHAR" property="paperType"/>
+        <result column="paper_status" jdbcType="INTEGER" property="paperStatus"/>
+        <result column="paper_security" jdbcType="INTEGER" property="paperSecurity"/>
+        <result column="paper_total" jdbcType="INTEGER" property="paperTotal"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <collection property="examPaperTopics" ofType="com.kclm.owep.entity.ExamPaperTopic">
+            <id property="id" column="tid"></id>
+            <result property="topicName" column="topic_name"/>
+            <result property="topicDesc" column="topic_desc"/>
+        </collection>
+        <collection property="examPaperTopicQuessets" ofType="com.kclm.owep.entity.ExamPaperTopicQuesset">
+            <id property="id" column="qid"/>
+            <result property="paperId" column="paper_id"/>
+            <result property="topicId" column="topic_id"/>
+            <result property="quesContent" column="ques_content"/>
+            <result property="score" column="score"/>
+            <association property="examQues"
+                         column="ques_id"
+                         javaType="com.kclm.owep.entity.ExamQues"
+                         select="com.kclm.owep.mapper.ExamQuesMapper.findById"/>
+        </collection>
+    </resultMap>
+
+    <!--添加试卷-->
+    <insert id="addPaper" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_exam_paper(id,paper_name,paper_type,paper_status,paper_security,paper_total,
+        is_delete,create_time,version,last_access_time,user_name)
+        values(null,#{paperName},#{paperType},#{paperStatus},#{paperSecurity},#{paperTotal},1,now(),
+        1,now(),#{userName})
     </insert>
 
-    <update id="update" parameterType="com.kclm.owep.entity.ExamPaper">
-        update t_exam_paper
-        set paper_name=#{paperName},
-            paper_type=#{paperType},
-            paper_status=#{paperStatus},
-            paper_security=#{paperSecurity},
-            paper_total=#{paperTotal},
-            create_time=#{createTime},
-            version=#{version},
-            last_access_time=#{lastAccessTime},
-            user_name=#{userName}
-        where id=#{id}
-    </update>
+    <!--添加大题-->
+    <insert id="addTopic" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_exam_paper_topic(id,topic_name,topic_desc)
+        values (null,#{topicName},#{topicDesc})
+    </insert>
 
-    <update id="deleteById" parameterType="int">
-        update t_exam_paper
-        set is_delete=0
-        where id=#{id}
-    </update>
+    <!--添加小题-->
+    <insert id="addQuesSet">
+        insert into t_exam_paper_topic_quesset(id, paper_id, topic_id, ques_id, ques_content, score)
+        values (null, #{paperId}, #{id}, #{testQuestionsId}, #{title}, #{score})
+    </insert>
 
-    <update id="deleteSelect"></update>
-
-    <select id="selectById" parameterType="int">
-        select * from t_exam_paper where id=#{id}
+    <!--查询试卷-->
+    <select id="findAllPaper" resultMap="BaseResultMap">
+        SELECT p.id,
+               paper_name,
+               paper_type,
+               paper_status,
+               paper_security,
+               paper_total,
+               is_delete,
+               create_time,
+               version,
+               last_access_time,
+               user_name,
+               t.id as'tid',
+               topic_name,
+               topic_desc,
+               q.id as 'qid',
+               paper_id,
+               topic_id,
+               ques_id,
+               ques_content,
+               score
+        FROM t_exam_paper p
+                 LEFT JOIN t_exam_paper_topic_quesset q
+                           ON p.id = q.paper_id
+                 LEFT JOIN t_exam_paper_topic t
+                           ON q.topic_id = t.id
+        where user_name = #{name}
+        and is_delete = 1;
     </select>
 
-    <select id="selectAll">
-        select * from t_exam_paper where is_delete=1
+    <!--根据id查询试卷-->
+    <select id="findPaperById" resultMap="BaseResultMap">
+        SELECT p.id,
+               paper_name,
+               paper_type,
+               paper_status,
+               paper_security,
+               paper_total,
+               is_delete,
+               create_time,
+               version,
+               last_access_time,
+               user_name,
+               t.id as'tid',
+               topic_name,
+               topic_desc,
+               q.id as 'qid',
+               paper_id,
+               topic_id,
+               ques_id,
+               ques_content,
+               score
+        FROM t_exam_paper p
+                 LEFT JOIN t_exam_paper_topic_quesset q
+                           ON p.id = q.paper_id
+                 LEFT JOIN t_exam_paper_topic t
+                           ON q.topic_id = t.id
+        where p.id = #{id}
+          and user_name = #{name}
+          and is_delete = 1;
     </select>
 
+    <!--根据试卷id删除小题-->
+    <delete id="delQuesById">
+        delete from t_exam_paper_topic_quesset
+        where paper_id = #{paperId}
+    </delete>
+
+    <!--根据试卷id查询大题id-->
+    <select id="findTopicById" resultType="INTEGER">
+        select distinct topic_id
+        from t_exam_paper_topic_quesset
+        where paper_id = #{paperId}
+    </select>
+
+    <!--根据id删除大题-->
+    <delete id="delTopicById">
+        delete from t_exam_paper_topic
+        where id in
+        <foreach collection="list" item="ids" open="(" close=")" separator=",">
+            ${ids}
+        </foreach>
+    </delete>
+
+    <!--根据id删除试卷-->
+    <delete id="delPaperById">
+        delete from t_exam_paper
+        where id = #{paperId}
+    </delete>
 </mapper>

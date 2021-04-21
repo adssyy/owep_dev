@@ -31,5 +31,14 @@ public interface IllegalMapper extends BaseMapper<Illegal> {
     */
     List<Illegal> selectByCondition(@Param("stuNumber") String stuNumber, @Param("stuName") String stuName,
                                     @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
+    //List<Illegal> selectByCondition(Illegal illegal);
+
+    List<Illegal> selectAll(Integer classId);
+
+    int deleteById(Serializable id);
+
+    int save(Illegal illegal);
+
+    List<Illegal> selectById(Integer stuNum);
 
 }

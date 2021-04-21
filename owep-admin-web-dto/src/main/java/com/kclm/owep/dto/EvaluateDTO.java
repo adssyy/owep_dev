@@ -23,7 +23,7 @@ public class EvaluateDTO {
     /**
      *学生姓名
      */
-    private String studentName;
+    private String stuName;
     /**
      * 学生手机号码
      */
@@ -43,7 +43,7 @@ public class EvaluateDTO {
     /**
      *状态,1 表示有效，0表示无效
      */
-    private Integer evaluateStatus;
+    private Integer status;
 
     public Integer getId() { return id; }
 
@@ -57,12 +57,12 @@ public class EvaluateDTO {
         this.stuNumber = stuNumber;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public String getStuName() {
+        return stuName;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setStuName(String studentName) {
+        this.stuName = studentName;
     }
 
     public String getStuPhone() {
@@ -97,12 +97,12 @@ public class EvaluateDTO {
         this.gender = gender;
     }
 
-    public Integer getEvaluateStatus() {
-        return evaluateStatus;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setEvaluateStatus(Integer evaluateStatus) {
-        this.evaluateStatus = evaluateStatus;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override
@@ -110,12 +110,12 @@ public class EvaluateDTO {
         return "EvaluateDTO{" +
                 "id=" + id +
                 ", stuNumber='" + stuNumber + '\'' +
-                ", studentName='" + studentName + '\'' +
+                ", stuName='" + stuName + '\'' +
                 ", stuPhone='" + stuPhone + '\'' +
                 ", stuEmail='" + stuEmail + '\'' +
                 ", effectiveDate=" + effectiveDate +
                 ", gender=" + gender +
-                ", evaluateStatus=" + evaluateStatus +
+                ", status=" + status +
                 '}';
     }
 }

@@ -4,8 +4,10 @@
 
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.PollItemDTO;
 import com.kclm.owep.dto.PollTemplateDTO;
 import com.kclm.owep.entity.PollTemplate;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -19,12 +21,20 @@ import java.util.List;
  ***/
 public interface PollTemplateService {
 
+    /**
+     * 查找所有考评
+     * @return
+     */
+    List<PollTemplateDTO> findAllPollTemplate();
+
+
     /***
      * 根据关键字查询考评模板
      * @param keyword
      * @return
      */
     List<PollTemplateDTO> findByKeywords(String keyword,int page,int pageSize);
+    List<PollTemplate> selectBywords(@Param("keywords") String  keywords);
 
     /***
      * 获取所有的考评模板
@@ -68,4 +78,10 @@ public interface PollTemplateService {
      * @return
      */
     int deletePollTemplate(Serializable id);
+
+    int activate(Integer id);
+
+    int deactivate(Integer id);
+
+    int setItems(@Param("pollTemplateId")Integer pollTemplateId,@Param("pollItemIds") List<Integer> pollItemIds);
 }

@@ -23,7 +23,7 @@
           th:href="@{/static/css/plugins/switchery/switchery.css}" rel="stylesheet">
     <!--章节插件-->
     <link rel="stylesheet" href="../../static/public/exam/jquery-collapse/css/jquery.collapse.css"
-          th:href="@{/static/public/exam/jquery-collapse/css/jquery.collapse.css}" >
+          th:href="@{/static/public/exam/jquery-collapse/css/jquery.collapse.css}">
     <!-- 弹出框插件 -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"
           th:href="@{/static/css/plugins/sweetalert/sweetalert.css }">
@@ -92,6 +92,7 @@
                                     <div class="panel-body">
                                         <form method="get" class="form-horizontal col-md-12 createTestPaper"
                                               id="createTestPaper_1">
+                                            <input type="text" id="paperId" style="display: none">
                                             <!--试卷名称-->
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">
@@ -216,9 +217,9 @@
                                                                                    class="input"/>
                                                                             <!-- 批量设置分值: 这里修改padding，是为了改写 btn-xs的默认样式 -->
                                                                             <a
-                                                                               class="btn btn-info btn-xs pull-right"
-                                                                               onclick="volumeSetScore(this)"
-                                                                               data-trigger="setScore">批量设置</a>
+                                                                                    class="btn btn-info btn-xs pull-right"
+                                                                                    onclick="volumeSetScore(this)"
+                                                                                    data-trigger="setScore">批量设置</a>
                                                                             <input type="text" name="scoreForEach"
                                                                                    class="input_score pull-right"
                                                                                    placeholder="分值"/>
@@ -241,7 +242,10 @@
                                     </div>
                                     <!--提交和重新填写的两个按钮-->
                                     <div class="col-md-offset-6" style="padding: 10px">
-                                        <button type="button" class="btn btn-success add">提交</button>
+                                        <button type="button" class="btn btn-success add" id="addBtn">添加试卷</button>
+                                        <button type="button" class="btn btn-success add" id="alertBtn"
+                                                style="display: none">修改试卷
+                                        </button>
                                         <button type="button" class="btn btn-danger reset">重新填写</button>
                                     </div>
                                     <!--END--提交和重新填写的两个按钮-->
@@ -407,7 +411,7 @@
 </div>
 <!--查看的模态框-->
 <div class="modal  fade" id="modal_1" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
@@ -450,29 +454,9 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             章节设置</label>
-                        <div class="col-sm-8">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <strong>章节名称：</strong><a class="nameSection"></a>
-                                </div>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td>题库</td>
-                                        <td>题型</td>
-                                        <td>难度</td>
-                                        <td>题目数量</td>
-                                        <td>单题分值</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a class="questionBank"></a></td>
-                                        <td><a class="topic"></a></td>
-                                        <td><a class="difficulty"></a></td>
-                                        <td><a class="titleNumber"></a></td>
-                                        <td><a class="singleTopicScore"></a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="content"></div>
                     </div>
 
                 </form>
@@ -552,36 +536,36 @@
                 <table class="table table-bordered" style="margin-top: 10px">
                     <tr>
                         <td style="background: #e6e6e6">试题类型</td>
-                        <td><a name="type">111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</a>
+                        <td><a name="typeName"></a>
                         </td>
                     </tr>
                     <tr>
                         <td style="background: #e6e6e6">试题难度</td>
-                        <td><a name="status">1</a></td>
+                        <td><a name="hardLevel"></a></td>
                     </tr>
                     <tr>
                         <td style="background: #e6e6e6">所属题库</td>
-                        <td><a name="question_bank">1</a></td>
+                        <td><a name="examBankName"></a></td>
                     </tr>
                     <tr>
                         <td style="background: #e6e6e6">试题标签</td>
-                        <td><a name="lebel">1</a></td>
+                        <td><a name="lable"></a></td>
                     </tr>
                     <tr>
                         <td style="background: #e6e6e6">试题状态</td>
-                        <td><a name="status">1</a></td>
+                        <td><a name="status"></a></td>
                     </tr>
                     <tr>
                         <td style="background: #e6e6e6">试题题干</td>
-                        <td><a name="question_stem">1</a></td>
+                        <td><a name="quesContent"></a></td>
                     </tr>
                     <tr>
                         <td style="background: #e6e6e6">参考答案</td>
-                        <td><a name="test_answer">1</a></td>
+                        <td><a name="correctAnswer"></a></td>
                     </tr>
                     <tr>
                         <td style="background: #e6e6e6">答案解析</td>
-                        <td><a name="answer_analysis">1</a></td>
+                        <td><a name="analyze"></a></td>
                     </tr>
                 </table>
             </div>
@@ -731,7 +715,7 @@
         $('#tab-1 button[title="试卷管理"]').attr('class', 'btn btn-success dropdown-toggle')
         $('#tab-1 button[title="创建试卷"]').attr('class', 'btn btn-white dropdown-toggle')
         //清空章节内容
-        let clone = $('div[panel_sign="0"]:last').clone().css('display','block');
+        let clone = $('div[panel_sign="0"]:last').clone().css('display', 'block');
         $('#accordion').empty();
         $('#accordion').append(clone);
         panel_sign = 0;
@@ -780,19 +764,19 @@
     let myTopicData = [{
         checkbox: true,
     }, {
-        field: 'question_bank',
+        field: 'examBankName',
         title: '题库',
     }, {
-        field: 'type',
+        field: 'typeName',
         title: '类型',
     }, {
-        field: 'difficulty',
+        field: 'hardLevel',
         title: '难度',
     }, {
-        field: 'question_stem',
+        field: 'quesContent',
         title: '题干',
     }, {
-        field: 'modified_by',
+        field: 'userName',
         title: '创建人',
     }, {
         field: 'operate',
@@ -808,9 +792,9 @@
             }
         }
     }];
-    createTable('.tb_departments_3', '../../static/js/demo/exam/test_question_management.json', "", true, myTopicData, 'post')
+    createTable('.tb_departments_3', '/owep/examQues/quesList', "", true, myTopicData, 'get')
     //共享试题
-    createTable('.tb_departments_4', '../../static/js/demo/exam/test_question_management.json', "", true, myTopicData, 'post')
+    createTable('.tb_departments_4', '/owep/examQues/shareExamQues', "", true, myTopicData, 'get')
 
     //监听添加试题按钮
     function addTopic(event) {
@@ -832,13 +816,13 @@
         //迭代数据进行勾选
         submitAllChapterData.has(id) ?
             submitAllChapterData.get(id).forEach(function (item, id) {
-                console.log(item["testQuestionsId"] + "################")
-                if(item.myTopicOrShareTop == "myTopic"){
-                    $('.tb_departments_3').bootstrapTable('checkBy', {field: 'id',values: [item["testQuestionsId"]]});
-                    $('.tb_departments_3 .selected input[name="btSelectItem"]').attr("disabled","true");
-                }else {
+
+                if (item.myTopicOrShareTop == "myTopic") {
+                    $('.tb_departments_3').bootstrapTable('checkBy', {field: 'id', values: [item["testQuestionsId"]]});
+                    $('.tb_departments_3 .selected input[name="btSelectItem"]').attr("disabled", "true");
+                } else {
                     $('.tb_departments_4').bootstrapTable('checkBy', {field: 'id', values: [item["testQuestionsId"]]});
-                    $('.tb_departments_4 .selected input[name="btSelectItem"]').attr("disabled","true");
+                    $('.tb_departments_4 .selected input[name="btSelectItem"]').attr("disabled", "true");
                 }
             }) : "";
     }
@@ -862,23 +846,22 @@
         submitAllChapter(panelMap);
         //遍历展示
         showChapterTopic(id, submitAllChapterData);
-        getTotalPoints()
+        getTotalPoints();
     });
-    //遍历展示的方法
+
     //总分
     function getTotalPoints() {
         let totalPoints = 0;
         submitAllChapterData.forEach(function (value, key) {
 
             value.forEach(function (item, index) {
-                console.log("已进循环", item["score"])
-                console.log(item["score"])
-                totalPoints = item["score"]*1+totalPoints;
+                totalPoints = item["score"] * 1 + totalPoints;
             })
         })
         $('#createTestPaper input[name=totalScore]').val(totalPoints);
     }
 
+    //遍历展示的方法
     function showChapterTopic(panel_sign, map) {
         //获取父级控件
         let event = $('#accordion div[panel_sign=' + panel_sign + ']').find('.panel-body');
@@ -894,27 +877,28 @@
         getTotalPoints();
     }
 
-    //组装要提交苏数据的方法(最后使用)
+    //组装要提交数据的方法(最后使用)
     function submitAllChapter(map) {
         submitAllChapterData = new Map();
         map.forEach(function (value, key) {
             //定义一个用来存储id,题目，分数的集合
             let submitPaneBodyData = new Array();
-            console.log(value)
+
             value.forEach(function (item, index) {
                 let object = {
                     id: index,
                     testQuestionsId: item["id"],
                     score: 5,
-                    title: item["question_stem"],
+                    title: item["quesContent"],
+
                     myTopicOrShareTop: item["myTopicOrShareTop"]
                 }
-                console.log(object)
+
                 //存入要提交数据的对象集合
                 submitPaneBodyData.push(object);
             });
             //过滤数据
-            console.log(key)
+
             let percolatorData = new Set(submitPaneBodyData);
             submitPaneBodyData = new Array();
             percolatorData.forEach(function (item, index) {
@@ -922,16 +906,20 @@
             })
             //存入要提交的集合中去
             submitAllChapterData.set(key, submitPaneBodyData);
+
         });
     }
 
-    /****************************************************预览试题*/
+    //预览试题
     function previewTopic(row) {
-        console.log(row);
-        let data = new Array('question_bank', 'type', 'status', 'lebel', 'difficulty', 'test_answer', 'answer_analysis', 'question_stem');
-        data.forEach(function (item, index) {
-            $('#modal_3 a[name=' + item + ']').text(row[item]);
-        })
+        $('#modal_3 a[name=typeName]').text(row.typeName);
+        $('#modal_3 a[name=hardLevel]').text(row.hardLevel);
+        $('#modal_3 a[name=examBankName]').text(row.examBankName);
+        $('#modal_3 a[name=lable]').text(row.lable);
+        row.status == '1' ? $('#modal_3 a[name=status]').text("正常") : $('#modal_3 a[name=status]').text("禁用");
+        $('#modal_3 a[name=quesContent]').text(row.quesContent);
+        $('#modal_3 a[name=correctAnswer]').text(row.correctAnswer);
+        $('#modal_3 a[name=analyze]').text(row.analyze);
         $('#modal_3').modal();
     }
 
@@ -939,12 +927,10 @@
     function previewTopic_1(event) {
         let panel_sign = $(event).parents('.panel .panel-default').attr('panel_sign')
         let id = $(event).parents('.testQuestions').attr('testQuestions');
-        console.log(panel_sign, id)
-        console.log(panelMap)
         panelMap.forEach(function (value, key) {
-            console.log(key);
-            console.log(value);
+
         })
+
         let row = panelMap.get(panel_sign)[id];
         previewTopic(row)
     }
@@ -952,12 +938,20 @@
     /************************************************************关闭按钮-删除操作*/
     //外部删除按钮
     function deleteOneTopic(event) {
-        let panel_sign = $(event).parents('.panel .panel-default').attr('panel_sign')
+        let panel_sign = $(event).parents('.panel .panel-default').attr('panel_sign');
         let id = $(event).parents('.testQuestions').attr('testQuestions');
         $(event).parents('.testQuestions').remove();
         panelMap.get(panel_sign).splice(id, 1)
         submitAllChapterData.get(panel_sign).splice(id, 1);
         getTotalPoints()
+        //将所删除小题下面小题的顺序上移
+        $('.testQuestions').each(function(){
+            let topId = $(this).parents('.panel .panel-default').attr('panel_sign');
+            let quesId = $(this).attr('testQuestions');
+            if(topId == panel_sign && quesId > id){
+                $(this).attr('testQuestions',quesId-1);
+            }
+        })
     }
 
     //删除全部的按钮
@@ -973,43 +967,66 @@
         }
         getTotalPoints()
     }
+
     /****************************************************分数设置*/
     //批量设置分数
     function volumeSetScore(event) {
         let panel_sign = $(event).parents('.panel .panel-default').attr('panel_sign');
-        let volumeScore = $('#accordion div[panel_sign='+panel_sign+'] input[name=scoreForEach]').val();
-        $('#accordion div[panel_sign='+panel_sign+'] .testQuestions input[name=score]').val(volumeScore);
-        submitAllChapterData.get(panel_sign).forEach(function (item,index) {
-            console.log(volumeScore)
+        let volumeScore = $('#accordion div[panel_sign=' + panel_sign + '] input[name=scoreForEach]').val();
+        $('#accordion div[panel_sign=' + panel_sign + '] .testQuestions input[name=score]').val(volumeScore);
+        submitAllChapterData.get(panel_sign).forEach(function (item, index) {
+
             item["score"] = volumeScore;
-            console.log(item["score"])
+
         })
         getTotalPoints();
     }
+
     //单个修改分数
     function setOneScore(event) {
         let panel_sign = $(event).parents('.panel .panel-default').attr('panel_sign');
         let oneScore = $(event).parents('.testQuestions').attr('testquestions');
-        console.log(panel_sign,oneScore)
-        submitAllChapterData.get(panel_sign)[oneScore]["score"]=$(event).val();
+
+        submitAllChapterData.get(panel_sign)[oneScore]["score"] = $(event).val();
         getTotalPoints();
     }
-</script>
-<!--表单、动态搜索初始化-->
-<script>
+
+    <!--表单、动态搜索初始化-->
+
 
     /*动态搜索初始化*/
-    let url = '../../static/js/demo/exam/testQuestionsListTest2.json';
     //名称
-    bsSuggest(".testPaperName", url, "testPaperName");
+    //bsSuggest(".testPaperName", url, "testPaperName");
     //状态
-    bsSuggest(".state", url, "state");
+    //bsSuggest(".state", url, "state");
     //分类
-    bsSuggest(".classification", url, "classification");
+    $(".classification").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "统考"
+                }, {
+                    "keyName": "个人能力测试"
+                }, {
+                    "keyName": "政策"
+                }
+            ]
+        }
+    });
     //类型
-    bsSuggest(".type", url, 'type');
+    //bsSuggest(".type", url, 'type');
     //权限
-    bsSuggest(".adminPermissions", url, "adminPermissions");
+    $(".adminPermissions").bsSuggest({
+        data: {
+            "value": [
+                {
+                    "keyName": "完全私有"
+                }, {
+                    "keyName": "只读共享"
+                }
+            ]
+        }
+    });
 
     /**************************************************表单********************************************/
     //我的试卷--试卷管理
@@ -1044,7 +1061,7 @@
             $('#createTestPaper form input').css('border-color', "")
             switchery_NoTable.setPosition(false);
             //清空章节内容
-            let clone = $('div[panel_sign="0"]:last').clone().css('display','block');
+            let clone = $('div[panel_sign="0"]:last').clone().css('display', 'block');
             $('#accordion').empty();
             $('#accordion').append(clone);
             panel_sign = 0;
@@ -1052,12 +1069,14 @@
             panelMap.clear()
             panelEventMap.clear()
         }
-        //如果是更新，则去掉按钮颜色
+        //如果是更新，则去掉按钮颜色 将添加按钮隐藏 显示修改按钮
         if (addOrUpdate == "update") {
             $('#tab-1 button[title="创建试卷"]').attr('class', 'btn btn-white dropdown-toggle')
+            $("#addBtn").hide();
+            $("#alertBtn").show();
         } else {
             //清空章节内容
-            let clone = $('div[panel_sign="0"]:last').clone().css('display','block');
+            let clone = $('div[panel_sign="0"]:last').clone().css('display', 'block');
             $('#accordion').empty();
             $('#accordion').append(clone);
             panel_sign = 0;
@@ -1079,53 +1098,104 @@
     let parameters = new Array();
     let judging = false;
 
-    function testOperation(addOrUpdate) {
-        let testPaperName = $('.createTestPaper input[name="testPaperName_1"]');
-        let classification = $('.createTestPaper input[name="classification"]');
-        let startUsing = checked_notable;
-        let adminPermissions = $('.createTestPaper input[name="adminPermissions"]');
-        let sectionName = $('.createTestPaper input[name="sectionName"]');
-        let sectionDescription = $('.createTestPaper input[name="sectionDescription"]');
-        parameters.push(testPaperName, classification, adminPermissions, sectionName, sectionDescription);
-        let query_data = "{";
-        parameters.forEach(function (item, index) {
-            item.val() == "" ? judging = true : "";
-            let record = (parameters.length - index) != 1 ? '"' + item.attr('name') + '":' + item.val() + ',' : '"' + item.attr('name') + '":' + item.val();
-            query_data = query_data + record;
-        });
-        query_data = query_data + '"+startUsing":' + startUsing +',"testQuestions":'+submitAllChapterData
-        query_data = query_data + "}";
-        if (addOrUpdate == "add") {
-            //发送添加操作
-        } else {
-            //发送更新操作
+    //点击添加按钮
+    $("#addBtn").click(function () {
+        let paperName = $('.createTestPaper input[name="testPaperName_1"]').val();
+        let paperType = $('.createTestPaper input[name="classification"]').val();
+        checked_notable == true ? paperStatus = 1 : paperStatus = 0;
+        $('.createTestPaper input[name="adminPermissions"]').val() == '只读共享' ? paperSecurity = 1 : paperSecurity = 0;
+        let paperTotal = $('#createTestPaper input[name=totalScore]').val();
+        let topicArr = [];//大题名称的数组
+        let arr = [];//大题名称和描述（最后提交给后台的数组）
+        let quesArr = [];//小题信息
+        for (var [key, val] of submitAllChapterData.entries()) {
+            quesArr.push({"key": key, "value": val});
         }
-        /* //发送ajax 查询
-            $.ajax({
-                url: appName+"/book/deleteSelect.do",
-                method: "post",
-                async: true,
-                data: query_data,
-                dataType: "text",   //期望服务端返回的数据类型
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data.toString());
-                    //重新加载页面
-                    $('#tb_departments').bootstrapTable('load', data);
-                },
-                error: function (jqXHR) {
-                    swal("搜索失败！", "未知错误", "error");
+        $('input[name="sectionName"]').each(function (index) {
+            topicName = $(this).val();
+            if (topicName != '') {
+                topicArr.push({"id": index, "topicName": topicName});
+            }
+        })
+        $('input[name="sectionDescription"]').each(function (index) {
+            topicDesc = $(this).val();
+            $.each(topicArr, function (i, item) {
+                if (item.id == index) {
+                    arr.push({"id": index, "topicName": item.topicName, "topicDesc": topicDesc})
                 }
-            });*/
-        if (judging) {
-            swal("操作失败！", "数据不允许为空", "error");
-        } else {
-            alert(query_data);
-            addOrUpdate == "add" ? swal("提交成功！", "已为你重新加载页面", "success") : swal("更新成功！", "已为你重新加载页面", "success");
+            })
+        })
+        //定义json数据
+        let json = {
+            "examPaper": {
+                "paperName": paperName, "paperType": paperType, "paperStatus": paperStatus,
+                "paperSecurity": paperSecurity, "paperTotal": paperTotal
+            },
+            "topicList": arr, "keyAndValueList": quesArr
+        };
+        //发送ajax请求
+        $.ajax({
+            type: "POST",
+            url: "/owep/examPaper/addPaper",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",  //客户端给服务端的格式
+            success: function (data) {
+                alert(data.msg);
+                window.location.reload();
+            }
+        })
+    })
+
+    //点击修改按钮
+    $("#alertBtn").click(function () {
+        let id = $("#paperId").val();
+        let paperName = $('.createTestPaper input[name="testPaperName_1"]').val();
+        let paperType = $('.createTestPaper input[name="classification"]').val();
+        checked_notable == true ? paperStatus = 1 : paperStatus = 0;
+        $('.createTestPaper input[name="adminPermissions"]').val() == '只读共享' ? paperSecurity = 1 : paperSecurity = 0;
+        let paperTotal = $('#createTestPaper input[name=totalScore]').val();
+        let topicArr = [];//大题名称的数组
+        let arr = [];//大题名称和描述（最后提交给后台的数组）
+        let quesArr = [];//小题信息
+        for (var [key, val] of submitAllChapterData.entries()) {
+            quesArr.push({"key": key, "value": val});
         }
-        query_data = "";
-        pageJudgment(addOrUpdate);
-    }
+        $('input[name="sectionName"]').each(function (index) {
+            topicName = $(this).val();
+            if (topicName != '') {
+                topicArr.push({"id": index, "topicName": topicName});
+            }
+        })
+        $('input[name="sectionDescription"]').each(function (index) {
+            topicDesc = $(this).val();
+            $.each(topicArr, function (i, item) {
+                if (item.id == index) {
+                    arr.push({"id": index, "topicName": item.topicName, "topicDesc": topicDesc})
+                }
+            })
+        })
+        //定义json数据
+        let json = {
+            "examPaper": {
+                "id": id, "paperName": paperName, "paperType": paperType, "paperStatus": paperStatus,
+                "paperSecurity": paperSecurity, "paperTotal": paperTotal
+            },
+            "topicList": arr, "keyAndValueList": quesArr
+        };
+        //发送ajax请求
+        $.ajax({
+            type: "POST",
+            url: "/owep/examPaper/alterPaper",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",  //客户端给服务端的格式
+            success: function (data) {
+                alert(data.msg);
+                window.location.reload();
+            }
+        })
+    })
 
     //数据回显
     function echoData(arrayForEvent) {
@@ -1149,7 +1219,7 @@
         }
         if (arrayIsNull.length > 0) {
             arrayIsNull.forEach(function (item, index) {
-                console.log("已到回显")
+
                 item.css('border-color', "#f8ac59");
 
             })
@@ -1165,20 +1235,12 @@
             (addOrUpdate == "update" ? testPaper(1, "update") : testPaper(1, "add")) : (addOrUpdate == "update" ? testPaper(2, "update") : testPaper(2, "add"));
     }
 
-    $('#createTestPaper .add').click(function () {
-        if ($('#tab-1 button[title="创建试卷"]').attr("class") != "btn btn-white dropdown-toggle") {
-            testOperation("add");
-        } else {
-            testOperation("update");
-        }
-    });
-
     $('#createTestPaper .reset').click(function () {
         $("#createTestPaper form")[0].reset();
         $('#createTestPaper form input').css('border-color', "")
         switchery_NoTable.setPosition(false);
         //清空章节内容
-        let clone = $('div[panel_sign="0"]:last').clone().css('display','block');
+        let clone = $('div[panel_sign="0"]:last').clone().css('display', 'block');
         $('#accordion').empty();
         $('#accordion').append(clone);
         panel_sign = 0;
@@ -1193,7 +1255,7 @@
 
     /*试卷管理表格*/
     $('.tb_departments').bootstrapTable({
-        url: '../../static/js/demo/exam/testQuestionsListTest.json',
+        url: '/owep/examPaper/findAllPaper',
         // method: 'get',
         toolbar: '#toolbar',
         striped: true,
@@ -1201,7 +1263,7 @@
         pagination: true,
         pageNumber: 1,
         pageSize: 5,
-        pageList: [10, 25, 50, 100],
+        pageList: [5, 15, 20, 25],
         uniqueId: "id",
         onPostBody: switchForTable,
         columns:
@@ -1218,7 +1280,7 @@
                 formatter: citations,
                 events: {
                     'click a[title=点我查看详情]': function (e, value, row, index) {
-                        $('#modal_2 .testPaperName_2').text(row.testPaperName);
+                        $('#modal_2 .testPaperName_2').text(row.paperName);
                         $('#modal_2').modal();
                     }
                 }
@@ -1229,7 +1291,7 @@
                 title: '类型',
                 formatter: type,
             }, {
-                field: 'classification',
+                field: 'paperType',
                 title: '分类'
             }, {
                 title: '总分',
@@ -1254,34 +1316,54 @@
                             testPaper(2, "update");
                         }
                         let echoDataList = new Array();
-                        echoDataList.push(["testPaperName_1", "testPaperName"], [switchery_NoTable, "state", "sweetalert"], "classification", "adminPermissions");
+                        echoDataList.push(["testPaperName_1", row.paperName], [switchery_NoTable, row.paperStatus, "sweetalert"], row.paperType, row.paperSecurity);
                         echoDataForm('.createTestPaper', echoDataList, row);
                         //获取数据进行回显
-                        getAjaxAsynchronousData('../../static/js/demo/exam/exam.json', 'get', function (result) {
-                            result.forEach(function (item, index) {
+                        $("#paperId").val(row.id);
+                        $('.createTestPaper input[name="testPaperName_1"]').val(row.paperName);
+                        $('.createTestPaper input[name="classification"]').val(row.paperType);
+                        if (row.paperStatus = 1) $('.createTestPaper input[name="startUsing"]').attr('checked', 'checked');
+                        row.paperSecurity = 1 ? $('.createTestPaper input[name="adminPermissions"]').val('只读共享') : $('.createTestPaper input[name="adminPermissions"]').val('完全私有');
+                        getAjaxAsynchronousData('/owep/examPaper/findPaperById?id=' + row.id, 'get', function (result) {
+                            $.each(result[0].examPaperTopics, function (index, item) {
                                 index > 0 ? clonePanel() : "";
                                 let parent = $('#accordion div[panel_sign=' + index + ']');
-                                parent.find('input[name=sectionName]').val(item["sectionName"]);
-                                parent.find('input[name=sectionDescription]').val(item["sectionDescription"]);
-                                //获取所有表格数据
-                                let shareData = getAjaxSynchronousData("../../static/js/demo/exam/test_question_management.json", "get");
-                                let testQuestions = item["testQuestions"];
-                                let resultIndex = index;
-                                let oneArray = new Array();
-                                shareData.forEach(function (item, index) {
-                                    let shareData = item;
-                                    testQuestions.forEach(function (item, index) {
-                                        if (shareData["id"] == item["testQuestionsId"]) {
-                                            oneArray.push(shareData.myTopicOrShareTop = item["myTopicOrShareTop"]);
-                                        }
-                                    })
-                                });
-                                panelMap.set(resultIndex + "", shareData);
-                                console.log(panelMap)
-                                //更新用于提交的数据
-                                submitAllChapter(panelMap);
+                                parent.find('input[name=sectionName]').val(item["topicName"]);
+                                parent.find('input[name=sectionDescription]').val(item["topicDesc"]);
+
+                                //所有小题
+                                let testQuestions = result[0].examPaperTopicQuessets;
+                                //大题对应的小题
+                                let topicQues = [];
+                                //小题的信息
+                                let quesInf = [];
+                                //小题在大题中的序号
+                                let quesOrder = 0;
+                                $.each(testQuestions, function (i, ques) {
+                                    if (ques.topicId == item.id) {
+                                        topicQues.push({
+                                            "id": quesOrder, "title": ques.quesContent, "score": ques.score,
+                                            "testQuestionsId": ques.examQues.id
+                                        });
+                                        quesOrder++;
+                                        quesInf.push({
+                                            "id": ques.examQues.id,
+                                            "typeName": ques.examQues.typeName,
+                                            "hardLevel": ques.examQues.hardLevel,
+                                            "examBankName": ques.examQues.examBank.bankName,
+                                            "lable": ques.examQues.lable,
+                                            "status": ques.examQues.status,
+                                            "quesContent": ques.examQues.quesContent,
+                                            "correctAnswer": ques.examQues.correctAnswer,
+                                            "analyze": ques.examQues.analyze
+                                        });
+                                    }
+                                })
+                                panelMap.set("" + index, quesInf);
+                                submitAllChapterData.set("" + index, topicQues);
+
                                 //遍历展示
-                                showChapterTopic(resultIndex + "", submitAllChapterData);
+                                showChapterTopic("" + index, submitAllChapterData);
                             })
                         })
                         judging = false;
@@ -1296,24 +1378,56 @@
 
     /*查看试卷的方法*/
     function detailedTestPaper(e, value, row, index) {
-        $('#modal_1 .testPaperName_1').val(row.testPaperName);
-        row.state == "禁用" ? $('#modal_1 .state_1').attr("class", 'form-control state_1 text-danger') :
+        $('#modal_1 .testPaperName_1').val(row.paperName);
+        row.paperStatus == "0" ? $('#modal_1 .state_1').attr("class", 'form-control state_1 text-danger') :
             $('#modal_1 .state_1').attr('class', 'form-control state_1 text-success');
-        $('#modal_1 .state_1').val(row.state);
+        row.paperStatus == "1" ? $('#modal_1 .state_1').val("可以使用") : $('#modal_1 .state_1').val("禁用");
         if (row.adminPermissions == '0') {
             $('#modal_1 .adminPermissions_1').val("完全私有(只有您本人可以管理和使用该试卷)");
         } else {
             $('#modal_1 .adminPermissions_1').val("只读共享(其他管理员可以浏览和引用该试卷进行考试)");
         }
+        $('#modal_1 .totalScore').val(row.paperTotal);
 
-        $('#modal_1 .totalScore').val(row.totalScore + "分");
-        $('#modal_1 .nameSection').text(row.nameSection);
-        $('#modal_1 .questionBank').text(row.questionBank);
-        $('#modal_1 .topic').text(row.topic);
-        $('#modal_1 .difficulty').text(row.difficulty);
-        $('#modal_1 .titleNumber').text(row.titleNumber);
-        $('#modal_1 .singleTopicScore').text(row.singleTopicScore + "分");
-        $('#modal_1').modal()
+        //每次点击把之前的清空
+        var temp = '';
+        $("#content").empty();
+        //遍历这一行的大题集合
+        $.each(row.examPaperTopics, function (i, item) {
+            temp = '                      <div class="panel panel-default">\n' +
+                '                                <div class="panel-heading">\n' +
+                '                                    <strong>章节名称：</strong><a class="nameSection">' + item.topicName + '</a>\n' +
+                '                                </div>\n' +
+                '                                <table class="table table-bordered">\n' +
+                '                                    <tr>\n' +
+                '                                        <td>题库</td>\n' +
+                '                                        <td>题型</td>\n' +
+                '                                        <td>难度</td>\n' +
+                '                                        <td>题目</td>\n' +
+                '                                        <td>单题分值</td>\n' +
+                '                                    </tr>\n' +
+                '                                    <tbody id="tb">\n';
+            //遍历这一行的小题集合
+            $.each(row.examPaperTopicQuessets, function (i, ques) {
+                //判断小题中大题的id与正在遍历的大题id是否一致
+                if (item.id == ques.topicId) {
+                    //将小题拼接到对应的大题下
+                    temp += '<tr>\n';
+                    temp += '<td>' + ques.examQues.examBank.bankName + '</td> ' +
+                        '<td>' + ques.examQues.typeName + '</td> ' +
+                        '<td>' + ques.examQues.hardLevel + '</td> ' +
+                        '<td>' + ques.quesContent + '</td> ' +
+                        '<td>' + ques.score + '</td>'
+                    temp += '</tr>\n';
+                }
+            })
+            temp += '                                    </tbody>\n' +
+                '                                </table>\n' +
+                '                            </div>\n';
+            //追加
+            $("#content").append(temp);
+        })
+        $('#modal_1').modal();
 
     }
 
@@ -1404,47 +1518,47 @@
     /***********************************************参数个性化********************************************/
     //试卷名称
     function testPaperName(value, row, index) {
-        return '<span><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;' + row.testPaperName + '</span>';
+        return '<span><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;' + row.paperName + '</span>';
     }
 
     //引用次数
     function citations(value, row, index) {
-        return '<strong><a class="text-success ' + row.id + '" style="font-size:20px;" title="点我查看详情">' + row.citations + '</a></strong>次';
+        return '<strong><a class="text-success ' + row.id + '" style="font-size:20px;" title="点我查看详情">' + 0 + '</a></strong>次';
     }
 
     //状态(我的试卷)
     function state(value, row, index) {
-        return row.state == '启用' ? ' <input type="checkbox" class="js-switch-table-state form-control" checked/>' :
+        return row.paperStatus == '1' ? ' <input type="checkbox" class="js-switch-table-state form-control" checked/>' :
             ' <input type="checkbox" class="js-switch-table-state form-control"/>'
     }
 
     //状态(共享试卷)
     function state_1(value, row, index) {
-        return row.state == '启用' ? ' <input type="checkbox" class="js-switch-table-state_1 form-control" checked/>' :
+        return row.paperSecurity == '1' ? ' <input type="checkbox" class="js-switch-table-state_1 form-control" checked/>' :
             ' <input type="checkbox" class="js-switch-table-state_1 form-control"/>'
     }
 
     //类型
     function type(value, row, index) {
-        return row.type == 0 ? '<i class="glyphicon glyphicon-random"></i>' : '<i class="glyphicon glyphicon-tasks"></i>';
+        return row.paperSecurity == '1' ? '<i class="glyphicon glyphicon-random"></i>' : '<i class="glyphicon glyphicon-tasks"></i>';
     }
 
     //总分
     function totalScore(value, row, index) {
-        return row.totalScore >= 80 ? '<strong><a href="#" class="text-success" style="font-size:20px;">' + row.totalScore + '</a></strong>' :
-            row.totalScore >= 60 ? '<strong><a href="#" class="text-warning" style="font-size:20px;">' + row.totalScore + '</a></strong>' :
-                '<strong><a href="#" class="text-danger" style="font-size:20px;">' + row.totalScore + '</a></strong>';
+        return row.paperTotal >= 80 ? '<strong><a href="#" class="text-success" style="font-size:20px;">' + row.paperTotal + '</a></strong>' :
+            row.paperTotal >= 60 ? '<strong><a href="#" class="text-warning" style="font-size:20px;">' + row.paperTotal + '</a></strong>' :
+                '<strong><a href="#" class="text-danger" style="font-size:20px;">' + row.paperTotal + '</a></strong>';
     }
 
     //管理权限
     function adminPermissions(value, row, index) {
-        return row.adminPermissions == '完全私有' ? '<a class="text-muted"><i class="glyphicon glyphicon-eye-close"></i>&nbsp;&nbsp;完全私有</a>' :
+        return row.paperSecurity == '0' ? '<a class="text-muted"><i class="glyphicon glyphicon-eye-close"></i>&nbsp;&nbsp;完全私有</a>' :
             '<a class="text-success"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;<strong>只读共享</strong></a>';
     }
 
     //最后修改
     function lastModified(value, row, index) {
-        return '<strong><p>' + row.modifier + '</p></strong><p>' + row.lastModifiedTime + '</P>';
+        return '<strong><p>' + row.userName + '</p></strong><p>' + row.lastAccessTime + '</P>';
     }
 
     //操作

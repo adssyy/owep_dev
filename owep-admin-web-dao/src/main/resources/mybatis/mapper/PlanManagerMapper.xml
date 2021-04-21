@@ -46,7 +46,7 @@
             </if>
 
         </trim>
-                and is_delete = 1
+                and is_delete = 0
     </select>
 
     <!--保存方案-->

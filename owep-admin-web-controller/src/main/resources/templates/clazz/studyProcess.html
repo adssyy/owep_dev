@@ -38,7 +38,7 @@
             <div class="form-group">
                 <label>&nbsp;&nbsp;</label>
                 <div class="input-group">
-                    <input type="text" class="form-control org" placeholder="所属机构" id="org-search">
+                    <input type="text" class="form-control org" placeholder="所属机构">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label>&nbsp;&nbsp; </label>
                 <div class="input-group">
-                    <input type="text" class="form-control branch" placeholder="所属分支" id="branch-search">
+                    <input type="text" class="form-control branch" placeholder="所属分支">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -65,8 +65,7 @@
             <div class="form-group">
                 <label>&nbsp;&nbsp; </label>
                 <div class="input-group">
-                    <input type="text" class="form-control branch" placeholder="专业方向" id="profession-search">
-                    <input type="hidden" id="profession-search-id">
+                    <input type="text" class="form-control branch" placeholder="专业方向">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -79,8 +78,7 @@
             <div class="form-group">
                 <label>&nbsp;&nbsp; </label>
                 <div class="input-group">
-                    <input type="text" class="form-control clazz" placeholder="班级" id="clazz-search">
-                    <input type="hidden" id="clazz-search-id">
+                    <input type="text" class="form-control branch" placeholder="班级">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -141,20 +139,19 @@
     $(function () {
         //初始化表格
         var init = new initdata();
-        init.Init('/owep/clazz/allStudyRecord');
+        init.Init();
         //点击按钮开始搜索
         $("#queryBtn").click(function () {
-            let orgName = $("#org-search").val();
-            let branchName = $("#branch-search").val();
-            let pid = $("#profession-search-id").val();
-            let cid = $("#clazz-search-id").val();
+            let name = $("#name").val();
+            let org = $("#org").val();
+            let branch = $("#branch").val();
             //判断条件是否存在
-            if (orgName == "" && branchName == "" && pid == "" && cid == "") {
+            if (name == "" && org == "" && branch == "") {
                 alert("请选择查询条件");
                 return;
             }
             //执行查询
-            init.Init('/owep/clazz/selectStudyRecordByKeyword?orgName='+orgName+'&branchName='+branchName+'&pid='+pid+'&cid='+cid);
+            init.Init();
         });
         //删除所有
         $('#deleteAll').click(function () {
@@ -194,47 +191,65 @@
 
     });
 
-    var testdataBsSuggest1 = $("#org-search").bsSuggest({
-        url:"/owep/clazz/getAllInstitute",
-        idField:"instituteId",
-        keyField:"instituteName",
-        effectiveFields: ["instituteName"],
-    }).on('onSetSelectValue',function (e,keyword) {
-        $("#branch-search").bsSuggest("destroy");
-        $("#branch-search").bsSuggest({
-            url: "/owep/clazz/getBranchByInstitute?id=" + keyword.id,
-            idField: "branchId",
-            keyField: "branchName",
-            effectiveFields: ["branchName"],
-        }).on('onSetSelectValue',function () {
-            $("#profession-search").bsSuggest("destroy");
-            $("#profession-search").bsSuggest({
-                url: "/owep/clazz/getProfession?instituteName=" + $("#org-search").val() + "&instituteBranchName=" + $("#branch-search").val(),
-                idField: "id",
-                keyField: "profName",
-                effectiveFields: ["profName"],
-            }).on('onSetSelectValue',function (e,keyword) {
-                $("#profession-search-id").val(keyword.id);
-                $("#clazz-search").bsSuggest("destroy");
-                $("#clazz-search").bsSuggest({
-                    url: "/owep/clazz/findClassByProfession?professionId=" + keyword.id,
-                    idField: "id",
-                    keyField: "className",
-                    effectiveFields: ["className"],
-                }).on('onSetSelectValue',function (e,keyword) {
-                    $("#clazz-search-id").val(keyword.id);
-                })
-            })
-        })
+    var testdataBsSuggest1 = $(".org").bsSuggest({
+        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
+        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
+        //TODO 通过json显示数据
+        data: {
+            'value': [
+                {
+                    'id': "",
+                    'word': '天龙八部',
+                },
+                {
+                    'id': "",
+                    'word': '神雕侠侣',
+                },
+                {
+                    'id': "",
+                    'word': '仙剑奇侠传',
+                },
+                {
+                    'id': "",
+                    'word': 'flyme',
+                }
+            ]
+        }
+    });
+
+    var testdataBsSuggest2 = $(".branch").bsSuggest({
+        indexId: 2, //data.value 的第几个数据，作为input输入框的内容
+        indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
+        //TODO 通过json显示数据
+        data: {
+            'value': [
+                {
+                    'id': "",
+                    'word': '英语',
+                },
+                {
+                    'id': "",
+                    'word': '书法',
+                },
+                {
+                    'id': "",
+                    'word': '钢琴',
+                },
+                {
+                    'id': "",
+                    'word': 'flyme',
+                }
+            ]
+        }
     });
 
     var initdata = function () {
         var init = new Object();
-        init.Init = function (url) {
+        init.Init = function () {
             //加载之前先格式化 放在查询的时候起冲突
             $("#tb_major").bootstrapTable('destroy')
             $("#tb_major").bootstrapTable({
-                url:url,
+                url: '../../static/js/clazz/pre.json',
                 method: 'get',
                 striped: true,  //是否显示行间隔色
                 cache: false, //是否使用缓存
@@ -252,16 +267,16 @@
                     align: "center",
                     visible: false //隐藏 让该字段不可见 为了后面更新和删除做准备
                 }, {
-                    field: 'student.stuName',
+                    field: 'name',
                     title: "学生姓名",
                     align: "center",
                 }, {
-                    field: 'videoProcess',
+                    field: 'stu_pre',
                     title: "学习进度",
                     align: "center",
                     formatter: studyPro,
                 }, {
-                    field: 'homeworkProcess',
+                    field: 'homework_pre',
                     title: "作业进度",
                     align: "center",
                     formatter:homeworkPro,
@@ -304,14 +319,14 @@
             };
         }
         //作业进度
-
+        //学习进度
         function homeworkPro(value, row, index) {
             var id = value;
             var result = "";
             // console.log(row.id);
             // console.log(row.name+"--"+index +"--"+value);
             result += "                                                <div class=\"progress\">\n" +
-                "                                                    <div style=\"width: "+row.homeworkProcess+"%;\" class=\"progress-bar\"><span style=\"color:black;\">"+row.homeworkProcess+"%</span></div>\n" +
+                "                                                    <div style=\"width: "+row.homework_pre+"%;\" class=\"progress-bar\"><span style=\"color:black;\">"+row.homework_pre+"%</span></div>\n" +
                 "                                                </div>";
             return result;
         };
@@ -323,7 +338,7 @@
             // console.log(row.id);
             // console.log(row.name+"--"+index +"--"+value);
             result += "                                                <div class=\"progress\">\n" +
-                "                                                    <div style=\"width: "+row.videoProcess+"%;\" class=\"progress-bar\"><span style=\"color:black;\">"+row.videoProcess+"%</span></div>\n" +
+                "                                                    <div style=\"width: "+row.stu_pre+"%;\" class=\"progress-bar\"><span style=\"color:black;\">"+row.stu_pre+"%</span></div>\n" +
                 "                                                </div>";
             return result;
         };

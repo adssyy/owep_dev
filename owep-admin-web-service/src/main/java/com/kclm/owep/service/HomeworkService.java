@@ -4,8 +4,11 @@
 
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.HomeworkAnswerDTO;
 import com.kclm.owep.dto.HomeworkDTO;
 import com.kclm.owep.entity.Homework;
+import com.kclm.owep.entity.HomeworkAnswer;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -53,14 +56,13 @@ public interface HomeworkService {
      */
     HomeworkDTO selectById(Serializable id);
 
-    Homework toUpdate(Serializable id);
-
     /***
      * 查询所有的记录
      * @return
      */
     List<HomeworkDTO> selectAll();
 
+    List<HomeworkDTO> getAll(Integer classId);
     /***
      * 根据课程名查询
      * @param courseName
@@ -68,5 +70,10 @@ public interface HomeworkService {
      */
     List<HomeworkDTO> selectByCourseName(String courseName);
 
-    List<HomeworkDTO> selectByCourseId(Serializable id);
+
+    List<HomeworkAnswerDTO> selectById(Integer classId);
+
+    int updateApproval(HomeworkAnswer homeworkAnswer);
+
+    HomeworkAnswer findById(Integer id);
 }

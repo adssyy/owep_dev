@@ -284,9 +284,8 @@
                 return temp;
             },
             url: "/owep/training/schemaList/getSchemaList",
-            /*onLoadSuccess: checkbox_table,
-            onPageChange: checkbox_table,*/
-            onPostBody: checkbox_table,
+            onLoadSuccess: checkbox_table,
+            onPageChange: checkbox_table,
             columns: [{
                 checkbox: true  /* 是否添加复选框*/
             },
@@ -323,7 +322,7 @@
                             $("#schemeNameUpdate").val( row.planName);
                             $("#schemeCheckUpdate").val( row.planStatus);
                             $("#schemeDescUpdate").text(row.planDesc);
-                            if (row.planStatus == 1) {
+                            if (row.planStatus == '启用') {
                                 setSwitchery(switchery_update, true);
                             } else {
                                 setSwitchery(switchery_update, false);
@@ -351,7 +350,7 @@
                                     dataType: "text",   //期望服务端返回的数据类型
                                     contentType: "application/json",
                                     success: function (data) {
-
+                                        console.log(data.toString());
                                         swal("删除成功！", "您已经永久删除已选信息", "success");
                                         //重新加载页面
                                         window.location.reload();
@@ -400,7 +399,7 @@
                 data:planManager,
                 dataType:"json",
                 success:function (data) {
-
+                    console.log(data);
                     $("#schemaTable").bootstrapTable("load",data);
                 },
                 error:function (jqXHR) {
@@ -478,16 +477,30 @@
                                 closeOnConfirm: false
                             }, function () {
                                 let id = row.id;
-                                var planManagerId = $("#planManagerId").val();
+                                alert(id);
                                 //发送ajax 删除
-                                var opt={
-                                    url: "/owep/training/schemaList/deletePlanManagerCourseById?id="+id+"&planManagerId="+planManagerId
-                                }
-                                $("#allocation_table").bootstrapTable("refresh",opt);
-                                mergeCells($('#allocation_table').bootstrapTable("getData"), "stageNum", "stageNum", 1, $('#allocation_table'));
-                                swal("删除成功","您已永久删除此数据","success");
+                                $.ajax({
+                                    url: "/owep/training/schemaList/deletePlanManagerCourseById?id="+id,
+                                    method: "get",
+                                    async: true,
+                                    data: id,
+                                    dataType: "text",   //期望服务端返回的数据类型
+                                    contentType: "application/json",
+                                    success: function (data) {
+                                        console.log(data.toString());
+                                        swal("删除成功！", "您已经永久删除已选信息", "success");
+                                        //重新加载页面
+                                        window.location.reload();
+                                        //$('#schema_Set_modal').modal('show');
+                                    },
+                                    error: function (jqXHR) {
+                                        swal("删除失败！", "未知错误", "error");
+                                    }
+                                });
+                                //根据Id字段删除对应的数据
+                                $(event).bootstrapTable('removeByUniqueId', id);
 
-
+                                swal("删除成功！", "您已经永久删除信息", "success");
                             });
                         },
                         "click .allocation_upBtn": function (e, value, row, index) {
@@ -501,7 +514,23 @@
                             }
                             $("#allocation_table").bootstrapTable("refresh",opt);
                             mergeCells($('#allocation_table').bootstrapTable("getData"), "stageNum", "stageNum", 1, $('#allocation_table'));
-
+                            /*$.ajax({
+                                url:"/owep/training/schemaList/courseMoveUp?courseOrder="+courseOrder+"&stageNum="+stageNum+"&planManagerId="+planManagerId,
+                                method:"get",
+                                dataType:"text",
+                                contentType:"application/json",
+                                success:function (data) {
+                                    if(data==null){
+                                        alert("上移失败");
+                                    }
+                                    $("#allocation_table").bootstrapTable("load",data);
+                                    mergeCells($('#allocation_table').bootstrapTable("getData"), "stageNum", "stageNum", 1, $('#allocation_table'));
+                                    console.log("///////////////////////////////////////////////////")
+                                },
+                                error:function (jqXHR) {
+                                    alert("上移失败");
+                                }
+                            })*/
                         },
                         "click .allocation_downBtn": function (e, value, row, index) {
                             alert("下移");
@@ -514,7 +543,19 @@
                             }
                             $("#allocation_table").bootstrapTable("refresh",opt);
                             mergeCells($('#allocation_table').bootstrapTable("getData"), "stageNum", "stageNum", 1, $('#allocation_table'));
-
+                           /* $.ajax({
+                                url:"/owep/training/schemaList/courseMoveDown?courseOrder="+courseOrder+"&stageNum="+stageNum+"&planManagerId="+planManagerId,
+                                method:"get",
+                                dataType:"text",
+                                contentType:"application/json",
+                                success:function (data) {
+                                    alert(data);
+                                    window.location.reload();
+                                },
+                                error:function (jqXHR) {
+                                    alert("下移失败");
+                                }
+                            })*/
                         }
 
                     },
@@ -532,25 +573,7 @@
             }
         });
 
-        $("#save_stage_modal").click(function () {
-            //先获取课程信息
-            var courseId = $("#courseId").val();
-            var planManagerId = $("#planManagerId").val();
-            var stageName = $("option:selected").attr("stageId");
-            var stageNum = $("option:selected").attr("stageId");
 
-
-            var opt={
-                url: "/owep/training/schemaList/addCourseToPlanManager?courseId="+courseId+"&planManagerId="+planManagerId+"&stageName="+stageName+"&stageNum="+stageNum
-            }
-
-            $("#allocation_table").bootstrapTable("refresh",opt);
-            mergeCells($('#allocation_table').bootstrapTable("getData"), "stageNum", "stageNum", 1, $('#allocation_table'));
-            alert("添加成功");
-            $("#choose_course_stage_modal").modal("hide");
-
-
-        })
         /**
          * 合并单元格
          * @param data  原始数据（在服务端完成排序）
@@ -575,7 +598,7 @@
                 }
             }
             for (var prop in sortMap) {
-
+                //   console.log(prop, sortMap[prop])
             }
             var index = 0;
             for (var prop in sortMap) {
@@ -660,7 +683,7 @@
         elems.forEach(function (html) {
             var switchery = new Switchery(html, {size: 'normal'});
             html.onchange = function () {
-
+                console.log("user status:"+html.checked);
                 let planManagerId = $(this).attr("planManagerId");
                 let status;
                 if(html.checked==true){
@@ -683,9 +706,6 @@
                     data:switch_data,
                     dataType: "text",   //期望服务端返回的数据类型
                     contentType: "application/json",
-                    success:function(){
-                        $("#schemaTable").bootstrapTable("refresh");
-                    },
                     error: function (jqXHR) {
                         swal("同步失败！", "请稍后重试", "error");
                     }
@@ -704,9 +724,9 @@
 
     /*根据json数据给滑动按钮设置状态*/
     function switchBox(value, row, index) {
-
-
-        if (value == 1) {
+        console.log(value);
+        console.log(row);
+        if (value == "1") {
             return '<input type="checkbox" class="js-switch form-control" planManagerId="'+row.id+'" checked/>';
         }
         return '<input type="checkbox" class="js-switch form-control" planManagerId="'+row.id+'"/>';
@@ -717,7 +737,7 @@
     $('.deleteMulti').click(function () {
         let rows = $("#schemaTable").bootstrapTable('getAllSelections');
         //let rows = $("#courseList_table").bootstrapTable('getAllSelections');
-
+        console.log(rows);
         if (rows.length == 0) {
             swal("至少选中一行！", "", "error");
             return false;
@@ -735,7 +755,7 @@
             confirmButtonText: "删除",
             closeOnConfirm: false
         }, function () {
-
+            alert(userIds);
             //发送ajax 删除
             $.ajax({
                 url: "/owep/training/schemaList/deleteSelected",
@@ -745,7 +765,7 @@
                 dataType: "text",   //期望服务端返回的数据类型
                 contentType: "application/json",
                 success: function (data) {
-
+                    console.log(data.toString());
                     swal("删除成功！", "您已经永久删除已选信息", "success");
                     //重新加载页面
                     window.location.reload();
@@ -769,8 +789,8 @@
         var planName = $("#schemeNameAdd").val();
         var planDesc = $("#schemeDescAdd").val()
         var planStatus = $('.js-switch-1.form-control').val();
-
-        if($('.js-switch-1.form-control').prop("checked")==true){
+        console.log(planStatus)
+        if(planStatus === "on"){
             planStatus = 1;
         }else{
             planStatus = 0;
@@ -781,7 +801,7 @@
             "planDesc":planDesc,
             "planStatus":planStatus
         }
-
+        console.log(planManager);
 
         var planManagerJSON = JSON.stringify(planManager)
         $.ajax({
@@ -824,7 +844,7 @@
             "planDesc":planDesc,
             "planStatus":planStatus
         }
-
+        console.log(planManager);
 
         var planManagerJSON = JSON.stringify(planManager)
         $.ajax({
@@ -860,7 +880,36 @@
         $('.choose_course').removeClass("btn-default").addClass("btn-primary");
     })
 
+    $("#save_stage_modal").click(function () {
+        //先获取课程信息
+        var courseId = $("#courseId").val();
+        var planManagerId = $("#planManagerId").val();
+        var stageName = $("option:selected").attr("stageId");
+        var stageNum = $("option:selected").attr("stageId");
+        var course={
+            "courseId":courseId,
+            "planManagerId":planManagerId,
+            "stageNum":stageNum,
+            "stageName":stageName
+        }
 
+        alert(stageNum);
+        $.ajax({
+            type: "POST",
+            url: "/owep/training/schemaList/addCourseToPlanManager",
+            data: course,
+            dataType:"text",
+            success: function (data) {
+                alert(data);
+                window.location.reload();
+            },
+            error: function (jqXHQ) {
+                alert("添加失败");
+            }
+
+        });
+
+    })
 </script>
 </body>
 

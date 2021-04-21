@@ -1,9 +1,6 @@
 package com.kclm.owep.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -22,9 +19,7 @@ public class Question implements Serializable {
     /***
      * 问答时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime=LocalDateTime.now();
+   private LocalDateTime createTime=LocalDateTime.now();
     /***
      * 问答内容
      */
@@ -44,8 +39,6 @@ public class Question implements Serializable {
     /***
      * 最后一次访问时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastAccessTime;
     /***
      * 版本号
@@ -87,10 +80,6 @@ public class Question implements Serializable {
 
     public LocalDateTime getCreateTime() {
         return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
     }
 
     public String getQuestionContent() {
@@ -201,7 +190,6 @@ public class Question implements Serializable {
         sb.append(", favourCount=").append(favourCount);
         sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append(", version=").append(version);
-        sb.append(", clazz=").append(clazz.toString());
         sb.append('}');
         return sb.toString();
     }

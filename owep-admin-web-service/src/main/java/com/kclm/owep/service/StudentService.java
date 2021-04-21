@@ -1,14 +1,16 @@
 package com.kclm.owep.service;
 
-import com.kclm.owep.dto.StuDTO;
-import com.kclm.owep.dto.StudentDTO;
+import com.kclm.owep.dto.*;
+import com.kclm.owep.entity.Evaluate;
+import com.kclm.owep.entity.HomeworkAnswer;
+import com.kclm.owep.entity.Illegal;
 import com.kclm.owep.entity.Student;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
-@Service
+
 public interface StudentService {
     int create(@Param("student") Student student);
 
@@ -18,29 +20,18 @@ public interface StudentService {
 
     List<Student> selectAll();
 
-    List<Student> selectAllSchool();
-
-    List<Student> selectAllCollege();
-
-    List<Integer> getClassIds(Serializable id);
-
-    List<Student> findByKeyword(String keyword);
-
-    List<Student> selectNoClass();
+    List<Integer> getGroupIds(@Param("id") Integer id);
 
     int setGroups(@Param("studentId") Integer studentId, @Param("groupIds") List<Integer> groupIds);
 
-    Student selectById(@Param("id") Integer id);
+    StuDTO selectById(@Param("id") Integer id);
+
+    Student findById(Integer id);
+
+//    StuDTO selectByName(String Name);
 
     StuDTO translator_Stu2StuDto(Student student);
 
-    int insertAllStudent(List<Student> list);
-
-    int setClass(@Param("stuId") Integer stuId,@Param("classIds") Serializable classIds);
-
-    int activate (@Param("id") Integer id);
-
-    int deactivate (@Param("id") Integer id);
     /**
      * 根据姓名和学号来查询
      * @param id
@@ -57,6 +48,8 @@ public interface StudentService {
      */
     List<StudentDTO> selectStudentByClassId(Serializable id);
 
+    int deleteById(Serializable id);
+
     /**
      * 删除选中的学生
      * @param idList
@@ -65,10 +58,31 @@ public interface StudentService {
     int deleteSelect(List<Serializable> idList);
 
     /**
-     * 批量导入学生到班级
-     * @Author TianYanwei
-     * @param list
+     * 查找所有学生信息
      * @return
      */
-    int insertAllStudentToClass(List<Student> list);
+    List<StudentDTO> findAllStudent();
+    List<StudentDTO> selectIllegalStudent(Integer id);
+
+    //通过学号,姓名，开始时间，结束时间查询违纪学生
+    List<IllegalDTO> selectStudentByField(String stuNumber, String stuName,
+                                          LocalDateTime startTime, LocalDateTime endTime);
+
+    List<EvaluateDTO> findAllEvaluate();
+
+    List<LeaveDTO> studentLeave();
+
+    List<IllegalDTO> studentIllegal(Integer classId);
+
+    /***
+     * 更新评价
+     * @return
+     */
+    int updateEvalution(Evaluate evaluate);
+
+    int allowLeaveStatus(Integer id);
+    int refuseLeaveStatus(Integer id);
+
+    int addIllegal(Illegal illegal);
+
 }

@@ -6,23 +6,30 @@
 </head>
 
 <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/static/favicon.ico}">
-<link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css(v='3.3.6')｝" rel="stylesheet">
-<link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.min.css(v='4.4.0')}" rel="stylesheet">
+<link href="../../static/css/bootstrap.min.css?v=3.3.6" th:href="@{/static/css/bootstrap.min.css(v='3.3.6') }"
+      rel="stylesheet">
+<link href="../../static/css/font-awesome.css?v=4.4.0" th:href="@{/static/css/font-awesome.min.css(v='4.4.0')}"
+      rel="stylesheet">
 <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
 <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v='4.1.0')}" rel="stylesheet">
-<link rel="stylesheet" href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+<link rel="stylesheet" href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css"
+      th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
 <!-- 弹出框插件 -->
-<link href="../../static/css/plugins/sweetalert/sweetalert.css" th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+<link href="../../static/css/plugins/sweetalert/sweetalert.css"
+      th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 <!--时间控件-->
-<link href="../../static/css/plugins/datapicker/datepicker3.css" th:href="@{../../static/css/plugins/datapicker/datepicker3.css}" rel="stylesheet">
+<link href="../../static/css/plugins/datapicker/datepicker3.css"
+      th:href="@{/static/css/plugins/datapicker/datepicker3.css}" rel="stylesheet">
 <!--滑动按钮-->
-<link href="../../static/css/plugins/switchery/switchery.css" th:href="@{../../static/css/plugins/switchery/switchery.css}" rel="stylesheet">
+<link href="../../static/css/plugins/switchery/switchery.css" th:href="@{/static/css/plugins/switchery/switchery.css}"
+      rel="stylesheet">
 
 <style type="text/css">
-    .table > thead > tr > th    {
+    .table > thead > tr > th {
         color: #2a62bc;
     }
-    .form-inline>.btn:not(.query){
+
+    .form-inline > .btn:not(.query) {
         margin-left: 0.8%;
         float: right;
     }
@@ -39,7 +46,7 @@
                         <label for="keyword">关键字:</label>
                         <input type="text" name="keyword" class="form-control" id="keyword">
                     </div>
-                    <button  class="btn btn-success query" type="button" id="select">查询</button>
+                    <button class="btn btn-success query" type="button" id="select">查询</button>
                     <button class="btn btn-danger deleteAll" id="remove" type="button">删除</button>
                     <button class="btn btn-info" type="button" data-toggle='modal' data-target='#addModal'>添加</button>
                 </form>
@@ -59,7 +66,7 @@
     </div>
 </div>
 
-<!--  添加模态框  -->
+<!---------------------------------------------------  添加模态框  --------------------------------------------------------------------->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -68,30 +75,32 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">增加</h4>
             </div>
-            <div class="modal-body form-horizontal">
+            <div class="modal-body form-horizontal" id="poll_list_form" name="poll_list_form"
+                 action="/owep/evaluation/addpoll">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">考评内容</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="请输入考评内容" name="add_content">
+                        <input type="text" class="form-control" placeholder="请输入考评内容" name="add_content"
+                               id="add_content">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">是否启用</label>
                     <div class="col-sm-3">
-                        <input type="checkbox" class="js-switch form-control" checked/>
+                        <input type="checkbox" class="js-switch form-control" id="add_status" checked/>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="add_model">保存</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- update modal -->
+<!-- 修改模态框-->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -100,17 +109,20 @@
                 </button>
                 <h4 class="modal-title" id="update">修改</h4>
             </div>
-            <div class="modal-body form-horizontal">
+
+            <div class="modal-body form-horizontal" id="alter_poll_list_form" action="/owep/evaluation/updatepoll">
+                <input id="alter_pollId" type="hidden " hidden>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">考评内容</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="请输入考评内容" name="update_content">
+                        <input type="text" class="form-control" placeholder="请输入考评内容" name="update_content"
+                               id="alter_pollContent">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="alterPoll">保存</button>
             </div>
         </div>
     </div>
@@ -118,22 +130,36 @@
 
 </body>
 <!-- 全局js -->
-<script src="../../static/js/jquery.min.js?v=2.1.4" th:href="@{/static/js/jquery.min.js('v=2.1.4')}"></script>
-<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:href="@{/static/js/bootstrap.min.js('v=3.3.6')}"></script>
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js('v=2.1.4')}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js('v=3.3.6')}"></script>
 <!-- 自定义js -->
-<script src="../../static/js/content.js?v=1.0.0" th:href="@{/static/js/content.js('v=1.0.0')}"></script>
+<script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js('v=1.0.0')}"></script>
 <!-- Bootstrap table -->
-<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:href:="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
-<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js" th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
-<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <!-- 弹出框插件 -->
-<script src="../../static/js/plugins/sweetalert/sweetalert.min.js" th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <!-- 时间控件 -->
-<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.js" th:src="@{../../static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
-<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js" th:src="@{../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.js"
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+<script src="../../static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js"
+        th:src="@{/static/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js}"></script>
 <!--滑动按钮-->
-<script src="../../static/js/plugins/switchery/switchery.js" th:src="@{../../static/js/plugins/switchery/switchery.js}"></script>
+<script src="../../static/js/plugins/switchery/switchery.js"
+        th:src="@{/static/js/plugins/switchery/switchery.js}"></script>
 <!--时间控制-->
+
+<!--自定义js---表格操作-->
+<!-- 主要用于表格的删除按钮功能实现 -->
+<script src="../../static/public/exam/tableOperation.js"
+        th:src="@{/static/public/exam/tableOperation.js}"></script>
+
+
 <script>
     $(function () {
         /*时间控件配置*/
@@ -153,7 +179,23 @@
 <script>
     $(function () {
         $("#select").click(function () {
-            alert("开始查询！")
+            var keyName = $("#keyword").val();
+            var key = {
+                "keyName": keyName
+            }
+            $.ajax({
+                url: "/owep/evaluation/selectByKeywords",
+                method: "post",
+                data: key,
+                success: function (data) {
+                    console.log(data);
+                    $("#table").bootstrapTable("load", data);
+
+                },
+                error: function (jqXHR) {
+                    alert("查询失败");
+                }
+            })
         })
     })
 </script>
@@ -168,73 +210,73 @@
         var oButtonInit = new ButtonInit();
         oButtonInit.Init();
     });
+    //---------------------------------------------------------------TableInit------------------------------------------------------------------------
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
             $('#table').bootstrapTable({
-                url: '../../static/js/demo/evaluation/data.json',        // 表格数据来源
-                toolbar : '#toolbar', // 工具按钮用哪个容器
-                method:'get',
-                pagination : true,
-                cache:false,
-                sortable : true, //是否启用排序
-                sortOrder : "asc", // 排序方式
-                sidePagination : "client", // 分页方式：client客户端分页，server服务端分页（*）
+                url: '/owep/evaluation/allPollItem',        // 表格数据来源
+                toolbar: '#toolbar', // 工具按钮用哪个容器
+                method: 'get',
+                pagination: true,
+                cache: false,
+                sortable: true, //是否启用排序
+                sortOrder: "asc", // 排序方式
+                sidePagination: "client", // 分页方式：client客户端分页，server服务端分页（*）
                 pageNumber: 1,
-                pageSize:10,
+                pageSize: 10,
                 pageList: [10, 25, 50, 100],
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-                // showColumns: true,                  //是否显示所有的列
-                onLoadSuccess: checkbox_table,  //页面加载成功执行方法
-                onPageChange: checkbox_table,   //页面发送改变执行的方法
+                queryParams: {
+                    keyword: $("#keyword").val()
+                },
+                queryParamsType: 1,
+                onPostBody: checkbox_table,
+                //onLoadSuccess: checkbox_table,  //页面加载成功执行方法
+                // onPageChange: checkbox_table,   //页面发送改变执行的方法
                 columns: [{
                     checkbox: true
-                },  {
+                }, {
                     field: 'id',
                     title: '序号',
                     align: 'center',
                 }, {
-                    field: 'content',
+                    field: 'pollContent',
                     title: '考评内容',
                     align: 'center',
                 }, {
-                    field: 'time',
+                    field: 'createTime',
                     title: '创建时间',
                     align: 'center',
-                },{
-                    field: 'status',
+                }, {
+                    field: 'pollStatus',
                     title: '是否启用',
                     align: 'center',
-                    formatter:switchBox,
-                },{
+                    formatter: switchBox,
+                }, {
                     field: 'operate',
                     title: '操作',
                     width: 150,
                     align: 'center',
                     formatter: addFunctionAlty,//表格中增加按钮  
-                    events:{
-                        'click button[title=删除]':function () {
-                            swal({
-                                title: "您确定要删除该信息吗？",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#1E90FF",
-                                confirmButtonText: "删除",
-                                closeOnConfirm: false
-                            }, function () {
-                                swal("删除成功！", "您已经永久删除信息", "success");
-                            });
+                    events: {
+                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                            deleteRecord(e, value, row, index, "/owep/evaluation/deletePollItemId", '#table');
                         },
+                        'click button[title=修改]': function (e, value, row, index) {
+                            $('#alter_pollId').val(row.id);
+                            $('#alter_pollContent').val(row.pollContent);
+                            $('#updateModal').modal("show");
+                        }
                     }
                 }]
             });
         };
 
         function addFunctionAlty(value, row, index) {
-            return '<button id = "+id+" type = "button" class = "btn btn-white" title="修改" ' +
-                'data-toggle="modal" data-target="#updateModal"> <i class="glyphicon glyphicon-edit"/> </button>' +
-                '<button id = "+id+" type = "button" class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>';
+            return '<button id = "+id+" type = "button" class = "alterBtn btn btn-white" title="修改" > <i class="glyphicon glyphicon-edit"/> </button>' +
+                '<button id = "+id+" type = "button" class = "deleteBtn btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>';
         }
 
         //得到查询的参数
@@ -265,10 +307,10 @@
 
     /*根据json数据给滑动按钮设置状态*/
     function switchBox(value, row, index) {
-        if (value == "启用") {
-            return '<input type="checkbox" class="js-switch form-control" checked/>';
+        if (value == 1) {
+            return '<input type="checkbox" class="js-switch form-control" pollId="' + row.id + '" checked/>';
         }
-        return '<input type="checkbox" class="js-switch form-control"/>';
+        return '<input type="checkbox" class="js-switch form-control" pollId="' + row.id + '"/>';
     }
 
     /*滑动按钮实现与后台交互*/
@@ -276,8 +318,38 @@
         let elems = Array.prototype.slice.call($('.js-switch'));
         elems.forEach(function (html) {
             var switchery = new Switchery(html, {size: 'normal'});
-            html.onchange=function () {
-                //TODO
+            html.onchange = function () {
+                let pollId = $(this).attr("pollId");
+                let status;
+                if (html.checked == true) {
+                    alert("启用" + pollId);
+                    status = 1;
+                } else {
+                    alert("禁用" + pollId);
+                    status = 0;
+                }
+
+                let switch_data = {
+                    pollId: pollId,
+                    status: status
+                };
+
+                //Todo Ajax
+                $.ajax({
+                    url: "/owep/evaluation/switch",
+                    method: "get",
+                    async: true,
+                    data: switch_data,
+                    dataType: "text",   //期望服务端返回的数据类型
+                    contentType: "application/json",
+                    success: function () {
+                        $('#table').bootstrapTable("refresh");
+                    },
+                    error: function (jqXHR) {
+                        swal("同步失败！", "请稍后重试", "error");
+                    }
+                });
+
                 alert(html.checked);
             }
         });
@@ -290,21 +362,108 @@
         //删除所有按钮
         $("#remove").click(function () {
             var rows = $("#table").bootstrapTable('getSelections');
-            console.log(rows);
-            if (rows.length==0){
-                alert("请先选择要删除的记录！")
+            if (rows.length == 0) {
+                swal("至少选中一行！", "", "error");
                 return;
-            }else {
+            } else {
                 var arrays = new Array();//声明一个数组
                 $(rows).each(function () {
                     arrays.push(this.id);
                 });
                 var ids = arrays.join(",");//获得要删除的id
-                alert(ids);
-                //TODO
+                swal({
+                    title: "您确定要删除这" + arrays.length + "条信息？",
+                    text: "删除后将无法恢复，请谨慎操作！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "删除",
+                    closeOnConfirm: false
+                }, function () {
+                    alert(arrays);
+                    //发送ajax 删除
+                    $.ajax({
+                        url: "/owep/evaluation/deleteSelected",
+                        method: "post",
+                        async: true,
+                        data: JSON.stringify(arrays),
+                        dataType: "text",   //期望服务端返回的数据类型
+                        contentType: "application/json",
+                        success: function (data) {
+                            console.log(data.toString());
+                            swal("删除成功！", "您已经永久删除已选信息", "success");
+                            //重新加载页面
+                            window.location.reload();
+                        },
+                        error: function (jqXHR) {
+                            swal("删除失败！", "未知错误", "error");
+                        }
+                    });
+                });
             }
         })
+
+        /*添加内容模态框*/
+        $('#add_model').click(function () {
+            //获取add_form_model表单并提交
+            var pollContent = $("#add_content").val();
+            let pollStatus = $('#add_status').val();
+            console.log(status);
+            if (pollStatus == "on") {
+                pollStatus = 1;
+            } else {
+                pollStatus = 0;
+            }
+            var pollName = {
+                "pollContent": pollContent,
+                "pollStatus": pollStatus
+            };
+            var pollItemJSON = JSON.stringify(pollName);
+            $.ajax({
+                type: "POST",
+                url: "/owep/evaluation/addpoll",
+                data: pollItemJSON,
+                contentType: "application/json",
+                dataType: "text",
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (jqXHQ) {
+                    alert("添加失败");
+                }
+            });
+        });
+
+        /*修改内容模态框*/
+        $('#alterPoll').click(function () {
+            let id=$("#alter_pollId").val();
+            let pollContent = $("#alter_pollContent").val();
+            let pollItems = {
+                "id":id,
+                "pollContent": pollContent
+            };
+            let pollItemJSON = JSON.stringify(pollItems);
+            $.ajax({
+                type: "POST",
+                url: "/owep/evaluation/updatePoll",
+                data: pollItemJSON,
+                contentType: "application/json",
+                dataType: "text",
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (jqXHQ) {
+                    alert("修改失败");
+                }
+            });
+        });
+
+
     })
+
+
 </script>
 
 </html>

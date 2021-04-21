@@ -300,4 +300,19 @@
     </if>
   </select>
 
+<!--  <select id="selectByKeyword" resultMap="BaseResultMap">-->
+<!--    select *-->
+<!--    and c.class_number like "%"#{classNumber,jdbcType=VARCHAR}"%"-->
+<!--    and c.class_name like "%"#{className,jdbcType=VARCHAR}"%"-->
+<!--    <if test="instituteName != null and instituteName != ''">-->
+<!--      and c.institute_name = #{instituteName,jdbcType=VARCHAR}-->
+<!--    </if>-->
+<!--    <if test="instituteBranchName != null and instituteBranchName != ''">-->
+<!--      and c.branch_name = #{instituteBranchName,jdbcType=VARCHAR}-->
+<!--    </if>-->
+<!--    <if test="pid != null and pid != ''">-->
+<!--      and c.fk_profession_id = #{pid}-->
+<!--    </if>-->
+<!--  </select>-->
+
 </mapper>

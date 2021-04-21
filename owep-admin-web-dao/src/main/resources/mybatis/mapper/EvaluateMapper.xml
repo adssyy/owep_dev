@@ -44,6 +44,26 @@
     where id = #{id}
   </update>
 
+  <!--
+    更新评价内容
+  -->
+  <update id="updateEvaluate" parameterType="com.kclm.owep.entity.Evaluate">
+    update t_evaluate
+    <set>
+      <if test="studentName != null">
+        student_name = #{studentName},
+      </if>
+      <if test="evaluateStatus != null">
+        evaluate_status = #{evaluateStatus},
+      </if>
+      <if test="evaluate != null">
+        evaluate = #{evaluate},
+      </if>
+      version = version + 1,last_access_time = now()
+    </set>
+    where id = #{id}
+  </update>
+
 
   <!--以下为没用到方法-->
   <!--插入数据-->

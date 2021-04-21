@@ -11,7 +11,7 @@ public class ExamQuesAnswerSet implements Serializable {
     /*
     * ques_id（fk）
     * */
-    private ExamQues examQues;
+    private Integer bankId;
 
     /*
     * 试题类型
@@ -36,12 +36,12 @@ public class ExamQuesAnswerSet implements Serializable {
         this.id = id;
     }
 
-    public ExamQues getExamQues() {
-        return examQues;
+    public Integer getBankId() {
+        return bankId;
     }
 
-    public void setExamQues(ExamQues examQues) {
-        this.examQues = examQues;
+    public void setBankId(Integer bankId) {
+        this.bankId = bankId;
     }
 
     public String getTypeName() {
@@ -72,14 +72,10 @@ public class ExamQuesAnswerSet implements Serializable {
     public String toString() {
         return "ExamQuesAnswerSet{" +
                 "id=" + id +
-                ", examQues=" + examQues +
+                ", bankId=" + bankId +
                 ", typeName='" + typeName + '\'' +
                 ", answerContent='" + answerContent + '\'' +
                 ", answerStatus=" + answerStatus +
                 '}';
     }
-
-    public ExamQuesAnswerSet() {
-    }
-
 }

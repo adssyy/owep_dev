@@ -3,6 +3,9 @@
  */
 package com.kclm.owep.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -29,6 +32,8 @@ public class ClientNoteDTO implements Serializable {
     /**
      *创建时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createTime = LocalDateTime.now();
 
     /**

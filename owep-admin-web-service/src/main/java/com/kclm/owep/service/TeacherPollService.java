@@ -26,13 +26,13 @@ public interface TeacherPollService {
      * @return
      */
     List<TeacherPollDTO> findByCondition(String className,String profName,String teacherName,int page,int pageSize);
+    //List<TeacherPollDTO> selectByKeyword(String classNumber, String teacherName, String instituteName, String instituteBranchName, Serializable pid);
 
     /***
      * 获取所有的教师考评记录
-     * @param page
-     * @param pageSize
      * @return
      */
+    List<TeacherPollDTO> findAllPollItem();
     List<TeacherPollDTO> findAllTeacherPoll(int page,int pageSize);
 
     /***
@@ -55,13 +55,14 @@ public interface TeacherPollService {
      * @return
      */
     int deleteSelectTeacherPoll(List<Serializable> idList);
+    int deleteTeacherPoll(Serializable id);
 
     /***
      * 根据id删除教师考评记录
      * @param id
      * @return
      */
-    int deleteTeacherPoll(Serializable id);
+    int deleteTeacherPoll(Integer id);
 
     /***
      * 添加教师考评

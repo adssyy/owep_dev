@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import java.io.Serializable;
@@ -21,6 +20,13 @@ import java.util.List;
  */
 @Mapper
 public interface ResourceMapper extends BaseMapper<Resource> {
+
+    /**
+     * 通过课程名称查询课程
+     * @param ResourceName
+     * @return
+     */
+    List<Resource> selectByResourceName(String ResourceName);
 
     @Override
     int save(Resource resource);
@@ -42,7 +48,7 @@ public interface ResourceMapper extends BaseMapper<Resource> {
 
     List<String> selectResourceSuffix();
 
-    List<Resource> findByKeyword(String keyword);
+    List<Resource> findByKeyword(String ResourceName);
 
     List<Resource> selectByClassAndKeyword(@Param("cid") Serializable cid,@Param("name") String name,@Param("resourceType") Serializable resourceType);
 
@@ -51,11 +57,4 @@ public interface ResourceMapper extends BaseMapper<Resource> {
     int deleteFromClass(@Param("cid") Serializable cid,@Param("rid") Serializable rid);
 
     int deleteSelectFromClass(Serializable cid,List<Serializable> idList);
-
-    int addToClass(@Param("cid") Serializable cid,@Param("rid") Serializable rid);
-
-    int addSelectToClass(Serializable cid,List<Serializable> idList);
-
-    List<Resource> selectByKeyword(@Param("name") String name, @Param("fileType") String fileType,@Param("beginTime") LocalDateTime beginTime,@Param("endTime") LocalDateTime endTime);
 }
-

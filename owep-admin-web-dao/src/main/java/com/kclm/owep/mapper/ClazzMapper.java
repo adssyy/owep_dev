@@ -131,7 +131,8 @@ public interface ClazzMapper extends BaseMapper<Clazz> {
      * @param pid
      * @return
      */
-    List<Clazz> selectByPro(Serializable pid);
+    List<Clazz> selectByPro(int pid);
+
 
     /***
      * 根据关键词来查询

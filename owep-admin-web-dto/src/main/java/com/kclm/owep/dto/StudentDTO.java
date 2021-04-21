@@ -22,7 +22,7 @@ public class StudentDTO implements Serializable {
     /**
      * 学生真实姓名
      */
-    private String stuRealName;
+    private String stuName;
 
     /**
      * 学生截止有效期限
@@ -36,10 +36,10 @@ public class StudentDTO implements Serializable {
      */
     private Integer status;
 
-    public StudentDTO(Integer id, String stuNumber, String stuRealName, LocalDateTime effectiveDate, Integer status) {
+    public StudentDTO(Integer id, String stuNumber, String stuName, LocalDateTime effectiveDate, Integer status) {
         this.id = id;
         this.stuNumber = stuNumber;
-        this.stuRealName = stuRealName;
+        this.stuName = stuName;
         this.effectiveDate = effectiveDate;
         this.status = status;
     }
@@ -54,14 +54,14 @@ public class StudentDTO implements Serializable {
         StudentDTO that = (StudentDTO) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(stuNumber, that.stuNumber) &&
-                Objects.equals(stuRealName, that.stuRealName) &&
+                Objects.equals(stuName, that.stuName) &&
                 Objects.equals(effectiveDate, that.effectiveDate) &&
                 Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, stuNumber, stuRealName, effectiveDate, status);
+        return Objects.hash(id, stuNumber, stuName, effectiveDate, status);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class StudentDTO implements Serializable {
         final StringBuilder sb = new StringBuilder("StudentDTO{");
         sb.append("id=").append(id);
         sb.append(", stuNumber='").append(stuNumber).append('\'');
-        sb.append(", stuRealName='").append(stuRealName).append('\'');
+        sb.append(", stuRealName='").append(stuName).append('\'');
         sb.append(", effectiveDate=").append(effectiveDate);
         sb.append(", status=").append(status);
         sb.append('}');
@@ -92,12 +92,12 @@ public class StudentDTO implements Serializable {
         this.stuNumber = stuNumber;
     }
 
-    public String getStuRealName() {
-        return stuRealName;
+    public String getStuName() {
+        return stuName;
     }
 
-    public void setStuRealName(String stuRealName) {
-        this.stuRealName = stuRealName;
+    public void setStuName(String stuRealName) {
+        this.stuName = stuRealName;
     }
 
     public LocalDateTime getEffectiveDate() {

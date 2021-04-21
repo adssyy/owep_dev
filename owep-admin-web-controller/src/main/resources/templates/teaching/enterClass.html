@@ -14,10 +14,10 @@
 <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css}" rel="stylesheet">
 <!-- Sweet Alert -->
 <link href="../../static/css/plugins/sweetalert/sweetalert.css"
-      th:href="@{/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+      th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 <!--simditor-->
 <link rel="stylesheet" type="text/css" href="../../static/css/plugins/simditor/simditor.css"
-      th:href="@{/static/css/plugins/simditor/simditor.css"/>
+      th:href="@{/static/css/plugins/simditor/simditor.css}"/>
 <style type="text/css">
     /*.col-md-2.text-center:hover {
         box-shadow: 10px 10px 5px #888888;
@@ -125,10 +125,10 @@
                     <div class="panel-body">
                         <form class="form-inline">
                             <div class="form-group">
-                                <h3>班级名称：Java全栈开发</h3>
+                                <h3 id="className"></h3>
                             </div>
                             <div class="ibox-tools">
-                                <a href="teaching.html" class="btn btn-success" style="color: #FFFFFF">返回</a>
+                                <a href="/owep/teaching/teaching.html" class="btn btn-success " style="color: #FFFFFF" id="back">返回</a>
                             </div>
                             <hr style="margin-top: 4px;">
                         </form>
@@ -183,7 +183,7 @@
                                 </h4>
                             </div>
                         </div>
-                        <!--班级资源-->
+                        <!--========================班级资源========================================-->
                         <div id="tab-2" class="tab-pane">
                             <div class="panel-body">
                                 <h4 class="heading lead" style="margin-top: 20px">
@@ -198,8 +198,8 @@
                                                style="border-radius: 5px;"
                                                id="exampleInputUserName2">
                                     </div>
-                                    <button type="submit" class="btn btn-success input_margin"
-                                            style="padding-bottom: 7px;margin-bottom: 13px;">查询
+                                    <button type="button" class="btn btn-success input_margin"
+                                            style="padding-bottom: 7px;margin-bottom: 13px;" id="selectResource">查询
                                     </button>
                                     <div class="ibox-tools">
                                         <button type="button" class="btn btn-danger delete_list">删除</button>
@@ -208,7 +208,7 @@
                                 <table id="tb_departments_2"></table>
                             </div>
                         </div>
-                        <!--班级问题-->
+                        <!--==============================班级问题===========================================-->
                         <div id="tab-3" class="tab-pane">
                             <div class="panel-body">
                                 <h4 class="heading lead" style="margin-top: 20px">
@@ -219,25 +219,25 @@
                                 <table id="tb_departments_3"></table>
                             </div>
                         </div>
-                        <!--批改作业-->
+                        <!--============================================批改作业===========================================-->
                         <div id="tab-4" class="tab-pane">
                             <div class="panel-body">
                                 <table id="tb_departments_4"></table>
                             </div>
                         </div>
-                        <!--学生评价-->
+                        <!--===========================================学生评价====================================================-->
                         <div id="tab-5" class="tab-pane">
                             <div class="panel-body">
                                 <table id="tb_departments_5"></table>
                             </div>
                         </div>
-                        <!--请假处理-->
+                        <!--==============================================请假处理==============================================-->
                         <div id="tab-6" class="tab-pane">
                             <div class="panel-body">
                                 <table id="tb_departments_6"></table>
                             </div>
                         </div>
-                        <!--违纪处理-->
+                        <!--==============================================违纪处理===========================================-->
                         <div id="tab-7" class="tab-pane">
                             <div class="ibox-content" style="padding-left: 0;">
                                 <form class="form-inline" style="margin:15px 5px;">
@@ -270,10 +270,10 @@
                                                        style="border-radius: 5px;" name="endTime">
                                             </div>
                                         </div>
-                                        <input type="submit" class="btn btn-success input_margin"
+                                        <input type="button" class="btn btn-success input_margin"
                                                style="display: inline ;margin-top: 3px; border-radius: 5px;"
                                                value="查询"
-                                               id="queryBtn"/>
+                                               id="selectIllegal"/>
                                     </div>
                                     <div class="pull-right">
                                         <div class="form-group">
@@ -289,7 +289,7 @@
                         </div>
                     </div>
                 </div>
-                <!--添加违纪记录模态框-->
+                <!--添加违纪记录============================模态框============================-->
                 <div class="modal fade" id="add" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -299,12 +299,13 @@
                             </div>
 
                             <div class="modal-body" style="min-height: 300px;margin-top: 20px">
-                                <form action="#" class="form-horizontal" method="post">
+                                <form action="#" class="form-horizontal" method="post" name="addIllegalForm">
+                                    <input type="hidden" id="studentId" name="studentId">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label right">违规学生：</label>
                                         <div class="col-sm-7">
                                             <div class="input-group">
-                                                <input type="text" class="form-control org" name="stuName">
+                                                <input type="text" class="form-control org" name="studentName" id="IllegalId">
                                                 <div class="input-group-btn" style="z-index:99999!important;">
                                                     <button type="button" class="btn btn-white dropdown-toggle"
                                                             data-toggle="dropdown">
@@ -319,7 +320,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label right ">违规时间：</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="bad_time" name="violatorTime">
+                                            <input type="text" class="form-control" id="bad_time" name="disciplineTime">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -327,14 +328,14 @@
                                         <div class="col-sm-7">
                                             <div id="file-pretty">
                                                 <input type="file" multiple="multiple" class="form-control"
-                                                       name="attachmentShows">
+                                                       name="file">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label right">说明情况：</label>
                                         <div class="col-sm-7">
-                                            <textarea class="form-control" type="text" name="illustrate"></textarea>
+                                            <textarea class="form-control" type="text" name="presentationCondition" id="illustrate"></textarea>
                                         </div>
                                     </div>
                                 </form>
@@ -346,15 +347,16 @@
                         </div>
                     </div>
                 </div>
-                <!--班级问答模态框-->
+                <!--=========================班级问题模态框===========================-->
                 <div class="modal fade" id="qa" tabindex="-1">
+                    <input type="hidden" id="question_id">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <span class="close" data-dismiss="modal">&times;</span>
                                 <h3 class="modal-title">解答</h3>
                             </div>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="question_box">
                                 <div class="modal-body">
                                     <div class="chat-activity-list">
                                         <div class="chat-element">
@@ -362,21 +364,22 @@
                                                 <img alt="image" class="img-circle" src="../../static/img/a2.jpg">
                                             </a>
                                             <div class="media-body">
-                                                <strong class="student">韩梅梅[学生]</strong>
+<!--                                                <input type="hidden" id="studentQuestionName">-->
+                                                <strong class="student">李小冉</strong>
                                                 <p class="m-b-xs">
                                                     循环有点不太明白
                                                 </p>
                                                 <small class="text-muted">2020-06-12 00:00:00</small>
                                             </div>
                                         </div>
-                                        <div class="chat-element right">
+                                        <div class="chat-element right" id="reply_box">
                                             <a href="#" class="pull-right">
                                                 <img alt="image" class="img-circle" src="../../static/img/a4.jpg">
                                             </a>
                                             <div class="media-body text-right ">
                                                 <strong class="admin">admin </strong>
-                                                <p class="m-b-xs">
-                                                    多看视频
+                                                <p class="m-b-xs" id="">
+                                                    <!--                                                    多看视频-->
                                                 </p>
                                                 <small class="text-muted">2020-06-12 15:04:23</small>
                                             </div>
@@ -399,7 +402,7 @@
     </div>
 </div>
 <!--模态框-->
-<!--批改作业-->
+<!--=======================================================批改作业模态框-->
 <div class="modal fade" id="checkwork" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -410,6 +413,7 @@
 
             <div class="modal-body" style="min-height: 400px;margin-top: 20px">
                 <form action="#" class="form-horizontal" method="post">
+                    <input type="hidden" id="approvalId">
                     <div class="form-group">
                         <label class="col-sm-3 control-label right ">作业标题：</label>
                         <div class="col-sm-7">
@@ -441,14 +445,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right ">学生姓名：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" placeholder="韩梅梅" id="stu_name"
+                            <input type="text" class="form-control" placeholder="" id="stu_name"
                                    disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right ">写作时间：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" placeholder="2020-06-12 15:01:15"
+                            <input type="text" class="form-control" placeholder=""
                                    id="work_time"
                                    disabled>
                         </div>
@@ -457,7 +461,7 @@
                         <label class="col-sm-3 control-label right ">写作内容：</label>
                         <div class="col-sm-7">
                                             <textarea type="text" class="form-control"
-                                                      placeholder="<p>老师,太难了,我不会写<br/></p>" id="writing_content"
+                                                      placeholder="" id="writing_content"
                                                       disabled></textarea>
                         </div>
                     </div>
@@ -471,14 +475,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right ">审批内容：</label>
                         <div class="col-sm-7">
-                            <textarea type="text" class="form-control" id="check_content"></textarea>
+                            <textarea type="text" class="form-control" id="audit_content"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success" data-dismiss="modal">关闭</button>
-                <button class="btn btn-success">确定</button>
+                <button class="btn btn-success" id="modifyHomeWork">确定</button>
             </div>
         </div>
     </div>
@@ -496,26 +500,29 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label right ">学生姓名：</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control stu_name" placeholder="韩梅梅" disabled>
+                            <input type="hidden" id="evalutionStuId">
+                            <input type="text" class="form-control stu_name" placeholder="" disabled
+                                   id="evalutionStuName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label right ">评价内容：</label>
                         <div class="col-sm-7">
-                            <textarea type="text" class="form-control"></textarea>
+                            <textarea type="text" class="form-control" id="evalutionBox"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success" data-dismiss="modal">关闭</button>
-                <button class="btn btn-success">确定</button>
+                <button class="btn btn-success" id="evalutionContent">确定</button>
             </div>
         </div>
     </div>
 </div>
-<!--请假处理-->
+<!--请假处理-->>
 <div class="modal fade" id="leave" tabindex="-1">
+    <input type="hidden" id="leaveId">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -531,12 +538,13 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success" data-dismiss="modal">关闭</button>
-                <button class="btn btn-success">确定</button>
+                <button class="btn btn-success" id="allowApproval">确定</button>
             </div>
         </div>
     </div>
 </div>
 <div class="modal fade" id="no_leave" tabindex="-1">
+    <input type="hidden" id="refuseId">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -552,49 +560,57 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success" data-dismiss="modal">关闭</button>
-                <button class="btn btn-success">确定</button>
+                <button class="btn btn-success" id="refuseApproval">确定</button>
             </div>
         </div>
     </div>
 </div>
 </body>
 <!-- 全局js -->
-<script src="../../static/js/jquery.min.js?v=2.1.4" th:href="@{/static/js/jquery.min.js}"></script>
-<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:href="@{/static/js/bootstrap.min.js}"></script>
+<script src="../../static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
 <!-- 自定义js -->
-<script src="../../static/js/content.js?v=1.0.0" th:href="@{/static/js/content.js}"></script>
+<script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js}"></script>
 <!-- Bootstrap table -->
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
-        th:href="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <!--动态搜索-->
 <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
-        th:href="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!--图书封面效果-->
 <script src="../../static/js/plugins/move/move.js" th:href="@{/static/js/plugins/move/move.js}"></script>
 <!-- layerDate plugin javascript -->
 <script src="../../static/js/plugins/layer/laydate/laydate.js"
-        th:href="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+        th:src="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
 <!-- Sweet alert -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
-        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <!-- simditor -->
 <script type="text/javascript" src="../../static/js/plugins/simditor/module.js"
-        th:href="@{/static/js/plugins/simditor/module.js}"></script>
+        th:src="@{/static/js/plugins/simditor/module.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/uploader.js"
-        th:href="@{/static/js/plugins/simditor/uploader.js}"></script>
+        th:src="@{/static/js/plugins/simditor/uploader.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/hotkeys.js"
-        th:href="@{/static/js/plugins/simditor/hotkeys.js}"></script>
+        th:src="@{/static/js/plugins/simditor/hotkeys.js}"></script>
 <script type="text/javascript" src="../../static/js/plugins/simditor/simditor.js"
-        th:href="@{/static/js/plugins/simditor/simditor.js}"></script>
+        th:src="@{/static/js/plugins/simditor/simditor.js}"></script>
 <!-- Prettyfile -->
 <script src="../../static/js/plugins/prettyfile/bootstrap-prettyfile.js"
-        th:href="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+        th:src="@{/static/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
 <!--日期选择-->
+
+<!--自定义js---表格操作-->
+<!-- 主要用于表格的删除按钮功能实现 -->
+<script src="../../static/public/exam/tableOperation.js"
+        th:src="@{/static/public/exam/tableOperation.js}"></script>
 <script>
+    $(function () {
+        $("#className").text("班级名称：[[${className}]]");
+    })
     //日期范围限制
     var start = {
         elem: '#start',
@@ -665,9 +681,47 @@
             closeOnConfirm: false, //关闭
         }, function () {
             //TODO AJAX请求
-            swal("删除成功!", "您已经永久删除.", "success");
+            $.ajax({
+                url: "/owep/class/deleteClassResource",
+                method: "post",
+                async: true,
+                data: JSON.stringify(ids),
+                dataType: "text",   //期望服务端返回的数据类型
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data.toString());
+                    swal("删除成功！", "您已经永久删除已选信息", "success");
+                    //重新加载页面
+                    $("#tb_departments_2").bootstrapTable("refresh")
+                },
+                error: function (jqXHR) {
+                    swal("删除失败！", "未知错误", "error");
+                }
+            });
         })
     })
+    //====================班级资源的查询
+    $(function () {
+        $("#selectResource").click(function () {
+            var resourceName = $("#exampleInputUserName2").val();
+            var key = {
+                "ResourceName": resourceName
+            }
+            $.ajax({
+                url: "/owep/class/findResourceByName",
+                method: "post",
+                data: key,
+                success: function (data) {
+                    console.log(data);
+                    $("#tb_departments_2").bootstrapTable("load", data);
+                },
+                error: function (jqXHR) {
+                    alert("查询失败");
+                }
+            })
+        })
+    })
+
 </script>
 <script>
     $(function () {
@@ -680,40 +734,22 @@
     });
 
     var TableInit = function () {
+        testIllegal;
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-            //班级资源
+            //===========================================班级资源==================================================
             $('#tb_departments_2').bootstrapTable({
-                // url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
-                data: [
-                    {
-                        "id": "1",
-                        "resource_name": "2020061101",
-                        "resource_type": "JAVA开发工程师",
-                        "resource_size": "开发部",
-                    },
-                    {
-                        "id": "2",
-                        "resource_name": "2020061102",
-                        "resource_type": "JAVA开发工程师",
-                        "resource_size": "开发部",
-                    }],
-                // method: 'get',                      //请求方式（*）
-                striped:
-                    true,                      //是否显示行间隔色
-                pagination:
-                    true,                   //是否显示分页（*）
+                url: '/owep/class/allClassResource',       //请求后台的URL（*）
+                method: 'post',                      //请求方式（*）
+                striped: true,                      //是否显示行间隔色
+                pagination: true,                   //是否显示分页（*）
                 queryParams:
                 oTableInit.queryParams,//传递参数（*）
-                pageNumber:
-                    1,                       //初始化加载第一页，默认第一页
-                pageSize:
-                    10,                       //每页的记录行数（*）
-                pageList:
-                    [10, 25, 50, 100],        //可供选择的每页的行数（*）
-                uniqueId:
-                    "ID",                     //每一行的唯一标识，一般为主键列
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
                 columns:
                     [{
                         checkbox: true
@@ -722,34 +758,22 @@
                         title: 'id',
                         visible: false //隐藏
                     }, {
-                        field: 'resource_name',
+                        field: 'resourceName',
                         title: '资源名称'
                     }, {
-                        field: 'resource_type',
-                        title: '资源类型'
+                        field: 'type',
+                        title: '资源类型',
+                        formatter: resourceType
                     }, {
-                        field: 'resource_size',
+                        field: 'resourceSize',
                         title: '资源大小(kb)'
                     }, {
                         field: 'operate',
                         title: '操作',
                         width: 100,
                         events: {
-                            'click button[title=删除]': function (e, value, row, index) {
-                                console.log(row.resource_name);
-                                swal({
-                                    title: "您确定要删除这条信息吗",
-                                    text: "删除后将无法恢复，请谨慎操作！",
-                                    type: "warning",
-                                    cancelButtonText: '取消',
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#DD6B55",
-                                    confirmButtonText: "删除",
-                                    closeOnConfirm: false
-                                }, function () {
-                                    //TODO 发送ajax请求
-                                    swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                                });
+                            'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                                deleteRecord(e, value, row, index, "/owep/class/deleteClassResourceId", '#tb_departments_2');
                             }
                         },
                         formatter: function (value, row, index) {
@@ -760,72 +784,42 @@
             });
         };
 
-        //班级问题
+        function resourceType(value) {
+            if (value == 1) {
+                return "课程资源"
+            } else {
+                return "公共资源"
+            }
+        }
+
+        //======================================班级问题===========================================================
         $('#tb_departments_3').bootstrapTable({
-            // url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
-            data: [
-                {
-                    "serial_number": "1",
-                    "problem": "循环不太明白",
-                    "correlated_curriculum": "JAVA基础编程",
-                    "question_time": "2020-06-12 00:00:01",
-                    "questioner": "韩梅梅",
-                    "responder": "admin1",
-                    "answer_content": "多看视频",
-                    "answer_time": "2020-06-12 15:04:21",
-                },
-                {
-                    "serial_number": "2",
-                    "problem": "这是一个COREJAVA的问题",
-                    "correlated_curriculum": "JAVA基础编程",
-                    "question_time": "2020-06-12 00:00:02",
-                    "questioner": "李雷",
-                    "responder": "admin2",
-                    "answer_content": "多跟着视频敲",
-                    "answer_time": "2020-06-12 15:04:22",
-                },
-                {
-                    "serial_number": "3",
-                    "problem": "这是一个集合问题",
-                    "correlated_curriculum": "JAVA基础编程",
-                    "question_time": "2020-06-12 00:00:03",
-                    "questioner": "李韩",
-                    "responder": "admin3",
-                    "answer_content": "细细品",
-                    "answer_time": "2020-06-12 15:04:23",
-                }],
-            // method: 'get',                      //请求方式（*）
-            striped:
-                true,                      //是否显示行间隔色
-            pagination:
-                true,                   //是否显示分页（*）
-            queryParams:
-            oTableInit.queryParams,//传递参数（*）
-            pageNumber:
-                1,                       //初始化加载第一页，默认第一页
-            pageSize:
-                10,                       //每页的记录行数（*）
-            pageList:
-                [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            url: '/owep/class/classQuestion',       //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            striped: true,                      //是否显示行间隔色
+            pagination: true,                   //是否显示分页（*）
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
             /*      height:
                       500,   */                     //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId:
-                "ID",                     //每一行的唯一标识，一般为主键列
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
             columns:
                 [{
-                    field: 'serial_number',
+                    field: 'id',
                     title: '序号'
                 }, {
-                    field: 'problem',
+                    field: 'questionContent',
                     title: '问题描述'
                 }, {
-                    field: 'correlated_curriculum',
+                    field: 'courseName',
                     title: '相关课程'
                 }, {
-                    field: 'question_time',
+                    field: 'createTime',
                     title: '提问时间'
                 }, {
-                    field: 'questioner',
+                    field: 'stuName',
                     title: '提问人',
                 }, {
                     field: 'responder',
@@ -844,333 +838,391 @@
                     title: '操作',
                     width: 150,
                     events: {
+                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                            deleteRecord(e, value, row, index, "/owep/class/deleteClassRequestionId", '#tb_departments_3');
+                        },
                         /*回显数据*/
+                        // 'click button[title=详情]':function (e, value, row, index) {
+                        //     $("#question_id").val(row.id);
+                        //     $.ajax({
+                        //         //发送AJAX请求
+                        //         url: "/owep/class/selectQuestionReplyByQuestionId?questionId=" + row.id,
+                        //         method: "GET",
+                        //         async: true,
+                        //         dataType: "json",
+                        //         success: function (data) {
+                        //             var dataObj = data;
+                        //             var question = "";
+                        //             var reply = "";
+                        //             for (var key in dataObj){
+                        //                 question = "<div class=\"ibox-content\">\n" +
+                        //                     "                        <div class=\"team-members\">\n" +
+                        //                     "                            <a href=\"#\"><img alt=\"member\" class=\"img-circle\" src=\"http://192.168.124.88:8886/"+JSON.parse(key).student.imageUrl+"\"></a>\n" +
+                        //                     "                            <span class=\"lead\">"+JSON.parse(key).stuName+"</span>\n" +
+                        //                     "                            <span class=\"label pull-right\">"+JSON.parse(key).createTime+"</span>\n" +
+                        //                     "                        </div>\n" +
+                        //                     "\n" +
+                        //                     "                        <p>\n" +
+                        //                     JSON.parse(key).questionContent +
+                        //                     "                        </p>\n" +
+                        //                     "                    </div>";
+                        //                 $.each(dataObj[key],function (index,item) {
+                        //                     reply += "<div class=\"ibox-content\">\n" +
+                        //                         "                        <div class=\"team-members\">\n" +
+                        //                         "                            <a href=\"#\"><img alt=\"member\" class=\"img-circle\" src=\"\"></a>\n" +
+                        //                         "                            <span class=\"lead\">"+item.replyAuthor+"</span>\n" +
+                        //                         "                            <span class=\"label pull-right\">"+item.createTime+"</span>\n" +
+                        //                         "                        </div>\n" +
+                        //                         "                        <p>\n" +
+                        //                         item.replyContent +
+                        //                         "                        </p>\n" +
+                        //                         "                    </div>";
+                        //                 });
+                        //             }
+                        //
+                        //             $("#question_box").html(question);
+                        //             $("#reply_box").html(reply);
+                        //         },
+                        //         error: function (jqXHR) {
+                        //             alert("删除失败");
+                        //         }
+                        //
+                        //     });
+                        // }
                         "click #message": function (e, value, row, index) {
                             $('#qa').modal();
-
-                            $("strong.student").text(row.questioner + "[学生]");
-                            $("strong.admin").text(row.responder + "[老师]");
+                            $("strong.student").text(row.stuName + "[学生]");
+                            $("strong.admin").text(row.questionContent + "[老师]");
                             $("p:first").text(row.problem);
                             $("p").eq(1).text(row.answer_content);
                             $("small.text-muted").eq(0).text(row.question_time);
                             $("small.text-muted").eq(1).text(row.answer_time);
                         },
-                        "click #delete_row": function (e, value, row, index) {
-                            console.log(row.serial_number);
-                            swal({
-                                title: "您确定要删除这条信息吗",
-                                text: "删除后将无法恢复，请谨慎操作！",
-                                type: "warning",
-                                showCancelButton: true,
-                                cancelButtonText: '取消',
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "删除",
-                                closeOnConfirm: false
-                            }, function () {
-                                //TODO 发送ajax请求
-                                swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                            });
-                        }
                     },
                     formatter: function (value, row, index) {
                         return ['<button id = "message" btn_click="1" type = "button" class = "btn btn-white" title="详情" data-toggle="tooltip" data-placement="top"  > <i class="fa fa-road"/> </button>' +
-                        '<button id = "delete_row" type = "button" class = "btn  btn-white" data-toggle="tooltip" data-placement="top" title="删除" > <i class="glyphicon glyphicon-trash text-danger"/> </button>'];//删除
+                        '<button id = "" type = "button" class = "btn  btn-white" data-toggle="tooltip" data-placement="top" title="删除" > <i class="glyphicon glyphicon-trash text-danger"/> </button>'];//删除
                     },
-
                 }]
         });
 
-        //批改作业
+        //====================================批改作业==========================================================
         $('#tb_departments_4').bootstrapTable({
-            // url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
-            data: [
-                {
-                    "id": "1",
-                    "job_title": "完成课题案例",
-                    "job_content": "完成课题案例",
-                    "arrangement_time": "2020-06-12 15:01:15",
-                    "students_answer": "老师,太难了,我不会写",
-                    "students_name": "韩梅梅",
-                    "reoperate_time": "2020-06-16 18:31:04",
-                }, {
-                    "id": "2",
-                    "job_title": "完成课题案例",
-                    "job_content": "完成课题练习",
-                    "arrangement_time": "2020-06-15 12:00:00",
-                    "students_answer": "没有思路",
-                    "students_name": "韩梅梅",
-                    "reoperate_time": "2020-06-18 20:00:00",
-                }, {
-                    "id": "3",
-                    "job_title": "完成周末小练习",
-                    "job_content": "可变长数组",
-                    "arrangement_time": "2020-06-18 18:00:00",
-                    "students_answer": "哪有可变长的数组",
-                    "students_name": "韩梅梅",
-                    "reoperate_time": "2020-06-20 18:31:04",
+            url: '/owep/class/homeWork?classId=[[${classId}]]',       //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            striped: true,                      //是否显示行间隔色
+            pagination: true,                   //是否显示分页（*）
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            columns: [{
+                field: "id",
+                title: "id",
+                visible: false //隐藏
+            }, {
+                field: 'workTitle',
+                title: '作业标题'
+            }, {
+                field: 'workContent',
+                title: '作业内容'
+            }, {
+                field: 'startTime',
+                title: '布置时间',
+                visible: false //隐藏
+            }, {
+                field: 'answerContent',
+                title: '学生答案'
+            }, {
+                field: 'studentName',
+                title: '学生姓名'
+            }, {
+                field: 'createTime',
+                title: '写作时间'
+            }, {
+                field: 'operate',
+                title: '操作',
+                width: 150,
+                events: {
+                    "click #check_work": function (e, value, row, index) {
+                        $('#checkwork').modal();
+                        /*回显数据*/
+                        $('#work_title').val(row.workTitle);
+                        $('#work_content').val(row.workContent);
+                        $('#start_time').val(row.startTime);
+                        $('#stu_name').val(row.studentName);
+                        $('#work_time').val(row.createTime);
+                        $('#writing_content').val(row.answerContent);
+                        $('#audit_content').val(row.auditContent);
+                        $('#approvalId').val(row.id);
+                    },
                 },
-            ],
-            // method: 'get',                      //请求方式（*）
-            striped:
-                true,                      //是否显示行间隔色
-            pagination:
-                true,                   //是否显示分页（*）
-            queryParams:
-            oTableInit.queryParams,//传递参数（*）
-            pageNumber:
-                1,                       //初始化加载第一页，默认第一页
-            pageSize:
-                10,                       //每页的记录行数（*）
-            pageList:
-                [10, 25, 50, 100],        //可供选择的每页的行数（*）
-            /*      height:
-                      500,   */                     //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId:
-                "ID",                     //每一行的唯一标识，一般为主键列
-            columns:
-                [{
-                    field: "id",
-                    title: "id",
-                    visible: false //隐藏
-                }, {
-                    field: 'job_title',
-                    title: '作业标题'
-                }, {
-                    field: 'job_content',
-                    title: '作业内容'
-                }, {
-                    field: 'arrangement_time',
-                    title: '布置时间',
-                    visible: false //隐藏
-                }, {
-                    field: 'students_answer',
-                    title: '学生答案'
-                }, {
-                    field: 'students_name',
-                    title: '学生姓名'
-                }, {
-                    field: 'reoperate_time',
-                    title: '写作时间'
-                }, {
-                    field: 'operate',
-                    title: '操作',
-                    width: 150,
-                    events: {
-                        "click #check_work": function (e, value, row, index) {
-                            $('#checkwork').modal();
-                            /*回显数据*/
-                            $('#work_title').val(row.job_title);
-                            $('#work_content').val(row.job_content);
-                            $('#start_time').val(row.arrangement_time);
-                            $('#stu_name').val(row.student_name);
-                            $('#work_time').val(row.reoperate_time);
-                            $('#writing_content').val(row.job_title);
-                        },
-                    },
-                    formatter: function (value, row, index) {
-                        return '<button id = "check_work" type = "button" class = "btn btn-white" title="详情" data-toggle="tooltip" data-placement="top"  > <i class="fa fa-edit"/> </button>';
-                    }
-                }]
-        });
-
-        //学生评价
-        $('#tb_departments_5').bootstrapTable({
-            // url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
-            data: [
-                {
-                    "id": "1",
-                    "student_number": "zbstu180817000001",
-                    "student_name": "韩梅梅",
-                    "gender": "女",
-                    "phone": "18694939527",
-                    "email": "62375405@qq.com",
-                    "effective_date": "2020-08-17",
-                    "effective_status": "启用",
-                }, {
-                    "id": "2",
-                    "student_number": "zbstu180817000002",
-                    "student_name": "李雷",
-                    "gender": "男",
-                    "phone": "1778899102",
-                    "email": "9561547875@qq.com",
-                    "effective_date": "2020-08-17",
-                    "effective_status": "启用",
-                }],
-            // method: 'get',                      //请求方式（*）
-            striped:
-                true,                      //是否显示行间隔色
-            pagination:
-                true,                   //是否显示分页（*）
-            queryParams:
-            oTableInit.queryParams,//传递参数（*）
-            pageNumber:
-                1,                       //初始化加载第一页，默认第一页
-            pageSize:
-                10,                       //每页的记录行数（*）
-            pageList:
-                [10, 25, 50, 100],        //可供选择的每页的行数（*）
-            uniqueId:
-                "ID",                     //每一行的唯一标识，一般为主键列
-            columns:
-                [{
-                    checkbox: true
-                }, {
-                    field: "id",
-                    title: "id",
-                    visible: false //隐藏
-                }, {
-                    field: 'student_number',
-                    title: '学号'
-                }, {
-                    field: 'student_name',
-                    title: '姓名'
-                }, {
-                    field: 'gender',
-                    title: '性别'
-                }, {
-                    field: 'phone',
-                    title: '手机'
-                }, {
-                    field: 'email',
-                    title: '邮箱'
-                }, {
-                    field: 'effective_date',
-                    title: '有效日期'
-                }, {
-                    field: 'effective_status',
-                    title: '状态'
-                }, {
-                    field: 'evaluate',
-                    title: '评价',
-                    width: 150,
-                    events: {
-                        "click #evaluation": function (e, value, row, index) {
-                            $('#assessment').modal();
-                            /*回显数据*/
-                            $('.stu_name').val(row.student_name);
-                        }
-                    },
-                    formatter: function (value, row, index) {
-                        return '<button id = "evaluation" type = "button" class = "btn btn-white" title="详情" data-toggle="tooltip" data-placement="top" > <i class="fa fa-edit"/> </button>';
-                    }
-                }]
-        });
-
-        //请假处理
-        $('#tb_departments_6').bootstrapTable({
-            // url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
-            data: [
-                {
-                    "serial_number": "1",
-                    "leave_time": "韩梅梅",
-                    "end_time": "2020-06-16 00:00:00",
-                    "student_name": "2020-06-16 23:59:00",
-                    "reason_leave": "<strong>我病了</strong>",
-                    "approval_status": "已通过",
-                }],
-            // method: 'get',                      //请求方式（*）
-            striped:
-                true,                      //是否显示行间隔色
-            pagination:
-                true,                   //是否显示分页（*）
-            queryParams:
-            oTableInit.queryParams,//传递参数（*）
-            pageNumber:
-                1,                       //初始化加载第一页，默认第一页
-            pageSize:
-                10,                       //每页的记录行数（*）
-            pageList:
-                [10, 25, 50, 100],        //可供选择的每页的行数（*）
-            uniqueId:
-                "ID",                     //每一行的唯一标识，一般为主键列
-            columns:
-                [{
-                    field: 'serial_number',
-                    title: '序号'
-                }, {
-                    field: 'leave_time',
-                    title: '请假时间'
-                }, {
-                    field: 'end_time',
-                    title: '结束时间'
-                }, {
-                    field: 'student_name',
-                    title: '学生姓名'
-                }, {
-                    field: 'reason_leave',
-                    title: '请假事由'
-                }, {
-                    field: 'approval_status',
-                    title: '审批状态'
-                }, {
-                    field: 'operate',
-                    title: '操作',
-                    width: 150,
-                    formatter: function (value, row, index) {
-                        return ['<button id = "" type = "button" class = " btn btn-white" title="通过审查"  data-toggle="modal"  data-toggle="tooltip" data-placement="top"  data-target="#leave"> <i class="glyphicon glyphicon-ok"/> </button>' +
-                        '<button id = "" type = "button" class = "btn  btn-white" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="拒绝审查" data-target="#no_leave"> <i class="glyphicon glyphicon-remove text-danger"/> </button>'];//删除
-                    }
-                }]
-        });
-
-        //违纪问题
-        $('#tb_departments_7').bootstrapTable({
-            // url: '../../static/js/demo/user/adminListTest.json',       //请求后台的URL（*）
-            data: [
-                {
-                    "student_number": "stu110",
-                    "student_name": "韩梅梅",
-                    "discipline_time": "2020-06-17 00:00:00",
-                    "presentation_condition": "偷懒",
+                formatter: function (value, row, index) {
+                    return '<button id = "check_work" type = "button" class = "btn btn-white" title="详情" data-toggle="tooltip" data-placement="top"  > <i class="fa fa-edit"/> </button>';
                 }
-            ],
-            // method: 'get',                      //请求方式（*）
-            striped:
-                true,                      //是否显示行间隔色
-            pagination:
-                true,                   //是否显示分页（*）
-            queryParams:
-            oTableInit.queryParams,//传递参数（*）
-            pageNumber:
-                1,                       //初始化加载第一页，默认第一页
-            pageSize:
-                10,                       //每页的记录行数（*）
-            pageList:
-                [10, 25, 50, 100],        //可供选择的每页的行数（*）
-            uniqueId:
-                "ID",                     //每一行的唯一标识，一般为主键列
-            columns:
-                [{
-                    field: 'student_number',
+            }]
+        });
+
+        //===========================================学生评价表中数据=======================================================================
+        $('#tb_departments_5').bootstrapTable({
+            url: '/owep/class/allEvaluate',       //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            striped: true,                      //是否显示行间隔色
+            pagination: true,                   //是否显示分页（*）
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            columns: [{
+                checkbox: true
+            }, {
+                field: "id",
+                title: "id",
+                visible: false //隐藏
+            }, {
+                field: 'stuNumber',
+                title: '学号'
+            }, {
+                field: 'stuName',
+                title: '姓名'
+            }, {
+                field: 'gender',
+                title: '性别',
+                formatter: changeType
+            }, {
+                field: 'stuPhone',
+                title: '手机'
+            }, {
+                field: 'stuEmail',
+                title: '邮箱'
+            }, {
+                field: 'effectiveDate',
+                title: '有效日期'
+            }, {
+                field: 'status',
+                title: '状态',
+                formatter: showStatus
+            }, {
+                field: 'evaluate',
+                title: '评价',
+                width: 150,
+                events: {
+                    "click #evaluation": function (e, value, row, index) {
+                        $('#assessment').modal();
+                        /*回显数据*/
+                        $('#evalutionStuId').val(row.id);
+                        $('#evalutionStuName').val(row.stuName);
+                    }
+                },
+                formatter: function (value, row, index) {
+                    return '<button id = "evaluation" type = "button" class = "btn btn-white" title="详情" data-toggle="tooltip" data-placement="top" > <i class="fa fa-edit"/> </button>';
+                }
+            }]
+
+        });
+
+        function changeType(value) {
+            if (value == 1) {
+                return '男';
+            }
+            if (value == 0) {
+                return '女';
+            }
+        }
+
+        function showStatus(value) {
+            if (value == 1) {
+                return '启用';
+            }
+            if (value == 0) {
+                return '未启用';
+            }
+        }
+
+        $('#evalutionContent').click(function () {
+            let stuId = $('#evalutionStuId').val();
+            let evalution = $('#evalutionBox').val();
+            let changeEvalution = {
+                "stuId": stuId,
+                "evalution": evalution
+            };
+            let changeEvalutionJSON = JSON.stringify(changeEvalution);
+            console.log(changeEvalutionJSON);
+            $.ajax({
+                type: "POST",
+                url: "/owep/class/updateEvalution",
+                data: changeEvalutionJSON,
+                contentType: "application/json",
+                dataType: "text",
+                success: function (data) {
+                    // alert(data);
+                    // window.location.reload();
+                    $('#tb_departments_5').bootstrapTable("refresh");
+                    $("#assessment").modal("hide");
+                },
+                error: function (jqXHQ) {
+                    alert("修改失败");
+                }
+            });
+        })
+
+        $('#modifyHomeWork').click(function () {
+            let id=$('#approvalId').val();
+            let approvalContent=$('#audit_content').val();
+            let changeApproval={
+                "id":id,
+                "approvalContent":approvalContent
+            }
+            //let changeEvalutionJSON = JSON.stringify(changeApproval);
+            $.ajax({
+                type: "POST",
+                url: "/owep/class/updateApprovalContent",
+                data: changeApproval,
+               //contentType: "application/json",
+                //dataType: "text",
+                success: function (data) {;
+                    $('#tb_departments_4').bootstrapTable("refresh");
+                    $('#checkwork').modal("hide");
+                },
+                error: function (jqXHQ) {
+                    alert("修改失败");
+                }
+            });
+        })
+        //==================================请假处理===================================
+        $('#tb_departments_6').bootstrapTable({
+            url: '/owep/class/leave',       //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            striped: true,                      //是否显示行间隔色
+            pagination: true,                   //是否显示分页（*）
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'leaveTime',
+                title: '请假时间'
+            }, {
+                field: 'leaveTime',
+                title: '结束时间'
+            }, {
+                field: 'studentName',
+                title: '学生姓名'
+            }, {
+                field: 'reasonLeave',
+                title: '请假事由'
+            }, {
+                field: 'approvalStatus',
+                title: '审批状态',
+                formatter: approval
+            }, {
+                field: 'operate',
+                title: '操作',
+                width: 150,
+                formatter: function (value, row, index) {
+                    return ['<button id = "leaveBtn" type = "button" class = " btn btn-white" title="通过审查"  data-toggle="modal"  data-toggle="tooltip" > <i class="glyphicon glyphicon-ok"/> </button>' +
+                    '<button id = "leaveBtn_1" type = "button" class = "btn  btn-white" data-toggle="modal" data-toggle="tooltip"  title="拒绝审查" > <i class="glyphicon glyphicon-remove text-danger"/> </button>'];//删除
+                },
+                events: {
+                    "click #leaveBtn": function (e, value, row, index) {
+                        $('#leave').modal();
+                        /*回显数据*/
+                        $('#leaveId').val(row.id);
+                    },
+                    "click #leaveBtn_1": function (e, value, row, index) {
+                        $('#no_leave').modal();
+                        /*回显数据*/
+                        $('#refuseId').val(row.id);
+                    }
+
+                }
+            }]
+
+        });
+
+        function approval(value) {
+            if (value == 1) {
+                return "待审核";
+            }
+            if (value == 2) {
+                return "审核通过"
+            }
+            if (value == 0) {
+                return "未通过"
+            } else {
+                return "状态错误"
+            }
+        }
+
+        $('#allowApproval').click(function () {
+            let leaveId = $('#leaveId').val();
+            console.log(leaveId);
+            $.ajax({
+                type: "POST",
+                url: "/owep/class/allowApprovalStatus?id=" + leaveId,
+                contentType: "application/json",
+                success: function (data) {
+                    $('#tb_departments_6').bootstrapTable("refresh");
+                    $("#leave").modal('hide');
+                },
+                error: function (jqXHQ) {
+                    alert("修改失败");
+                }
+            });
+        })
+
+        $('#refuseApproval').click(function () {
+            let refuseId = $('#refuseId').val();
+            $.ajax({
+                type: "POST",
+                url: "/owep/class/refushApprovalStatus?id=" + refuseId,
+                contentType: "application/json",
+                success: function (data) {
+                    $('#tb_departments_6').bootstrapTable("refresh");
+                    $("#no_leave").modal('hide');
+                },
+                error: function (jqXHQ) {
+                    alert("修改失败");
+                }
+            });
+        })
+
+        //============================================违纪问题==================================================
+        $('#tb_departments_7').bootstrapTable({
+            url: '/owep/class/Illegal',       //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            striped: true,                      //是否显示行间隔色
+            pagination: true,                   //是否显示分页（*）
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            columns: [{
+                    field: 'stuNumber',
                     title: '学号'
                 }, {
-                    field: 'student_name',
+                    field: 'studentName',
                     title: '姓名'
                 }, {
-                    field: 'discipline_time',
+                    field: 'disciplineTime',
                     title: '违纪时间'
                 }, {
-                    field: 'presentation_condition',
+                    field: 'presentationCondition',
                     title: '情况说明'
                 }, {
                     field: 'operate',
                     title: '操作',
                     width: 150,
                     events: {
-                        "click #leave_btn": function (e, value, row, index) {
-                            swal({
-                                title: "您确定要删除这条信息吗",
-                                text: "删除后将无法恢复，请谨慎操作！",
-                                type: "warning",
-                                showCancelButton: true,
-                                cancelButtonText: '取消',
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "删除",
-                                closeOnConfirm: false
-                            }, function () {
-                                //TODO 发送ajax请求
-                                swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                            });
+                        'click button[title=删除]': function (e, value, row, index) {//动态嵌入按键：删除
+                            deleteRecord(e, value, row, index, "/owep/class/deleteClassRequestionId", '#tb_departments_7');
                         }
                     },
                     formatter: function (value, row, index) {
@@ -1178,8 +1230,65 @@
                         '<button id = "leave_btn" type = "button" class = "btn  btn-white" data-toggle="tooltip" data-placement="top" title="删除" > <i class="glyphicon glyphicon-trash text-danger"/> </button>'];//删除
                     }
                 }],
-
         });
+
+        //违纪的查询按钮
+        $("#selectIllegal").click(function () {
+            let stuNumber = "%"+$("#class_num").val()+"%";
+            let studentName = "%"+$("#major_name").val()+"%";
+            let creatTime = $("#start").val();
+            let endTime = $("#end").val();
+            let key = {
+                "stuNumber": stuNumber,
+                "studentName":studentName,
+                "creatTime":creatTime,
+                "endTime":endTime
+            }
+            $.ajax({
+                url: "/owep/class/findIllegalByField",
+                method: "post",
+                data: key,
+
+                success: function (data) {
+                    $("#tb_departments_7").bootstrapTable("load", data);
+                },
+                error: function (jqXHR) {
+                    alert("查询失败");
+                }
+            })
+        })
+
+        /*添加违纪按钮*/
+        $('#add_sure').click(function () {
+            var form = document.forms["addIllegalForm"];
+            var formData = new FormData(form);
+            //获取add_form_model表单并提交
+            // let illegalStudent=$("#IllegalId").val();
+            // let illegalTime=$("#bad_time").val();
+            // let pollContent = $("#illustrate").val();
+            // var illegal = {
+            //     "studentName": illegalStudent,
+            //     "disciplineTime": illegalTime,
+            //     "presentationCondition":pollContent
+            // };
+            //var illegalJSON = JSON.stringify(illegal);
+            $.ajax({
+                type: "POST",
+                url: "/owep/class/addIllegal",
+                data: formData,
+                dataType: "text",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#tb_departments_7").bootstrapTable("refresh");
+                    $("#add").modal("hide");
+                },
+                error: function (jqXHQ) {
+                    alert("添加失败");
+                }
+            });
+        });
+
 
         //鼠标悬停提示
         $(function () {
@@ -1211,23 +1320,28 @@
     };
 
     //自动补齐违规学生
-    $(".org").bsSuggest({
+    var classId="[[${classId}]]";
+    var testIllegal=$("#IllegalId").bsSuggest({
         indexId: 0, //data.value 的第几个数据，作为input输入框的内容
         indexKey: 0, //data.value 的第几个数据，作为input输入框的内容
         //TODO 通过json显示数据
-        data: {
-            'value': [
-                {
-                    'name': "韩梅梅",
-                    'student_number': "stu110",
-                },
-                {
-                    'name': "李雷",
-                    'student_number': 'stu119',
-                }
-            ]
-        }
+        url:"/owep/class/findIllegalStudent?classId="+classId,
+        showBtn: true,
+        idField: "id",
+        keyField: "stuName",
+        effectiveFields: ["stuName"],
+        searchFields:["stuName"]
+    }).on("onSetSelectValue",function (e, keyword) {
+        $("#studentId").val(keyword.id);
     });
+
+    $(function () {
+        $("#back").click(function () {
+            $.ajax({
+                url: "/owep/teaching/backTeaching"
+            })
+        })
+    })
 
 </script>
 <!--班级问题富文本框-->

@@ -39,13 +39,11 @@ public class SpringDataUserDetailService implements UserDetailsService {
     @Autowired
     MenuService menuService;
 
-
-
-
-
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-
+        System.out.println("name="+name);
         UserDto userDto = userService.selectByName(name);
+        System.out.println(userDto);
+        System.out.println(userService);
         Set<Permission> permissionSet = new HashSet<>(userService.getPermissionListByUserId(userDto.getId()));//使用set筛除重复元素
         if(permissionSet.size()>0){
 //            Set<String> permissionIds = new HashSet<>();//以数组形式提取权限id

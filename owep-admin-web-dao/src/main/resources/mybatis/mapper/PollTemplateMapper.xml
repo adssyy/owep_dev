@@ -44,11 +44,60 @@
   </delete>
 
   <!--  添加考评模板  -->
-  <insert id="save" parameterType="com.kclm.owep.entity.PollTemplate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-    insert into t_poll_template (id, template_content, template_name, 
-      template_num, template_status,create_time,version,last_access_time)
-    values (null,#{templateContent,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR},
-      #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER},now(),1,null)
+  <insert id="save" parameterType="PollTemplate" >
+    insert into t_poll_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="templateContent != null">
+        template_content,
+      </if>
+      <if test="templateName != null">
+        template_name,
+      </if>
+      <if test="templateNum != null">
+        template_num,
+      </if>
+      <if test="templateStatus != null">
+        template_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER} ,
+      </if>
+      <if test="templateContent != null">
+        #{templateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        #{templateName,jdbcType=VARCHAR} ,
+      </if>
+      <if test="templateNum != null">
+        #{templateNum,jdbcType=VARCHAR} ,
+      </if>
+      <if test="templateStatus != null">
+        #{templateStatus,jdbcType=INTEGER} ,
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP} ,
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER} ,
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP} ,
+      </if>
+    </trim>
   </insert>
 
 
@@ -161,5 +210,13 @@
   <delete id="deleteTemplateItem">
     delete from t_template_item where poll_id = #{pid}
   </delete>
+
+  <delete id="deletePollTemplateIdItems">
+  delete  from t_template_item where  poll_id=#{id}
+  </delete>
+
+<insert id="attachItemsToPollTemplate">
+    insert into t_template_item(poll_id,template_id) value(#{pollId},#{templateId})
+</insert>
 
 </mapper>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ExamQuesMapper">
+    <resultMap id="BaseResultMap" type="com.kclm.owep.entity.ExamQues">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ques_type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="ques_hard_level" jdbcType="VARCHAR" property="hardLevel"/>
+        <result column="ques_source" jdbcType="VARCHAR" property="source"/>
+        <result column="ques_lable" jdbcType="VARCHAR" property="lable"/>
+        <result column="ques_status" jdbcType="INTEGER" property="status"/>
+        <result column="ques_content" jdbcType="VARCHAR" property="quesContent"/>
+        <result column="correct_answer" jdbcType="VARCHAR" property="correctAnswer"/>
+        <result column="ques_analyze" jdbcType="VARCHAR" property="analyze"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+        <result column="use_count" jdbcType="INTEGER" property="useCount"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <association property="examBank"
+                     column="bank_id"
+                     javaType="com.kclm.owep.entity.ExamBank"
+                     select="com.kclm.owep.mapper.ExamBankMapper.selectById"/>
+        <collection property="answerSetList" ofType="com.kclm.owep.entity.ExamQuesAnswerSet">
+            <id property="id" column="aid"/>
+            <result property="answerContent" column="answer_content"/>
+            <result property="answerStatus" column="answer_status"/>
+        </collection>
+    </resultMap>
+
+    <!--所有字段-->
+    <sql id="Base_Column_List">
+        id
+        ,ques_type_name,ques_hard_level,ques_source,ques_lable,ques_status,
+        ques_content,ques_analyze,is_delete,create_time,version,
+        last_access_time,use_count,bank_id,user_name
+    </sql>
+
+    <!--添加试题-->
+    <insert id="addQues" parameterType="ExamQues" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_exam_ques
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeName != null">
+                ques_type_name,
+            </if>
+            <if test="hardLevel != null">
+                ques_hard_level,
+            </if>
+            <if test="source != null">
+                ques_source,
+            </if>
+            <if test="lable != null">
+                ques_lable,
+            </if>
+            <if test="status != null">
+                ques_status,
+            </if>
+            <if test="quesContent != null">
+                ques_content,
+            </if>
+            <if test="correctAnswer != null">
+                correct_answer,
+            </if>
+            <if test="analyze != null">
+                ques_analyze,
+            </if>
+            is_delete,
+            create_time,
+            version,
+            last_access_time,
+            use_count,
+            <if test="examBank.id != null">
+                bank_id,
+            </if>
+            <if test="userName != null">
+                user_name
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeName != null">
+                #{typeName},
+            </if>
+            <if test="hardLevel != null">
+                #{hardLevel},
+            </if>
+            <if test="source != null">
+                #{source},
+            </if>
+            <if test="lable != null">
+                #{lable},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="quesContent != null">
+                #{quesContent},
+            </if>
+            <if test="correctAnswer != null">
+                #{correctAnswer},
+            </if>
+            <if test="analyze != null">
+                #{analyze},
+            </if>
+            /*默认没删除*/
+            1,
+            now(),
+            /*默认版本为1*/
+            1,
+            now(),
+            /*使用次数为0*/
+            0,
+            <if test="examBank.id != null">
+                #{examBank.id},
+            </if>
+            <if test="userName != null">
+                #{userName}
+            </if>
+        </trim>
+    </insert>
+
+    <!--添加答案-->
+    <insert id="addQuesAnswer">
+        insert into t_exam_ques_answerset(id,ques_id,type_name,answer_content,answer_status)
+        values
+        <foreach collection="list" item="list" index="index" separator=",">
+            (null,#{id},#{list.typeName},#{list.answerContent},#{list.answerStatus})
+        </foreach>
+    </insert>
+
+    <!--查询所有试题-->
+    <select id="selectAllByUserName" parameterType="String" resultMap="BaseResultMap">
+        select t_exam_ques.id,
+               ques_type_name,
+               ques_hard_level,
+               ques_source,
+               ques_lable,
+               ques_status,
+               ques_content,
+               ques_analyze,
+               correct_answer,
+               is_delete,
+               create_time,
+               version,
+               last_access_time,
+               use_count,
+               bank_id,
+               user_name,
+               t_exam_ques_answerset.id aid,
+               answer_content,
+               answer_status
+        from t_exam_ques
+                 left join t_exam_ques_answerset
+                           on t_exam_ques.id = t_exam_ques_answerset.ques_id
+        where user_name = #{name}
+          and is_delete = 1
+    </select>
+
+    <!--修改试题-->
+    <update id="alterQues" parameterType="ExamQues">
+        update t_exam_ques
+        <set>
+            <if test="typeName != null">
+                ques_type_name = #{typeName},
+            </if>
+            <if test="hardLevel != null ">
+                ques_hard_level = #{hardLevel},
+            </if>
+            <if test="source != null">
+                ques_source = #{source},
+            </if>
+            <if test="lable != null">
+                ques_lable = #{lable},
+            </if>
+            <if test="status != null">
+                ques_status = #{status},
+            </if>
+            <if test="quesContent != null">
+                ques_content = #{quesContent},
+            </if>
+            <if test="correctAnswer != null">
+                correct_answer = #{correctAnswer},
+            </if>
+            <if test="analyze != null">
+                ques_analyze = #{analyze},
+            </if>
+            version = version + 1,
+            last_access_time = now(),
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--修改答案-->
+    <update id="alterQuesAnswer">
+            update t_exam_ques_answerset
+            <set>
+            type_name = #{typeName},
+            answer_content = #{answerContent},
+            answer_status = #{answerStatus}
+            </set>
+            where id = #{id}
+    </update>
+
+    <!--查找答案id-->
+    <select id="selectAnswerId" resultType="INTEGER">
+        select id
+        from t_exam_ques_answerset
+        where ques_id = #{id}
+          and answer_content = #{content}
+    </select>
+
+    <!--删除答案-->
+    <delete id="delAnswerSet">
+        delete from t_exam_ques_answerset
+        where ques_id = #{id}
+    </delete>
+
+    <!--模糊查询试题-->
+    <select id="selectByKeys" parameterType="ExamQues" resultMap="BaseResultMap">
+        select t_exam_ques.id,
+               ques_type_name,
+               ques_hard_level,
+               ques_source,
+               ques_lable,
+               ques_status,
+               ques_content,
+               ques_analyze,
+               correct_answer,
+               is_delete,
+               create_time,
+               version,
+               last_access_time,
+               use_count,
+               bank_id,
+               user_name,
+               t_exam_ques_answerset.id aid,
+               answer_content,
+               answer_status
+        from t_exam_ques
+                 left join t_exam_ques_answerset
+                           on t_exam_ques.id = t_exam_ques_answerset.ques_id
+        where
+            <trim>
+                <if test="quesContent != null and quesContent !=''">
+                    ques_content like concat('%',#{quesContent},'%') and
+                </if>
+                <if test="examBank.id !=null and examBank.id !=''">
+                    bank_id = #{examBank.id} and
+                </if>
+                <if test="typeName != null and typeName !=''">
+                    ques_type_name = #{typeName} and
+                </if>
+                <if test="lable != null and lable !=''">
+                    ques_lable = #{lable} and
+                </if>
+                <if test="hardLevel != null and hardLevel !=''">
+                    ques_hard_level = #{hardLevel} and
+                </if>
+                <if test="status != null and status !='' or status == 0">
+                    ques_status = #{status} and
+                </if>
+            </trim>
+          user_name = #{userName}
+          and is_delete = 1
+    </select>
+
+    <!--查找共享试题-->
+    <select id="findShareQues" resultMap="BaseResultMap">
+        select t_exam_ques.id,
+               ques_type_name,
+               ques_hard_level,
+               ques_source,
+               ques_lable,
+               ques_status,
+               ques_content,
+               ques_analyze,
+               correct_answer,
+               is_delete,
+               create_time,
+               version,
+               last_access_time,
+               use_count,
+               bank_id,
+               user_name,
+               t_exam_ques_answerset.id aid,
+               answer_content,
+               answer_status
+        from t_exam_ques
+                 left join t_exam_ques_answerset
+                           on t_exam_ques.id = t_exam_ques_answerset.ques_id
+        where
+            bank_id in
+            <foreach collection="list" item="ids" open="(" close=")" separator=",">
+                ${ids}
+            </foreach>
+            and is_delete = 1
+    </select>
+
+    <!--根据id查询试题-->
+    <select id="findById" resultMap="BaseResultMap">
+        select t_exam_ques.id,
+               ques_type_name,
+               ques_hard_level,
+               ques_source,
+               ques_lable,
+               ques_status,
+               ques_content,
+               ques_analyze,
+               correct_answer,
+               is_delete,
+               create_time,
+               version,
+               last_access_time,
+               use_count,
+               bank_id,
+               user_name,
+               t_exam_ques_answerset.id aid,
+               answer_content,
+               answer_status
+        from t_exam_ques
+                 left join t_exam_ques_answerset
+                           on t_exam_ques.id = t_exam_ques_answerset.ques_id
+        where t_exam_ques.id = #{id}
+          and is_delete = 1
+    </select>
+</mapper>

@@ -22,6 +22,9 @@ import java.util.List;
 @Mapper
 public interface PollTemplateMapper extends BaseMapper<PollTemplate> {
 
+    @Override
+    List<PollTemplate> selectAll();
+
     /***
      * 统计考评模板数量
      * @return
@@ -52,4 +55,12 @@ public interface PollTemplateMapper extends BaseMapper<PollTemplate> {
 
     @Override
     PollTemplate selectById(@Param("id") Serializable id);
+
+    int save(PollTemplate pollTemplate);
+
+    int deletePollTemplateIdItems(Serializable id);
+
+    int attachItemsToPollTemplate(Serializable pollId,Serializable templateId);
+
+
 }
