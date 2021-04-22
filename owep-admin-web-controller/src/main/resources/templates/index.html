@@ -576,31 +576,31 @@
             success: function (data){
                 console.log(data);
                 console.log("dataLength:"+data.length);
-                        for(let i =0;i<data.length;i++) {
-                            let icon =  data[i].iconName;
+                        for(var i =0;i<data.length;i++) {
+                            var icon =  data[i].iconName;
                             if(icon==null) icon = "fa fa-table";
-                            let li_head = '<li class="active">\n' +
+                            var li_head = '<li class="active">\n' +
                                         '<a href="#">\n' +
                                             '<i class="'+icon+'"></i>\n' +
                                             '<span class="nav-label">'+data[i].menuName+'</span><span class="fa arrow"></span>\n' +
                                         '</a>\n';
-                            let li_tail =  '</li>';
-                            let subMenus = data[i].subMenus;
+                            var li_tail =  '</li>';
+                            var subMenus = data[i].subMenus;
                             if(subMenus != null) {//需要排除子菜单为空的情形
-                                let ul_top = '<ul class="nav nav-second-level">\n';
-                                let ul_contain = '';
-                                for(let j = 0; j<subMenus.length;j++){
-                                    let subMenu = subMenus[j];
-                                    let url = subMenu.menuUrl;
-                                    let menuName = subMenu.menuName;
-                                    let ul_li =       '<li>\n' +
+                                var ul_top = '<ul class="nav nav-second-level">\n';
+                                var ul_contain = '';
+                                for(var j = 0; j<subMenus.length;j++){
+                                    var subMenu = subMenus[j];
+                                    var url = subMenu.menuUrl;
+                                    var menuName = subMenu.menuName;
+                                    var ul_li =       '<li>\n' +
                                                         '<a class="J_menuItem" href="/owep/'+url+'"><i\n class="fa fa-circle-o"></i>'+menuName+'</a>\n' +
                                                     '</li>\n';
                                      ul_contain = ul_contain+ul_li;//拼接
                                 }
-                                let ul_tail = '</ul>\n';
+                                var ul_tail = '</ul>\n';
 
-                               let ul = ul_top+ul_contain+ul_tail;//追加左侧边栏html 二级菜单
+                               var ul = ul_top+ul_contain+ul_tail;//追加左侧边栏html 二级菜单
                                 $("#side-menu").append(li_head+ul+li_tail);//追加左侧边栏html 二级菜单
                             }else{
                                 $("#side-menu").append(li_head+li_tail);//追加左侧边栏html 二级菜单
@@ -609,7 +609,7 @@
                                             }
 
                 //
-                let script = "<script type='text/javascript' src='"+context+"static/js/contabs.js'/>";
+                var script = "<script type='text/javascript' src='"+context+"static/js/contabs.js'/>";
                 $("body").append(script);
             },
             error:function (jqXHR) {
