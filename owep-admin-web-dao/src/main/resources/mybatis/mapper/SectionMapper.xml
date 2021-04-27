@@ -171,7 +171,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-
+    <select id="selectBySectionName" resultType="section">
+      select * from t_section where  section_name = #{value} and is_delete = 1
+    </select>
 
 
 </mapper>

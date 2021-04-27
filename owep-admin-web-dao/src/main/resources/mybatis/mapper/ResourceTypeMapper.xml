@@ -48,6 +48,12 @@
             #{resourceType.id}
         </foreach>
     </delete>
+    <delete id="deleteSelect1" parameterType="com.kclm.owep.entity.ResourceType">
+        delete from t_resource_type where id in
+        <foreach collection="list" item="resourceType" open="(" separator="," close=")">
+            #{resourceType.id}
+        </foreach>
+    </delete>
     <!--根据ID查询-->
     <select id="selectById" resultMap="ResourceTypeResultMap">
         select * from t_resource_type where
@@ -67,6 +73,11 @@
         select * from t_resource_type
         where
         is_delete=1
+    </select>
+    <select id="selectByTypeName" resultMap="ResourceTypeResultMap">
+          select * from t_resource_type where
+        type_name = #{value}
+        and is_delete=1
     </select>
 
 </mapper>

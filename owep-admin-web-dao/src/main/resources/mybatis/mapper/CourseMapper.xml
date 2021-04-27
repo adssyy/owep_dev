@@ -282,7 +282,12 @@
     from t_course where is_delete = 1
   </select>
 
+    <select id="findChaptersByCourseId" resultType="com.kclm.owep.entity.Chapter">
 
+    </select>
+    <select id="findByCourseName" resultMap="BaseResultMap">
+        select * from t_course where course_name =#{value}
+    </select>
 
 
 </mapper>

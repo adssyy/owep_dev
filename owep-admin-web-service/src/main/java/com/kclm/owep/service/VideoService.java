@@ -30,4 +30,7 @@ public interface VideoService {
 
     Map<String,int[]> weekVideo();
 
+    //
+    Video selectByVideoName(String name);
+
 }

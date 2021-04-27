@@ -29,6 +29,8 @@ public interface VideoMapper extends BaseMapper<Video> {
     @Override
     int update(Video video);
 
+    Video selectByVideoName(String name);
+
     @Override
     List<Video> selectAll();
 }

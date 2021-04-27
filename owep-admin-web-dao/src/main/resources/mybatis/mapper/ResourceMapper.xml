@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kclm.owep.mapper.ResourceMapper">
+
+    <resultMap id="SuffixMap" type="com.kclm.owep.entity.ResourceSuffix">
+        <result column="resource_suffix" jdbcType="VARCHAR" property="resourceSuffix" />
+
+    </resultMap>
   <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Resource">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
@@ -21,6 +26,7 @@
     <association property="chapter" column="fk_chapter_id" javaType="com.kclm.owep.entity.Chapter" select="com.kclm.owep.mapper.ChapterMapper.selectById"/>
     <association property="resourceType" column="fk_resource_type_id" javaType="com.kclm.owep.entity.ResourceType" select="com.kclm.owep.mapper.ResourceTypeMapper.selectById"/>
   </resultMap>
+
   <sql id="Base_Column_List">
     id, resource_name, resource_type, resource_suffix, resource_size, resource_title,
     resource_path, resource_label, resource_desc, create_time, is_delete,fk_section_id,fk_chapter_id,fk_course_id,fk_resource_type_id,
@@ -100,8 +106,12 @@
 </delete>
 
     <!--通过资源名查找-->
-    <select id="selectByResourceName" resultType="com.kclm.owep.entity.Resource" parameterType="String">
+    <select id="selectByResourceName" resultMap="BaseResultMap">
         select * from t_resource where resource_name like concat('%',#{keyword},'%') and is_delete = 1
+    </select>
+
+    <select id="selectByResourceSuffix" resultMap="BaseResultMap">
+        select * from t_resource where resource_suffix like concat('%',#{keyword},'%') and is_delete = 1
     </select>
 
     <!--根据资源名查找-->
@@ -121,8 +131,9 @@
      is_delete=1
     <!--根据班级和关键词查询-->
     </select>
+
     <!-- 查询后缀名 -->
-    <select id="selectResourceSuffix" resultType="com.kclm.owep.entity.Resource">
+    <select id="selectResourceSuffix" resultMap="BaseResultMap">
         select distinct resource_suffix from t_resource where is_delete = 1
     </select>
 
@@ -163,4 +174,27 @@
         </foreach>
          and fk_class_id = #{cid}
     </delete>
+
+    <select id="selectByResourceDTO" resultMap="BaseResultMap">
+        select
+        *
+        from t_resource
+        where
+        1=1
+        <if test="resourceSuffix != null and resourceSuffix != ''">
+            and resource_suffix like "%"#{resourceSuffix,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="resourceName != null and resourceName != ''">
+            and resource_name  like "%"#{resourceName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="interviewTimeStart != null">
+            and create_time &gt; #{interviewTimeStart}
+        </if>
+        <if test="interviewTimeEnd != null">
+            and create_time &lt; #{interviewTimeEnd}
+        </if>
+
+        and is_delete = 1
+    </select>
+
 </mapper>

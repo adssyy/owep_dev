@@ -6,6 +6,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.ResourceDTO;
 import com.kclm.owep.entity.Resource;
+import com.kclm.owep.entity.ResourceSuffix;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -17,13 +18,18 @@ import java.util.List;
  *@Create 2020/7/15 0015 17:12
  *@Description 文件管理业务层
  */
-@Service
+
 public interface ResourceService {
 
     /**
      * 通过资源名称
      */
     List<ResourceDTO> findResourceName(String courseName);
+
+    /**
+    *d通过类型搜索
+     */
+    List<ResourceDTO> findResourceSuffix(String resourceSuffix);
 
     /**
      * 查询多个对象
@@ -35,7 +41,7 @@ public interface ResourceService {
     /**
      * 依靠主键查询
      */
-    ResourceDTO findById(Serializable id);
+    Resource findById(Serializable id);
 
     /**
      * 依靠多个主键值，删除多行记录
@@ -70,7 +76,7 @@ public interface ResourceService {
      * @date 2020-12-3 11:17
      * @For 查询所有后缀
      */
-    List<String> selectResourceSuffix();
+    List<Resource> selectResourceSuffix();
 
     /**
      * @author zhang_hy
@@ -90,5 +96,8 @@ public interface ResourceService {
     int deleteFromClass(Serializable cid,Serializable rid);
 
     int deleteSelectFromClass(Serializable cid, List<Serializable> idList);
+
+    //selectbydto
+    List<ResourceDTO> selectByTimeRangeAndsuffixAndname(ResourceDTO resourceDTO);
 
 }

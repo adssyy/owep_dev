@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.mapper;
 
+import com.kclm.owep.entity.Chapter;
 import com.kclm.owep.entity.Course;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -28,6 +29,8 @@ public interface CourseMapper extends BaseMapper<Course> {
      */
     List<Course> selectByCourseName(String CourseName);
 
+
+
     @Override
     int save(Course entity);
 
@@ -43,7 +46,13 @@ public interface CourseMapper extends BaseMapper<Course> {
     @Override
     Course selectById(Serializable id);
 
+
+    Course findByCourseName(String name);
+
     @Override
     List<Course> selectAll();
+
+    //通过课程id查询所有章节
+    List<Chapter> findChaptersByCourseId(Serializable id);
 
 }

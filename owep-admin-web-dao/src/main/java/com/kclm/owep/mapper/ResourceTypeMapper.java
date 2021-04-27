@@ -3,6 +3,7 @@
  */
 package com.kclm.owep.mapper;
 
+import com.kclm.owep.entity.Resource;
 import com.kclm.owep.entity.ResourceType;
 import com.kclm.owep.mapper.common.BaseMapper;
 
@@ -41,8 +42,13 @@ public interface ResourceTypeMapper extends BaseMapper<ResourceType> {
     @Override
     int deleteSelect(List<Serializable> idList);
 
+    int deleteSelect1(List<ResourceType> idList);
+
+
     @Override
     ResourceType selectById(Serializable id);
+
+    ResourceType selectByTypeName(String resourceName);
 
     @Override
     List<ResourceType> selectAll();
