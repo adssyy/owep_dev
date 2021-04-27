@@ -160,6 +160,9 @@ public interface CourseService {
      */
 
     List<Section> selectAllById(Serializable id);
+    //
+
+    Course findByCourseName(String name);
 
 
 }

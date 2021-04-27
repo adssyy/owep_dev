@@ -213,6 +213,12 @@ createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdb
   <select id="rowTotal" parameterType="chapter" resultType="java.lang.Long">
     select count(*) from t_chapter where is_delete = 1
   </select>
+    <select id="findByChapterName" resultType="Chapter">
+      select
+      <include refid="Base_Column_List"/>
+      from t_chapter
+      where chapter_name = #{value} and is_delete = 1
+    </select>
 
 
 </mapper>

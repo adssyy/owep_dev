@@ -36,8 +36,8 @@ function deleteRecord(e, value, row, index, url, event) {
         confirmButtonText: "删除",
         closeOnConfirm: false
     }, function () {
-        let id = row.id;
-        alert(id);
+        var id = row.id;
+        //alert(id);
          //发送ajax 删除
               $.ajax({
                   url: url+"?id="+id,
@@ -52,13 +52,17 @@ function deleteRecord(e, value, row, index, url, event) {
                       //window.location.reload();
                       $(event).bootstrapTable("refresh");
 
+                      //根据Id字段删除对应的数据
+                      $(event).bootstrapTable('removeByUniqueId', id);
+
                   },
+
                   error: function (jqXHR) {
                       swal("删除失败！", "未知错误", "error");
                   }
+
               });
-        //根据Id字段删除对应的数据
-        $(event).bootstrapTable('removeByUniqueId', id);
+
 
         swal("删除成功！", "您已经永久删除信息", "success");
     });
@@ -69,7 +73,7 @@ function deleteRecord(e, value, row, index, url, event) {
 * event->页面选择器
 * */
 function deleteAllRecords(url, event) {
-    let rows = $(event).bootstrapTable('getAllSelections');
+    var rows = $(event).bootstrapTable('getAllSelections');
     console.log(rows);
     if (rows.length == 0) {
         swal("至少选中一行！", "", "error");

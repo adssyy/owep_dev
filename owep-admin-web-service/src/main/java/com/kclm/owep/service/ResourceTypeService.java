@@ -5,6 +5,7 @@
 package com.kclm.owep.service;
 
 import com.kclm.owep.dto.ResourceTypeDTO;
+import com.kclm.owep.entity.Resource;
 import com.kclm.owep.entity.ResourceType;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ public interface ResourceTypeService {
      */
     ResourceTypeDTO findByKeywords(String keyword);
 
+    //
+    ResourceType findByTypeName(String s);
+
     /**
      * 查询多个对象
      */
@@ -40,6 +44,8 @@ public interface ResourceTypeService {
      *  依靠多个主键值，删除多行记录
      */
     int deleteSelectResourceType(List<Serializable> idList);
+
+    int deleteSelectResourceType1(List<ResourceType> idList);
 
     /**
      * 依靠主键删除

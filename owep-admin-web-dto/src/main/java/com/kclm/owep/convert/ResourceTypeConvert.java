@@ -7,6 +7,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * TODO
  *
@@ -29,6 +31,8 @@ public interface ResourceTypeConvert {
     @Mapping(target = "createTime", source = "createTime")
     @Mapping(target = "isDelete", source = "isDelete")
     ResourceTypeDTO PO2DTO(ResourceType resourceType);
+    List<ResourceTypeDTO> POs2DTOs(List<ResourceType> resourceTypes);
+
 
     /**
      *
@@ -42,6 +46,6 @@ public interface ResourceTypeConvert {
     @Mapping(target = "createTime", source = "createTime")
     @Mapping(target = "isDelete", source = "isDelete")
     ResourceType updatePOFromDTO(ResourceTypeDTO resourceTypeDTO, @MappingTarget ResourceType resourceType);
-
+    List<ResourceType> updatePOsFromDTOs(List<ResourceTypeDTO> resourceTypeDTOS );
 
 } 

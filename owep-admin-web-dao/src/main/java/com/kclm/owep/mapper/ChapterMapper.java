@@ -47,4 +47,8 @@ public interface ChapterMapper extends BaseMapper<Chapter> {
 
     @Override
     List<Chapter> selectAll();
+
+    Chapter findByChapterName(String name);
+
+
 }

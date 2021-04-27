@@ -124,7 +124,7 @@
 <script type="text/javascript" th:inline="javascript">
     $(function () {
         /*init角色管理表*/
-        let $actionListTable = $("#actionListTable");
+        var $actionListTable = $("#actionListTable");
 
         /* 后台数据渲染前段表格 */
         $actionListTable.bootstrapTable({
@@ -181,16 +181,16 @@
         }
 
         /*添加提交表单*/
-        let model_add_btn = $('#model_add_btn');
+        var model_add_btn = $('#model_add_btn');
         model_add_btn.click(function () {
             // console.log("add submit btn");
-            let typeName = $("#add_typeName").val();
-            let typeDesc = $("#add_typeDesc").val();
+            var typeName = $("#add_typeName").val();
+            var typeDesc = $("#add_typeDesc").val();
 
             console.log("typeName = "+typeName);
             console.log("typeDesc = "+typeDesc);
 
-            let typeData ={
+            var typeData ={
                 typeName:typeName,
                 typeDesc:typeDesc,
             };
@@ -202,7 +202,7 @@
                 dataType:"text",
                 //contentType:"application/json",
                 success:function(data){
-                    alert(data);
+                    //alert(data);
                     window.location.reload();
                 },
                 error: function (jqXRH) {
@@ -214,13 +214,13 @@
 
         /*绑定批量删除按钮*/
         $("#delAll").click(function () {
-            let idlist = $actionListTable.bootstrapTable('getAllSelections');
-            let ids = JSON.stringify(idlist);
+            var idlist = $actionListTable.bootstrapTable('getAllSelections');
+            var ids = JSON.stringify(idlist);
             if (idlist.length === 0) {
                 alert("请至少选择一个")
             } else {
                 if (confirm("确定删除这些数据么")) {
-                    alert("删除:" + ids);
+                    //alert("删除:" + ids);
                    /* window.location.reload();*/
                     //ajax发送异步请求
                     $.ajax({

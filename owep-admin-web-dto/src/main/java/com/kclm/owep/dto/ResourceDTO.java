@@ -87,6 +87,9 @@ public class ResourceDTO implements java.io.Serializable{
      */
     private Course course;
 
+    public ResourceDTO() {
+    }
+
     public Integer getId() {
         return id;
     }

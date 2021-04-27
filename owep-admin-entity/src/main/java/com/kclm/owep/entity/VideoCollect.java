@@ -15,6 +15,7 @@ import java.util.Objects;
  * @Description 视频观看历史
  */
 
+
 public class VideoCollect implements Serializable {
 
     /***
