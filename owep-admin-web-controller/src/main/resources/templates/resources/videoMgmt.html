@@ -119,9 +119,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default"  data-dismiss="modal">关闭</button>
                 <button type="submit" id="btnUpModal" class="btn btn-primary">保存</button>
             </div>
+
 
         </div>
     </div>
@@ -286,12 +287,20 @@
         /*初始化图片上传fileInput*/
         let $single = $("#input-single");
         let $multiple = $("#input-multiple");
-        let $inputFiles = $("#inputFiles");
         initUpFile($single, true, 1);
         initUpFile($multiple, false, 10);
+
+        var $inputFiles = $("#inputFiles");
         initUpFile($inputFiles, false, 10);
 
     });
+
+
+    //上传模态框 --保存按钮
+    $("#btnUpModal").click(function () {
+        window.location.reload();
+
+    })
 
     /*初始化上传*/
     function initUpFile(o, b, num) {
@@ -368,7 +377,7 @@
             alert("上传失败" + msg)
         });
         o.on("fileuploaded", function (event, previewId, index, fileId) {
-            alert(("上传成功"))
+            //alert(("上传成功"))
         })
     }
 
@@ -464,8 +473,11 @@
                                 $("h4[name='dirTitle']").text(row.videoMsg);
                                 $("#tableUpModal").modal();
                                 $("#btnTableUpModal").click(function () {
-
-                                    $("#tableUpModal").modal('toggle');
+                                    console.log("进入了表格中上传模态框的保存按钮，单击事件")
+                                    window.location.reload();
+                                    //$("#tableUpModal").modal('toggle');
+                                    //var $inputFiles = $("#inputFiles");
+                                    //initUpFile($inputFiles, false, 10);
 
                                 })
                             }
