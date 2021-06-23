@@ -2,6 +2,7 @@ package com.kclm.owep.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ExamPaper implements Serializable {
     /*
@@ -51,8 +52,6 @@ public class ExamPaper implements Serializable {
     *管理权限（0为完全私有，1为只读共享）
     * */
     private Integer paperSecurity;
-
-
 
     /*
     * 试卷总分
