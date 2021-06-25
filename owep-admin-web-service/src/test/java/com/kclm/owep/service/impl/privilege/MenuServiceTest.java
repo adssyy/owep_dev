@@ -5,9 +5,9 @@ import com.kclm.owep.dto.MenuDTO;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.entity.Menu;
 import com.kclm.owep.service.MenuService;
-import com.kclm.owep.service.impl.SysStatisticsServiceImplTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,7 +21,8 @@ import java.util.Map;
  * @author: qi_kran
  * @create: 2020-07-17 10:34
  **/
-class MenuServiceTest extends SysStatisticsServiceImplTest {
+@SpringBootTest
+public class MenuServiceTest {
      @Autowired
      private MenuService menuService;
 

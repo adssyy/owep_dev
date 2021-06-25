@@ -5,16 +5,14 @@ import com.kclm.owep.dto.RoleDTO;
 import com.kclm.owep.dto.RolePermissionDTO;
 import com.kclm.owep.entity.Role;
 import com.kclm.owep.service.RoleService;
-import com.kclm.owep.service.impl.SysStatisticsServiceImplTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @program: owep
@@ -23,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author: qi_kran
  * @create: 2020-07-17 10:35
  **/
-class RoleServiceTest extends SysStatisticsServiceImplTest {
+@SpringBootTest
+public class RoleServiceTest {
 @Autowired
 private RoleService roleService;
     @Test
