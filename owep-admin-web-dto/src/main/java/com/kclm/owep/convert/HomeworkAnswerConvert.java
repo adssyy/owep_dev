@@ -8,7 +8,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface HomeworkAnswerConvert {
+
     HomeworkAnswerConvert INSTENCE= Mappers.getMapper(HomeworkAnswerConvert.class);
+
     @Mapping(target ="workTitle",source = "homework.workTitle")
     @Mapping(target ="workContent",source = "homework.workContent")
     @Mapping(target ="answerContent",source = "answerContent")

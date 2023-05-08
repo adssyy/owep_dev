@@ -16,6 +16,7 @@ import java.util.Objects;
  * time：2020/7/3
  */
 public class Action implements Serializable {
+
     private Integer id;
     private String actionName;/** 行为名*/
     private String actionDescription;/** 行为描述*/

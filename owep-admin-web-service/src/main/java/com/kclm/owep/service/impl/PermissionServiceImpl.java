@@ -5,8 +5,7 @@
 
 package com.kclm.owep.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.kclm.owep.dto.ActionMenuPermissionDTO;
+import com.kclm.owep.convert.PermissionConvert;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.PermissionDTO;
 import com.kclm.owep.dto.PermissionMenuDTO;
@@ -16,8 +15,6 @@ import com.kclm.owep.entity.Permission;
 import com.kclm.owep.mapper.MenuMapper;
 import com.kclm.owep.mapper.PermissionMapper;
 import com.kclm.owep.service.PermissionService;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -37,8 +34,9 @@ public class PermissionServiceImpl implements PermissionService {
     private PermissionMapper permissionMapper;
     @Autowired
     private MenuMapper menuMapper;
+
     @Autowired
-    private MapperFactory mapperFactory;
+    private PermissionConvert permissionConvert;
 
     @Override
     public int saveOrUpdate(Permission permission) {
@@ -73,9 +71,7 @@ public class PermissionServiceImpl implements PermissionService {
     public PermissionDTO selectById(Serializable id) {
         if (id != null) {
             Permission permission = permissionMapper.selectById(id);
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            PermissionDTO map = mapperFacade.map(permission, PermissionDTO.class);
-            return map;
+            return permissionConvert.toDto(permission);
         } else {
             throw new IllegalArgumentException("id值不合法");
         }
@@ -85,9 +81,7 @@ public class PermissionServiceImpl implements PermissionService {
     public List<PermissionDTO> selectByName(String name) {
         Assert.notNull(name, "name为空");
         List<Permission> permissions = permissionMapper.selectByName(name);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<PermissionDTO> permissionDTOS = mapperFacade.mapAsList(permissions, PermissionDTO.class);
-        return permissionDTOS;
+        return permissionConvert.mapList(permissions);
     }
 
     @Override
@@ -95,9 +89,7 @@ public class PermissionServiceImpl implements PermissionService {
         if (pageNum >= 0) {
             //PageHelper.startPage(pageNum, PAGE_SIZE);
             List<Permission> permissions = permissionMapper.selectAll();
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            List<PermissionDTO> permissionDTOS = mapperFacade.mapAsList(permissions, PermissionDTO.class);
-            return permissionDTOS;
+            return permissionConvert.mapList(permissions);
         } else {
             throw new IllegalArgumentException("pageNum值不合法");
         }
@@ -107,24 +99,18 @@ public class PermissionServiceImpl implements PermissionService {
     public PermissionMenuDTO selectMenuByPermissionId(Serializable perId) {
         if (perId != null) {
             List<Permission> permissions = permissionMapper.selectMenuInPermission(perId);//获取所有与本权限相关的菜单（p-m中间表）
-//            System.out.println(permissions);//TODO
             Permission permission = permissions.get(0);
-            mapperFactory.classMap(Permission.class, PermissionMenuDTO.class)
-                    .field("id", "permissionId")
-                    .field("menus{id}", "menuIds{}")
-                    .register();
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            PermissionMenuDTO map = mapperFacade.map(permission, PermissionMenuDTO.class);
-//            System.out.println(map);//TODO
-            return map;
-        } else throw new IllegalArgumentException("perId值不合法");
+            return permissionConvert.toPermissionMenuDto(permission);
+
+        } else {
+            throw new IllegalArgumentException("perId值不合法");
+        }
     }
 
     @Override
     public List<NodeDTO> selectAllMenus() {
 
         List<Menu> menus = menuMapper.selectAll();
-//        System.out.println("select All:" + menus);//TODO 测点
         List<NodeDTO> nodeDTOs = new ArrayList<>();
         for (Menu menu: menus) {
             menu.setParent(menuMapper.selectParent(menu.getId()).getParent());
@@ -133,7 +119,6 @@ public class PermissionServiceImpl implements PermissionService {
             nodeDTO.setTags(menu.getId());
             nodeDTO.setText(menu.getMenuName());
                 List<Menu> childMenus = menuMapper.selectMenuChild(menu.getId()).getChildMenus();//查子菜单
-//                System.out.println("childMenus:"+childMenus);//TODO 测点
                 if(childMenus!=null&&childMenus.size()>0){//不为空则处理
                     List<NodeDTO> nodes = new ArrayList<>();
                     for (Menu childMenu :childMenus) {
@@ -143,7 +128,6 @@ public class PermissionServiceImpl implements PermissionService {
                         nodes.add(childNode);
                     }
                     nodeDTO.setNodes(nodes);
-//                    System.out.println("Node:" + nodeDTO);//TODO 测试用
                 }//nodes已添加
                 nodeDTOs.add(nodeDTO);
             }//if
@@ -151,7 +135,6 @@ public class PermissionServiceImpl implements PermissionService {
                 System.out.println("非顶级节点，抛弃"+menu.getId());;//爱咋咋地，抛弃
             }
         }//遍历完所有menu
-//        System.out.println("TopNodes"+nodeDTOs);//TODO 测点
         return nodeDTOs;
     }
 

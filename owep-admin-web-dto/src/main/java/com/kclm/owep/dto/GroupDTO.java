@@ -17,7 +17,7 @@ import java.util.Objects;
  * @create: 2020/7/13 9:56
  * @description: 用户组DTO
  **/
-public class GroupDTO extends Group {
+public class GroupDTO {
     private Integer id;
     /**
      * 组名
@@ -105,13 +105,4 @@ public class GroupDTO extends Group {
         this.createTime = createTime;
     }
 
-    @Override
-    public Integer getMaxCount() {
-        return maxCount;
-    }
-
-    @Override
-    public void setMaxCount(Integer maxCount) {
-        this.maxCount = maxCount;
-    }
 }

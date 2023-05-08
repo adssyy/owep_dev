@@ -2,7 +2,6 @@ package com.kclm.owep.service.impl;
 
 import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.Permission;
-import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.GroupService;
@@ -12,7 +11,6 @@ import com.kclm.owep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.naming.ldap.HasControls;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -6,6 +6,8 @@
 package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.kclm.owep.convert.GroupConvert;
+import com.kclm.owep.convert.RoleConvert;
 import com.kclm.owep.dto.GroupDTO;
 import com.kclm.owep.dto.GroupRoleDTO;
 import com.kclm.owep.dto.NodeDTO;
@@ -14,15 +16,12 @@ import com.kclm.owep.entity.Role;
 import com.kclm.owep.mapper.GroupMapper;
 import com.kclm.owep.mapper.RoleMapper;
 import com.kclm.owep.service.GroupService;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.*;
 
@@ -35,15 +34,14 @@ import java.util.*;
 @Service
 public class GroupServiceImpl implements GroupService {
     private final Logger logger = LoggerFactory.getLogger(GroupServiceImpl.class);
-    @Resource
-//    @Autowired
+    @Autowired
     private GroupMapper groupMapper;
-    @Resource
-//    @Autowired
+    @Autowired
     private RoleMapper roleMapper;
-    @Resource
-//    @Autowired
-    private MapperFactory mapperFactory;
+    @Autowired
+    private GroupConvert groupConvert;
+    @Autowired
+    private RoleConvert roleConvert;
 
     @Override
     public int saveOrUpdate(Group group) {
@@ -77,9 +75,10 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupDTO> selectByName(String name) {
         Assert.notNull(name, "name为空");
         List<Group> groups = groupMapper.selectByGroupName(name);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<GroupDTO> groupDTOS = mapperFacade.mapAsList(groups, GroupDTO.class);
+        List<GroupDTO> groupDTOS = groupConvert.toListDto(groups);
+        //
         logger.debug("groupDTOS:" + groupDTOS);
+        //
         return groupDTOS;
     }
 
@@ -87,9 +86,10 @@ public class GroupServiceImpl implements GroupService {
     public GroupDTO selectById(Serializable id) {
         if (id != null) {
             Group group = groupMapper.selectById(id);
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            GroupDTO groupDTO = mapperFacade.map(group, GroupDTO.class);
+            GroupDTO groupDTO = groupConvert.toDto(group);
+            //
             logger.debug("groupDTO:" + groupDTO);
+            //
             return groupDTO;
         } else {
             throw new IllegalArgumentException("id值不合法");
@@ -102,9 +102,10 @@ public class GroupServiceImpl implements GroupService {
         if (pageNum >= 0) {
             PageHelper.startPage(pageNum, PAGE_SIZE);
             List<Group> groups = groupMapper.selectAll();
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            List<GroupDTO> groupDTOS = mapperFacade.mapAsList(groups, GroupDTO.class);
+            List<GroupDTO> groupDTOS = groupConvert.toListDto(groups);
+            //
             logger.debug("groupDTOS:" + groupDTOS);
+            //
             return groupDTOS;
         } else {
             throw new IllegalArgumentException("pageNum值不合法");
@@ -120,23 +121,15 @@ public class GroupServiceImpl implements GroupService {
             System.out.println("========================>"+groupMapper);
             List<Group> groups = groupMapper.selectRolesByGroupId(groupId);
             Group group = groups.get(0);
-            mapperFactory.classMap(Group.class, GroupRoleDTO.class)
-                    .field("id", "groupId")
-                    .field("roles{id}", "roleIds{}")
-                    .register();
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            GroupRoleDTO groupRoleDTO = mapperFacade.map(group, GroupRoleDTO.class);
-//            GroupRoleDTO groupRoleDTO = new GroupRoleDTO();
-//            groupRoleDTO.setGroupId(group.getId());
-//            List<Integer> roleIds = new ArrayList<>();
-//            for(Role r : group.getRoles()) {
-//                roleIds.add(r.getId());
-//            }
-//            groupRoleDTO.setRoleIds(roleIds);
-
+            //
+            GroupRoleDTO groupRoleDTO = groupConvert.toGroupRoleDto(group);
+            //
             logger.debug("groupRoleDTO:" + groupRoleDTO);
+            //
             return groupRoleDTO;
-        } else throw new IllegalArgumentException("groupId值不合法");
+        } else {
+            throw new IllegalArgumentException("groupId值不合法");
+        }
     }
 
     @Override
@@ -160,17 +153,18 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public NodeDTO selectAllRoles() {
-        mapperFactory.classMap(Role.class, NodeDTO.class)
-                .field("roleName", "text")
-                .field("id", "tags").register();
+        //
         List<Role> roles = roleMapper.selectAll();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<NodeDTO> nodeDTOS = mapperFacade.mapAsList(roles, NodeDTO.class);
+        //
+        List<NodeDTO> nodeDTOS = roleConvert.toNodeDtoList(roles);
+        //
         NodeDTO nodeDTO = new NodeDTO();
         nodeDTO.setText("角色");
         nodeDTO.setNodes(nodeDTOS);
         nodeDTO.setTags(0);
+        //
         logger.debug("nodeDTO:" + nodeDTO);
+        //
         return nodeDTO;
     }
 }

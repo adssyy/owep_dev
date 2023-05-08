@@ -2,16 +2,13 @@ package com.kclm.owep.service.impl;
 
 import com.kclm.owep.convert.ExamBankConvert;
 import com.kclm.owep.convert.ExamQuesConvert;
-import com.kclm.owep.dto.ClientDTO;
 import com.kclm.owep.dto.ExamBankDTO;
 import com.kclm.owep.dto.ExamPaperDTO;
 import com.kclm.owep.dto.ExamQuesDTO;
 import com.kclm.owep.entity.ExamBank;
 import com.kclm.owep.entity.ExamPaperTopic;
 import com.kclm.owep.entity.ExamQues;
-import com.kclm.owep.entity.ExamQuesAnswerSet;
 import com.kclm.owep.entity.vo.ExamPaperVo;
-import com.kclm.owep.entity.vo.PaperVo;
 import com.kclm.owep.entity.vo.QuesAneswerSet;
 import com.kclm.owep.entity.vo.TopicKeyAndValue;
 import com.kclm.owep.mapper.ExamBankMapper;
@@ -19,8 +16,6 @@ import com.kclm.owep.mapper.ExamPaperMapper;
 import com.kclm.owep.mapper.ExamQuesMapper;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.ExamService;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,8 +40,8 @@ public class ExamServiceImpl implements ExamService {
     @Autowired
     ExamPaperMapper examPaperMapper;
 
-    @Autowired
-    MapperFactory mapperFactory;
+//    @Autowired
+//    MapperFactory mapperFactory;
 
     @Override
     public List<ExamBankDTO> allExamBank(String name) {
@@ -255,18 +250,12 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public List<ExamPaperDTO> findAllPapers(String name) {
-        List<PaperVo> examPaperVos = examPaperMapper.findAllPaper(name);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-
-        return mapperFacade.mapAsList(examPaperVos, ExamPaperDTO.class);
+        return null;
     }
 
     @Override
     public List<ExamPaperDTO> findPaperById(Integer id, String name) {
-        List<PaperVo> examPaperVos = examPaperMapper.findPaperById(id,name);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-
-        return mapperFacade.mapAsList(examPaperVos, ExamPaperDTO.class);
+        return null;
     }
 
     @Override

@@ -47,6 +47,7 @@ public class MenuDTO extends Menu {
 
 
     static Map<String,String> name_icon = new TreeMap<>();
+
     static{
         name_icon.put("系统配置","fa fa-home");
         name_icon.put("用户管理","fa fa-users");
@@ -131,7 +132,6 @@ public class MenuDTO extends Menu {
     public void setMenuName(String menuName) {
         this.iconName = name_icon.get(menuName);
         this.menuName = menuName;
-//        System.out.println("icon for "+menuName+" is "+iconName);
     }
 
     public String getIconName() {

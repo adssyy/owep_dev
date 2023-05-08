@@ -6,6 +6,8 @@
 package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.kclm.owep.convert.PermissionConvert;
+import com.kclm.owep.convert.RoleConvert;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.RoleDTO;
 import com.kclm.owep.dto.RolePermissionDTO;
@@ -14,8 +16,6 @@ import com.kclm.owep.entity.Role;
 import com.kclm.owep.mapper.PermissionMapper;
 import com.kclm.owep.mapper.RoleMapper;
 import com.kclm.owep.service.RoleService;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -39,7 +39,9 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private PermissionMapper permissionMapper;
     @Autowired
-    private MapperFactory mapperFactory;
+    private RoleConvert roleConvert;
+    @Autowired
+    private PermissionConvert permissionConvert;
 
     @Override
     public int saveOrUpdate(Role role) {
@@ -71,10 +73,8 @@ public class RoleServiceImpl implements RoleService {
     public RoleDTO selectById(Serializable id) {
         if (id != null) {
             Role role = roleMapper.selectById(id);
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            RoleDTO roleDTO = mapperFacade.map(role, RoleDTO.class);
-
-            return roleDTO;
+            //
+            return roleConvert.toDto(role);
         } else {
             throw new IllegalArgumentException("id值不合法");
         }
@@ -85,9 +85,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDTO> selectByName(String name) {
         Assert.notNull(name, "name为空");
         List<Role> roles = roleMapper.selectByName(name);
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<RoleDTO> roleDTOS = mapperFacade.mapAsList(roles, RoleDTO.class);
-        return roleDTOS;
+        return roleConvert.toDtoList(roles);
     }
 
     @Override
@@ -95,9 +93,7 @@ public class RoleServiceImpl implements RoleService {
         if (pageNum >= 0) {
             //PageHelper.startPage(pageNum, PAGE_SIZE);
             List<Role> roles = roleMapper.selectAll();
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            List<RoleDTO> roleDTOS = mapperFacade.mapAsList(roles, RoleDTO.class);
-            return roleDTOS;
+            return roleConvert.toDtoList(roles);
         } else {
             throw new IllegalArgumentException("pageNum值不合法");
         }
@@ -105,12 +101,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public NodeDTO selectAllDTO() {
-        mapperFactory.classMap(Permission.class, NodeDTO.class)
-                .field("permissionName", "text")
-                .field("id", "tags").register();
         List<Permission> permissions = permissionMapper.selectAll();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<NodeDTO> nodeDTOS = mapperFacade.mapAsList(permissions, NodeDTO.class);
+        List<NodeDTO> nodeDTOS = permissionConvert.toNodeDtoList(permissions);
+        //
         NodeDTO nodeDTO = new NodeDTO();
         nodeDTO.setText("权限");
         nodeDTO.setNodes(nodeDTOS);
@@ -123,14 +116,12 @@ public class RoleServiceImpl implements RoleService {
         if (roleId != null) {
             List<Role> roleList = roleMapper.selectPermissionInRole(roleId);
             Role role = roleList.get(0);
-            mapperFactory.classMap(Role.class, RolePermissionDTO.class)
-                    .field("id", "roleId")
-                    .field("permissions{id}", "permissionIds{}")
-                    .register();
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            RolePermissionDTO rolePermissionDTO = mapperFacade.map(role, RolePermissionDTO.class);
-            return rolePermissionDTO;
-        } else throw new IllegalArgumentException("roleId值不合法");
+            //todo 有可能转换不正确
+            return roleConvert.toRolePermissionDto(role);
+
+        } else {
+            throw new IllegalArgumentException("roleId值不合法");
+        }
     }
 
     @Override
@@ -150,11 +141,11 @@ public class RoleServiceImpl implements RoleService {
     public RoleDTO selectParentRole(Serializable roleId) {
         Assert.notNull(roleId, "roleId不能为空");
         List<Role> roles = roleMapper.selectParent(roleId);
-        if (roles.size() > 0) {
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            RoleDTO roleDTO = mapperFacade.map(roles.get(0).getParent(), RoleDTO.class);
-            return roleDTO;
-        } else return null;
+        if (!roles.isEmpty()) {
+            return roleConvert.toDto(roles.get(0).getParent());
+        } else {
+            return null;
+        }
 
 
     }

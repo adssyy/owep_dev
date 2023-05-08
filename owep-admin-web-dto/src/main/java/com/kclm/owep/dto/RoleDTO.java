@@ -17,7 +17,7 @@ import java.util.Objects;
  * @create: 2020/7/13 10:55
  * @description: 角色DTO
  **/
-public class RoleDTO extends Role {
+public class RoleDTO {
     private Integer id;
     /**
      * 角色名

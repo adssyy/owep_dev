@@ -5,16 +5,13 @@
 
 package com.kclm.owep.service.impl;
 
-import com.github.pagehelper.PageHelper;
+import com.kclm.owep.convert.ActionConvert;
 import com.kclm.owep.dto.ActionDTO;
 import com.kclm.owep.entity.Action;
 import com.kclm.owep.mapper.ActionMapper;
 import com.kclm.owep.mapper.MenuMapper;
 import com.kclm.owep.service.ActionService;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -29,19 +26,19 @@ import java.util.List;
  * @description:
  **/
 @Service
+@Slf4j
 public class ActionServiceImpl implements ActionService {
-    private final Logger logger = LoggerFactory.getLogger(GroupServiceImpl.class);
-    @Autowired
-    private MapperFactory mapperFactory;
     @Autowired
     private ActionMapper actionMapper;
     @Autowired
     private MenuMapper menuMapper;
+    @Autowired
+    private ActionConvert actionConvert;
 
     @Override
     public int saveOrUpdate(Action action) {
         Assert.notNull(action.getActionName(), "group对象不能为空");
-        logger.debug("action:" + action.toString());
+        log.debug("action:" + action.toString());
         Integer id = action.getId();
         if (id == null) {
             return actionMapper.save(action);
@@ -55,8 +52,10 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public int deleteAction(List<Serializable> ids) {
         Assert.notNull(ids, "ids对象不能为空");
+        //todo 此方法存在bug
         menuMapper.deleteByActionIdInAPM(ids);
-        logger.debug("ids:" + ids.size());
+        //
+        log.debug("ids:" + ids.size());
         if (ids.size() == 1) {
             return actionMapper.deleteById(ids.get(0));
         } else if (ids.size() > 1) {
@@ -69,10 +68,8 @@ public class ActionServiceImpl implements ActionService {
     public ActionDTO selectById(Serializable id) {
         if (id != null) {
             Action action = actionMapper.selectById(id);
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            ActionDTO actionDTO = mapperFacade.map(action, ActionDTO.class);
-            logger.debug("actionDTO:"+actionDTO);
-            return actionDTO;
+            //
+            return actionConvert.toDto(action);
         } else {
             throw new IllegalArgumentException("id值不合法");
         }
@@ -83,10 +80,8 @@ public class ActionServiceImpl implements ActionService {
         if (pageNum >= 0) {
             //PageHelper.startPage(pageNum, PAGE_SIZE);
             List<Action> actions = actionMapper.selectAll();
-            MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-            List<ActionDTO> actionDTOS = mapperFacade.mapAsList(actions, ActionDTO.class);
-            logger.debug("actionDTOS:"+actionDTOS);
-            return actionDTOS;
+            //
+            return actionConvert.toListDto(actions);
         } else {
             throw new IllegalArgumentException("pageNum值不合法");
         }

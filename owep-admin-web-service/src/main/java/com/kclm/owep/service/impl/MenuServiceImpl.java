@@ -5,6 +5,8 @@
 
 package com.kclm.owep.service.impl;
 
+import com.kclm.owep.convert.ActionConvert;
+import com.kclm.owep.convert.MenuConvert;
 import com.kclm.owep.dto.ActionMenuPermissionDTO;
 import com.kclm.owep.dto.MenuDTO;
 import com.kclm.owep.dto.NodeDTO;
@@ -15,8 +17,6 @@ import com.kclm.owep.mapper.ActionMapper;
 import com.kclm.owep.mapper.MenuMapper;
 import com.kclm.owep.mapper.PermissionMapper;
 import com.kclm.owep.service.MenuService;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -34,12 +34,16 @@ import java.util.*;
 public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuMapper menuMapper;
-    @Autowired
-    private MapperFactory mapperFactory;
+
     @Autowired
     private ActionMapper actionMapper;
     @Autowired
     private PermissionMapper permissionMapper;
+
+    @Autowired
+    private MenuConvert menuConvert;
+    @Autowired
+    private ActionConvert actionConvert;
 
     @Override
     public int saveOrUpdate(Menu menu) {
@@ -72,7 +76,6 @@ public class MenuServiceImpl implements MenuService {
     public MenuDTO selectById(Serializable id) {
         if (id != null) {
             Menu menu = selectChildMenus(id);
-//            System.out.println(menu);//todo
             MenuDTO menuDTO = new MenuDTO();
             menuDTO.setId(menu.getId());
             menuDTO.setMenuName(menu.getMenuName());
@@ -103,35 +106,15 @@ public class MenuServiceImpl implements MenuService {
         for (Menu menu: menus) {//
             menu.setParent(menuMapper.selectParent(menu.getId()).getParent());
 
-                MenuDTO menuDTO = new MenuDTO();
-                menuDTO.setMenuName(menu.getMenuName());
-                menuDTO.setId(menu.getId());
-                menuDTO.setMenuDescription(menu.getMenuDescription());
-                menuDTO.setMenuUrl(menu.getMenuUrl());
-//                {
-//                    List<Menu> childMenus = menuMapper.selectMenuChild(menu.getId()).getChildMenus();
-//                    if(childMenus!=null&&childMenus.size()>0){//存在子菜单非空且不为零
-//                        List<MenuDTO> subMenus = new ArrayList<>();
-//                        for (Menu childMenu: childMenus) {
-//                            MenuDTO childDto = new MenuDTO();
-//                            childDto.setId(childMenu.getId());
-//                            childDto.setMenuName(childMenu.getMenuName());
-//                            childDto.setMenuDescription(childMenu.getMenuDescription());
-//                            childDto.setMenuUrl(childMenu.getMenuUrl());
-//                            childDto.setPid(menu.getId());
-////                        childDto.setSubMenus();//暂不考虑二阶以上菜单
-//                            subMenus.add(childDto);
-//                        }//子菜单队列已遍历
-//                        menuDTO.setSubMenus(subMenus);
-//                    }
-//                }//配置subMenus属性
-            if(menu.getParent()==null){//顶级则不设置pid
-//                System.out.println("一级菜单不设置pid");
-            }else{
+            MenuDTO menuDTO = new MenuDTO();
+            menuDTO.setMenuName(menu.getMenuName());
+            menuDTO.setId(menu.getId());
+            menuDTO.setMenuDescription(menu.getMenuDescription());
+            menuDTO.setMenuUrl(menu.getMenuUrl());
+
+            if(menu.getParent() != null){
                 menuDTO.setPid(menu.getParent().getId());
-//                System.out.println("此menu父为："+menu.getParent());//todo
-//                System.out.println("非一级菜单不处理");//todo
-            }//配置pid属性
+            }
             menuDTOS.add(menuDTO);//平坦设置
         }//遍历完
         return menuDTOS;
@@ -146,9 +129,7 @@ public class MenuServiceImpl implements MenuService {
                 Integer key = next.getKey();
                 menuMapper.deleteByMenuIdInAPM(Arrays.asList(key));
                 Menu menu = menuMapper.selectPermissionInMenu(key).get(0);
-//                System.out.println("===>"+ menu);//todo
                 List<Permission> permissions = menu.getPermissions();
-//                System.out.println("===>"+permissions);//todo
                 List<Integer> value = next.getValue();
                 for (Permission p : permissions) {
                     value.forEach(e -> menuMapper.assignActionToMenuAndPermission(key, e, p.getId()));
@@ -182,27 +163,23 @@ public class MenuServiceImpl implements MenuService {
     public ActionMenuPermissionDTO selectActionAndPermissionByMenuId(Serializable menuId) {
         Assert.notNull(menuId, "menuId不能为空");
         List<Menu> menus = menuMapper.selectAllInAPM(menuId, 0, 0);
-
-        mapperFactory.classMap(Menu.class, ActionMenuPermissionDTO.class)
-                .field("id", "menuId")
-                .field("permissions{id}", "permissionIds{}")
-                .field("actions{id}", "actionIds{}")
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        ActionMenuPermissionDTO map = mapperFacade.map(menus.get(0), ActionMenuPermissionDTO.class);
-        return map;
+        //
+        if(menus != null && !menus.isEmpty()) {
+            return menuConvert.toActionMenuPermissionDto(menus.get(0));
+        }
+        //
+        return null;
     }
 
     @Override
     public ActionMenuPermissionDTO selectActionByPermissionId(Serializable perId, Serializable menuId) {
         List<Menu> menus = menuMapper.selectAllInAPM(menuId, perId, 0);
-        mapperFactory.classMap(Menu.class, ActionMenuPermissionDTO.class)
-                .field("id", "menuId")
-                .field("actions{id}", "actionIds{}")
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        ActionMenuPermissionDTO map = mapperFacade.map(menus.get(0), ActionMenuPermissionDTO.class);
-        return map;
+        //
+        if(menus != null && !menus.isEmpty()) {
+            return menuConvert.toActionMenuPermissionDto(menus.get(0));
+        }
+        //
+        return null;
     }
 
     @Override
@@ -219,18 +196,15 @@ public class MenuServiceImpl implements MenuService {
                 resultSet.add(actionMenuPermissionDTO);
             }
         }
-    return resultSet;
+        return resultSet;
     }
 
     @Override
     public NodeDTO selectAllAction() {
         List<Action> actions = actionMapper.selectAll();
-        mapperFactory.classMap(Action.class, NodeDTO.class)
-                .field("id", "tags")
-                .field("actionName", "text")
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<NodeDTO> nodeDTOS = mapperFacade.mapAsList(actions, NodeDTO.class);
+        //
+        List<NodeDTO> nodeDTOS = actionConvert.toNodeDtoList(actions);
+        //组装
         NodeDTO nodeDTO = new NodeDTO();
         nodeDTO.setTags(0);
         nodeDTO.setText("分配行为");
@@ -241,12 +215,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public NodeDTO selectActionByMenuIdAndPermissionId(Serializable menuId, Serializable perId) {
         List<Menu> menus = menuMapper.selectAllInAPM(menuId, perId, 0);
-        mapperFactory.classMap(Action.class, NodeDTO.class)
-                .field("id", "tags")
-                .field("actionName", "text")
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<NodeDTO> nodeDTOS = mapperFacade.mapAsList(menus.get(0).getActions(), NodeDTO.class);
+        //
+        List<NodeDTO> nodeDTOS = actionConvert.toNodeDtoList(menus.get(0).getActions());
+        //组装
         NodeDTO nodeDTO = new NodeDTO();
         nodeDTO.setTags(0);
         nodeDTO.setText("分配行为");
@@ -257,12 +228,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public NodeDTO selectActionByMenuId(Serializable menuId) {
         List<Menu> menus = menuMapper.selectActionInMenu(menuId);
-        mapperFactory.classMap(Action.class, NodeDTO.class)
-                .field("id", "tags")
-                .field("actionName", "text")
-                .register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        List<NodeDTO> nodeDTOS = mapperFacade.mapAsList(menus.get(0).getActions(), NodeDTO.class);
+        //
+        List<NodeDTO> nodeDTOS = actionConvert.toNodeDtoList(menus.get(0).getActions());
+        //组装
         NodeDTO nodeDTO = new NodeDTO();
         nodeDTO.setTags(0);
         nodeDTO.setText("分配行为");
@@ -272,22 +240,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu selectChildMenus(Serializable menuId) {
-        Menu menu = menuMapper.selectMenuChild(menuId);
-//        System.out.println(menu);//TODO
-        List<Menu> childMenus = menu.getChildMenus();
-//        if(childMenus!=null&&childMenus.size()>0) {
-//            List<MenuDTO> subMenus = new ArrayList<>();
-//            for(Menu menu : menus){
-//                MenuDTO menuDTO =  new MenuDTO();
-//                menuDTO.setId(menu.getId());
-//                menuDTO.setMenuDescription(menu.getMenuDescription());
-//                menuDTO.setMenuName(menu.getMenuName());
-//                menuDTO.setMenuUrl(menu.getMenuUrl());
-//                if(menu.getParent()!=null)  menuDTO.setPid(menu.getParent().getId());
-//                subMenus.add(menuDTO);
-//            }//for
-            return menu;
-//        }//if
-//        return null;
-    }//method
+        Assert.notNull(menuId, "菜单id不允许为null");
+        return menuMapper.selectMenuChild(menuId);
+    }
 }
