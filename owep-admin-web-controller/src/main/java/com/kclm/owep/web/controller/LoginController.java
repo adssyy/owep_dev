@@ -2,18 +2,14 @@ package com.kclm.owep.web.controller;
 
 
 import com.kclm.owep.dto.MenuDTO;
-import com.kclm.owep.dto.PermissionMenuDTO;
 import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.entity.Permission;
 import com.kclm.owep.service.MenuService;
 import com.kclm.owep.service.PermissionService;
 import com.kclm.owep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +22,13 @@ import java.util.*;
 @Controller
 public class LoginController {
 
+    @Autowired
+    private MenuService menuService;
+    @Autowired
+    private PermissionService permissionService;
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/login.html")
     public String _toLoginPage(){
         return "/login.html";
@@ -34,9 +37,6 @@ public class LoginController {
     public String toLoginPage(){
         return "/login.html";
     }
-
-//    @Autowired
-//    UserServiceImpl userService ;
 
     @PostMapping("/login")
     public String loginAuthentication(String username, String password, HttpSession session){
@@ -53,12 +53,7 @@ public class LoginController {
         }
         return "/index.html";
     }
-    @Autowired
-    MenuService menuService;
-    @Autowired
-    PermissionService permissionService;
-    @Autowired
-    UserService userService;
+
 
     @GetMapping(value = "/getMenu", produces = "application/json")
     @ResponseBody

@@ -2,17 +2,11 @@ package com.kclm.owep.web.controller;
 
 import com.kclm.owep.convert.ResourceConvert;
 import com.kclm.owep.convert.ResourceTypeConvert;
-import com.kclm.owep.convert.ResourceTypeConvertImpl;
 import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.*;
-import com.kclm.owep.mapper.ChapterMapper;
-import com.kclm.owep.mapper.SectionMapper;
-import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.*;
 import com.kclm.owep.utils.util.FileUploadUtil;
 import com.kclm.owep.web.controller.ftp.FTPUtil;
-import com.kclm.owep.web.controller.ftp.FtpProcessor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +37,6 @@ public class ResourceController {
 
     @Autowired
     SectionService sectionService;
-
-
-
 
 
     @RequestMapping(value ="/resourceType")

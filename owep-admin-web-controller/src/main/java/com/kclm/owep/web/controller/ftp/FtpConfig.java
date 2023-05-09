@@ -1,12 +1,11 @@
 package com.kclm.owep.web.controller.ftp;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,8 +20,8 @@ import javax.annotation.PreDestroy;
 @ConditionalOnClass({GenericObjectPool.class, FTPClient.class})
 @ConditionalOnProperty(prefix = "ftp", name = "isopen", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(FtpProperties.class)
+@Slf4j
 public class FtpConfig {
-    private static final Logger log = LoggerFactory.getLogger(FtpConfig.class);
 
     private final FtpProperties ftpProperties;
 

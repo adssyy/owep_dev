@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    SpringDataUserDetailService userDetailService;
+    private SpringDataUserDetailService userDetailService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -63,22 +63,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         ;
     }
 
-//    //    @Bean
-//    public UserDetailsService userDetailsService(){
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//
-//        manager
-//                .createUser(User.withUsername("admin").password("123456").authorities("admin").build())
-//        ;
-//        return manager;
-//    }
-
-//    @Bean
+    /************************
+     * 密码加密器
+     * @return
+     */
     public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();//TODO 暂时使用的是无加密编码器（直译）
+        //TODO 暂时使用的是无加密编码器（直译）
+        return NoOpPasswordEncoder.getInstance();
     }
-
-
 
 
 }

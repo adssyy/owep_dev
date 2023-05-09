@@ -29,7 +29,7 @@ public class OwepAdminWebControllerApplication {
         ConfigurableApplicationContext application = SpringApplication.run(OwepAdminWebControllerApplication.class, args);
 
         //打印输出项目启动成功的信息
-        System.out.println("项目启动成功  *^_^* ");
+        log.debug("项目启动成功  *^_^* ");
         //生成字符 banner, 可以到此网站来定制：
         // http://patorjk.com/software/taag
 

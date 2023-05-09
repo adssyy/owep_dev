@@ -6,6 +6,7 @@ package com.kclm.owep.web.controller;
 import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.*;
 import com.kclm.owep.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/privilege")
+@Slf4j
 //@PreAuthorize("hasAuthority('权限管理')")//只有拥有 【权限管理】权限的用户可以浏览和访问此controller下的服务
 public class PrivilegeController {
 
