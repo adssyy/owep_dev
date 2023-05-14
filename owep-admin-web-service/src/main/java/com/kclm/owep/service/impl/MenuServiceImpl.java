@@ -77,21 +77,23 @@ public class MenuServiceImpl implements MenuService {
         if (id != null) {
             Menu menu = selectChildMenus(id);
             MenuDTO menuDTO = new MenuDTO();
-            menuDTO.setId(menu.getId());
-            menuDTO.setMenuName(menu.getMenuName());
-            menuDTO.setMenuUrl(menu.getMenuUrl());
-            menuDTO.setMenuDescription(menu.getMenuDescription());
-            List<MenuDTO> subMenus = new ArrayList<>();
-            for(Menu childMenu : menu.getChildMenus()) {
-                MenuDTO subMenu = new MenuDTO();
-                subMenu.setId(childMenu.getId());
-                subMenu.setMenuDescription(childMenu.getMenuDescription());
-                subMenu.setMenuName(childMenu.getMenuName());
-                subMenu.setMenuUrl(childMenu.getMenuUrl());
-                subMenu.setPid(menu.getId());
-                subMenus.add(subMenu);
+            if(menu != null) {
+                menuDTO.setId(menu.getId());
+                menuDTO.setMenuName(menu.getMenuName());
+                menuDTO.setMenuUrl(menu.getMenuUrl());
+                menuDTO.setMenuDescription(menu.getMenuDescription());
+                List<MenuDTO> subMenus = new ArrayList<>();
+                for (Menu childMenu : menu.getChildMenus()) {
+                    MenuDTO subMenu = new MenuDTO();
+                    subMenu.setId(childMenu.getId());
+                    subMenu.setMenuDescription(childMenu.getMenuDescription());
+                    subMenu.setMenuName(childMenu.getMenuName());
+                    subMenu.setMenuUrl(childMenu.getMenuUrl());
+                    subMenu.setPid(menu.getId());
+                    subMenus.add(subMenu);
+                }
+                menuDTO.setSubMenus(subMenus);
             }
-            menuDTO.setSubMenus(subMenus);
             return menuDTO;
         }
          else {

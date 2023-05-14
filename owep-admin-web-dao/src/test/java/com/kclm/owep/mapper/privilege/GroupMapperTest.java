@@ -1,13 +1,12 @@
 package com.kclm.owep.mapper.privilege;
 
 import com.kclm.owep.entity.Group;
-import com.kclm.owep.mapper.ActionMapperTest;
+import com.kclm.owep.mapper.BaseMapperTest;
 import com.kclm.owep.mapper.GroupMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,9 +17,10 @@ import java.util.List;
  * @author: qi_kran
  * @create: 2020-07-05 20:16
  **/
-class GroupMapperTest extends ActionMapperTest {
-@Autowired
-private GroupMapper groupMapper;
+class GroupMapperTest extends BaseMapperTest {
+    @Autowired
+    private GroupMapper groupMapper;
+
     @Test
     void count() {
         int count = groupMapper.count();

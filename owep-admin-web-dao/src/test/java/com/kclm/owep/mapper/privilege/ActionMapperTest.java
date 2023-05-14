@@ -2,6 +2,7 @@ package com.kclm.owep.mapper.privilege;
 
 import com.kclm.owep.entity.Action;
 import com.kclm.owep.mapper.ActionMapper;
+import com.kclm.owep.mapper.BaseMapperTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * @author: qi_kran
  * @create: 2020-07-08 15:32
  **/
-class ActionMapperTest extends com.kclm.owep.mapper.ActionMapperTest {
+class ActionMapperTest extends BaseMapperTest {
     @Autowired
      private  ActionMapper actionMapper;
     @Test

@@ -33,6 +33,7 @@ public class LoginController {
     public String _toLoginPage(){
         return "/login.html";
     }
+
     @GetMapping("/login")
     public String toLoginPage(){
         return "/login.html";

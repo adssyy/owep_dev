@@ -1,18 +1,13 @@
 package com.kclm.owep.web.security;
 
 import com.kclm.owep.dto.ActionMenuPermissionDTO;
-import com.kclm.owep.dto.PermissionMenuDTO;
 import com.kclm.owep.dto.UserDto;
-import com.kclm.owep.entity.Action;
 import com.kclm.owep.entity.Permission;
-import com.kclm.owep.mapper.MenuMapper;
-import com.kclm.owep.mapper.PermissionMapper;
 import com.kclm.owep.service.ActionService;
 import com.kclm.owep.service.MenuService;
 import com.kclm.owep.service.PermissionService;
 import com.kclm.owep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

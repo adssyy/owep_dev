@@ -4,13 +4,18 @@ import com.kclm.owep.OwepAdminWebControllerApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/***************************
+ * 控制层的测试类
+ * 在这里指定了classes
+ */
 @SpringBootTest(classes = OwepAdminWebControllerApplication.class)
-class OwepAdminWebControllerApplicationTests {
+public class OwepAdminWebControllerApplicationTests {
 
 
     @Test
-    public void testGetAll() {
-
+    public void beginControllerTests() {
+        //
+        System.out.println("controller tests");
     }
 
 }

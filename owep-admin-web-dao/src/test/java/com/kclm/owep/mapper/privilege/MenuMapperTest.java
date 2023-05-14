@@ -2,7 +2,7 @@ package com.kclm.owep.mapper.privilege;
 
 
 import com.kclm.owep.entity.Menu;
-import com.kclm.owep.mapper.ActionMapperTest;
+import com.kclm.owep.mapper.BaseMapperTest;
 import com.kclm.owep.mapper.MenuMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author: qi_kran
  * @create: 2020-07-08 15:17
  **/
-class MenuMapperTest extends ActionMapperTest {
+class MenuMapperTest extends BaseMapperTest {
     @Autowired
     private MenuMapper menuMapper;
 

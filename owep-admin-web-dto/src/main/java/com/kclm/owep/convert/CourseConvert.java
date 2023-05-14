@@ -35,6 +35,7 @@ public interface CourseConvert {
     @Mapping(target = "courseImage", source = "courseImage")
     @Mapping(target = "courseDesc", source = "courseDesc")
     CourseDTO PO2DTO(Course course);
+
     List<CourseDTO> POs2DTOs(List<Course> courses);
 
 

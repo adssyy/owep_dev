@@ -1,12 +1,11 @@
 package com.kclm.owep.mapper.privilege;
 
 import com.kclm.owep.entity.Permission;
-import com.kclm.owep.mapper.ActionMapperTest;
+import com.kclm.owep.mapper.BaseMapperTest;
 import com.kclm.owep.mapper.PermissionMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
  * @author: qi_kran
  * @create: 2020-07-08 14:01
  **/
-class PermissionMapperTest extends ActionMapperTest {
+class PermissionMapperTest extends BaseMapperTest {
     @Autowired
     private PermissionMapper permissionMapper;
 

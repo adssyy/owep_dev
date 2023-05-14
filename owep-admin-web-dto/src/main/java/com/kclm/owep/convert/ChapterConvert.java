@@ -30,8 +30,8 @@ public interface ChapterConvert {
     @Mapping(target = "chapterName", source = "chapterName")
     @Mapping(target = "chapterDesc", source = "chapterDesc")
     @Mapping(target = "sectionDTOList", source = "sectionList")
-
     ChapterDTO PO2DTO(Chapter chapter);
+
     List<ChapterDTO> POs2DTOs(List<Chapter> chapters);
 
 

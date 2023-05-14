@@ -1,20 +1,14 @@
 package com.kclm.owep;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.PropertySource;
 
 /******************
- * @Author yejf
- * @Description TODO
+ * @author yejf
+ * 此类中如果不加配置的话，是可有可无的
  */
 @SpringBootApplication
-//@PropertySource(value = "classpath:application-dao.properties")
 public class OwepAdminWebDaoApplication {
 
-    /*public static void main(String[] args) {
-        SpringApplication.run(OwepAdminWebDaoApplication.class, args);
-    }*/
 
     public OwepAdminWebDaoApplication() {
         System.out.println("初始化OwepAdminWebDaoApplication...");

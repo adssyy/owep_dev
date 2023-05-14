@@ -43,8 +43,6 @@ public class PrivilegeController {
     @Autowired
     private MenuService menuService;
 
-
-
     /***
      * 跳转到用户组管理页面
      * @return
@@ -52,7 +50,7 @@ public class PrivilegeController {
     @GetMapping("/userGroup")
     @PreAuthorize("hasAuthority('16-21')")
     public String toPrivilegeUserGroup(){
-        System.out.println("priv userGroup to page");
+        log.debug("跳转视图，权限管理 -> 用户组管理 ");
         return "privilege/userGroup";
     }
 
@@ -64,8 +62,11 @@ public class PrivilegeController {
     @ResponseBody()
     @PreAuthorize("hasAuthority('16-21')")
     public Object getGroupTable(@RequestParam("offset") int offset){
-        System.out.println("priv userGroup table json sent");
+        //
         List<GroupDTO> groupDTOS = groupService.selectAllGroups(offset);
+        //
+        log.info("根据offset:{}, 查询所有的用户组： {}", offset, groupDTOS);
+        // 返回
         return groupDTOS;
 //
     }
@@ -77,43 +78,32 @@ public class PrivilegeController {
         System.out.println("priv userGroup treeView json sent");
         NodeDTO nodeDTO = groupService.selectAllRoles();//获得完整树表
         List<NodeDTO> nodeList = nodeDTO.getNodes();
-//        System.out.println("----nodeDTO before------   "+ nodeDTO);
-//        System.out.println("----nodeList before-----   "+ nodeList);
-//        System.out.println("DTO JSON----before :    "+JSON.toJSONString(nodeDTO));
         List<Integer> roleIds = groupService.selectRolesByGroupId(groupId).getRoleIds();//获得已激活选择支id
         if(roleIds!=null){
-        for ( Integer id:roleIds) {
-            for ( NodeDTO node : nodeList) {// 预先勾选从数据库中得到的选择支
-                if(id.equals(node.getTags()))//nodeDto的tags就是group的id
-                node.nodeChecked();
+            for ( Integer id:roleIds) {
+                for ( NodeDTO node : nodeList) {// 预先勾选从数据库中得到的选择支
+                    if(id.equals(node.getTags()))//nodeDto的tags就是group的id
+                    node.nodeChecked();
+                }
             }
-//            System.out.println(node);
-        }
         }else{
             System.out.println("新建组，无角色队列");
         }
-//        System.out.println("----nodeDTO after------   "+ nodeDTO);
-//        System.out.println("----nodeList after-----   "+ nodeList);
-//        System.out.println("DTO JSON----after:    "+JSON.toJSONString(nodeDTO));
         NodeDTO[] result = new NodeDTO[1];//新建一个数组
         result[0] = nodeDTO;//把结果包装进数组
-
+        //
         return result;
     }
 
     @PostMapping(value = "/userGroup/editTreeView", produces = "application/json")
     @ResponseBody()
     @PreAuthorize("hasAuthority('16-23')")
-//    public String postGroupTreeViewEditAction(@RequestParam("id") Integer id, @RequestBody List<Integer> action ){// 处理前端发送的用户组角色关系图
-//    public String postGroupTreeViewEditAction(@RequestBody String str){
     public String postGroupTreeViewEditAction(@RequestBody GroupRoleDTO groupRoleDTO){
         System.out.println("priv userGroup treeView edit action");
-//        System.out.println(groupRoleDTO);
         Integer groupId = groupRoleDTO.getGroupId();
         List<Integer> roleIds = groupRoleDTO.getRoleIds();
         Map<Integer,List<Integer>> groupRoleMap = new HashMap<Integer,List<Integer>>();
-                groupRoleMap.put(groupId,roleIds);
-//        System.out.println(groupRoleMap);
+        groupRoleMap.put(groupId,roleIds);
         groupService.assignRoleToGroup(groupRoleMap);
         int feedback = groupService.assignRoleToGroup(groupRoleMap);
         if(feedback==-2) {
@@ -167,16 +157,11 @@ public class PrivilegeController {
         }
     }
 
-    //@GetMapping(value = "/userGroup/deleteByGroups", produces = "application/json")
     @PostMapping(value = "/userGroup/deleteByGroups", produces = "application/json")
     @PreAuthorize("hasAuthority('16-24')")
     @ResponseBody()
-    //public String postGroupDeleteByGroupsAction(@RequestParam("idList") List<Long> ids){
     public String postGroupDeleteByGroupsAction(@RequestBody List<Serializable>  idList){
-    //public String postGroupDeleteByGroupsAction(@RequestBody String ids){
         System.out.println("priv userGroup delete by groups ids:" + idList);
-        //List idList = JSON.parseArray(ids, Integer.class);
-        System.out.println(idList);
         if(groupService.deleteGroup(idList)!= -1){//返回值为-1说明删除过程中出错
             System.out.println("Group id<"+idList+"> deleted");
             return "success";
@@ -185,13 +170,6 @@ public class PrivilegeController {
             return "failed";
         }
     }
-
-
-
-
-
-
-
 
     /***
      * 跳转到角色管理页面
@@ -298,7 +276,6 @@ public class PrivilegeController {
     @ResponseBody()
     public String postRoleDeleteByGroupsAction(@RequestBody List<Serializable>  idList){
         System.out.println("priv userGroup delete by groups ids:" + idList);
-//        System.out.println(idList);
         if(roleService.deleteRole(idList)!= -1){//返回值为-1说明删除过程中出错
             System.out.println("Group id<"+idList+"> deleted");
             return "success";
@@ -307,9 +284,6 @@ public class PrivilegeController {
             return "failed";
         }
     }
-
-
-
 
 
        /***
@@ -377,7 +351,6 @@ public class PrivilegeController {
     @ResponseBody()
     public Object postDeletePermByGroupsAction(@RequestBody List<Serializable>  idList){
         System.out.println("priv perm delete by groups ids:" + idList);
-//        System.out.println(idList);
         if(permissionService.deletePermission(idList)!= -1){//返回值为-1说明删除过程中出错
             System.out.println("Group id<"+idList+"> deleted");
             return "success";
@@ -427,10 +400,6 @@ public class PrivilegeController {
     }
 
 
-
-
-
-
     /***
      * 跳转到菜单行为页面
      * @return
@@ -455,7 +424,6 @@ public class PrivilegeController {
     @ResponseBody
     public Object getMenuActionTreeCheckMap(@RequestParam(value = "id",required = false) Integer id){//
 
-//        List<PermissionDTO> permissionDTOS = permissionService.selectAllPermission(0);
         NodeDTO nodeDTO = menuService.selectAllAction();//获取行为全节点
         if(id!=null){
             List<NodeDTO> nodeList = new ArrayList<NodeDTO>();
@@ -646,15 +614,6 @@ public class PrivilegeController {
     }
 
 
-
-
-
-
-
-
-
-
-
     /***
      * 跳转到行为管理页面
      * @return
@@ -720,10 +679,7 @@ public class PrivilegeController {
     @PreAuthorize("hasAuthority('39-24')")
     @ResponseBody()
     public String postActionDeleteByGroupsAction(@RequestBody List<Serializable>  idList){
-        //public String postGroupDeleteByGroupsAction(@RequestBody String ids){
         System.out.println("priv actionList delete by groups ids:" + idList);
-        //List idList = JSON.parseArray(ids, Integer.class);
-        System.out.println(idList);
         if(actionService.deleteAction(idList)!= -1){//返回值为-1说明删除过程中出错
             System.out.println("Group id<"+idList+"> deleted");
             return "success";

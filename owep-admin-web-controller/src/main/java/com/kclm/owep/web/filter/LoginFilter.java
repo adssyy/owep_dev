@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /******************
- * @Author yejf
- * @Description 认证过滤器【登录过滤器】
+ * @author yejf
+ * @description 认证过滤器【登录过滤器】
  */
 //@Order(1)
 //@WebFilter(urlPatterns = {"/user/*"},filterName = "loginFilter", dispatcherTypes =
