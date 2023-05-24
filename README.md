@@ -61,7 +61,7 @@ Online Wisdom Education Platform
 3. 权限管理
 4. 班级管理
 5. 考试管理    【新增】
-6. 就业管理    【新增】
+6. 授课管理    【新增】
 
 #### 版本【dev_base_v4】功能【易】
 此版本包含的模块有：
