@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.kclm</groupId>
-        <artifactId>owep</artifactId>
+        <artifactId>owep-vue</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -81,6 +81,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- 引入spring boot的监控器：actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!-- 文件上传 -->

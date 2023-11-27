@@ -29,14 +29,18 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login.html")
-    public String _toLoginPage(){
-        return "/login.html";
-    }
-
+    /************
+     * 这里配置了此方法，所以默认的访问路径会：
+     * https://host:port/appName
+     * https://host:port/appName/
+     * https://host:port/appName/login
+     * @return
+     */
     @GetMapping("/login")
     public String toLoginPage(){
-        return "/login.html";
+        //
+        System.out.println("---> 到login.html中");
+        return "login";
     }
 
     @PostMapping("/login")

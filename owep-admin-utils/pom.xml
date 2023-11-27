@@ -4,8 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.kclm</groupId>
-        <artifactId>owep</artifactId>
+        <artifactId>owep-vue</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>owep-admin-utils</artifactId>
