@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
@@ -1226,6 +1227,19 @@ public class DateUtil {
 
     }
 
+    /*******************
+     * 把LocalDateTime转换成java.util.Date对象
+     * @param dateTime
+     * @return
+     */
+    public static Date toDate(LocalDateTime dateTime) {
+        if(dateTime == null) {
+            throw new RuntimeException("日期为null");
+        }
+        //
+        return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
     public static void main(String[] args) throws Exception {
         // System.out.println(getStringToTimestamp(new Date()));
         // System.out.println(getTimestampToDate("160310171411"));
@@ -1241,7 +1255,7 @@ public class DateUtil {
         // System.out.println(dayDiff(new Date(),
         // calculateDateTime(strToDate("20161214165659", FORMAT_FOUR), 1)));
 
-        System.out.println("判断两日是否在同一天：" + isAdjacentDate(new Date(), calculateDateTime(strToDate("20161215165659", FORMAT_FOUR), 1)));
+        //System.out.println("判断两日是否在同一天：" + isAdjacentDate(new Date(), calculateDateTime(strToDate("20161215165659", FORMAT_FOUR), 1)));
 
         // System.out.println(timeDiffForDay(new Date(),
         // calculateDateTime(strToDate("20161213152059", FORMAT_FOUR), 1)));
@@ -1293,6 +1307,10 @@ public class DateUtil {
 
         // System.out.println(timeSubSecond("2015-05-23 23:10:55",
         // "2016-05-23 23:10:55") / 60 / 60 / 24);
+
+        //
+        Date date = toDate(LocalDateTime.now().plusDays(8));
+        System.out.println(date);
     }
 
 

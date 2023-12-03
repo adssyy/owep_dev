@@ -1,26 +1,45 @@
 package com.kclm.owep.web.config;
 
-import com.kclm.owep.web.security.SpringDataUserDetailService;
+import com.kclm.owep.web.security.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)//开启方法级授权访问
+@EnableWebSecurity   //配置web层面的安全性
 @Slf4j
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private static final String[] URL_WHITE_LIST = {
+        "/login",
+        "/logout",
+        "/captcha",
+        "/favicon.ico"
+    };
+
     @Autowired
     private SpringDataUserDetailService userDetailService;
+
+    @Autowired
+    private LoginFailureHandler loginFailureHandler;
+    @Autowired
+    private LoginSuccessHandler loginSuccessHandler;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired
+    private JwtWebAccessDeniedHandler accessDeniedHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -28,80 +47,42 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         log.debug("---> 在SecurityConfiguration类中的configure(AuthenticationManagerBuilder auth)方法中....");
         auth
                 .userDetailsService(userDetailService)//用户信息服务
-                .passwordEncoder(passwordEncoder())//使用自定义的编码器
-                ;
+                .passwordEncoder(passwordEncoder());//使用自定义的编码器
     }
 
     @Override //安全拦截机制*
     protected void configure(HttpSecurity http) throws Exception {
         //
         log.debug("---> 在SecurityConfiguration类中的configure(HttpSecurity http)方法中....");
-        //自定义表单登录
-       /* http
-                .formLogin()
-                        .loginPage("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .successForwardUrl("/login")
-                                //.loginProcessingUrl("/admin/login")
-                                        .failureUrl("/login?error")
-                                        .permitAll();
 
-        //拦截器配置
+        //关闭csrf并且指定为无状态的会话管理
+        http.csrf().disable()
+                        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        //登录设置
+        http
+                .formLogin()    //采用表单登录，相当于使用 UsernameAndPasswordAuthenticationFilter
+                .successHandler(loginSuccessHandler)   //指定登录成功处理器,只是针对UsernameAndPasswordAuthenticationFilter
+                .failureHandler(loginFailureHandler);   //指定登录失败处理器,只是针对UsernameAndPasswordAuthenticationFilter
+        //过滤请求url的配置
         http
                 .authorizeRequests()
-                //.antMatchers("/login").permitAll()
-                        .antMatchers("/admin/login").permitAll() //登录请求不需要验证
-                        .antMatchers("/getMenu").permitAll()
-                        .antMatchers("/privilege/**").authenticated()
-                        .anyRequest().permitAll(); //其余请求放行【暂且】
+                .antMatchers(URL_WHITE_LIST).permitAll()
+                .anyRequest().authenticated();
+        //添加过滤器
+        http.addFilter(jwtAuthenticationFilter());
+        //在UsernamePasswordAuthenticationFilter之前添加JsonUsernamePasswordAuthenticationFilter
+        http.addFilterBefore(jsonUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        // 退出登录配置
-        http
-                .logout()
-                        .logoutUrl("/admin/logout") //注销的路径
-                        .clearAuthentication(true) //清除认证数据
-                        .invalidateHttpSession(true);  //清除session
         //异常处理
         http
                 .exceptionHandling()
-                        //.authenticationEntryPoint(null)   //未登录 处理器
-                        .accessDeniedHandler(new WebAccessDeniedHandler());
-        //关闭csrf防护，取肖跨站请求伪造防护
-        http
-                .csrf().disable()
-                        .headers().frameOptions().sameOrigin(); //允许同源头嵌套，此设置允许页面经由iframe框架嵌套到别处
-        //开启跨域访问
-                http
-                .cors();*/
-        //
-        http
-                .csrf().disable()
-                .headers().frameOptions().sameOrigin()//允许同源头嵌套，此设置允许页面经由iframe框架嵌套到别处
-                .and()
-                .formLogin()//允许表单登录
-                .loginPage("/login")//自定登陆页面
-                .usernameParameter("username")//配置自定义界面
-                .passwordParameter("password")
-                .successForwardUrl("/login")
-                .failureUrl("/login?error")//指定登录失败后跳转到/login?error页面
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/admin/logout")
-                .and()
-                .authorizeRequests()//请求url权限过滤
-//                .antMatchers("/static/**").permitAll()//放行对静态资源的请求
-                .antMatchers("/user/*").authenticated()
-                .antMatchers("/getMenu").permitAll()
-//                .antMatchers("/privilege/**").authenticated()//在访问对应url时需要在security系统中已有身份(已登录)；具体的请求在controller中验证权限开放
-                .anyRequest().permitAll()//对于剩余未作定义的默认为向所有访问公开
-                .and()
-                .exceptionHandling()//定义页面异常处理
-                .accessDeniedHandler(new WebAccessDeniedHandler()); //访问拒绝异常处理
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)   //没有传正确的jwt信息过来/未登录 处理器
+                .accessDeniedHandler(accessDeniedHandler);
 
-        //
-        http.cors();
+        //开启跨域访问
+        http
+                .cors();
     }
 
     @Override
@@ -110,8 +91,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         log.debug("---> 在SecurityConfiguration类中的configure(WebSecurity web)方法中....");
         //
         web
-                .ignoring().antMatchers("/static/**")
-        ;
+                .ignoring().antMatchers("/static/**");
     }
 
     /************************
@@ -121,7 +101,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder(){
         //TODO 暂时使用的是无加密编码器（直译）
         return NoOpPasswordEncoder.getInstance();
+        // 如果要采用加密，则创建下面的密码加密器
+        //return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+        log.debug("===> 创建jwtAuthenticationFilter对象:"+jwtAuthenticationFilter);
+        //
+        return jwtAuthenticationFilter;
+    }
 
+    /****
+     * add by yejf
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter() throws Exception {
+        JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter = new JsonUsernamePasswordAuthenticationFilter();
+        //用set方法注入AuthenticationManager
+        jsonUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        //在这里也要指定登录成功和失败时的处理器
+        jsonUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
+        jsonUsernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler);
+        //
+        return jsonUsernamePasswordAuthenticationFilter;
+    }
 }

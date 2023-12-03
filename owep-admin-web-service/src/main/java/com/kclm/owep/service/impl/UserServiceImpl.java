@@ -1,26 +1,17 @@
 package com.kclm.owep.service.impl;
 
 import com.kclm.owep.convert.UserConvert;
-import com.kclm.owep.dto.GroupRoleDTO;
-import com.kclm.owep.dto.PermissionDTO;
-import com.kclm.owep.dto.RolePermissionDTO;
-import com.kclm.owep.dto.UserDto;
+import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.Permission;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.UserMapper;
-import com.kclm.owep.service.GroupService;
-import com.kclm.owep.service.PermissionService;
-import com.kclm.owep.service.RoleService;
-import com.kclm.owep.service.UserService;
+import com.kclm.owep.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -37,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
     @Autowired
     private PermissionService permissionService;
+    @Autowired
+    private MenuService menuService;
 
     @Override
     public UserDto selectByName(String name) {
@@ -105,5 +98,48 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return -2;
+    }
+
+    /****************************
+     * 根据用户的id来查询出用户的权限，此系统从用户到权限的路径是
+     * 用户 -> 用户组 -> 角色 -> 权限 -> 菜单 [Menu]
+     *                           \-> 行为 [Action]
+     *  本方法把用户拥有的菜单id和行为id以"_"进行拼接，多个之间使用","分隔。如：
+     *  13-21,13-22,15-21,15-24,......
+     * @param userId
+     * @return
+     */
+    @Override
+    public String getUserAuthorityInfo(Integer userId) {
+        String result = "";
+        //1. 根据用户id来查询出拥有的权限
+        Set<Permission> permissionSet = new HashSet<>(this.getPermissionListByUserId(userId));//使用set筛除重复元素
+        //2. 判断是否拥有权限
+        if(permissionSet.size()>0){
+            //创建一个集合来存放权限包含的菜单
+            Set<ActionMenuPermissionDTO> actMenuSumSet= new HashSet<>();
+            for(Permission perm:permissionSet) {
+                Set<ActionMenuPermissionDTO> actionMenuSet = menuService.selectActionByPermissionIdFromAMP(perm.getId());
+                actMenuSumSet.addAll(actionMenuSet);
+            }
+            StringBuilder builder = new StringBuilder();
+            //
+            for(ActionMenuPermissionDTO am :actMenuSumSet){
+                Integer menuId = am.getMenuId();
+                Integer actionId = am.getActionId();
+                //
+                builder.append(menuId).append("-").append(actionId).append(",");
+            }
+            //删除最后一个,
+            builder.deleteCharAt(builder.length()- 1);
+            //
+            result = builder.toString();
+            //
+            log.debug("用户："+userId+"拥有的权限列表："+result);
+            return result;
+        }else{
+            System.out.println("用户"+userId+"没有分配任何权限");
+        }
+        return result;
     }
 }

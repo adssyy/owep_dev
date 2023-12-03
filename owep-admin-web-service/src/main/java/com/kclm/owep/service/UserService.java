@@ -7,7 +7,7 @@ import java.util.List;
 
 /**********************************8
  * @author yejf
- * 这里只是提供了一个用来
+ * 提供用户相关的操作
  */
 public interface UserService {
 
@@ -17,4 +17,6 @@ public interface UserService {
 
     int refreshLoginTime(Integer userId);
 
+    //add by yejf
+    String getUserAuthorityInfo(Integer userId);
 }

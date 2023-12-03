@@ -24,6 +24,7 @@ public interface UserConvert {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "userName", target = "userName")
     @Mapping(source = "userPwd", target = "userPwd")
+    @Mapping(source = "status", target = "userStatus")
     UserDto toUserDto(User user);
 
 }

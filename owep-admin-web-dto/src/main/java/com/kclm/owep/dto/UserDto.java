@@ -17,6 +17,11 @@ public class UserDto {
      */
     private String userPwd;
 
+    /*****
+     * 用户状态：1表示启用，0表示禁用
+     */
+    private Integer userStatus;
+
 
     public UserDto() {
     }
@@ -45,13 +50,22 @@ public class UserDto {
         this.userPwd = userPwd;
     }
 
+
     @Override
     public String toString() {
         return "UserDto{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", userPwd='" + userPwd + '\'' +
+                ", userStatus='" + userStatus + '\'' +
                 '}';
     }
 
+    public Integer getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Integer userStatus) {
+        this.userStatus = userStatus;
+    }
 }

@@ -1,9 +1,11 @@
-package com.kclm.owep.web.config;
+package com.kclm.owep.web.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +20,12 @@ import java.util.HashMap;
  * Date: 20.10.26
  * For:页面异常之访问拒绝异常处理
  */
-public class WebAccessDeniedHandler implements AccessDeniedHandler {
+@Component
+@Slf4j
+public class JwtWebAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
+        log.debug("---> 进入AccessDeniedHandler中的handle方法："+e);
         HashMap<String, String> map = new HashMap<>(2);
         map.put("uri", request.getRequestURI());
         map.put("msg", "用户无操作或访问权限，需要继续访问 请切换账户 或 联系管理员获取权限");

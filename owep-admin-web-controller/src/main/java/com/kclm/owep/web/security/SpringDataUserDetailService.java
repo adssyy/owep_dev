@@ -7,7 +7,12 @@ import com.kclm.owep.service.ActionService;
 import com.kclm.owep.service.MenuService;
 import com.kclm.owep.service.PermissionService;
 import com.kclm.owep.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.locks.Lock;
 
 /***
  * By:Artherine
@@ -23,58 +29,48 @@ import java.util.*;
  */
 
 @Service
+@Slf4j
 public class SpringDataUserDetailService implements UserDetailsService {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    PermissionService permissionService;
+    private PermissionService permissionService;
     @Autowired
-    ActionService actionService;
+    private ActionService actionService;
     @Autowired
-    MenuService menuService;
+    private MenuService menuService;
 
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        System.out.println("name="+name);
+        System.out.println("==> 登录的用户名："+name);
         UserDto userDto = userService.selectByName(name);
-        System.out.println(userDto);
-        System.out.println(userService);
-        Set<Permission> permissionSet = new HashSet<>(userService.getPermissionListByUserId(userDto.getId()));//使用set筛除重复元素
-        if(permissionSet.size()>0){
-//            Set<String> permissionIds = new HashSet<>();//以数组形式提取权限id
-//            permissionSet.forEach(permission -> permissionIds.add(permission.getId().toString()));
-//            System.out.print("已找到用户"+name+"拥有的权限"+permissionIds);//todo
-
-//            Set<Action> actions = new HashSet<>();
-//            permissionIds.forEach(permissionId-> actions.addAll(permissionService.selectActionByPermission(permissionId)));//permission 到 action
-//            String[] actioncodes = new String[actions.size()];
-//            int index=0;
-//            for (Action action  : actions){
-//                System.out.println("根据权限授权的行为："+action.getActionName());//todo
-//                actioncodes[index++] =action.getActionCode();
-//            }
-
-            Set<ActionMenuPermissionDTO> actMenuSumSet= new HashSet<>();
-            for(Permission perm:permissionSet) {
-                Set<ActionMenuPermissionDTO> actionMenuSet = menuService.selectActionByPermissionIdFromAMP(perm.getId());
-                actMenuSumSet.addAll(actionMenuSet);
-            }
-            String[] authoritiesCodes = new String[actMenuSumSet.size()];
-            Integer index = 0;
-            for(ActionMenuPermissionDTO am :actMenuSumSet){
-                Integer menuId = am.getMenuId();
-                Integer actionId = am.getActionId();
-                authoritiesCodes[index++] = menuId.toString()+"-"+actionId.toString();
-            }
-            //刷新用户登录时间
-            userService.refreshLoginTime(userDto.getId());
-            return User.withUsername(userDto.getUserName()).password(userDto.getUserPwd()).roles().authorities(authoritiesCodes).build();
-        }else{
-            System.out.println("用户"+name+"无特殊权限");//todo
-            return User.withUsername(userDto.getUserName()).password(userDto.getUserPwd()).authorities("common").build();
+        //判断用户是否存在
+        if(userDto == null) {
+            log.warn("用户名不存在: {}", name);
+            throw new UsernameNotFoundException("用户【"+name+"】不存在");
         }
+        //判断用户的状态是否是禁用,其中，0表示禁用
+        if(userDto.getUserStatus() == 0) {
+            log.warn("用户{}的状态已禁用",name);
+            throw new LockedException("用户【"+name+"】的状态已禁用");
+        }
+        //构建UserDetails对象
+        UserDetails user = User.withUsername(userDto.getUserName())
+                .password(userDto.getUserPwd())
+                .authorities(getUserAuthorities(userDto.getId())).build();
+        //刷新用户登录时间
+        userService.refreshLoginTime(userDto.getId());
+        //返回
+        return user;
+    }
 
-
-
+    public List<GrantedAuthority> getUserAuthorities(Integer userId) {
+        String userAuthorityInfo = userService.getUserAuthorityInfo(userId);
+        //采用,号分隔 -》 转换成集合
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(userAuthorityInfo);
+        //
+        log.debug("用户{}拥有的权限是：{}\n", userId, grantedAuthorities);
+        //
+        return grantedAuthorities;
     }
 }

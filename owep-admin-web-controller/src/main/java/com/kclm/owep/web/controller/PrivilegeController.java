@@ -22,10 +22,9 @@ import java.util.*;
  * @description 描述权限模块跳转到指定页面
  */
 
-@Controller
+@RestController
 @RequestMapping("/privilege")
 @Slf4j
-//@PreAuthorize("hasAuthority('权限管理')")//只有拥有 【权限管理】权限的用户可以浏览和访问此controller下的服务
 public class PrivilegeController {
 
     @Autowired
@@ -43,23 +42,11 @@ public class PrivilegeController {
     @Autowired
     private MenuService menuService;
 
-    /***
-     * 跳转到用户组管理页面
-     * @return
-     */
-    @GetMapping("/userGroup")
-    @PreAuthorize("hasAuthority('16-21')")
-    public String toPrivilegeUserGroup(){
-        log.debug("跳转视图，权限管理 -> 用户组管理 ");
-        return "privilege/userGroup";
-    }
-
-    /***
+    /******************************************
      * 回应用户管理页面的table刷新请求 反馈json对象
      * @return
      */
     @GetMapping(value = "/userGroup_table", produces = "application/json")
-    @ResponseBody()
     @PreAuthorize("hasAuthority('16-21')")
     public Object getGroupTable(@RequestParam("offset") int offset){
         //
@@ -72,7 +59,6 @@ public class PrivilegeController {
     }
 
     @GetMapping(value = "/userGroup/treeView", produces = "application/json")
-    @ResponseBody()
     @PreAuthorize("hasAuthority('16-21')")
     public NodeDTO[] getGroupTreeView(@RequestParam("id") int groupId){//只是个字符串，没有相对应的数据库
         System.out.println("priv userGroup treeView json sent");
@@ -96,7 +82,6 @@ public class PrivilegeController {
     }
 
     @PostMapping(value = "/userGroup/editTreeView", produces = "application/json")
-    @ResponseBody()
     @PreAuthorize("hasAuthority('16-23')")
     public String postGroupTreeViewEditAction(@RequestBody GroupRoleDTO groupRoleDTO){
         System.out.println("priv userGroup treeView edit action");
@@ -114,7 +99,6 @@ public class PrivilegeController {
     }
 
     @GetMapping(value = "/userGroup/toEdit", produces = "application/json")
-    @ResponseBody()
     @PreAuthorize("hasAuthority('16-21')")
     public Object getGroupEditInfo(@RequestParam("id") int id){//前端按下编辑键时向前端传对应id的组信息
         System.out.println("priv userGroup Edit info trance  id:"+id);
@@ -171,19 +155,8 @@ public class PrivilegeController {
         }
     }
 
-    /***
-     * 跳转到角色管理页面
-     * @return
-     */
-    @GetMapping("/roleList")
-    @PreAuthorize("hasAuthority('19-21')")
-    public String toPrivilegeRoleList(){
-        return "privilege/roleList";
-    }
-
     @GetMapping("/roleList/getTable")
     @PreAuthorize("hasAuthority('19-21')")
-    @ResponseBody
     public Object getRoleListTable(@RequestParam("offset") int offset){
         System.out.println("priv roleList getTable");
         List<RoleDTO> roleDTOS = roleService.selectAllRoles(offset);
@@ -193,7 +166,6 @@ public class PrivilegeController {
 
     @GetMapping("/roleList/toEditRole")
     @PreAuthorize("hasAuthority('19-21')")
-    @ResponseBody
     public Object getRoleEditInfo(@RequestParam("id") int id){
         System.out.println("priv roleList toEdit Info trance");
         RoleDTO roleDTO = roleService.selectById(id);
@@ -219,7 +191,6 @@ public class PrivilegeController {
 
     @PostMapping("/roleList/deleteRole")
     @PreAuthorize("hasAuthority('19-24')")
-    @ResponseBody
     public Object postRoleDeleteAction(@RequestBody Integer id){
         System.out.println("priv roleList role delete action");
         List idList = new ArrayList();
@@ -236,7 +207,6 @@ public class PrivilegeController {
 
     @GetMapping("roleList/treeCheck")
     @PreAuthorize("hasAuthority('19-21')")
-    @ResponseBody
     public Object getTreeCheckMap(@RequestParam("id") int id){
         NodeDTO nodeDTO = roleService.selectAllDTO();//获取全节点
         //设置预先勾选
@@ -260,7 +230,6 @@ public class PrivilegeController {
 
     @PostMapping(value = "roleList/treeCheck_edit", produces = "application/json")
     @PreAuthorize("hasAuthority('19-23')")
-    @ResponseBody
     public String postRoleTreeCheckEditAction(@RequestBody RolePermissionDTO rolePermissionDTO){
         Integer roleId = rolePermissionDTO.getRoleId();
         List<Integer> permissionIds = rolePermissionDTO.getPermissionIds();
@@ -273,7 +242,6 @@ public class PrivilegeController {
 
     @PostMapping(value = "/roleList/deleteByGroups", produces = "application/json")
     @PreAuthorize("hasAuthority('19-24')")
-    @ResponseBody()
     public String postRoleDeleteByGroupsAction(@RequestBody List<Serializable>  idList){
         System.out.println("priv userGroup delete by groups ids:" + idList);
         if(roleService.deleteRole(idList)!= -1){//返回值为-1说明删除过程中出错
