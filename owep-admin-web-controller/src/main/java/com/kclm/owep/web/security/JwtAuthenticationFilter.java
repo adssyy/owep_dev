@@ -71,11 +71,18 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throw new RuntimeException("Token为Empty");
         }
         //判断是否过期
-        //todo 判断JWT Claims 有效期是否过期
         if(!JwtUtil.isExpiration(claims)) {
             log.debug("jwt Token过期了");
             throw new RuntimeException("Token过期了");
         }
+        //Token续签，以保证通过认证的请求可以自动延期有效时间
+        String newToken = JwtUtil.renewalToken(claims);
+        if(!StringUtils.isEmpty(newToken)) {
+            System.out.println("===> 续签Token成功,新的Token是："+newToken);
+            //表示续签成功
+            response.setHeader(JwtUtil.getHeader(), newToken);
+        }
+
         //获取用户名
         try {
             String username = claims.getSubject();

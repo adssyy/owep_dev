@@ -12,16 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.GetMapping;;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @RestController
@@ -76,7 +71,11 @@ public class LoginController {
             }
         });
         //返回
-        return menuSet.toArray();
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("menuIds", menuIds);
+        resultMap.put("menus",menuSet);
+        //
+        return resultMap;
     }
 
 }

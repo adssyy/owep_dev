@@ -1,7 +1,9 @@
 # owep
 
 #### 介绍
-Online Wisdom Education Platform
+Online Wisdom Education Platform 智慧教育云平台
+此版本采用前后端分离开发，此项目是后端
+前端项目，请通过仓库：**https://gitee.com/lv_520/owep-vue-front** clone或下载到地进行开发，前端模块采用Vue3开发。
 
 #### 软件架构
 本系统采用Maven进行构建，并且基于Spring Boot进行开发，采用多模块结构，按软件分层思想进行架构，整个项目分为如下模块：

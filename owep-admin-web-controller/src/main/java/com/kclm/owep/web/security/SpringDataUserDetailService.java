@@ -66,7 +66,7 @@ public class SpringDataUserDetailService implements UserDetailsService {
 
     public List<GrantedAuthority> getUserAuthorities(Integer userId) {
         String userAuthorityInfo = userService.getUserAuthorityInfo(userId);
-        //采用,号分隔 -》 转换成集合
+        //采用,号分隔 -》 转换成集合  13-21,13-22,15-21,15-24,......
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(userAuthorityInfo);
         //
         log.debug("用户{}拥有的权限是：{}\n", userId, grantedAuthorities);

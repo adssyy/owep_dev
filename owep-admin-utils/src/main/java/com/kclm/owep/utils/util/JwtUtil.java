@@ -72,7 +72,9 @@ public class JwtUtil {
             claims.setExpirationTimeMinutesInTheFuture(expirationTimeInSecond / 60);
             claims.setGeneratedJwtId();
             claims.setIssuedAtToNow();
+            //在过期前2分钟内，token不可用。
             claims.setNotBeforeMinutesInThePast(2);
+            //受众
             claims.setAudience(AUDIENCE);
             // 添加自定义声明
             //claims.setClaim("username", loginName);
@@ -114,20 +116,8 @@ public class JwtUtil {
             JwtContext jwtContext = jwtConsumer.process(token);
             return jwtContext.getJwtClaims();
         } catch (UnsupportedEncodingException | InvalidJwtException e) {
-            throw new RuntimeException("解析JWT出错", e);
+            throw new RuntimeException("无效的Token【Token过期或是被篡改】", e);
         }
-    }
-
-    public static void main(String[] args) {
-        //
-        String jwtStr = createToken( "admin", 3600);
-        //
-        System.out.println(jwtStr);
-
-        //解析
-        JwtClaims claims = parseToken(jwtStr);
-        //
-        System.out.println(claims);
     }
 
     /****
@@ -166,4 +156,48 @@ public class JwtUtil {
         return false;
     }
 
+    /*********************************
+     * 续签Token,遵守如下策略
+     * 1. 判断给定的claims中的过期时间，是否小于5分钟，如果小于5分钟，则续签，如果不小于，则返回空字符
+     * 2. 续签时，需要重新生新的token,这里将会调用上面的createToken方法，并返回新的token
+     * @param claims
+     * @return
+     */
+    public static String renewalToken(JwtClaims claims) {
+        //断言
+        Assert.notNull(claims, "claims不能为null");
+        try {
+            NumericDate expirationTime = claims.getExpirationTime();
+            //获取当前时间
+            NumericDate now = NumericDate.now();
+            //过期时间减去 5*60 秒
+            expirationTime.addSeconds(-5*60);
+            //再和当前时间比较，如果还
+            if(expirationTime.isBefore(now)) {
+                //续签 15分钟
+                return createToken(claims.getSubject(), 15*60);
+            } else {
+                //无需续签
+                return "";
+            }
+        } catch (MalformedClaimException e) {
+           throw new RuntimeException("续签Token失败");
+        }
+    }
+
+    public static void main(String[] args) {
+        //
+        String jwtStr = createToken( "admin", 4*60);
+        //
+        System.out.println(jwtStr);
+
+        //解析
+        JwtClaims claims = parseToken(jwtStr);
+        //
+        System.out.println(claims);
+
+        //
+        jwtStr = renewalToken(claims);
+        System.out.println(jwtStr);
+    }
 }

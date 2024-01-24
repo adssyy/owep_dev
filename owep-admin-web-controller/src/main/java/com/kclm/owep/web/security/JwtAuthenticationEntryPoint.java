@@ -37,7 +37,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); //提示 未认证
         //
         Map<String, String> map = new HashMap<>();
-        map.put("msg","请求未经过认证【没有发送Authorization头信息】");
+        System.out.println("===>"+authException.getMessage());
+        map.put("msg","无Token信息或是Token已过期，请重新登录");
         map.put("uri", request.getRequestURI());
         //map.put("code",String.valueOf(HttpServletResponse.SC_UNAUTHORIZED));
         //利用ObjectMapper转换成json发送到前端

@@ -43,7 +43,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         //生成jwt，并放置到请求头中
         User user = (User)authentication.getPrincipal();
         log.debug("===> 登录的用户名是："+user.getUsername());
-        String jwt = JwtUtil.createToken(user.getUsername(), 15*60);
+        String jwt = JwtUtil.createToken(user.getUsername(), 6*60);
         log.debug("===> 生成的jwt是："+jwt);
         response.setHeader(JwtUtil.getHeader(), jwt);  //响应头名称：Authorization
         //
