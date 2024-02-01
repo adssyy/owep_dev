@@ -49,7 +49,7 @@ public class MenuDTO extends Menu {
     static Map<String,String> name_icon = new TreeMap<>();
 
     static{
-        name_icon.put("系统配置","fa fa-home");
+        /*name_icon.put("系统配置","fa fa-home");
         name_icon.put("用户管理","fa fa-users");
         name_icon.put("权限管理","fa fa-lock");
         name_icon.put("资源管理","fa fa-database");
@@ -63,7 +63,23 @@ public class MenuDTO extends Menu {
         name_icon.put("通知公告","fa fa-bell");
         name_icon.put("咨询管理","fa fa-commenting");
         name_icon.put("意向客户","fa fa-user-plus");
-        name_icon.put("操作日志","fa fa-file");
+        name_icon.put("操作日志","fa fa-file");*/
+        // 采用新的图标
+        name_icon.put("系统配置","icon-zhuye");
+        name_icon.put("用户管理","icon-users");
+        name_icon.put("权限管理","icon-lock4");
+        name_icon.put("资源管理","icon-database");
+        name_icon.put("培养方案","icon-flask");
+        name_icon.put("班级管理","icon-Table");
+        name_icon.put("授课管理","icon-institution");
+        name_icon.put("考试管理","icon-tasks");
+        name_icon.put("考评管理","icon-qizi");
+        name_icon.put("数据分析","icon-bianzu4");
+        name_icon.put("组织机构","icon-sitemap");
+        name_icon.put("通知公告","icon-22BELL");
+        name_icon.put("咨询管理","icon-commenting");
+        name_icon.put("意向用户","icon-userplus");
+        name_icon.put("操作日志","icon-file3");
 
     }
 
