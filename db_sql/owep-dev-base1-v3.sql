@@ -2153,7 +2153,7 @@ CREATE TABLE `t_user`  (
   `card_num` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证号码',
   `status` int(1) NULL DEFAULT NULL COMMENT ' 用户状态，1表示启用，0表示禁用',
   `effective_date` date NULL DEFAULT NULL COMMENT '截止有效期限',
-  `user_type` int(1) NULL DEFAULT NULL COMMENT '用户类型，采用枚举下标存储',
+  `user_type` int(1) NULL DEFAULT NULL COMMENT '用户类型，0代表超级管理员，1代表老师（项目经理也是老师），2代表咨询师',
   `birth` date NULL DEFAULT NULL COMMENT '用户生日',
   `image_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像图片路径',
   `description` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户描述信息',

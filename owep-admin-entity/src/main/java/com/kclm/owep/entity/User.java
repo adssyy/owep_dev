@@ -74,7 +74,11 @@ public class User {
     private LocalDateTime effectiveDate;
 
     /**
-     * 用户类型，采用枚举下标存储
+     * 管理员用户的三种类型，
+     * 0 代表超级管理员
+     * 1 代表老师或项目经理 【项目经理也是老师】
+     * 2 代表咨询师
+     *
      */
     private Integer userType;
 
