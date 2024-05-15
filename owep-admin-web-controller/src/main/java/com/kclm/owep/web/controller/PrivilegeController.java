@@ -10,11 +10,13 @@ import com.kclm.owep.web.response.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Artherine
@@ -56,7 +58,7 @@ public class PrivilegeController {
             //
             log.info("根据offset:{}, 查询所有的用户组： {}", offset, groupDTOS);
             //
-            return R.success().setData(groupDTOS);
+            return R.success(groupDTOS);
 
         } catch (RuntimeException e) {
             //记录日志
@@ -86,7 +88,7 @@ public class PrivilegeController {
             NodeDTO[] result = new NodeDTO[1];//新建一个数组
             result[0] = nodeDTO;//把结果包装进数组
             //
-            return R.success().setData(result);
+            return R.success(result);
 
         } catch (RuntimeException e) {
             log.error("根据组id来查询权限树节点失败", e);
@@ -122,7 +124,8 @@ public class PrivilegeController {
     public R<GroupDTO> getGroupEditInfo(@RequestParam("id") int id){//前端按下编辑键时向前端传对应id的组信息
         try {
             log.debug("根据id来查询用户信息 id:"+id);
-            return R.success().setData(groupService.selectById(id));
+            GroupDTO groupDTO = groupService.selectById(id);
+            return R.success(groupDTO);
         } catch (RuntimeException e){
             log.error("查询组信息失败", e);
             //
@@ -212,7 +215,7 @@ public class PrivilegeController {
             log.debug("查询所有角色");
             List<RoleDTO> roleDTOS = roleService.selectAllRoles(offset);
             //
-            return R.success().setData(roleDTOS);
+            return R.success(roleDTOS);
         } catch (RuntimeException e) {
             log.error("查询所有角色失败", e);
             //
@@ -227,7 +230,7 @@ public class PrivilegeController {
             log.debug("依id查询角色:"+id);
             RoleDTO roleDTO = roleService.selectById(id);
             //
-            return R.success().setData(roleDTO);
+            return R.success(roleDTO);
         } catch (RuntimeException e) {
             log.error("依id查询角色失败", e);
             //
@@ -304,7 +307,7 @@ public class PrivilegeController {
             }
             NodeDTO[] data = new NodeDTO[1];
             data[0] = nodeDTO;
-            return R.success().setData(data);
+            return R.success(data);
         } catch (RuntimeException e) {
             log.error("依角色id查询并回显所有的权限信息失败");
             return R.failure("依角色id查询并回显所有的权限信息失败");
@@ -352,7 +355,7 @@ public class PrivilegeController {
         try {
             List<PermissionDTO> permissionDTOS = permissionService.selectAllPermission(offset);
             log.debug("分页查询所有权限成功");
-            return R.success().setData(permissionDTOS);
+            return R.success(permissionDTOS);
         } catch (RuntimeException e) {
             log.error("分页获取所有权限失败");
             return R.failure("获取所有权限失败");
@@ -378,7 +381,7 @@ public class PrivilegeController {
         try {
             PermissionDTO permissionDTO = permissionService.selectById(id);
             log.debug("依id查询权限成功");
-            return R.success().setData(permissionDTO);
+            return R.success(permissionDTO);
         } catch (RuntimeException e) {
             log.error("依id查询权限失败:"+id);
             return R.failure("依id查询权限失败");
@@ -459,7 +462,7 @@ public class PrivilegeController {
             } else {
                 System.out.println("empty list, new setting");
             }
-            return R.success().setData(nodeDTOS);
+            return R.success(nodeDTOS);
 
         } catch (RuntimeException e) {
             log.error("获取菜单权限失败");
@@ -489,7 +492,7 @@ public class PrivilegeController {
         try {
             log.debug("加载所有菜单");
             List<MenuDTO> menuDTOS = menuService.selectAllMenu();
-            return R.success().setData(menuDTOS);
+            return R.success(menuDTOS);
         } catch (RuntimeException e) {
             log.error("获取所有菜单出错",e);
             return R.failure("获取所有菜单出错");
@@ -501,7 +504,7 @@ public class PrivilegeController {
     public R<List<NodeDTO>> getMenuListTreeSelect(){
         try {
             List<NodeDTO> nodeDTOS = permissionService.selectAllMenus();
-            return R.success().setData(nodeDTOS);
+            return R.success(nodeDTOS);
         } catch (RuntimeException e) {
             log.error("加载所有菜单失败",e);
             return R.failure("List<NodeDTO>");
@@ -534,7 +537,7 @@ public class PrivilegeController {
             Map<String, List<PermissionDTO>> result = new HashMap();
             result.put("value", permissionDTOS);
             //
-            return R.success().setData(result);
+            return R.success(result);
         } catch (RuntimeException e) {
             log.error("查询所有权限失败", e);
             return R.failure("查询所有权限失败");
@@ -574,7 +577,7 @@ public class PrivilegeController {
             dataPack[1] = 14;//第二位置为 int
             dataPack[2] = actionNodeList;//第三位置为行为树状节点链
 
-            return R.success().setData(dataPack);
+            return R.success(dataPack);
         } catch (RuntimeException e) {
             log.error("菜单行为数据出错",e);
             return R.failure("菜单行为数据出错");
@@ -603,7 +606,7 @@ public class PrivilegeController {
         try {
             log.debug("依id查询菜单："+id);
             MenuDTO menuDTO = menuService.selectById(id);
-            return R.success().setData(menuDTO);
+            return R.success(menuDTO);
         } catch (RuntimeException e) {
             log.error("依id查询菜单失败",e);
             return R.failure("依id查询菜单失败:"+id);
@@ -651,7 +654,7 @@ public class PrivilegeController {
     public R<List<ActionDTO>> getActionListTable(@RequestParam("offset") int offset){
         try {
             List<ActionDTO> actionDTOS = actionService.selectAllAction(offset);
-            return R.success().setData(actionDTOS);
+            return R.success(actionDTOS);
         } catch (RuntimeException e) {
             log.error("加载所有行为失败", e);
             return R.failure("加载所有行为失败");
@@ -665,7 +668,7 @@ public class PrivilegeController {
         try {
             log.debug("依id查询行为："+id);
             ActionDTO actionDTO = actionService.selectById(id);
-            return R.success().setData(actionDTO);
+            return R.success(actionDTO);
         } catch (RuntimeException e) {
             log.error("依id查询行为失败", e);
             return R.failure("依id查询行为失败");

@@ -49,18 +49,15 @@ public class Action implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-      /*  if (this == o) return true;
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Action action = (Action) o;
-        return Objects.equals(id, action.id) &&
-                Objects.equals(actionUrl, action.actionUrl) &&
-                Objects.equals(actionCode, action.actionCode);*/
-      return false;
+        return Objects.equals(id, action.id) && Objects.equals(actionName, action.actionName) && Objects.equals(actionUrl, action.actionUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, actionUrl, actionCode);
+        return Objects.hash(id, actionName, actionUrl);
     }
 
     @Override

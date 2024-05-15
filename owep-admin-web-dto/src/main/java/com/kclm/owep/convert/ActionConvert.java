@@ -5,7 +5,6 @@ import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.entity.Action;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
 public interface ActionConvert {
 
     /** 实例:用spring IOC管理时，此句可以不用写 */
-    ActionConvert instance = Mappers.getMapper(ActionConvert.class);
+    //ActionConvert instance = Mappers.getMapper(ActionConvert.class);
 
     /*****
      * 属性名相同时，可以采用默认的映射
