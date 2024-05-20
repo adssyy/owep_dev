@@ -28,6 +28,13 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- 导入vo的依赖 -->
+        <dependency>
+            <groupId>com.kclm</groupId>
+            <artifactId>owep-admin-web-vo</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- 导入utils的依赖 -->
         <dependency>
             <groupId>com.kclm</groupId>

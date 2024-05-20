@@ -4,6 +4,7 @@ import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,4 +26,6 @@ public interface UserMapper extends BaseMapper<User> {
     int attachGroupToUser( Serializable uid ,  Serializable gid);
 
     int deleteUserGroupAllocation( Serializable id);
+
+    List<User> getAdminUser();
 }

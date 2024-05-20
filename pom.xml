@@ -12,6 +12,8 @@
     <packaging>pom</packaging>
     <description>Online Wisdom Education Platform for short is: owep</description>
 
+
+
     <properties>
         <!-- 指定编译的JDK版本为11 -->
         <maven.compiler.target>11</maven.compiler.target>
@@ -107,14 +109,14 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <!-- jdk8以下就使用mapstruct-jdk8 -->
-                <!--suppress MybatisMapperXmlInspection -->
-                <artifactId>mapstruct-jdk8</artifactId>
-                <!--suppress MybatisMapperXmlInspection -->
-                <version>${mapstruct.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.mapstruct</groupId>-->
+<!--                &lt;!&ndash; jdk8以下就使用mapstruct-jdk8 &ndash;&gt;-->
+<!--                &lt;!&ndash;suppress MybatisMapperXmlInspection &ndash;&gt;-->
+<!--                <artifactId>mapstruct-jdk8</artifactId>-->
+<!--                &lt;!&ndash;suppress MybatisMapperXmlInspection &ndash;&gt;-->
+<!--                <version>${mapstruct.version}</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>org.mapstruct</groupId>

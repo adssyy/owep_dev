@@ -1,7 +1,9 @@
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.AdminUserDto;
 import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.entity.Permission;
+import com.kclm.owep.entity.User;
 
 import java.util.List;
 
@@ -19,4 +21,8 @@ public interface UserService {
 
     //add by yejf
     String getUserAuthorityInfo(Integer userId);
+
+    List<AdminUserDto> getAdminUserList();
+
+//    List<AdminUserVo> getAdminList();
 }

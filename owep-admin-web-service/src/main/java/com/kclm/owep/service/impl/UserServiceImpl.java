@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MenuService menuService;
 
+
     @Override
     public UserDto selectByName(String name) {
         try{
@@ -141,4 +142,15 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    // TODO 根据用户类型查询不同的用户列表
+    @Override
+    public List<AdminUserDto> getAdminUserList() {
+        List<User> userList = userMapper.getAdminUser();
+        System.out.println("List<User>>:===>" + userList);
+        List<AdminUserDto> adminUserList = userConvert.toAdminUserDto(userList);
+        System.out.println("List<AdminUserDto>:===>" + adminUserList);
+        return adminUserList;
+    }
+
 }

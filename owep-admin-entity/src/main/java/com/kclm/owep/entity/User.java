@@ -4,6 +4,8 @@
 package com.kclm.owep.entity;
 
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +16,7 @@ import java.util.Objects;
  * @Create: 2020年7月06日
  * @Description 用户实体类类
  */
-
+@Data
 public class User {
 
     /**
