@@ -21,7 +21,6 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private UserConvert userConvert;
-
     @Autowired
     private GroupService groupService;
     @Autowired
