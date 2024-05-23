@@ -24,5 +24,21 @@ public interface UserService {
 
     List<AdminUserDto> getAdminUserList();
 
-//    List<AdminUserVo> getAdminList();
+    int updateUserStatus(Integer userId);
+
+    int updateAdminUserInfo(AdminUserDto adminUserDto);
+
+    int deleteUserById(Integer id);
+
+    int addUser(AdminUserDto adminUserDto);
+
+    int deleteSelectedUsers(List<Integer> idList);
+
+    List<AdminUserDto> getAdminUserByUserName(String userName);
+
+    List<AdminUserDto> getAdminUserByRealName(String realName);
+
+    List<AdminUserDto> getAdminUserByKeywords(String userName, String realName);
+
+
 }

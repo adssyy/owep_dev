@@ -52,10 +52,10 @@
     </select>
 
     <!--根据id逻辑删除记录,改变is_delete的状态-->
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        delete from t_user
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
+    <update id="deleteById" parameterType="java.lang.Integer">
+        update t_user set is_delete = 0, version = version + 1
+        where id in (#{id,jdbcType=INTEGER})
+    </update>
 
     <!--逻辑删除查询出来集合里的记录,改变is_delete的状态-->
     <update id="deleteSelect" parameterType="java.lang.Integer">
@@ -307,4 +307,6 @@
         from t_user
         where user_type = 0 and is_delete = 1
     </select>
+
+
 </mapper>
