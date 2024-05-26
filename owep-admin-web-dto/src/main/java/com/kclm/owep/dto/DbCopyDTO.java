@@ -4,6 +4,8 @@
 package com.kclm.owep.dto;
 
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
  *@Create 2020/7/13 10:23
  *@Description 数据库备份DTO
  */
+@Data
 public class DbCopyDTO implements Serializable {
 
     private static final long serialVersionUTD = 1L;
@@ -24,10 +27,24 @@ public class DbCopyDTO implements Serializable {
      * 备份sql文件名
      */
     private  String fileName;
+
+    /**
+     * 备份文件路径
+     */
+    private String filePath;
     /**
      * 备份的状态，1代表成功，0代表失败
      */
     private boolean status;
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
     /**
      * 备份的时间
      */
@@ -94,6 +111,7 @@ public class DbCopyDTO implements Serializable {
         return "DbCopyDTO{" +
                 "id=" + id +
                 ", fileName='" + fileName + '\'' +
+                ", filePath='" + filePath + '\'' +
                 ", status=" + status +
                 ", createTime=" + createTime +
                 ", startTime=" + startTime +

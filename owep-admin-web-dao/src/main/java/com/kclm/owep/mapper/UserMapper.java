@@ -1,5 +1,7 @@
 package com.kclm.owep.mapper;
 
+import com.kclm.owep.entity.Group;
+import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.*;
@@ -30,7 +32,7 @@ public interface UserMapper extends BaseMapper<User> {
      *
      * @return 管理员用户列表
      */
-    List<User> getAdminUser();
+    List<User> getAdminUser(@Param("adminType") int adminType, @Param("isDelete1") int isDelete1);
 
     /**
      * 更新管理员用户信息
@@ -71,7 +73,12 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select status from t_user where id = #{id} and is_delete = 1")
     int getUserStatus(Integer id);
 
-    // TODO 批量删除管理员老师等 用户
+    /**
+     * 批量删除管理员老师等用户
+     *
+     * @param idList 需要删除的用户ID列表
+     * @return 删除的用户数量
+     */
     @Update({"<script>",
             "update t_user set is_delete = 0, version = version + 1 where id in",
             "<foreach item='item' index='index' collection='idList' open='(' separator=',' close=')'>",
@@ -92,14 +99,68 @@ public interface UserMapper extends BaseMapper<User> {
     int updateUserStatus(Integer id);
 
 
-    // TODO  模糊查询
-    // TODO  根据用户名查询    根据真实姓名查询   根据用户名和真实姓名一起查询
+    /**
+     * 根据用户名模糊查询管理员用户信息
+     *
+     * @param userName 用户名，用于模糊查询
+     * @return 管理员用户信息列表
+     */
     @Select("select * from t_user where user_name like concat('%',#{userName},'%') and is_delete = 1 and user_type = 0 ")
     List<User> selectAdminUserByUserName(@Param("userName") String userName);
 
+    /**
+     * 根据真实姓名模糊查询管理员用户信息
+     *
+     * @param realName 真实姓名，用于模糊查询
+     * @return 管理员用户信息列表
+     */
     @Select("select * from t_user where real_name like concat('%',#{realName},'%') and is_delete = 1 and user_type = 0 ")
     List<User> selectAdminUserByRealName(@Param("realName") String realName);
 
+    /**
+     * 根据用户名和真实姓名模糊查询管理员用户信息
+     *
+     * @param userName 用户名，用于模糊查询
+     * @param realName 真实姓名，用于模糊查询
+     * @return 管理员用户信息列表
+     */
     @Select("select * from t_user where user_name like concat('%',#{userName},'%') and real_name like concat('%',#{realName},'%') and is_delete = 1 and user_type = 0 ")
     List<User> selectAdminUserByUserNameAndRealName(@Param("userName") String userName, @Param("realName") String realName);
+
+
+    /**
+     * 查询所有用户组
+     *
+     * @return 包含所有用户组信息的List集合
+     */
+    @Select("select * from t_group")
+    List<Group> getAllGroups();
+
+    /**
+     * 查询用户组对应的角色列表
+     *
+     * @param id 用户组ID
+     * @return 包含用户组对应角色信息的Role对象列表
+     */
+    @Select("select * from t_role join t_group_role on t_role.id = t_group_role.role_id where t_group_role.group_id = #{id}")
+    List<Role> getRoleListByGroupId(Integer id);
+
+    /**
+     * 根据用户id查询用户所属的用户组
+     *
+     * @param id 用户id
+     * @return 包含用户所属用户组信息的Group对象列表
+     */
+    @Select("select * from t_group join t_user_group on t_group.id = t_user_group.group_id where t_user_group.user_id = #{id}")
+    List<Group> getGroupListByUserId(Integer id);
+
+    /**
+     * 根据用户组id查询用户所属的角色id列表
+     *
+     * @param id 用户组id
+     * @return 包含用户所属角色id的列表
+     */
+    @Select("select t_role.id from t_role join t_group_role on t_role.id = t_group_role.role_id where t_group_role.group_id = #{id}")
+    List<Integer> getRoleIdListByGroupId(Integer id);
+
 }

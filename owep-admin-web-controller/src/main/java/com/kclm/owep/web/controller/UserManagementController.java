@@ -1,7 +1,9 @@
 package com.kclm.owep.web.controller;
 
 import com.kclm.owep.dto.AdminUserDto;
+import com.kclm.owep.dto.UserGroupAndRoleDto;
 import com.kclm.owep.service.UserService;
+import com.kclm.owep.utils.constant.Constant;
 import com.kclm.owep.utils.util.BuildingResultErrorUtil;
 import com.kclm.owep.web.response.R;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,12 @@ public class UserManagementController {
     @Autowired
     private UserService userService;
 
+    // 管理员类型
+    int adminType = Constant.TYPE_MANAGER;
+
+    //
+    int isDelete1 = Constant.LOGIC_DELETE_1;
+
     /**
      * 获取管理员用户列表
      *
@@ -28,11 +36,17 @@ public class UserManagementController {
      */
     @GetMapping(value = "/admin-user", produces = "application/json")
     public R getAdminUserList() {
-        List<AdminUserDto> adminUserList = userService.getAdminUserList();
+        List<AdminUserDto> adminUserList = userService.getAdminUserList(adminType, isDelete1);
         return R.success(adminUserList);
     }
 
-    // TODO  编辑更新管理员用户信息
+    /**
+     * 编辑更新管理员用户信息
+     *
+     * @param adminUserDto 管理员用户信息DTO
+     * @param bindingResult 数据绑定结果
+     * @return 响应结果R，更新成功返回成功状态，更新失败返回失败状态并附带错误信息
+     */
     @PostMapping(value = "/update-admin-user-info", produces = "application/json")
     public R updateAdminUserInfo(@Valid AdminUserDto adminUserDto, BindingResult bindingResult) {
         System.out.println(adminUserDto.toString());
@@ -75,7 +89,13 @@ public class UserManagementController {
         }
     }
 
-    // TODO  模糊查询管理员用户列表
+    /**
+     * 模糊查询管理员用户列表
+     *
+     * @param userName 用户名（可为null）
+     * @param realName 真实姓名（可为null）
+     * @return 管理员用户列表，若查询成功则返回包含管理员用户信息的列表，否则返回空列表
+     */
     @PostMapping(value = "/search-users-by-keywords", produces = "application/json")
     public R searchAdminUserByKeywords(String userName, String realName) {
         if (userName != null && realName == null) {
@@ -142,6 +162,17 @@ public class UserManagementController {
         } else {
             return R.failure("更新失败");
         }
+    }
+
+    /**
+     * 获取用户组及所属角色信息
+     *
+     * @return 包含用户组及所属角色信息的列表
+     */
+    @PostMapping(value = "/get-user-group-and-role-list", produces = "application/json")
+    public R getUserGroupAndRoleList() {
+        List<UserGroupAndRoleDto> list = userService.getUserGroupAndRoleList();
+        return R.success(list);
     }
 }
 

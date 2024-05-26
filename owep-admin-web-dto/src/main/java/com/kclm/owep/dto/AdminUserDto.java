@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**********
  * 管理员用户信息DTO
@@ -39,5 +40,13 @@ public class AdminUserDto {
     private String lastLoginDate; // 管理员上次登录日期
 
     private Integer status; // 管理员状态
+
+    private List<List<Integer>> roleIds; //管理员用户拥有的用户组和角色id列表
+
+//    private Integer groupId; // 管理员所属用户组id
+//
+//    private List<Integer> roleIds; //管理员所拥有的角色id
+
+
 
 }

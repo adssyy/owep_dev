@@ -1,7 +1,8 @@
 package com.kclm.owep.convert;
 
-import com.kclm.owep.dto.AdminUserDto;
-import com.kclm.owep.dto.UserDto;
+import com.kclm.owep.dto.*;
+import com.kclm.owep.entity.Group;
+import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -62,11 +63,27 @@ public interface UserConvert {
         }
     }
 
+
+    /**
+     * 将LocalDateTime对象转换为指定格式的日期字符串
+     *
+     * @param localDateTime 需要转换的LocalDateTime对象
+     * @return 转换后的日期字符串，格式为"yyyy-MM-dd HH:mm:ss"
+     */
     default String timeToDate(LocalDateTime localDateTime){
         // 定义日期时间格式，应与courseDateAndTimeStr的格式匹配
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss");
         String date = localDateTime.format(formatter);
         return date;
     }
+
+
+    public RoleDTO toRoleDto(Role role);
+
+    public List<RoleDTO> toRoleDto(List<Role> role);
+
+//    public UserGroupAndRoleDto toUserGroupAndRoleDto(Group group);
+//
+//    public List<UserGroupAndRoleDto> toUserGroupAndRoleDto(List<Group> group);
 
 }

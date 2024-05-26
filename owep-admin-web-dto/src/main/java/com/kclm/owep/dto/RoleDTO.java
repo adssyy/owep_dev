@@ -6,6 +6,8 @@
 package com.kclm.owep.dto;
 
 import com.kclm.owep.entity.Role;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.Objects;
  * @create: 2020/7/13 10:55
  * @description: 角色DTO
  **/
+@Data
+@Accessors(chain = true)
 public class RoleDTO {
     private Integer id;
     /**

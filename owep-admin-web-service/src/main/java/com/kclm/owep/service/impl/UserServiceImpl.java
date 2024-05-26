@@ -2,10 +2,13 @@ package com.kclm.owep.service.impl;
 
 import com.kclm.owep.convert.UserConvert;
 import com.kclm.owep.dto.*;
+import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Permission;
+import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.*;
+import com.kclm.owep.utils.constant.Constant;
 import com.kclm.owep.utils.util.GetCurrentUserNameUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -34,6 +38,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MenuService menuService;
 
+//    int adminType = Constant.TYPE_MANAGER;
+//
+//    int isDelete1 = Constant.LOGIC_DELETE_1;
 
     /**
      * 根据用户名查询用户信息并转换为UserDto对象返回
@@ -171,12 +178,33 @@ public class UserServiceImpl implements UserService {
      * @return 返回管理员用户列表的DTO对象集合
      */
     @Override
-    public List<AdminUserDto> getAdminUserList() {
-        List<User> userList = userMapper.getAdminUser();
+    public List<AdminUserDto> getAdminUserList(int adminType,int isDelete1) {
+        List<User> userList = userMapper.getAdminUser(adminType,isDelete1);
         System.out.println("List<User>>:===>" + userList);
-        List<AdminUserDto> adminUserList = userConvert.toAdminUserDto(userList);
-        System.out.println("List<AdminUserDto>:===>" + adminUserList);
-        return adminUserList;
+        List<AdminUserDto> adminUserLists = userConvert.toAdminUserDto(userList);
+        System.out.println("List<AdminUserDto>:===>" + adminUserLists);
+
+         adminUserLists.stream().map(adminUserList -> {
+             //获取用户所属的用户组列表
+            List<Group> groupList = userMapper.getGroupListByUserId(adminUserList.getId());
+
+            List<List<Integer>>  roleIds = new ArrayList<>();
+            for(Group group : groupList) {
+                //获取用户组对应的的角色id列表
+                List<Integer> roleIdList = userMapper.getRoleIdListByGroupId(group.getId());
+                // 将用户组ID和角色ID组合成 [用户组ID, 角色ID] 形式，并添加到roleGroupIds中
+                for (Integer roleId : roleIdList) {
+                    List<Integer> pair = Arrays.asList(group.getId(), roleId);
+                    roleIds.add(pair);
+                }
+            }
+             System.out.println("roleIds:====================>" + roleIds);
+            adminUserList.setRoleIds(roleIds);
+            return adminUserList;
+        }).collect(Collectors.toList());
+        System.out.println( "adminUserLists=======================================================" + adminUserLists);
+
+        return adminUserLists;
     }
 
 
@@ -312,11 +340,29 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // TODO 批量删除管理员 老师等用户   管理员 老师等角色的用户都调用此方法
+    /**
+     * 批量删除管理员、老师等用户
+     * 批量删除管理员 老师等用户   管理员 老师等角色的用户都调用此方法
+     *
+     * @param idList 要删除的用户ID列表
+     * @return 删除成功返回1，删除失败返回-1
+     * @throws RuntimeException 当传入的idList为空时，抛出异常
+     *                          当用户不存在时，抛出异常
+     *                          当尝试删除当前用户时，抛出异常
+     */
     @Override
     public int deleteSelectedUsers(List<Integer> idList) {
         if(idList.size() == 0){
             throw new RuntimeException("请选择要删除的用户");
+        }
+        String currentUserName = GetCurrentUserNameUtil.getCurrentUserName();
+        for(Integer id : idList){
+            User user = userMapper.checkUserExistsById(id);
+            if(user.getUserName() == null){
+                throw new RuntimeException("用户不存在");
+            }else if(currentUserName.equals(user.getUserName())){
+                throw new RuntimeException("不能删除自己,请重新选择");
+            }
         }
         int delete = userMapper.deleteSelectedUser(idList);
         if(delete > 0){
@@ -326,8 +372,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // TODO 模糊查询管理员
 
+    /**
+     * 根据用户名查询管理员用户列表
+     *
+     * @param userName 用户名
+     * @return 管理员用户列表（AdminUserDto类型）
+     */
     @Override
     public List<AdminUserDto> getAdminUserByUserName(String userName) {
         List<User> userList = userMapper.selectAdminUserByUserName(userName);
@@ -335,6 +386,12 @@ public class UserServiceImpl implements UserService {
         return adminUserDto;
     }
 
+    /**
+     * 根据真实姓名查询管理员用户列表
+     *
+     * @param realName 真实姓名
+     * @return 管理员用户列表（AdminUserDto类型）
+     */
     @Override
     public List<AdminUserDto> getAdminUserByRealName(String realName) {
         List<User> userList = userMapper.selectAdminUserByRealName(realName);
@@ -342,11 +399,49 @@ public class UserServiceImpl implements UserService {
         return adminUserDto;
     }
 
+    /**
+     * 根据用户名和真实姓名模糊查询管理员用户列表
+     *
+     * @param userName 用户名，可为空
+     * @param realName 真实姓名，可为空
+     * @return 管理员用户列表（AdminUserDto类型）
+     */
     @Override
     public List<AdminUserDto> getAdminUserByKeywords(String userName, String realName) {
         List<User> userList = userMapper.selectAdminUserByUserNameAndRealName(userName,realName);
         List<AdminUserDto> adminUserDto = userConvert.toAdminUserDto(userList);
         return adminUserDto;
+    }
+
+    /**
+     * 获取用户组和角色列表
+     *
+     * @return 包含用户组和角色信息的DTO列表
+     */
+    @Override
+    public List<UserGroupAndRoleDto> getUserGroupAndRoleList() {
+        //获取所有的用户组
+        List<Group> groups = userMapper.getAllGroups();
+        System.out.println(groups + "用户组======================================================================");
+
+        //将用户组由实体类转换为DTO对象
+        return groups.stream().map(groupList -> {
+            UserGroupAndRoleDto userGroupAndRoleDto = new UserGroupAndRoleDto();
+            userGroupAndRoleDto.setId(groupList.getId());
+            userGroupAndRoleDto.setGroupName(groupList.getGroupName());
+
+            //查询用户组对应的角色
+            List<Role> roles = userMapper.getRoleListByGroupId(groupList.getId());
+            List<RoleDTO> roleDto = roles.stream().map(role -> {
+                RoleDTO roleDTO = new RoleDTO();
+                roleDTO.setId(role.getId());
+                roleDTO.setRoleName(role.getRoleName());
+                return roleDTO;
+            }).collect(Collectors.toList());
+
+            userGroupAndRoleDto.setChildRoleList(roleDto);
+            return userGroupAndRoleDto;
+        }).collect(Collectors.toList());
     }
 
 

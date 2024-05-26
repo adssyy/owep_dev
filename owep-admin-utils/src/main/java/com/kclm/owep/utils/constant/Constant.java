@@ -25,19 +25,19 @@ public class Constant {
     /**
      * 管理员
      */
-    public final static int TYPE_MANAGER = 1;
+    public final static int TYPE_MANAGER = 0;
     /**
      * 教师
      */
-    public final static int TYPE_TEACHER = 2;
+    public final static int TYPE_TEACHER = 1;
     /**
      * 咨询师
      */
-    public final static int TYPE_SALSEMAN = 4;
+    public final static int TYPE_SALSEMAN = 2;
     /**
      * HR
      */
-    public final static int TYPE_HR = 2;
+    public final static int TYPE_HR = 3;
 
     /**
      * 选择题
@@ -66,23 +66,23 @@ public class Constant {
     /**
      * 数据库IP地址
      */
-    public final static String DB_HOSTIP = "hostip";
+    public final static String DB_HOSTIP = "localhost";
     /**
-     * 数据库名称
+     * 数据库用户名称
      */
-    public final static String DB_USERNAME = "username";
+    public final static String DB_USERNAME = "root";
     /**
      * 数据库密码
      */
-    public final static String DB_PASSWORD = "password";
+    public final static String DB_PASSWORD = "123456";
     /**
-     * 备份名称
+     * 备份的数据库名称
      */
-    public final static String DB_DATABASE = "database";
+    public final static String DB_DATABASE = "owep_dev";
     /**
      * 备份路径
      */
-    public final static String DB_FILEPATH = "filepath";
+    public final static String DB_FILEPATH = "D:\\java-workspace\\code\\owep\\owep-vue\\db_sql\\";
     /**
      * 版本更新
      */
