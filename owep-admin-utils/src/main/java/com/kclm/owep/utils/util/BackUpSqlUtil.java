@@ -1,9 +1,15 @@
 package com.kclm.owep.utils.util;
 
 import com.kclm.owep.entity.DbCopy;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+//import java.net.http.HttpResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -13,15 +19,15 @@ public class BackUpSqlUtil {
     /**
      * 备份数据库到指定路径
      *
-     * @param hostIP ip地址，可以是本机也可以是远程
-     * @param userName 数据库的用户名
-     * @param password 数据库的密码
-     * @param savePath 备份的路径
+     * @param hostIP       ip地址，可以是本机也可以是远程
+     * @param userName     数据库的用户名
+     * @param password     数据库的密码
+     * @param savePath     备份的路径
      * @param databaseName 需要备份的数据库的名称
      * @return 备份的结果，包括备份的文件名、路径以及备份是否成功
      * @throws IOException 如果备份失败，抛出IOException异常
      */
-    public static DbCopy backUpSql(String hostIP,String userName,String password,String savePath,String databaseName) throws IOException {
+    public static DbCopy backUpSql(String hostIP, String userName, String password, String savePath, String databaseName) throws IOException {
         File saveFile = new File(savePath);
         if (!saveFile.exists()) {// 如果目录不存在
             saveFile.mkdirs();// 创建文件夹
@@ -65,17 +71,17 @@ public class BackUpSqlUtil {
             Process process = processBuilder.start();
             // 等待命令行执行完成
             int exitCode = process.waitFor();
-            if(exitCode == 0){
+            if (exitCode == 0) {
                 dbCopy.setStatus(true);
                 return dbCopy;
-            }else{
+            } else {
                 dbCopy.setStatus(false);
                 return dbCopy;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
             throw new RuntimeException("InterruptedException备份失败");
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("IOException备份失败");
         }
@@ -108,4 +114,146 @@ public class BackUpSqlUtil {
             return false;
         }
     }
+
+
+
+    /**
+     * 下载数据库备份文件
+     *
+     * @param savePath 备份文件保存路径
+     * @param fileName 备份文件名
+     * @param response HTTP响应对象
+     * @param request HTTP请求对象
+     * @throws IOException 当文件不存在或下载文件失败时抛出异常
+     */
+    public static void downloadDbCopy(String savePath, String fileName, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        try {
+            File file = new File(savePath, fileName);
+            if (!file.exists()) {
+                throw new RuntimeException("文件不存在");
+            }
+            // 中文乱码解决
+            String userAgent = request.getHeader("User-Agent").toLowerCase();
+            if (userAgent.contains("firefox") || userAgent.contains("chrome")) {
+                fileName = URLEncoder.encode(new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8.name());
+            } else {
+                fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.name());
+            }
+            // 设置响应的头部信息
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            // 设置响应内容的类型
+            response.setContentType(getFileContentType(fileName) + "; charset=" + CHARSET_CODE);
+            // 设置响应内容的长度
+            response.setContentLengthLong(file.length());
+            // 输出
+            outStream(new FileInputStream(file), response.getOutputStream());
+        } catch (IOException e) {
+            throw new IOException("下载文件失败", e); // 封装底层异常，提供更清晰的异常信息
+        }
+
+    }
+
+
+    //
+//        try {
+//
+//            if (file.exists()) {
+//                /**
+//                 * 中文乱码解决
+//                 */
+//                String type = request.getHeader("User-Agent").toLowerCase();
+//                System.out.println("type:" + type);
+//                if (type.indexOf("firefox") > 0 || type.indexOf("chrome") > 0) {
+//                    /**
+//                     * 谷歌或火狐
+//                     */
+//                    fileName = new String(fileName.getBytes(charsetCode), "iso8859-1");
+//                    fileName = new String(fileName.getBytes(charsetCode), "utf-8");
+//                    fileName = URLEncoder.encode(fileName, charsetCode);
+//                } else {
+//                    /**
+//                     * IE
+//                     */
+//                    fileName = URLEncoder.encode(fileName, charsetCode);
+//                }
+//                // 设置响应的头部信息
+//                response.setHeader("content-disposition", "attachment;filename=" + fileName);
+//                // 设置响应内容的类型
+//                response.setContentType(getFileContentType(fileName)+"; charset=" + charsetCode);
+//                // 设置响应内容的长度
+//                response.setContentLength((int) file.length());
+//                // 输出
+//                outStream(new FileInputStream(file), response.getOutputStream());
+//                return 1;
+//            }else{
+//                throw new RuntimeException("文件不存在");
+//            }
+//        } catch (Exception e) {
+//            System.out.println("执行downloadFile发生了异常：" + e.getMessage());
+//            throw new RuntimeException("下载文件失败");
+//        }
+
+
+    // 字符编码格式
+//    private static String charsetCode = "utf-8";
+
+    // 字符编码格式，使用标准常量
+    private static final String CHARSET_CODE = StandardCharsets.UTF_8.name();
+
+    /**
+     * 文件的内容类型
+     */
+    private static String getFileContentType(String name) {
+        String result = "";
+        String fileType = name.toLowerCase();
+        if (fileType.endsWith(".png")) {
+            result = "image/png";
+        } else if (fileType.endsWith(".gif")) {
+            result = "image/gif";
+        } else if (fileType.endsWith(".jpg") || fileType.endsWith(".jpeg")) {
+            result = "image/jpeg";
+        } else if (fileType.endsWith(".svg")) {
+            result = "image/svg+xml";
+        } else if (fileType.endsWith(".doc")) {
+            result = "application/msword";
+        } else if (fileType.endsWith(".xls")) {
+            result = "application/x-excel";
+        } else if (fileType.endsWith(".zip")) {
+            result = "application/zip";
+        } else if (fileType.endsWith(".pdf")) {
+            result = "application/pdf";
+        } else if (fileType.endsWith(".sql")) {
+            result = "text/plain";
+        } else {
+            result = "application/octet-stream";
+        }
+        return result;
+    }
+
+    /**
+     * 基础字节数组输出
+     */
+    private static void outStream(InputStream is, OutputStream os) {
+        try {
+            byte[] buffer = new byte[10240];
+            int length = -1;
+            while ((length = is.read(buffer)) != -1) {
+                os.write(buffer, 0, length);
+                os.flush();
+            }
+        } catch (Exception e) {
+            System.out.println("执行 outStream 发生了异常：" + e.getMessage());
+        } finally {
+            try {
+                os.close();
+            } catch (IOException e) {
+            }
+            try {
+                is.close();
+            } catch (IOException e) {
+            }
+        }
+    }
+
+
 }

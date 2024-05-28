@@ -2,11 +2,9 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.DbCopy;
 import com.kclm.owep.mapper.common.BaseMapper;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -32,12 +30,42 @@ public interface SystemMapper extends BaseMapper {
 
 
     /**
-     * 删除单条数据库备份数据
+     * 删除数据库备份数据
      *
      * @param id 备份数据的id
      * @return
      */
     @Delete("delete from t_db_copy where id = #{id}")
     int deleteDbCopy(Integer id);
+
+    /**
+     * 根据开始时间查询数据库备份信息
+     *
+     * @param startTime 开始时间，格式为LocalDateTime类型
+     * @return 返回一个DbCopy类型的列表，包含所有开始时间大于等于给定时间的数据库备份信息
+     */
+    @Select("select * from t_db_copy where create_time >= #{startTime}")
+    List<DbCopy> getDbCopiesByStartTime(@Param("startTime") LocalDateTime startTime);
+
+    /**
+     * 根据结束时间查询数据库备份信息列表
+     *
+     * @param endTime 结束时间，类型为LocalDateTime
+     * @return 返回数据库备份信息列表，类型为List<DbCopy>
+     */
+    @Select("select * from t_db_copy where create_time <= #{endTime}")
+    List<DbCopy> getDbCopiesByEndTime(@Param("endTime") LocalDateTime endTime);
+
+    /**
+     * 根据开始时间和结束时间查询数据库备份信息
+     *
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @return 符合条件的数据库备份信息列表
+     */
+    @Select("select * from t_db_copy where create_time >= #{startTime} and create_time <= #{endTime}")
+    List<DbCopy> getDbCopiesByStartTimeAndEndTime(@Param("startTime") LocalDateTime startTime,@Param("endTime") LocalDateTime endTime);
+
+
 
 }

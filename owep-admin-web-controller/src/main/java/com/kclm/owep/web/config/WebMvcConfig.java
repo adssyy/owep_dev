@@ -1,10 +1,12 @@
 package com.kclm.owep.web.config;
 
 import com.kclm.owep.utils.util.DateUtil;
+import com.kclm.owep.web.converter.StringToLocalDateTimeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -20,6 +22,16 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 @Slf4j
 public class WebMvcConfig implements WebMvcConfigurer {
+    /**
+     * 重写父类方法，用于添加格式化器
+     *
+     * @param registry 格式化器注册中心
+     */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new StringToLocalDateTimeConverter());
+//        WebMvcConfigurer.super.addFormatters(registry);
+    }
 
     public WebMvcConfig() {
         System.out.println("===> 正在初始化 WebMvcConfig...");

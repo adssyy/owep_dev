@@ -1,5 +1,7 @@
 package com.kclm.owep.entity;
 
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -11,6 +13,7 @@ import java.util.Objects;
  *@Create 2020/7/616:22
  *@Description 数据库备份实体类
  */
+@Accessors(chain = true)
 public class DbCopy implements Serializable {
     /**
      * 序列化接口

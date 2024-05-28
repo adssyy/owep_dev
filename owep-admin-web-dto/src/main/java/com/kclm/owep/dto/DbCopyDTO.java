@@ -4,6 +4,7 @@
 package com.kclm.owep.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
  *@Create 2020/7/13 10:23
  *@Description 数据库备份DTO
  */
-@Data
+
 public class DbCopyDTO implements Serializable {
 
     private static final long serialVersionUTD = 1L;
