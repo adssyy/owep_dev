@@ -40,9 +40,9 @@ public interface UserMapper extends BaseMapper<User> {
      * @param user 管理员用户信息对象
      * @return 更新结果，1表示更新成功，0表示更新失败
      */
-    @Update("update t_user set version = version +1, real_name = #{realName},  user_phone = #{userPhone}, " +
-            "gender = #{gender}, effective_date = #{effectiveDate} where id = #{id} and is_delete = 1 ")
-    int upadteAdminUser(User user);
+    @Update("update t_user set version = version +1, real_name = #{user.realName},  user_phone = #{user.userPhone}, " +
+            "gender = #{user.gender}, effective_date = #{user.effectiveDate} where id = #{user.id} and is_delete = #{isDelete1} ")
+    int upadteAdminUser(@Param("user") User user,@Param("isDelete1") int isDelete1);
 
 
     /**
@@ -51,8 +51,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param id 用户ID
      * @return 存在则返回User对象，否则返回null
      */
-    @Select("select * from t_user where id = #{id} and is_delete = 1")
-    User checkUserExistsById(Integer id);
+    @Select("select * from t_user where id = #{id} and is_delete = #{isDelete1}")
+    User checkUserExistsById(@Param("id") Integer id, @Param("isDelete1") int isDelete1);
 
     /**
      * 添加管理员用户
@@ -60,8 +60,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param user 管理员用户信息
      * @return 添加结果，成功返回添加的行数，失败返回-1
      */
-    @Insert("insert into t_user(user_name, user_phone, real_name, user_email, gender, status, effective_date, create_time, last_access_time) " +
-            " values(#{userName}, #{userPhone}, #{realName}, #{userEmail}, #{gender}, 1, #{effectiveDate}, now(), now())")
+    @Insert("insert into t_user(user_name, user_pwd, user_phone, real_name, user_email, user_type, gender, status, effective_date, create_time, last_access_time) " +
+            " values(#{userName}, #{userPwd}, #{userPhone}, #{realName}, #{userEmail}, #{userType}, #{gender}, #{status}, #{effectiveDate}, now(), now())")
     int addAdminUser(User user);
 
     /**
@@ -105,8 +105,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param userName 用户名，用于模糊查询
      * @return 管理员用户信息列表
      */
-    @Select("select * from t_user where user_name like concat('%',#{userName},'%') and is_delete = 1 and user_type = 0 ")
-    List<User> selectAdminUserByUserName(@Param("userName") String userName);
+    @Select("select * from t_user where user_name like concat('%',#{userName},'%') and is_delete = #{isDelete1} and user_type = #{userType} ")
+    List<User> selectAdminUserByUserName(@Param("userName") String userName,@Param("isDelete1") int isDelete1,@Param("userType") int userType);
 
     /**
      * 根据真实姓名模糊查询管理员用户信息
@@ -114,8 +114,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param realName 真实姓名，用于模糊查询
      * @return 管理员用户信息列表
      */
-    @Select("select * from t_user where real_name like concat('%',#{realName},'%') and is_delete = 1 and user_type = 0 ")
-    List<User> selectAdminUserByRealName(@Param("realName") String realName);
+    @Select("select * from t_user where real_name like concat('%',#{realName},'%') and is_delete = 1 and user_type = #{userType} ")
+    List<User> selectAdminUserByRealName(@Param("realName") String realName,@Param("isDelete1") int isDelete1,@Param("userType") int userType);
 
     /**
      * 根据用户名和真实姓名模糊查询管理员用户信息
@@ -124,8 +124,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param realName 真实姓名，用于模糊查询
      * @return 管理员用户信息列表
      */
-    @Select("select * from t_user where user_name like concat('%',#{userName},'%') and real_name like concat('%',#{realName},'%') and is_delete = 1 and user_type = 0 ")
-    List<User> selectAdminUserByUserNameAndRealName(@Param("userName") String userName, @Param("realName") String realName);
+    @Select("select * from t_user where user_name like concat('%',#{userName},'%') and real_name like concat('%',#{realName},'%') and is_delete = 1 and user_type = #{userType} ")
+    List<User> selectAdminUserByUserNameAndRealName(@Param("userName") String userName, @Param("realName") String realName,@Param("isDelete1") int isDelete1,@Param("userType") int userType);
 
 
     /**

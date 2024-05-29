@@ -8,13 +8,11 @@ import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.*;
-import com.kclm.owep.utils.constant.Constant;
 import com.kclm.owep.utils.util.GetCurrentUserNameUtil;
+import com.kclm.owep.utils.util.GetGroupsAndRoleUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,10 +36,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MenuService menuService;
 
-//    int adminType = Constant.TYPE_MANAGER;
-//
-//    int isDelete1 = Constant.LOGIC_DELETE_1;
-
     /**
      * 根据用户名查询用户信息并转换为UserDto对象返回
      *
@@ -50,13 +44,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDto selectByName(String name) {
-        try{
+        try {
             User user = userMapper.selectByName(name);
             log.info("user: {}", user);
             UserDto userDto = userConvert.toUserDto(user);
             log.info("userDto: {}", userDto);
             return userDto;
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;
         }
@@ -73,10 +67,10 @@ public class UserServiceImpl implements UserService {
         List<Integer> groupIds = userMapper.getGroupId(userId);
         log.debug("用户{}的groupIds是:{}", userId, groupIds);
         Set<Integer> roleIds = new HashSet<>();
-        for (Integer groupId : groupIds){
+        for (Integer groupId : groupIds) {
             GroupRoleDTO groupRoleDTO = groupService.selectRolesByGroupId(groupId);
             List<Integer> roleIds1 = groupRoleDTO.getRoleIds();
-            if (roleIds1!=null &&roleIds1.size() > 0 ){
+            if (roleIds1 != null && roleIds1.size() > 0) {
                 //从用户组id到角色id
                 roleIds.addAll(roleIds1);
             }
@@ -88,7 +82,7 @@ public class UserServiceImpl implements UserService {
             RolePermissionDTO rolePermissionDTO = roleService.selectPermissionByRoleId(roleId);
             log.debug("---- 角色拥有的权限有：{}", rolePermissionDTO);
             List<Integer> permissionIds = rolePermissionDTO.getPermissionIds();
-            if(permissionIds!=null) {
+            if (permissionIds != null) {
                 permissionIdList.addAll(permissionIds);
             }
         }
@@ -99,7 +93,7 @@ public class UserServiceImpl implements UserService {
             PermissionDTO permissionDTO = permissionService.selectById(permissionId);
             permissionList.add(permissionDTO);
         }//由id取权限信息
-        log.debug("---- PermissionList: {}",permissionList);
+        log.debug("---- PermissionList: {}", permissionList);
         //返回权限集合
         return permissionList;
     }
@@ -113,17 +107,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public int refreshLoginTime(Integer userId) {
 
-        try{
+        try {
             //
             User user = userMapper.selectById(userId);
             //
-            if(user != null) {
+            if (user != null) {
                 user.setLastAccessTime(LocalDateTime.now());
                 return userMapper.update(user);
             }
             //
             return -1;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return -2;
@@ -144,30 +138,30 @@ public class UserServiceImpl implements UserService {
         //1. 根据用户id来查询出拥有的权限
         Set<Permission> permissionSet = new HashSet<>(this.getPermissionListByUserId(userId));//使用set筛除重复元素
         //2. 判断是否拥有权限
-        if(permissionSet.size()>0){
+        if (permissionSet.size() > 0) {
             //创建一个集合来存放权限包含的菜单
-            Set<ActionMenuPermissionDTO> actMenuSumSet= new HashSet<>();
-            for(Permission perm:permissionSet) {
+            Set<ActionMenuPermissionDTO> actMenuSumSet = new HashSet<>();
+            for (Permission perm : permissionSet) {
                 Set<ActionMenuPermissionDTO> actionMenuSet = menuService.selectActionByPermissionIdFromAMP(perm.getId());
                 actMenuSumSet.addAll(actionMenuSet);
             }
             StringBuilder builder = new StringBuilder();
             //
-            for(ActionMenuPermissionDTO am :actMenuSumSet){
+            for (ActionMenuPermissionDTO am : actMenuSumSet) {
                 Integer menuId = am.getMenuId();
                 Integer actionId = am.getActionId();
                 //
                 builder.append(menuId).append("-").append(actionId).append(",");
             }
             //删除最后一个,
-            builder.deleteCharAt(builder.length()- 1);
+            builder.deleteCharAt(builder.length() - 1);
             //
             result = builder.toString();
             //
-            log.debug("用户："+userId+"拥有的权限列表："+result);
+            log.debug("用户：" + userId + "拥有的权限列表：" + result);
             return result;
-        }else{
-            System.out.println("用户"+userId+"没有分配任何权限");
+        } else {
+            System.out.println("用户" + userId + "没有分配任何权限");
         }
         return result;
     }
@@ -178,33 +172,16 @@ public class UserServiceImpl implements UserService {
      * @return 返回管理员用户列表的DTO对象集合
      */
     @Override
-    public List<AdminUserDto> getAdminUserList(int adminType,int isDelete1) {
-        List<User> userList = userMapper.getAdminUser(adminType,isDelete1);
+    public List<AllUserDto> getAllUserList(int userType, int isDelete1) {
+        List<User> userList = userMapper.getAdminUser(userType, isDelete1);
         System.out.println("List<User>>:===>" + userList);
-        List<AdminUserDto> adminUserLists = userConvert.toAdminUserDto(userList);
-        System.out.println("List<AdminUserDto>:===>" + adminUserLists);
+        List<AllUserDto> allUserLists = userConvert.toAllUserDto(userList);
+        System.out.println("List<allUserDto>:===>" + allUserLists);
 
-         adminUserLists.stream().map(adminUserList -> {
-             //获取用户所属的用户组列表
-            List<Group> groupList = userMapper.getGroupListByUserId(adminUserList.getId());
+        List<AllUserDto> allUserList = GetGroupsAndRoleUtil.getGroupsAndRole(allUserLists,userMapper);
+        log.debug("adminUserLists======>" + allUserList);
 
-            List<List<Integer>>  roleIds = new ArrayList<>();
-            for(Group group : groupList) {
-                //获取用户组对应的的角色id列表
-                List<Integer> roleIdList = userMapper.getRoleIdListByGroupId(group.getId());
-                // 将用户组ID和角色ID组合成 [用户组ID, 角色ID] 形式，并添加到roleGroupIds中
-                for (Integer roleId : roleIdList) {
-                    List<Integer> pair = Arrays.asList(group.getId(), roleId);
-                    roleIds.add(pair);
-                }
-            }
-             System.out.println("roleIds:====================>" + roleIds);
-            adminUserList.setRoleIds(roleIds);
-            return adminUserList;
-        }).collect(Collectors.toList());
-        System.out.println( "adminUserLists=======================================================" + adminUserLists);
-
-        return adminUserLists;
+        return allUserList;
     }
 
 
@@ -216,19 +193,19 @@ public class UserServiceImpl implements UserService {
      * @throws RuntimeException 当用户不存在或尝试修改管理员自己的状态信息时抛出
      */
     @Override
-    public int updateUserStatus(Integer userId) {
-        User user = userMapper.checkUserExistsById(userId);
-        if(user.getUserName() == null){
+    public int updateUserStatus(Integer userId, int isDelete1) {
+        User user = userMapper.checkUserExistsById(userId, isDelete1);
+        if (user.getUserName() == null) {
             throw new RuntimeException("用户不存在");
         }
         String currentUserName = GetCurrentUserNameUtil.getCurrentUserName();
-        if(currentUserName.equals(user.getUserName())){
+        if (currentUserName.equals(user.getUserName())) {
             throw new RuntimeException("不能修改管理员自己的状态信息");
         }
         int status = userMapper.updateUserStatus(userId);
-        if(status > 0){
+        if (status > 0) {
             return 1;
-        }else{
+        } else {
             return -1;
         }
     }
@@ -236,45 +213,45 @@ public class UserServiceImpl implements UserService {
     /**
      * 更新管理员用户信息
      *
-     * @param adminUserDto 管理员用户信息传输对象
+     * @param allUserDto 管理员用户信息传输对象
      * @return 更新成功返回更新的记录数，更新失败返回0
      * @throws RuntimeException 当管理员尝试修改自己的状态信息或有效日期早于当前日期时抛出
      */
     @Override
-    public int updateAdminUserInfo(AdminUserDto adminUserDto) {
+    public int updateAdminUserInfo(AllUserDto allUserDto, int isDelete1) {
         String currentUserName = GetCurrentUserNameUtil.getCurrentUserName();
-        Integer id = adminUserDto.getId();
+        Integer id = allUserDto.getId();
         User user = new User();
         user.setId(id);
-        user.setRealName(adminUserDto.getRealName());
-        user.setUserPhone(adminUserDto.getUserPhone());
-        user.setUserEmail(adminUserDto.getUserEmail());
+        user.setRealName(allUserDto.getRealName());
+        user.setUserPhone(allUserDto.getUserPhone());
+        user.setUserEmail(allUserDto.getUserEmail());
         int status = userMapper.getUserStatus(id);
-        if(currentUserName.equals(adminUserDto.getUserName()) && status != adminUserDto.getStatus()){
+        if (currentUserName.equals(allUserDto.getUserName()) && status != allUserDto.getStatus()) {
             throw new RuntimeException("不能自己的修改状态信息");
         }
-        user.setStatus(adminUserDto.getStatus());
-        String gender = adminUserDto.getSex();
-        if(gender.equals("男")){
+        user.setStatus(allUserDto.getStatus());
+        String gender = allUserDto.getSex();
+        if (gender.equals("男")) {
             user.setGender(1);
-        }else{
+        } else {
             user.setGender(0);
         }
 
-        String effectiveDate = adminUserDto.getDueDate();
+        String effectiveDate = allUserDto.getDueDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(effectiveDate, formatter);
         LocalDateTime now = LocalDateTime.now();
-        if(dateTime.isBefore(now)){
+        if (dateTime.isBefore(now)) {
             throw new RuntimeException("有效日期不能早于当前日期");
         }
         user.setEffectiveDate(dateTime);
         System.out.println(user);
-        int updateInfo = userMapper.upadteAdminUser(user);
-        if(updateInfo > 0){
+        int updateInfo = userMapper.upadteAdminUser(user, isDelete1);
+        if (updateInfo > 0) {
             return updateInfo;
-        }else{
-           return -1;
+        } else {
+            return -1;
         }
     }
 
@@ -287,55 +264,57 @@ public class UserServiceImpl implements UserService {
      * @throws RuntimeException 如果用户不存在或者当前用户试图删除自己，则抛出运行时异常
      */
     @Override
-    public int deleteUserById(Integer id) {
+    public int deleteUserById(Integer id, int isDelete1) {
         String currentUserName = GetCurrentUserNameUtil.getCurrentUserName();
-        User user = userMapper.checkUserExistsById(id);
-        if(user.getUserName() == null){
+        User user = userMapper.checkUserExistsById(id, isDelete1);
+        if (user.getUserName() == null) {
             throw new RuntimeException("用户不存在");
-        }else if(currentUserName.equals(user.getUserName())){
+        } else if (currentUserName.equals(user.getUserName())) {
             throw new RuntimeException("不能删除自己");
-        }else{
+        } else {
             int delete = userMapper.deleteById(id);
-            if(delete > 0){
+            if (delete > 0) {
                 return 1;
-            }else{
+            } else {
                 return -1;
             }
         }
     }
 
     /**
-     * 添加管理员等用户
+     * 添加管理员用户
      *
-     * @param adminUserDto 管理员用户信息DTO
+     * @param allUserDto 管理员用户信息DTO
      * @return 添加结果，成功返回add，失败返回-1
      * @throws RuntimeException 当用户名已存在时抛出异常
      */
     @Override
-    public int addUser(AdminUserDto adminUserDto) {
-        System.out.println("adminUserDto:======================>" + adminUserDto);
-        String userName = adminUserDto.getUserName();
+    public int addUser(AllUserDto allUserDto, int userType) {
+        System.out.println("adminUserDto:======================>" + allUserDto);
+        String userName = allUserDto.getUserName();
         User hasUser = userMapper.selectByName(userName);
-        if(hasUser != null){
+        if (hasUser != null) {
             throw new RuntimeException("用户名已存在");
         }
         User user = new User();
         user.setUserName(userName);
-        user.setRealName(adminUserDto.getRealName());
-        user.setUserPhone(adminUserDto.getUserPhone());
-        user.setUserEmail(adminUserDto.getUserEmail());
-        String gender = adminUserDto.getSex();
+        user.setUserPwd(allUserDto.getUserPwd());
+        user.setRealName(allUserDto.getRealName());
+        user.setUserPhone(allUserDto.getUserPhone());
+        user.setUserEmail(allUserDto.getUserEmail());
+        String gender = allUserDto.getSex();
         user.setGender(gender.equals("男") ? 1 : 0);
-        user.setStatus(adminUserDto.getStatus());
-        String effectiveDate = adminUserDto.getDueDate();
+        user.setStatus(allUserDto.getStatus());
+        user.setUserType(userType);
+        String effectiveDate = allUserDto.getDueDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(effectiveDate, formatter);
         user.setEffectiveDate(dateTime);
         System.out.println(user);
         int add = userMapper.addAdminUser(user);
-        if(add > 0){
+        if (add > 0) {
             return add;
-        }else{
+        } else {
             return -1;
         }
     }
@@ -351,23 +330,23 @@ public class UserServiceImpl implements UserService {
      *                          当尝试删除当前用户时，抛出异常
      */
     @Override
-    public int deleteSelectedUsers(List<Integer> idList) {
-        if(idList.size() == 0){
+    public int deleteSelectedUsers(List<Integer> idList, int isDelete1) {
+        if (idList.size() == 0) {
             throw new RuntimeException("请选择要删除的用户");
         }
         String currentUserName = GetCurrentUserNameUtil.getCurrentUserName();
-        for(Integer id : idList){
-            User user = userMapper.checkUserExistsById(id);
-            if(user.getUserName() == null){
+        for (Integer id : idList) {
+            User user = userMapper.checkUserExistsById(id, isDelete1);
+            if (user.getUserName() == null) {
                 throw new RuntimeException("用户不存在");
-            }else if(currentUserName.equals(user.getUserName())){
+            } else if (currentUserName.equals(user.getUserName())) {
                 throw new RuntimeException("不能删除自己,请重新选择");
             }
         }
         int delete = userMapper.deleteSelectedUser(idList);
-        if(delete > 0){
+        if (delete > 0) {
             return 1;
-        }else{
+        } else {
             return -1;
         }
     }
@@ -377,26 +356,30 @@ public class UserServiceImpl implements UserService {
      * 根据用户名查询管理员用户列表
      *
      * @param userName 用户名
-     * @return 管理员用户列表（AdminUserDto类型）
+     * @return 管理员用户列表（AllUserDto类型）
      */
     @Override
-    public List<AdminUserDto> getAdminUserByUserName(String userName) {
-        List<User> userList = userMapper.selectAdminUserByUserName(userName);
-        List<AdminUserDto> adminUserDto = userConvert.toAdminUserDto(userList);
-        return adminUserDto;
+    public List<AllUserDto> getAdminUserByUserName(String userName, int isDelete1, int userType) {
+        List<User> userList = userMapper.selectAdminUserByUserName(userName, isDelete1, userType);
+        List<AllUserDto> allUserDto = userConvert.toAllUserDto(userList);
+        List<AllUserDto> allUserList = GetGroupsAndRoleUtil.getGroupsAndRole(allUserDto,userMapper);
+        log.debug("allUserDto======>" + allUserDto);
+        return allUserDto;
     }
 
     /**
      * 根据真实姓名查询管理员用户列表
      *
      * @param realName 真实姓名
-     * @return 管理员用户列表（AdminUserDto类型）
+     * @return 管理员用户列表（AllUserDto类型）
      */
     @Override
-    public List<AdminUserDto> getAdminUserByRealName(String realName) {
-        List<User> userList = userMapper.selectAdminUserByRealName(realName);
-        List<AdminUserDto> adminUserDto = userConvert.toAdminUserDto(userList);
-        return adminUserDto;
+    public List<AllUserDto> getAdminUserByRealName(String realName, int isDelete1, int userType) {
+        List<User> userList = userMapper.selectAdminUserByRealName(realName, isDelete1, userType);
+        List<AllUserDto> allUserDto = userConvert.toAllUserDto(userList);
+        List<AllUserDto> allUserList = GetGroupsAndRoleUtil.getGroupsAndRole(allUserDto,userMapper);
+        log.debug("allUserDto======>" + allUserDto);
+        return allUserDto;
     }
 
     /**
@@ -404,13 +387,15 @@ public class UserServiceImpl implements UserService {
      *
      * @param userName 用户名，可为空
      * @param realName 真实姓名，可为空
-     * @return 管理员用户列表（AdminUserDto类型）
+     * @return 管理员用户列表（AllUserDto类型）
      */
     @Override
-    public List<AdminUserDto> getAdminUserByKeywords(String userName, String realName) {
-        List<User> userList = userMapper.selectAdminUserByUserNameAndRealName(userName,realName);
-        List<AdminUserDto> adminUserDto = userConvert.toAdminUserDto(userList);
-        return adminUserDto;
+    public List<AllUserDto> getAdminUserByKeywords(String userName, String realName, int isDelete1, int userType) {
+        List<User> userList = userMapper.selectAdminUserByUserNameAndRealName(userName, realName, isDelete1, userType);
+        List<AllUserDto> allUserDto = userConvert.toAllUserDto(userList);
+        List<AllUserDto> allUserList = GetGroupsAndRoleUtil.getGroupsAndRole(allUserDto,userMapper);
+        log.debug("allUserDto======>" + allUserDto);
+        return allUserDto;
     }
 
     /**
@@ -422,7 +407,7 @@ public class UserServiceImpl implements UserService {
     public List<UserGroupAndRoleDto> getUserGroupAndRoleList() {
         //获取所有的用户组
         List<Group> groups = userMapper.getAllGroups();
-        System.out.println(groups + "用户组======================================================================");
+        log.debug("用户组=====>" + groups);
 
         //将用户组由实体类转换为DTO对象
         return groups.stream().map(groupList -> {

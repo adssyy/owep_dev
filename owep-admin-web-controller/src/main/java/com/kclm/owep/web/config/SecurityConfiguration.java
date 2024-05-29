@@ -23,10 +23,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String[] URL_WHITE_LIST = {
-        "/login",
-        "/logout",
-        "/captcha",
-        "/favicon.ico"
+            "/login",
+            "/logout",
+            "/captcha",
+            "/favicon.ico"
     };
 
     @Autowired
@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         //关闭csrf并且指定为无状态的会话管理
         http.csrf().disable()
-                        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         //登录设置
         http
@@ -98,7 +98,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * 密码加密器
      * @return
      */
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         //TODO 暂时使用的是无加密编码器（直译）
         return NoOpPasswordEncoder.getInstance();
         // 如果要采用加密，则创建下面的密码加密器
@@ -108,7 +108,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
-        log.debug("===> 创建jwtAuthenticationFilter对象:"+jwtAuthenticationFilter);
+        log.debug("===> 创建jwtAuthenticationFilter对象:" + jwtAuthenticationFilter);
         //
         return jwtAuthenticationFilter;
     }

@@ -1,6 +1,6 @@
 package com.kclm.owep.web.controller;
 
-import com.kclm.owep.dto.AdminUserDto;
+import com.kclm.owep.dto.AllUserDto;
 import com.kclm.owep.dto.UserGroupAndRoleDto;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.constant.Constant;
@@ -26,7 +26,10 @@ public class UserManagementController {
     // 管理员类型
     int adminType = Constant.TYPE_MANAGER;
 
-    //
+    // 老师类型
+    int teacherType = Constant.TYPE_TEACHER;
+
+    //是否删除 1 未删除
     int isDelete1 = Constant.LOGIC_DELETE_1;
 
     /**
@@ -36,27 +39,28 @@ public class UserManagementController {
      */
     @GetMapping(value = "/admin-user", produces = "application/json")
     public R getAdminUserList() {
-        List<AdminUserDto> adminUserList = userService.getAdminUserList(adminType, isDelete1);
+        List<AllUserDto> adminUserList = userService.getAllUserList(adminType, isDelete1);
         return R.success(adminUserList);
     }
 
+
     /**
-     * 编辑更新管理员用户信息
+     * 编辑更新管理员\咨询师用户信息
      *
-     * @param adminUserDto 管理员用户信息DTO
+     * @param allUserDto 管理员用户信息DTO
      * @param bindingResult 数据绑定结果
      * @return 响应结果R，更新成功返回成功状态，更新失败返回失败状态并附带错误信息
      */
     @PostMapping(value = "/update-admin-user-info", produces = "application/json")
-    public R updateAdminUserInfo(@Valid AdminUserDto adminUserDto, BindingResult bindingResult) {
-        System.out.println(adminUserDto.toString());
+    public R updateAdminUserInfo(@Valid AllUserDto allUserDto, BindingResult bindingResult) {
+        System.out.println(allUserDto.toString());
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             List<String> sortedErrorMessages = BuildingResultErrorUtil.getUpdateAdminUserInfoErrorMessages(fieldErrors);
             // 返回所有错误信息
             return R.failure(sortedErrorMessages.toString());
         } else {
-            int updateAdminUserInfo = userService.updateAdminUserInfo(adminUserDto);
+            int updateAdminUserInfo = userService.updateAdminUserInfo(allUserDto,isDelete1);
             if (updateAdminUserInfo > 0) {
                 return R.success();
             } else {
@@ -68,19 +72,19 @@ public class UserManagementController {
     /**
      * 添加管理员用户
      *
-     * @param adminUserDto  管理员用户信息DTO
+     * @param allUserDto  管理员用户信息DTO
      * @param bindingResult 绑定结果对象，用于验证DTO字段
      * @return 返回添加结果，成功返回R.success()，失败返回R.failure()并附带错误信息
      */
     @PostMapping(value = "/add-admin-user", produces = "application/json")
-    public R addAdminUser(@RequestBody @Valid AdminUserDto adminUserDto, BindingResult bindingResult) {
+    public R addAdminUser(@RequestBody @Valid AllUserDto allUserDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             List<String> sortedErrorMessages = BuildingResultErrorUtil.getUpdateAdminUserInfoErrorMessages(fieldErrors);
             // 返回所有错误信息
             return R.failure(sortedErrorMessages.toString());
         } else {
-            int addUser = userService.addUser(adminUserDto);
+            int addUser = userService.addUser(allUserDto,adminType);
             if (addUser > 0) {
                 return R.success();
             } else {
@@ -96,16 +100,16 @@ public class UserManagementController {
      * @param realName 真实姓名（可为null）
      * @return 管理员用户列表，若查询成功则返回包含管理员用户信息的列表，否则返回空列表
      */
-    @PostMapping(value = "/search-users-by-keywords", produces = "application/json")
+    @PostMapping(value = "/search-admin-users-by-keywords", produces = "application/json")
     public R searchAdminUserByKeywords(String userName, String realName) {
         if (userName != null && realName == null) {
-            List<AdminUserDto> adminUserList = userService.getAdminUserByUserName(userName);
+            List<AllUserDto> adminUserList = userService.getAdminUserByUserName(userName, isDelete1, adminType);
             return R.success(adminUserList);
         } else if (userName == null && realName != null) {
-            List<AdminUserDto> adminUserList = userService.getAdminUserByRealName(realName);
+            List<AllUserDto> adminUserList = userService.getAdminUserByRealName(realName, isDelete1, adminType);
             return R.success(adminUserList);
         } else {
-            List<AdminUserDto> adminUserList = userService.getAdminUserByKeywords(userName, realName);
+            List<AllUserDto> adminUserList = userService.getAdminUserByKeywords(userName, realName, isDelete1, adminType);
             return R.success(adminUserList);
         }
 
@@ -121,7 +125,7 @@ public class UserManagementController {
      */
     @DeleteMapping(value = "/delete-user-by-id/{id}", produces = "application/json")
     public R deleteUserById(@PathVariable Integer id) {
-        int deleteUserById = userService.deleteUserById(id);
+        int deleteUserById = userService.deleteUserById(id,isDelete1);
         if (deleteUserById > 0) {
             return R.success();
         } else {
@@ -139,7 +143,7 @@ public class UserManagementController {
      */
     @PostMapping(value = "/delete-selected-users", produces = "application/json")
     public R deleteSelectedUsers(@RequestBody List<Integer> idList) {
-        int deleteSelectedUsers = userService.deleteSelectedUsers(idList);
+        int deleteSelectedUsers = userService.deleteSelectedUsers(idList,isDelete1);
         if (deleteSelectedUsers > 0) {
             return R.success();
         } else {
@@ -156,7 +160,7 @@ public class UserManagementController {
      */
     @PostMapping(value = "/update-user-status", produces = "application/json")
     public R updateUserStatus(Integer id) {
-        int status = userService.updateUserStatus(id);
+        int status = userService.updateUserStatus(id,isDelete1);
         if (status > 0) {
             return R.success();
         } else {

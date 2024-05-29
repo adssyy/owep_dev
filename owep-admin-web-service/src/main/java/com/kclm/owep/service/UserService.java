@@ -1,10 +1,9 @@
 package com.kclm.owep.service;
 
-import com.kclm.owep.dto.AdminUserDto;
+import com.kclm.owep.dto.AllUserDto;
 import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.dto.UserGroupAndRoleDto;
 import com.kclm.owep.entity.Permission;
-import com.kclm.owep.entity.User;
 
 import java.util.List;
 
@@ -23,23 +22,23 @@ public interface UserService {
     //add by yejf
     String getUserAuthorityInfo(Integer userId);
 
-    List<AdminUserDto> getAdminUserList(int adminType,int isDelete1);
+    List<AllUserDto> getAllUserList(int userType, int isDelete1);
 
-    int updateUserStatus(Integer userId);
+    int updateUserStatus(Integer userId,int isDelete1);
 
-    int updateAdminUserInfo(AdminUserDto adminUserDto);
+    int updateAdminUserInfo(AllUserDto allUserDto,int isDelete1);
 
-    int deleteUserById(Integer id);
+    int deleteUserById(Integer id,int isDelete1);
 
-    int addUser(AdminUserDto adminUserDto);
+    int addUser(AllUserDto allUserDto,int userType);
 
-    int deleteSelectedUsers(List<Integer> idList);
+    int deleteSelectedUsers(List<Integer> idList,int isDelete1);
 
-    List<AdminUserDto> getAdminUserByUserName(String userName);
+    List<AllUserDto> getAdminUserByUserName(String userName,int isDelete1, int userType);
 
-    List<AdminUserDto> getAdminUserByRealName(String realName);
+    List<AllUserDto> getAdminUserByRealName(String realName,int isDelete1,int userType);
 
-    List<AdminUserDto> getAdminUserByKeywords(String userName, String realName);
+    List<AllUserDto> getAdminUserByKeywords(String userName, String realName,int isDelete1,int userType);
 
     List<UserGroupAndRoleDto> getUserGroupAndRoleList();
 

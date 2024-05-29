@@ -1,11 +1,8 @@
 package com.kclm.owep.convert;
 
 import com.kclm.owep.dto.*;
-import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
-import lombok.Data;
-import lombok.experimental.Accessors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -30,21 +27,26 @@ public interface UserConvert {
      * @return
      */
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "userName", target = "userName")
-    @Mapping(source = "userPwd", target = "userPwd")
+    @Mapping(target = "userName",expression = "java(user.getUserName())")
+    @Mapping(target = "userPwd",expression = "java(user.getUserPwd())")
     @Mapping(source = "status", target = "userStatus")
     UserDto toUserDto(User user);
 
 
-    List<AdminUserDto> toAdminUserDto(List<User> user);
+    List<AllUserDto> toAllUserDto(List<User> user);
 
 
+    @Mapping(source = "id", target = "id")
+    @Mapping(target = "userName",expression = "java(user.getUserName())")
+    @Mapping(target = "realName",expression = "java(user.getRealName())")
+    @Mapping(target = "userPhone",expression = "java(user.getUserPhone())")
+    @Mapping(target = "userEmail",expression = "java(user.getUserEmail())")
+    @Mapping(target = "title",expression = "java(user.getTitle())")
     @Mapping(target = "sex",expression = "java(genderToSex(user.getGender()))")
-//    @Mapping(source = "effectiveDate", target = "dueDate")
     @Mapping(target = "dueDate",expression = "java(timeToDate(user.getEffectiveDate()))")
     @Mapping(target = "lastLoginDate",expression = "java(timeToDate(user.getLastAccessTime()))")
-//    @Mapping(source = "lastAccessTime", target = "lastLoginDate")
-    public AdminUserDto toAdminUserDto(User user);
+    @Mapping(target = "userPwd", expression = "java(maskPasswordForAllUserDto(user.getUserPwd()))")
+    public AllUserDto toAllUserDto(User user);
 
 
     /**
@@ -78,6 +80,18 @@ public interface UserConvert {
     }
 
 
+    // 默认的遮蔽密码方法，仅在toAllUserDto中使用
+    default String maskPasswordForAllUserDto(String originalPassword) {
+        if (originalPassword == null) {
+            return null;
+        }
+        // 使用固定长度的星号字符串遮蔽密码
+        return originalPassword.length() > 0 ? "***************" : "";
+    }
+
+
+    @Mapping(target = "roleName",expression = "java(role.getRoleName())")
+    @Mapping(target = "roleDescription",expression = "java(role.getRoleDescription())")
     public RoleDTO toRoleDto(Role role);
 
     public List<RoleDTO> toRoleDto(List<Role> role);

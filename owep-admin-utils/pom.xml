@@ -24,6 +24,20 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- 导入dto的依赖 -->
+        <dependency>
+            <groupId>com.kclm</groupId>
+            <artifactId>owep-admin-web-dto</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 导入 dao 的依赖 -->
+        <dependency>
+            <groupId>com.kclm</groupId>
+            <artifactId>owep-admin-web-dao</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- java mail -->
         <dependency>
             <groupId>javax.mail</groupId>

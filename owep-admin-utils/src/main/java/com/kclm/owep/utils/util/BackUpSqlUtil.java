@@ -96,7 +96,7 @@ public class BackUpSqlUtil {
      * @return 如果文件存在并且删除成功，返回true；否则返回false
      * @throws IOException 如果在删除过程中发生IO异常，则抛出该异常
      */
-    public static boolean deleteBackupFile(String savePath, String fileName) throws IOException {
+    public static boolean deleteBackupFile(String savePath, String fileName)  {
         // 文件路径
         File file = new File(savePath, fileName);
         // 检查文件是否存在
