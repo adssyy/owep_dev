@@ -46,6 +46,8 @@ public class AllUserDto {
 
     private List<List<Integer>> roleIds; //管理员 老师 咨询师等用户拥有的用户组和角色id列表
 
+    private Boolean checked; // 老师是否勾选才可以查看未分班的学生信息
+
 //    private Integer groupId; // 管理员所属用户组id
 //
 //    private List<Integer> roleIds; //管理员所拥有的角色id

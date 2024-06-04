@@ -5,6 +5,7 @@ package com.kclm.owep.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kclm.owep.entity.Profession;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
  * @Create 2020/7/14 8:58
  * @Description 授课管理用班级DTO
  */
+@Data
 public class ClassDTO {
     /**
      * id

@@ -26,7 +26,7 @@ public interface UserService {
 
     int updateUserStatus(Integer userId,int isDelete1);
 
-    int updateAdminUserInfo(AllUserDto allUserDto,int isDelete1);
+    int updateUserInfo(AllUserDto allUserDto,int isDelete1);
 
     int deleteUserById(Integer id,int isDelete1);
 

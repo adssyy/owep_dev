@@ -1,8 +1,6 @@
 package com.kclm.owep.mapper;
 
-import com.kclm.owep.entity.Group;
-import com.kclm.owep.entity.Role;
-import com.kclm.owep.entity.User;
+import com.kclm.owep.entity.*;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
@@ -35,15 +33,21 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> getAdminUser(@Param("adminType") int adminType, @Param("isDelete1") int isDelete1);
 
     /**
-     * 更新管理员用户信息
+     * 更新管理员\咨询师 用户信息
      *
-     * @param user 管理员用户信息对象
+     * @param user 管理员、咨询师用户信息对象
      * @return 更新结果，1表示更新成功，0表示更新失败
      */
     @Update("update t_user set version = version +1, real_name = #{user.realName},  user_phone = #{user.userPhone}, " +
             "gender = #{user.gender}, effective_date = #{user.effectiveDate} where id = #{user.id} and is_delete = #{isDelete1} ")
-    int upadteAdminUser(@Param("user") User user,@Param("isDelete1") int isDelete1);
+    int upadteUser(@Param("user") User user,@Param("isDelete1") int isDelete1);
 
+
+
+    @Update("update t_user set version = version +1, real_name = #{user.realName},  user_phone = #{user.userPhone}, " +
+            "gender = #{user.gender}, effective_date = #{user.effectiveDate}, title = #{user.title}," +
+            " status = #{user.status} where id = #{user.id} and is_delete = #{isDelete1} ")
+    int upadteTeacherUser(@Param("user") User user,@Param("isDelete1") int isDelete1);
 
     /**
      * 根据ID查询用户是否存在
@@ -163,4 +167,12 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select t_role.id from t_role join t_group_role on t_role.id = t_group_role.role_id where t_group_role.group_id = #{id}")
     List<Integer> getRoleIdListByGroupId(Integer id);
 
+
+    // TODO 查询所有的组织机构
+    @Select("select * from t_org_institute where is_delete = #{isDelete1}")
+    List<OrgInstitute> getAllOrgInstitutes(@Param("isDelete1") Integer isDelete1);
+
+    // TODO  查询机构对应的班级列表
+    @Select("select id, class_name as courseName from t_class where t_class.is_delete = #{isDelete1} and institute_name = #{instituteName}")
+    List<Course> getCourseListByOrgName(@Param("instituteName") String instituteName,@Param("isDelete1") Integer isDelete1);
 }

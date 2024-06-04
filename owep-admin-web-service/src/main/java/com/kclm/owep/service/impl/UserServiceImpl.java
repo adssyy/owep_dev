@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
      * @throws RuntimeException 当管理员尝试修改自己的状态信息或有效日期早于当前日期时抛出
      */
     @Override
-    public int updateAdminUserInfo(AllUserDto allUserDto, int isDelete1) {
+    public int updateUserInfo(AllUserDto allUserDto, int isDelete1) {
         String currentUserName = GetCurrentUserNameUtil.getCurrentUserName();
         Integer id = allUserDto.getId();
         User user = new User();
@@ -246,8 +246,8 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("有效日期不能早于当前日期");
         }
         user.setEffectiveDate(dateTime);
-        System.out.println(user);
-        int updateInfo = userMapper.upadteAdminUser(user, isDelete1);
+        log.debug("user====>: " + user);
+        int updateInfo = userMapper.upadteUser(user, isDelete1);
         if (updateInfo > 0) {
             return updateInfo;
         } else {

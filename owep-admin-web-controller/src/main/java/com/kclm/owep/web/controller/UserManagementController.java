@@ -51,8 +51,8 @@ public class UserManagementController {
      * @param bindingResult 数据绑定结果
      * @return 响应结果R，更新成功返回成功状态，更新失败返回失败状态并附带错误信息
      */
-    @PostMapping(value = "/update-admin-user-info", produces = "application/json")
-    public R updateAdminUserInfo(@Valid AllUserDto allUserDto, BindingResult bindingResult) {
+    @PostMapping(value = "/update-user-info", produces = "application/json")
+    public R updateUserInfo(@Valid AllUserDto allUserDto, BindingResult bindingResult) {
         System.out.println(allUserDto.toString());
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -60,7 +60,7 @@ public class UserManagementController {
             // 返回所有错误信息
             return R.failure(sortedErrorMessages.toString());
         } else {
-            int updateAdminUserInfo = userService.updateAdminUserInfo(allUserDto,isDelete1);
+            int updateAdminUserInfo = userService.updateUserInfo(allUserDto,isDelete1);
             if (updateAdminUserInfo > 0) {
                 return R.success();
             } else {
