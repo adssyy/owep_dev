@@ -32,10 +32,18 @@ public class AdvisorManagementController {
     //是否删除 1 未删除
     int isDelete1 = Constant.LOGIC_DELETE_1;
 
+    /**
+     * 查询咨询师用户列表
+     *
+     * @return 包含咨询师用户信息的DTO列表的响应体R
+     */
     @GetMapping(value = "/advisor-user", produces = "application/json")
     public R getTeacherUserList() {
         List<AllUserDto> teacherUserList = advisorService.getAdvisorUserList(advisorType, isDelete1);
         return R.success(teacherUserList);
     }
+
+    // TODO 为咨询师分配用户组和角色
+
 
 }

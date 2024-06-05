@@ -429,5 +429,27 @@ public class UserServiceImpl implements UserService {
         }).collect(Collectors.toList());
     }
 
+    //TODO  为管理员  老师 咨询师  分配用户组和对应的角色
+    @Override
+    public int addUserGroupAndRole(Integer id,List<GroupRoleRelationDto> groupRoleRelationDto) {
+        int add = 0;
+        for (GroupRoleRelationDto groupRole : groupRoleRelationDto) {
+            Integer groupId = groupRole.getParentId();
+            Integer roleId = groupRole.getChildId();
+            //判断用户是否已经拥有该角色
+            List<Integer> hasRole = userMapper.getRoleIdByUserIdAndGroupId(id,groupId);
+            if(hasRole.contains(roleId)){//当前用户已经拥有该角色
+                continue;//跳过
+            }
+            //如果用户没有该角色，则添加用户组和角色关系
+           userMapper.addUserGroup(id, groupId, roleId);
+            add++;
+
+            System.out.println(groupRole);
+            System.out.println(id);
+        }
+        return add;
+    }
+
 
 }

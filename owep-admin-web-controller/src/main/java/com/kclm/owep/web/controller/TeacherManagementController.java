@@ -93,9 +93,11 @@ public class TeacherManagementController {
             }
         }
     }
-
-
-    // TODO 获取机构以及对应班级列表
+    /**
+     * 获取机构以及对应班级列表
+     *
+     * @return 包含机构以及对应班级列表信息的DTO列表的响应体R
+     */
     @PostMapping(value = "/get-org-and-class-list", produces = "application/json")
     public R getOrgAndClassList() {
         List<OrganizationAndClassDto> organizationAndClassList = teacherService.getOrganizationAndClassList(isDelete1);

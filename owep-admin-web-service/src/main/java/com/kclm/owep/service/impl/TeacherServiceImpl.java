@@ -31,7 +31,14 @@ public class TeacherServiceImpl implements TeacherService {
 
 
 
-    // TODO 更新老师信息
+    /**
+     * 更新老师信息
+     *
+     * @param allUserDto 老师信息DTO
+     * @param isDelete1 是否删除标志，1表示未删除，0表示已删除
+     * @return 更新成功返回更新的记录数，更新失败返回-1
+     * @throws RuntimeException 如果有效日期早于当前日期则抛出异常
+     */
     @Override
     public int updateTeacherUserInfo(AllUserDto allUserDto, int isDelete1) {
         User user = new User();
@@ -64,7 +71,13 @@ public class TeacherServiceImpl implements TeacherService {
 
     }
 
-    // TODO 获取老师列表
+    /**
+     * 获取老师列表
+     *
+     * @param userType 用户类型
+     * @param isDelete1 是否删除标志，1表示未删除，0表示已删除
+     * @return 包含老师信息的DTO列表
+     */
     @Override
     public List<AllUserDto> getTeacherUserList(int userType, int isDelete1) {
         List<User> teacherUserList = userMapper.getAdminUser(userType, isDelete1);
@@ -78,9 +91,15 @@ public class TeacherServiceImpl implements TeacherService {
         return allteacherUserList;
     }
 
+    /**
+     * 获取机构以及对应班级列表
+     *
+     * @param isDelete1 是否删除标志，1表示未删除，0表示已删除
+     * @return 包含机构以及对应班级列表信息的DTO列表
+     */
     @Override
     public List<OrganizationAndClassDto> getOrganizationAndClassList(Integer isDelete1) {
-        // TODO 获取机构列表
+        //  获取机构列表
         List<OrgInstitute> orgInstituteLists = userMapper.getAllOrgInstitutes(isDelete1);
         log.debug("orgInstituteLists======>" + orgInstituteLists);
         return orgInstituteLists.stream().map(orgInstituteList -> {

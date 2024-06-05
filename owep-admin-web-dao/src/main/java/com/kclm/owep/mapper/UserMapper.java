@@ -158,21 +158,42 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select * from t_group join t_user_group on t_group.id = t_user_group.group_id where t_user_group.user_id = #{id}")
     List<Group> getGroupListByUserId(Integer id);
 
+
     /**
-     * 根据用户组id查询用户所属的角色id列表
+     * 根据用户id和用户组id获取用户对应的角色id
      *
-     * @param id 用户组id
-     * @return 包含用户所属角色id的列表
+     * @param userId 用户id
+     * @param groupId 组id
+     * @return 用户对应的角色id列表
      */
-    @Select("select t_role.id from t_role join t_group_role on t_role.id = t_group_role.role_id where t_group_role.group_id = #{id}")
-    List<Integer> getRoleIdListByGroupId(Integer id);
+    @Select("select role_id from t_user_group where user_id = #{userId} and group_id = #{groupId}")
+    List<Integer> getRoleIdByUserIdAndGroupId(@Param("userId") Integer userId,@Param("groupId") Integer groupId);
 
 
-    // TODO 查询所有的组织机构
+    /**
+     * 查询所有的组织机构
+     *
+     * @param isDelete1 是否删除标志，1表示未删除，0表示已删除
+     * @return 包含所有组织机构的列表
+     */
     @Select("select * from t_org_institute where is_delete = #{isDelete1}")
     List<OrgInstitute> getAllOrgInstitutes(@Param("isDelete1") Integer isDelete1);
 
-    // TODO  查询机构对应的班级列表
+    /**
+     * 查询机构对应的班级列表
+     *
+     * @param instituteName 机构名称
+     * @param isDelete1 是否删除标志，1表示未删除，0表示已删除
+     * @return 包含机构对应班级信息的列表
+     */
     @Select("select id, class_name as courseName from t_class where t_class.is_delete = #{isDelete1} and institute_name = #{instituteName}")
     List<Course> getCourseListByOrgName(@Param("instituteName") String instituteName,@Param("isDelete1") Integer isDelete1);
+
+
+    // TODO  插入用户id和用户组id
+    @Insert("insert into t_user_group(user_id, group_id,role_id) values(#{userId}, #{groupId}, #{roleId})")
+    int addUserGroup(@Param("userId") Integer userId, @Param("groupId") Integer groupId, @Param("roleId") Integer roleId);
+
+    //TODO
+
 }

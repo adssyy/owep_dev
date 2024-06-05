@@ -21,7 +21,13 @@ public class AdvisorServiceImpl implements AdvisorService {
 
 
 
-    //todo 获取咨询师列表
+    /**
+     * 获取咨询师列表
+     *
+     * @param userType 用户类型
+     * @param isDelete1 是否删除标志，1表示未删除，0表示已删除
+     * @return 咨询师列表的DTO对象集合
+     */
     @Override
     public List<AllUserDto> getAdvisorUserList(int userType, int isDelete1) {
         List<User> advisorUserList = userMapper.getAdminUser(userType, isDelete1);

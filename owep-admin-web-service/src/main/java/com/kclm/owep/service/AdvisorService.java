@@ -7,4 +7,5 @@ import java.util.List;
 public interface AdvisorService {
 
     List<AllUserDto> getAdvisorUserList(int userType, int isDelete1);
+
 }

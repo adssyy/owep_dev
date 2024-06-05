@@ -1,7 +1,9 @@
 package com.kclm.owep.web.controller;
 
 import com.kclm.owep.dto.AllUserDto;
+import com.kclm.owep.dto.GroupRoleRelationDto;
 import com.kclm.owep.dto.UserGroupAndRoleDto;
+import com.kclm.owep.dto.UserGroupRoleDto;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.constant.Constant;
 import com.kclm.owep.utils.util.BuildingResultErrorUtil;
@@ -177,6 +179,18 @@ public class UserManagementController {
     public R getUserGroupAndRoleList() {
         List<UserGroupAndRoleDto> list = userService.getUserGroupAndRoleList();
         return R.success(list);
+    }
+
+    // //TODO  为管理员  老师 咨询师  分配用户组和对应的角色
+    @PostMapping(value = "/update-user-group-and-role", produces = "application/json")
+    public R updateUserGroupAndRole(@RequestBody UserGroupRoleDto userGroupRoleDto){
+        log.info("updateUserGroupAndRole: " + userGroupRoleDto);
+        int update = userService.addUserGroupAndRole(userGroupRoleDto.getId(), userGroupRoleDto.getGroupRoleRelationDtos());
+        if(update > 0) {
+            return R.success();
+        }else{
+            return R.failure("更新失败");
+        }
     }
 }
 

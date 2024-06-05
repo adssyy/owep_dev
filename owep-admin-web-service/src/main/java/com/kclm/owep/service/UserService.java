@@ -1,6 +1,7 @@
 package com.kclm.owep.service;
 
 import com.kclm.owep.dto.AllUserDto;
+import com.kclm.owep.dto.GroupRoleRelationDto;
 import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.dto.UserGroupAndRoleDto;
 import com.kclm.owep.entity.Permission;
@@ -42,5 +43,6 @@ public interface UserService {
 
     List<UserGroupAndRoleDto> getUserGroupAndRoleList();
 
+    int addUserGroupAndRole(Integer id,List<GroupRoleRelationDto> groupRoleRelationDto);
 
 }
